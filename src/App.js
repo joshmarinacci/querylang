@@ -8,6 +8,12 @@ const CATEGORIES = {
       PERSON:'PERSON'
     }
   },
+  GENERAL: {
+    ID:'GENERAL',
+    TYPES:{
+      COLLECTION:'COLLECTION'
+    }
+  }
 }
 const DATA = [
   {
@@ -32,7 +38,8 @@ const DATA = [
           type:'cell',
           value:'707-509-9627'
         }
-      ]
+      ],
+      icon:'http://placekeanu.com/64/64/d',
     }
   },
   {
@@ -52,6 +59,7 @@ const DATA = [
           value: "jesse.marinacci@bsd52.org",
         }
       ],
+      icon:'http://placekeanu.com/64/64/a',
     }
   },
   {
@@ -60,6 +68,7 @@ const DATA = [
     type:CATEGORIES.CONTACT.TYPES.PERSON,
     props: {
       first:'Cocoa',
+      icon:'http://placekeanu.com/64/64/b',
     }
   },
   {
@@ -68,10 +77,20 @@ const DATA = [
     type:CATEGORIES.CONTACT.TYPES.PERSON,
     props: {
       first:'Oreo',
+      icon:'http://placekeanu.com/64/64/c',
+    }
+  },
+  {
+    id:5,
+    category: CATEGORIES.GENERAL.ID,
+    type:CATEGORIES.GENERAL.TYPES.COLLECTION,
+    props: {
+      set:[1,3,2],
+      name:'peoplebar'
     }
   }
-
 ]
+
 
 const SORTS = {
   ASCENDING:"ASCENDING",
@@ -79,6 +98,9 @@ const SORTS = {
 
 
 function query(data,opts) {
+  if(opts.type) {
+    data = data.filter(o => o.type === opts.type)
+  }
   return data
 }
 
@@ -102,6 +124,33 @@ function toString(s,key) {
   return s.props[key]
 }
 
+function filter(list,opts) {
+  return list.filter(o => {
+    let pass = true
+    Object.keys(opts).forEach(k=>{
+      let v = opts[k]
+      // console.log("key",k,'value',v)
+      if(!o.props.hasOwnProperty(k)) {
+        pass = false
+        return
+      }
+      if(o.props[k] !== v) {
+        pass = false
+        return
+      }
+    })
+    return pass
+  })
+}
+
+function find_in_collection(coll,data) {
+  return data.filter(o => coll.props.set.some(id=>id===o.id))
+}
+
+// eslint-disable-next-line no-unused-vars
+function p(...args) {
+  console.log(...args)
+}
 
 function App() {
   return <div>
@@ -136,7 +185,7 @@ function ContactList({data}) {
   const [selected, setSelected] = useState(null)
   const [editing, setEditing] = useState(false)
 
-
+  // DATA where type === PERSON, sort ascending by [first, last], project(first,last,id)
   let items = query(data,{category:CATEGORIES.CONTACT, type:CATEGORIES.CONTACT.TYPES.PERSON})
   items = sort(items,["first","last"],SORTS.ASCENDING)
   items = project(items,["first","last","id"])
@@ -174,10 +223,16 @@ function ContactList({data}) {
 }
 
 function PeopleBar({data}) {
-  let items = query(data, {category: CATEGORIES.CONTACT, type:CATEGORIES.CONTACT.TYPES.PERSON})
-  return <Window width={100} height={250} y={300} title={'people'}>
+  // set = DATA where type === COLLECTION and name === 'peoplebar'
+  // items = DATA where id in set
+  let items = query(data, {category: CATEGORIES.GENERAL, type:CATEGORIES.GENERAL.TYPES.COLLECTION})
+  let collection = filter(items,{name:'peoplebar'})[0]
+  items =  find_in_collection(collection,data)
+  return <Window width={100} height={300} y={300} title={'people'}>
     <ul className={'list'}>{items.map(o=>{
-      return <li key={o.id}>{toString(o,'first')}</li>
+      return <li key={o.id}>{toString(o,'first')}
+        <img src={o.props.icon} alt={'user-icon'}/>
+      </li>
     })}</ul>
   </Window>
 }
