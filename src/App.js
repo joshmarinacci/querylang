@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react'
 import './App.css';
 
 const CATEGORIES = {
@@ -98,6 +98,7 @@ function project(items,propsarray) {
 }
 
 function toString(s,key) {
+  if(!s) return "--missing--"
   return s.props[key]
 }
 
@@ -106,13 +107,48 @@ function App() {
   return (<ContactList data={DATA}/>)
 }
 
+function HBox ({children, grow}) {
+  return <div className={'hbox ' + (grow?"grow":"")}>{children}</div>
+}
+function VBox ({children, grow}) {
+  return <div className={'vbox ' + (grow?"grow":"")}>{children}</div>
+}
+function Panel({children, grow}) {
+  return <div className={'panel ' + (grow?"grow":"")}>{children}</div>
+}
+function Window({width,height,children}) {
+  let style = {
+    width: width ? (width + "px") : "100px",
+    height: height ? (height + "px") : "100px",
+  }
+  return <div className={"window"} style={style}>{children}</div>
+}
+
 function ContactList({data}) {
+  const [selected, setSelected] = useState(null)
+
   let items = query(data,{category:CATEGORIES.CONTACT, type:CATEGORIES.CONTACT.TYPES.PERSON})
   items = sort(items,["first","last"],SORTS.ASCENDING)
   items = project(items,["first","last","id"])
-  return <ul className={'list'}>{items.map(o=>{
-    return <li key={o.id}>{toString(o,'first')} {toString(o,'last')}</li>
-  })}</ul>
+
+  let panel = <Panel grow>nothing selected</Panel>
+  if(selected) {
+    panel = <Panel grow>selected is {toString(selected,'first')} {toString(selected,'last')}</Panel>
+  }
+
+  return <Window width={500} height={400}>
+    <HBox grow>
+      <ul className={'list'}>{items.map(o=>{
+        return <li key={o.id} onClick={()=>setSelected(o)}
+                   className={selected===o?"selected":""}
+        >{toString(o,'first')} {toString(o,'last')}</li>
+      })}</ul>
+      <VBox grow>
+        {panel}
+        <button>edit</button>
+      </VBox>
+    </HBox>
+  </Window>
 }
 
 function DataDumpPanel({data}) {

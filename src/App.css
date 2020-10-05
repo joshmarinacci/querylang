@@ -9,3 +9,35 @@ ul.list li {
   border-width: 0 0px 1px 0;
   padding: 0.25em 0.5em;
 }
+
+
+div.hbox {
+  display: flex;
+  flex-direction: row;
+}
+div.vbox {
+  display: flex;
+  flex-direction: column;
+}
+
+
+ul.list li.selected {
+  background-color: aliceblue;
+}
+
+
+.panel {
+  border: 1px solid gray;
+}
+.grow {
+  flex: 1;
+}
+
+.window {
+  border: 5px solid red;
+  display: flex;
+  flex-direction: row;
+  flex: 1.0;
+  align-items: stretch;
+  justify-content: stretch;
+}
