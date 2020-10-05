@@ -69,7 +69,7 @@ const DATA = [
     props: {
       first:'Oreo',
     }
-  },
+  }
 
 ]
 
@@ -104,7 +104,10 @@ function toString(s,key) {
 
 
 function App() {
-  return (<ContactList data={DATA}/>)
+  return <div>
+    <ContactList data={DATA}/>
+    <PeopleBar data={DATA}/>
+  </div>
 }
 
 function HBox ({children, grow}) {
@@ -116,12 +119,17 @@ function VBox ({children, grow}) {
 function Panel({children, grow}) {
   return <div className={'panel ' + (grow?"grow":"")}>{children}</div>
 }
-function Window({width,height,children}) {
+function Window({x,y,width,height,children,title}) {
   let style = {
     width: width ? (width + "px") : "100px",
     height: height ? (height + "px") : "100px",
+    position:'absolute',
+    left:x?(x+'px'):'0px',
+    top:y?(y+'px'):'0px',
   }
-  return <div className={"window"} style={style}>{children}</div>
+  return <div className={"window"} style={style}>
+    <title>{title}</title>
+    {children}</div>
 }
 
 function ContactList({data}) {
@@ -148,7 +156,7 @@ function ContactList({data}) {
     }
   }
 
-  return <Window width={500} height={400}>
+  return <Window width={500} height={250} title={'contacts'}>
     <HBox grow>
       <ul className={'list'}>{items.map(o=>{
         return <li key={o.id} onClick={()=>setSelected(o)}
@@ -162,6 +170,15 @@ function ContactList({data}) {
             onClick={()=>setEditing(!editing)}>edit</button>
       </VBox>
     </HBox>
+  </Window>
+}
+
+function PeopleBar({data}) {
+  let items = query(data, {category: CATEGORIES.CONTACT, type:CATEGORIES.CONTACT.TYPES.PERSON})
+  return <Window width={100} height={250} y={300} title={'people'}>
+    <ul className={'list'}>{items.map(o=>{
+      return <li key={o.id}>{toString(o,'first')}</li>
+    })}</ul>
   </Window>
 }
 
