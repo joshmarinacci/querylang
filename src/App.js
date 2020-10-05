@@ -126,6 +126,8 @@ function Window({width,height,children}) {
 
 function ContactList({data}) {
   const [selected, setSelected] = useState(null)
+  const [editing, setEditing] = useState(false)
+
 
   let items = query(data,{category:CATEGORIES.CONTACT, type:CATEGORIES.CONTACT.TYPES.PERSON})
   items = sort(items,["first","last"],SORTS.ASCENDING)
@@ -134,6 +136,16 @@ function ContactList({data}) {
   let panel = <Panel grow>nothing selected</Panel>
   if(selected) {
     panel = <Panel grow>selected is {toString(selected,'first')} {toString(selected,'last')}</Panel>
+    if(editing) {
+      panel = <Panel grow>
+        <label>first</label>
+        <input type={"text"} value={toString(selected,'first')}/>
+        <label>last</label>
+        <input type={"text"} value={toString(selected,'last')}/>
+        <button onClick={()=>setEditing(false)}>save</button>
+        <button onClick={()=>setEditing(false)}>cancel</button>
+      </Panel>
+    }
   }
 
   return <Window width={500} height={400}>
@@ -145,7 +157,9 @@ function ContactList({data}) {
       })}</ul>
       <VBox grow>
         {panel}
-        <button>edit</button>
+        <button
+            disabled={!selected}
+            onClick={()=>setEditing(!editing)}>edit</button>
       </VBox>
     </HBox>
   </Window>
