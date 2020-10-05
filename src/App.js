@@ -61,7 +61,16 @@ const DATA = [
     props: {
       first:'Cocoa',
     }
-  }
+  },
+  {
+    id:4,
+    category: CATEGORIES.CONTACT.ID,
+    type:CATEGORIES.CONTACT.TYPES.PERSON,
+    props: {
+      first:'Oreo',
+    }
+  },
+
 ]
 
 const SORTS = {
@@ -101,7 +110,7 @@ function ContactList({data}) {
   let items = query(data,{category:CATEGORIES.CONTACT, type:CATEGORIES.CONTACT.TYPES.PERSON})
   items = sort(items,["first","last"],SORTS.ASCENDING)
   items = project(items,["first","last","id"])
-  return <ul>{items.map(o=>{
+  return <ul className={'list'}>{items.map(o=>{
     return <li key={o.id}>{toString(o,'first')} {toString(o,'last')}</li>
   })}</ul>
 }
