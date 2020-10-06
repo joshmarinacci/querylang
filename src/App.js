@@ -13,6 +13,13 @@ const CATEGORIES = {
     TYPES:{
       COLLECTION:'COLLECTION'
     }
+  },
+  TASKS: {
+    ID:'TASKS',
+    TYPES:{
+      PROJECT: "PROJECT",
+      TASK:"TASK",
+    }
   }
 }
 const DATA = [
@@ -88,6 +95,51 @@ const DATA = [
       set:[1,3,2],
       name:'peoplebar'
     }
+  },
+  {
+    id:6,
+    category: CATEGORIES.TASKS.ID,
+    type: CATEGORIES.TASKS.TYPES.PROJECT,
+    props: {
+      title:'work',
+      active:true,
+    }
+  },
+  {
+    id:7,
+    category: CATEGORIES.TASKS.ID,
+    type: CATEGORIES.TASKS.TYPES.PROJECT,
+    props: {
+      title:'personal',
+      active:true,
+    }
+  },
+  {
+    id:8,
+    category: CATEGORIES.TASKS.ID,
+    type: CATEGORIES.TASKS.TYPES.PROJECT,
+    props: {
+      title:'old stuff',
+      active:false,
+    }
+  },
+  {
+    id:9,
+    category: CATEGORIES.TASKS.ID,
+    type: CATEGORIES.TASKS.TYPES.TASK,
+    props: {
+      title:'file expense report',
+      project:6,
+    },
+  },
+  {
+    id:10,
+    category: CATEGORIES.TASKS.ID,
+    type: CATEGORIES.TASKS.TYPES.TASK,
+    props: {
+      title:'pick up jesse',
+      project:7,
+    },
   }
 ]
 
@@ -156,6 +208,7 @@ function App() {
   return <div>
     <ContactList data={DATA}/>
     <PeopleBar data={DATA}/>
+    <TaskLists data={DATA}/>
   </div>
 }
 
@@ -237,6 +290,28 @@ function PeopleBar({data}) {
   </Window>
 }
 
+function TaskLists({data}) {
+  const [selected, setSelected] = useState(null)
+
+  let projects = query(data,{category:CATEGORIES.TASKS, type:CATEGORIES.TASKS.TYPES.PROJECT})
+  projects = filter(projects, {active:true})
+  let tasks = query(data, {category:CATEGORIES.TASKS, type:CATEGORIES.TASKS.TYPES.TASK})
+  tasks = filter(tasks, {project:selected?selected.id:null})
+
+  return <Window width={400} height={300} x={200} y={300} title={'tasks'}>
+    <HBox grow>
+      <ul className={'list'}>{projects.map(o=> {
+        return <li key={o.id} onClick={()=>setSelected(o)}>{toString(o, 'title')}</li>
+      })}</ul>
+      <ul className={'list'}>{tasks.map(o=> {
+        return <li key={o.id}>
+          {toString(o, 'title')}
+          {toString(o, 'completed')}
+        </li>
+      })}</ul>
+    </HBox>
+  </Window>
+}
 function DataDumpPanel({data}) {
   return <ul>
     {data.map(o => {
