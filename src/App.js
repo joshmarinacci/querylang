@@ -130,6 +130,7 @@ const DATA = [
     props: {
       title:'file expense report',
       project:6,
+      completed:false,
     },
   },
   {
@@ -139,6 +140,7 @@ const DATA = [
     props: {
       title:'pick up jesse',
       project:7,
+      completed:true,
     },
   }
 ]
@@ -173,6 +175,11 @@ function project(items,propsarray) {
 
 function toString(s,key) {
   if(!s) return "--missing--"
+  if(s.props.hasOwnProperty(key)) {
+    let v = s.props[key]
+    if(v === true) return "true"
+    if(v === false) return "false"
+  }
   return s.props[key]
 }
 
@@ -292,23 +299,38 @@ function PeopleBar({data}) {
 
 function TaskLists({data}) {
   const [selected, setSelected] = useState(null)
+  const [selectedTask, setSelectedTask] = useState(null)
 
   let projects = query(data,{category:CATEGORIES.TASKS, type:CATEGORIES.TASKS.TYPES.PROJECT})
   projects = filter(projects, {active:true})
   let tasks = query(data, {category:CATEGORIES.TASKS, type:CATEGORIES.TASKS.TYPES.TASK})
   tasks = filter(tasks, {project:selected?selected.id:null})
 
+  let panel = <Panel>nothing selected</Panel>
+  if(selectedTask) {
+    panel = <Panel>
+      <p>{toString(selectedTask,'title')}</p>
+      <b>{toString(selectedTask,'completed')}</b>
+    </Panel>
+  }
+
   return <Window width={400} height={300} x={200} y={300} title={'tasks'}>
     <HBox grow>
       <ul className={'list'}>{projects.map(o=> {
-        return <li key={o.id} onClick={()=>setSelected(o)}>{toString(o, 'title')}</li>
+        return <li key={o.id}
+                   onClick={()=>setSelected(o)}
+                   className={selected===o?"selected":""}
+        >{toString(o, 'title')}</li>
       })}</ul>
       <ul className={'list'}>{tasks.map(o=> {
-        return <li key={o.id}>
+        return <li key={o.id}
+                   onClick={()=>setSelectedTask(o)}
+                   className={selectedTask===o?"selected":""}
+        >
           {toString(o, 'title')}
-          {toString(o, 'completed')}
         </li>
       })}</ul>
+      {panel}
     </HBox>
   </Window>
 }
