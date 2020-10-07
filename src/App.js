@@ -25,9 +25,9 @@ const CATEGORIES = {
     ID:'CHAT',
     TYPES:{
       MESSAGE: 'MESSAGE',
-      // CONVERSATION:'CONVERSATION',
+      CONVERSATION:'CONVERSATION',
     }
-  }
+  },
 }
 const DATA = [
   {
@@ -158,6 +158,7 @@ const DATA = [
       sender:1,
       receivers:[1,2,3],
       contents:'hi jesse',
+      timestamp:2
     }
   },
   {
@@ -168,6 +169,7 @@ const DATA = [
       sender:2,
       receivers:[1,2,3],
       contents:'hi daddy',
+      timestamp:1
     }
   },
   {
@@ -178,8 +180,39 @@ const DATA = [
       sender:3,
       receivers:[1,2,3],
       contents:'meow',
+      timestamp:5,
     }
   },
+  {
+    id:14,
+    category: CATEGORIES.CHAT.ID,
+    type: CATEGORIES.CHAT.TYPES.CONVERSATION,
+    props: {
+      title:"cat chat",
+      people:[1,2,3],
+    }
+  },
+  {
+    id:15,
+    category: CATEGORIES.CHAT.ID,
+    type: CATEGORIES.CHAT.TYPES.CONVERSATION,
+    props: {
+      title:"kid chat",
+      people:[1,2],
+    }
+  },
+  {
+    id:16,
+    category: CATEGORIES.CHAT.ID,
+    type: CATEGORIES.CHAT.TYPES.MESSAGE,
+    props: {
+      sender:1,
+      receivers:[1,2],
+      contents:'have you done your homework?',
+      timestamp:5,
+    }
+  }
+
 ]
 
 
@@ -224,16 +257,31 @@ function filter(list,opts) {
   return list.filter(o => {
     let pass = true
     Object.keys(opts).forEach(k=>{
-      let v = opts[k]
-      // console.log("key",k,'value',v)
+      let fv = opts[k]
+      // console.log("key",k,o.props[k],'value',v)
       if(!o.props.hasOwnProperty(k)) {
         pass = false
         return
       }
-      if(o.props[k] !== v) {
-        pass = false
-        return
+      let ov = o.props[k]
+      if(Array.isArray(ov)) {
+        if(ov.length !== fv.length) {
+          pass = false
+          return
+        }
+        for(let i=0; i<ov.length; i++) {
+          if(ov[i] !== fv[i]) {
+            pass = false
+            return
+          }
+        }
+      } else {
+        if (ov !== fv) {
+          pass = false
+          return
+        }
       }
+      // console.log("matched")
     })
     return pass
   })
@@ -401,6 +449,22 @@ function attach(A, B, ka, kb) {
   return data
 }
 
+function attach_in(A, B, ka, kb) {
+  let data = deepClone(A)
+  data.forEach(a => {
+    a.props[ka] = a.props[ka].map(av => {
+      let ret = null
+      B.forEach(b => {
+        let bv = b.props[kb]
+        if(kb === 'id') bv = b.id
+        if(av === bv) ret = b
+      })
+      return ret
+    })
+  })
+  return data
+}
+
 /*
 * v5: chat app
 	* message objects
@@ -412,18 +476,43 @@ function attach(A, B, ka, kb) {
  */
 function Chat({data}) {
   const [selected, setSelected] = useState(null)
-  let messages = query(data, {category:CATEGORIES.CHAT, type:CATEGORIES.CHAT.TYPES.MESSAGE})
+  let conversations = query(data, {category:CATEGORIES.CHAT, type:CATEGORIES.CHAT.TYPES.CONVERSATION})
+
+  let messages =[]
+
+  if(selected) {
+    messages = query(data, {category:CATEGORIES.CHAT, type:CATEGORIES.CHAT.TYPES.MESSAGE})
+    messages = filter(messages,{receivers:selected.props.people})
+  }
 
   let people = query(data,{category:CATEGORIES.CONTACT, type:CATEGORIES.CONTACT.TYPES.PERSON})
   messages = attach(messages,people,'sender','id')
+  messages = sort(messages,['timestamp'])
+
+  // conversations = attach_in(conversations,people,'people','id')
 
   return <Window width={400} height={250} x={600} y={0} title={'chat'}>
+    <HBox>
+    <ul className={'list'}>{conversations.map(o=> {
+      return <li key={o.id}
+                 onClick={()=>setSelected(o)}
+                 className={selected===o?"selected":""}
+      >
+        {toString(o,'title')}
+      </li>
+    })}</ul>
+
     <ul className={'list'}>{messages.map(o=> {
       return <li key={o.id}
                  onClick={()=>setSelected(o)}
                  className={selected===o?"selected":""}
-      ><b>{toString(o.props.sender,'first')}</b> {toString(o, 'contents')}</li>
+        >
+        <i>{toString(o,'timestamp')}</i>
+        <b>{toString(o.props.sender,'first')}</b>
+        {toString(o, 'contents')}
+      </li>
     })}</ul>
+    </HBox>
     </Window>
 }
 
