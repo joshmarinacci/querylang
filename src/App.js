@@ -330,6 +330,29 @@ function Window({x,y,width,height,children,title}) {
 function ContactList({data}) {
   const [selected, setSelected] = useState(null)
   const [editing, setEditing] = useState(false)
+  const [buffer, setBuffer] = useState({})
+
+  const toggleEditing = () => {
+    if(!editing && selected) {
+      setBuffer(deepClone(selected))
+      setEditing(true)
+    }
+  }
+
+  const saveEditing = () => {
+    Object.keys(selected.props).forEach(k => {
+      selected.props[k] = buffer.props[k]
+    })
+    setEditing(false)
+  }
+  const cancelEditing = () => {
+    setEditing(false)
+  }
+
+  const editProp = (buffer, key,ev) => {
+    buffer.props[key] = ev.target.value
+    setBuffer(deepClone(buffer))
+  }
 
   // DATA where type === PERSON, sort ascending by [first, last], project(first,last,id)
   let items = query(data,{category:CATEGORIES.CONTACT, type:CATEGORIES.CONTACT.TYPES.PERSON})
@@ -344,13 +367,15 @@ function ContactList({data}) {
       <img src={selected.props.icon}/>
     </Panel>
     if(editing) {
+      console.log("buffer is",buffer)
       panel = <Panel grow>
         <label>first</label>
-        <input type={"text"} value={toString(selected,'first')}/>
-        <label>last</label>
-        <input type={"text"} value={toString(selected,'last')}/>
-        <button onClick={()=>setEditing(false)}>save</button>
-        <button onClick={()=>setEditing(false)}>cancel</button>
+        <input type={"text"} value={toString(buffer,'first')}
+               onChange={(e)=>editProp(buffer,'first',e)}/>
+        {/*<label>last</label>*/}
+        {/*<input type={"text"} value={toString(buffer,'last')}/>*/}
+        <button onClick={saveEditing}>save</button>
+        <button onClick={cancelEditing}>cancel</button>
       </Panel>
     }
   }
@@ -366,7 +391,7 @@ function ContactList({data}) {
         {panel}
         <button
             disabled={!selected}
-            onClick={()=>setEditing(!editing)}>edit</button>
+            onClick={toggleEditing}>edit</button>
       </VBox>
     </HBox>
   </Window>
