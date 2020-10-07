@@ -84,7 +84,8 @@ const DATA = [
     type:CATEGORIES.CONTACT.TYPES.PERSON,
     props: {
       first:'Cocoa',
-      icon:'http://placekeanu.com/64/64/b',
+      last:'',
+      icon:'https://placekitten.com/64/65',
     }
   },
   {
@@ -93,7 +94,8 @@ const DATA = [
     type:CATEGORIES.CONTACT.TYPES.PERSON,
     props: {
       first:'Oreo',
-      icon:'http://placekeanu.com/64/64/c',
+      last:'',
+      icon:'https://placekitten.com/64/64',
     }
   },
   {
@@ -294,11 +296,7 @@ function ContactList({data}) {
     if(editing) {
       panel = <Panel grow>
         <TextPropEditor buffer={buffer} prop={'first'} onChange={updateBuffer}/>
-        {/*<label>first</label>*/}
-        {/*<input type={"text"} value={toString(buffer,'first')}*/}
-        {/*       onChange={(e)=>editProp(buffer,'first',e)}/>*/}
-        {/*<label>last</label>*/}
-        {/*<input type={"text"} value={toString(buffer,'last')}/>*/}
+        <TextPropEditor buffer={buffer} prop={'last'} onChange={updateBuffer}/>
         <button onClick={saveEditing}>save</button>
         <button onClick={cancelEditing}>cancel</button>
       </Panel>
@@ -407,8 +405,6 @@ function Chat({data}) {
     </HBox>
     </Window>
 }
-
-
 
 function DataDumpPanel({data}) {
   return <ul>
