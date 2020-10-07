@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import './App.css';
-import {HBox, Panel, VBox, Window} from './ui.js'
+import {DataList, HBox, Panel, VBox, Window} from './ui.js'
 import {attach, deepClone, filter, find_in_collection, project, query, sort, propAsString} from './db.js'
 
 const CATEGORIES = {
@@ -307,11 +307,8 @@ function ContactList({data}) {
 
   return <Window width={500} height={250} title={'contacts'}>
     <HBox grow>
-      <ul className={'list'}>{items.map(o=>{
-        return <li key={o.id} onClick={()=>setSelected(o)}
-                   className={selected===o?"selected":""}
-        >{propAsString(o,'first')} {propAsString(o,'last')}</li>
-      })}</ul>
+      <DataList data={items} selected={selected} setSelected={setSelected}
+                stringify={o => propAsString(o,'first') + " " + propAsString(o,'last')}/>
       <VBox grow>
         {panel}
         <button
@@ -398,25 +395,15 @@ function Chat({data}) {
 
   return <Window width={400} height={250} x={600} y={0} title={'chat'}>
     <HBox>
-    <ul className={'list'}>{conversations.map(o=> {
-      return <li key={o.id}
-                 onClick={()=>setSelected(o)}
-                 className={selected===o?"selected":""}
-      >
-        {propAsString(o,'title')}
-      </li>
-    })}</ul>
-
-    <ul className={'list'}>{messages.map(o=> {
-      return <li key={o.id}
-                 onClick={()=>setSelected(o)}
-                 className={selected===o?"selected":""}
-        >
-        <i>{propAsString(o,'timestamp')}</i>
-        <b>{propAsString(o.props.sender,'first')}</b>
-        {propAsString(o, 'contents')}
-      </li>
-    })}</ul>
+      <DataList
+          data={conversations}
+          selected={selected}
+          setSelected={setSelected}
+          stringify={(o)=>propAsString(o,'title')}
+      />
+      <DataList data={messages} stringify={(o)=>{
+        return propAsString(o,'timestamp') + propAsString(o.props.sender,'first') + propAsString(o,'contents')
+      }}/>
     </HBox>
     </Window>
 }

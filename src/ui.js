@@ -21,3 +21,16 @@ export function Window({x,y,width,height,children,title}) {
         <title>{title}</title>
         {children}</div>
 }
+
+
+export function DataList({data, selected, setSelected, stringify}) {
+    return <ul className={'list'}>{data.map(o=> {
+        return <li key={o.id}
+                 onClick={()=>setSelected(o)}
+                 className={selected===o?"selected":""}
+      >
+            {stringify(o)}
+      </li>
+    })}</ul>
+
+}

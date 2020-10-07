@@ -26,6 +26,8 @@ export function propAsString(s, key) {
         let v = s.props[key]
         if(v === true) return "true"
         if(v === false) return "false"
+    } else {
+        return ""
     }
     return s.props[key]
 }
