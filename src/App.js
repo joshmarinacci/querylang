@@ -20,6 +20,13 @@ const CATEGORIES = {
       PROJECT: "PROJECT",
       TASK:"TASK",
     }
+  },
+  CHAT: {
+    ID:'CHAT',
+    TYPES:{
+      MESSAGE: 'MESSAGE',
+      // CONVERSATION:'CONVERSATION',
+    }
   }
 }
 const DATA = [
@@ -142,7 +149,37 @@ const DATA = [
       project:7,
       completed:true,
     },
-  }
+  },
+  {
+    id:11,
+    category: CATEGORIES.CHAT.ID,
+    type: CATEGORIES.CHAT.TYPES.MESSAGE,
+    props: {
+      sender:1,
+      receivers:[1,2,3],
+      contents:'hi jesse',
+    }
+  },
+  {
+    id:12,
+    category: CATEGORIES.CHAT.ID,
+    type: CATEGORIES.CHAT.TYPES.MESSAGE,
+    props: {
+      sender:2,
+      receivers:[1,2,3],
+      contents:'hi daddy',
+    }
+  },
+  {
+    id:13,
+    category: CATEGORIES.CHAT.ID,
+    type: CATEGORIES.CHAT.TYPES.MESSAGE,
+    props: {
+      sender:3,
+      receivers:[1,2,3],
+      contents:'meow',
+    }
+  },
 ]
 
 
@@ -216,6 +253,7 @@ function App() {
     <ContactList data={DATA}/>
     <PeopleBar data={DATA}/>
     <TaskLists data={DATA}/>
+    <Chat data={DATA}/>
   </div>
 }
 
@@ -334,6 +372,56 @@ function TaskLists({data}) {
     </HBox>
   </Window>
 }
+
+function deepClone(v) {
+  return JSON.parse(JSON.stringify(v))
+}
+
+function attach(A, B, ka, kb) {
+  let data = deepClone(A)
+  data.forEach(a => {
+    B.forEach(b => {
+      let av = a.props[ka]
+      let bv = b.props[kb]
+      if(kb === 'id') bv = b.id
+      // p("comparing",av,bv)
+      if(av === bv) {
+        // console.log("found a match")
+        a.props[ka] = b
+      }
+    })
+  })
+  return data
+}
+
+/*
+* v5: chat app
+	* message objects
+	* conversation is a set of users
+	* list containing messages that were to this exact set of users, sorted by timestamp
+	* timestamp datatype with functions for working on it
+	* render with name of user, message, color if it’s self user (how do we know?)
+	* do a join with the contacts/users to get info on each user
+ */
+function Chat({data}) {
+  const [selected, setSelected] = useState(null)
+  let messages = query(data, {category:CATEGORIES.CHAT, type:CATEGORIES.CHAT.TYPES.MESSAGE})
+
+  let people = query(data,{category:CATEGORIES.CONTACT, type:CATEGORIES.CONTACT.TYPES.PERSON})
+  messages = attach(messages,people,'sender','id')
+
+  return <Window width={400} height={250} x={600} y={0} title={'chat'}>
+    <ul className={'list'}>{messages.map(o=> {
+      return <li key={o.id}
+                 onClick={()=>setSelected(o)}
+                 className={selected===o?"selected":""}
+      ><b>{toString(o.props.sender,'first')}</b> {toString(o, 'contents')}</li>
+    })}</ul>
+    </Window>
+}
+
+
+
 function DataDumpPanel({data}) {
   return <ul>
     {data.map(o => {
