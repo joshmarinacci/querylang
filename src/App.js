@@ -327,6 +327,20 @@ function Window({x,y,width,height,children,title}) {
     {children}</div>
 }
 
+function TextPropEditor({buffer,prop, onChange}) {
+  return <HBox>
+    <label>{prop}</label>
+    <input type="text"
+           value={toString(buffer,prop)}
+           onChange={(ev)=>{
+             buffer.props[prop] = ev.target.value
+             onChange(buffer,prop)
+           }}
+    />
+
+  </HBox>
+}
+
 function ContactList({data}) {
   const [selected, setSelected] = useState(null)
   const [editing, setEditing] = useState(false)
@@ -349,8 +363,7 @@ function ContactList({data}) {
     setEditing(false)
   }
 
-  const editProp = (buffer, key,ev) => {
-    buffer.props[key] = ev.target.value
+  const updateBuffer = (buffer, key,ev) => {
     setBuffer(deepClone(buffer))
   }
 
@@ -367,11 +380,11 @@ function ContactList({data}) {
       <img src={selected.props.icon}/>
     </Panel>
     if(editing) {
-      console.log("buffer is",buffer)
       panel = <Panel grow>
-        <label>first</label>
-        <input type={"text"} value={toString(buffer,'first')}
-               onChange={(e)=>editProp(buffer,'first',e)}/>
+        <TextPropEditor buffer={buffer} prop={'first'} onChange={updateBuffer}/>
+        {/*<label>first</label>*/}
+        {/*<input type={"text"} value={toString(buffer,'first')}*/}
+        {/*       onChange={(e)=>editProp(buffer,'first',e)}/>*/}
         {/*<label>last</label>*/}
         {/*<input type={"text"} value={toString(buffer,'last')}/>*/}
         <button onClick={saveEditing}>save</button>
