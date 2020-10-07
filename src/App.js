@@ -290,7 +290,11 @@ function ContactList({data}) {
 
   let panel = <Panel grow>nothing selected</Panel>
   if(selected) {
-    panel = <Panel grow>selected is {toString(selected,'first')} {toString(selected,'last')}</Panel>
+    panel = <Panel grow>
+      {toString(selected,'first')}
+      {toString(selected,'last')}
+      <img src={selected.props.icon}/>
+    </Panel>
     if(editing) {
       panel = <Panel grow>
         <label>first</label>
@@ -356,7 +360,10 @@ function TaskLists({data}) {
     <HBox grow>
       <ul className={'list'}>{projects.map(o=> {
         return <li key={o.id}
-                   onClick={()=>setSelected(o)}
+                   onClick={()=>{
+                     setSelected(o)
+                     setSelectedTask(null)
+                   }}
                    className={selected===o?"selected":""}
         >{toString(o, 'title')}</li>
       })}</ul>
