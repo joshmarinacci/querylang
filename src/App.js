@@ -341,12 +341,45 @@ function TaskLists({data}) {
   let tasks = query(data, {category:CATEGORIES.TASKS, type:CATEGORIES.TASKS.TYPES.TASK})
   tasks = filter(tasks, {project:selected?selected.id:null})
 
+  let [editingTask, setEditingTask] = useState(false)
+
+  let [buffer, setBuffer] = useState({})
+
+  const toggleEditing = () => {
+    if(!editingTask && selectedTask) {
+      setBuffer(deepClone(selectedTask))
+      setEditingTask(true)
+    }
+  }
+
+  const saveEditing = () => {
+    Object.keys(selectedTask.props).forEach(k => {
+      selectedTask.props[k] = buffer.props[k]
+    })
+    setEditingTask(false)
+  }
+  const cancelEditing = () => {
+    setEditingTask(false)
+  }
+
+  const updateBuffer = (buffer, key,ev) => {
+    setBuffer(deepClone(buffer))
+  }
+
+
   let panel = <Panel>nothing selected</Panel>
   if(selectedTask) {
     panel = <Panel>
       <p>{propAsString(selectedTask,'title')}</p>
       <b>{propAsString(selectedTask,'completed')}</b>
     </Panel>
+    if(editingTask) {
+      panel = <Panel>
+        <TextPropEditor buffer={buffer} prop={'title'} onChange={updateBuffer}/>
+        <button onClick={saveEditing}>save</button>
+        <button onClick={cancelEditing}>cancel</button>
+      </Panel>
+    }
   }
 
   return <Window width={400} height={300} x={200} y={300} title={'tasks'}>
@@ -369,6 +402,9 @@ function TaskLists({data}) {
         </li>
       })}</ul>
       {panel}
+      <button
+          disabled={!selected}
+          onClick={toggleEditing}>edit</button>
     </HBox>
   </Window>
 }
