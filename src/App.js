@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
 import './App.css';
+import {HBox, Panel, VBox, Window} from './ui.js'
+import {attach, deepClone, filter, find_in_collection, project, query, sort, propAsString} from './db.js'
 
 const CATEGORIES = {
   CONTACT:{
@@ -221,75 +223,6 @@ const SORTS = {
 }
 
 
-function query(data,opts) {
-  if(opts.type) {
-    data = data.filter(o => o.type === opts.type)
-  }
-  return data
-}
-
-function sort(items,sortby,sortorder) {
-  items = items.slice()
-    items.sort((a,b)=>{
-    let key = sortby[0]
-    if(a.props[key] === b.props[key]) return 0
-    if(a.props[key]>b.props[key]) return 1
-    return -1
-  })
-  return items
-}
-
-function project(items,propsarray) {
-  return items
-}
-
-function toString(s,key) {
-  if(!s) return "--missing--"
-  if(s.props.hasOwnProperty(key)) {
-    let v = s.props[key]
-    if(v === true) return "true"
-    if(v === false) return "false"
-  }
-  return s.props[key]
-}
-
-function filter(list,opts) {
-  return list.filter(o => {
-    let pass = true
-    Object.keys(opts).forEach(k=>{
-      let fv = opts[k]
-      // console.log("key",k,o.props[k],'value',v)
-      if(!o.props.hasOwnProperty(k)) {
-        pass = false
-        return
-      }
-      let ov = o.props[k]
-      if(Array.isArray(ov)) {
-        if(ov.length !== fv.length) {
-          pass = false
-          return
-        }
-        for(let i=0; i<ov.length; i++) {
-          if(ov[i] !== fv[i]) {
-            pass = false
-            return
-          }
-        }
-      } else {
-        if (ov !== fv) {
-          pass = false
-          return
-        }
-      }
-      // console.log("matched")
-    })
-    return pass
-  })
-}
-
-function find_in_collection(coll,data) {
-  return data.filter(o => coll.props.set.some(id=>id===o.id))
-}
 
 // eslint-disable-next-line no-unused-vars
 function p(...args) {
@@ -305,33 +238,12 @@ function App() {
   </div>
 }
 
-function HBox ({children, grow}) {
-  return <div className={'hbox ' + (grow?"grow":"")}>{children}</div>
-}
-function VBox ({children, grow}) {
-  return <div className={'vbox ' + (grow?"grow":"")}>{children}</div>
-}
-function Panel({children, grow}) {
-  return <div className={'panel ' + (grow?"grow":"")}>{children}</div>
-}
-function Window({x,y,width,height,children,title}) {
-  let style = {
-    width: width ? (width + "px") : "100px",
-    height: height ? (height + "px") : "100px",
-    position:'absolute',
-    left:x?(x+'px'):'0px',
-    top:y?(y+'px'):'0px',
-  }
-  return <div className={"window"} style={style}>
-    <title>{title}</title>
-    {children}</div>
-}
 
 function TextPropEditor({buffer,prop, onChange}) {
   return <HBox>
     <label>{prop}</label>
     <input type="text"
-           value={toString(buffer,prop)}
+           value={propAsString(buffer,prop)}
            onChange={(ev)=>{
              buffer.props[prop] = ev.target.value
              onChange(buffer,prop)
@@ -375,8 +287,8 @@ function ContactList({data}) {
   let panel = <Panel grow>nothing selected</Panel>
   if(selected) {
     panel = <Panel grow>
-      {toString(selected,'first')}
-      {toString(selected,'last')}
+      {propAsString(selected,'first')}
+      {propAsString(selected,'last')}
       <img src={selected.props.icon}/>
     </Panel>
     if(editing) {
@@ -398,7 +310,7 @@ function ContactList({data}) {
       <ul className={'list'}>{items.map(o=>{
         return <li key={o.id} onClick={()=>setSelected(o)}
                    className={selected===o?"selected":""}
-        >{toString(o,'first')} {toString(o,'last')}</li>
+        >{propAsString(o,'first')} {propAsString(o,'last')}</li>
       })}</ul>
       <VBox grow>
         {panel}
@@ -418,7 +330,7 @@ function PeopleBar({data}) {
   items =  find_in_collection(collection,data)
   return <Window width={100} height={300} y={300} title={'people'}>
     <ul className={'list'}>{items.map(o=>{
-      return <li key={o.id}>{toString(o,'first')}
+      return <li key={o.id}>{propAsString(o,'first')}
         <img src={o.props.icon} alt={'user-icon'}/>
       </li>
     })}</ul>
@@ -437,8 +349,8 @@ function TaskLists({data}) {
   let panel = <Panel>nothing selected</Panel>
   if(selectedTask) {
     panel = <Panel>
-      <p>{toString(selectedTask,'title')}</p>
-      <b>{toString(selectedTask,'completed')}</b>
+      <p>{propAsString(selectedTask,'title')}</p>
+      <b>{propAsString(selectedTask,'completed')}</b>
     </Panel>
   }
 
@@ -451,14 +363,14 @@ function TaskLists({data}) {
                      setSelectedTask(null)
                    }}
                    className={selected===o?"selected":""}
-        >{toString(o, 'title')}</li>
+        >{propAsString(o, 'title')}</li>
       })}</ul>
       <ul className={'list'}>{tasks.map(o=> {
         return <li key={o.id}
                    onClick={()=>setSelectedTask(o)}
                    className={selectedTask===o?"selected":""}
         >
-          {toString(o, 'title')}
+          {propAsString(o, 'title')}
         </li>
       })}</ul>
       {panel}
@@ -466,52 +378,7 @@ function TaskLists({data}) {
   </Window>
 }
 
-function deepClone(v) {
-  return JSON.parse(JSON.stringify(v))
-}
 
-function attach(A, B, ka, kb) {
-  let data = deepClone(A)
-  data.forEach(a => {
-    B.forEach(b => {
-      let av = a.props[ka]
-      let bv = b.props[kb]
-      if(kb === 'id') bv = b.id
-      // p("comparing",av,bv)
-      if(av === bv) {
-        // console.log("found a match")
-        a.props[ka] = b
-      }
-    })
-  })
-  return data
-}
-
-function attach_in(A, B, ka, kb) {
-  let data = deepClone(A)
-  data.forEach(a => {
-    a.props[ka] = a.props[ka].map(av => {
-      let ret = null
-      B.forEach(b => {
-        let bv = b.props[kb]
-        if(kb === 'id') bv = b.id
-        if(av === bv) ret = b
-      })
-      return ret
-    })
-  })
-  return data
-}
-
-/*
-* v5: chat app
-	* message objects
-	* conversation is a set of users
-	* list containing messages that were to this exact set of users, sorted by timestamp
-	* timestamp datatype with functions for working on it
-	* render with name of user, message, color if it’s self user (how do we know?)
-	* do a join with the contacts/users to get info on each user
- */
 function Chat({data}) {
   const [selected, setSelected] = useState(null)
   let conversations = query(data, {category:CATEGORIES.CHAT, type:CATEGORIES.CHAT.TYPES.CONVERSATION})
@@ -536,7 +403,7 @@ function Chat({data}) {
                  onClick={()=>setSelected(o)}
                  className={selected===o?"selected":""}
       >
-        {toString(o,'title')}
+        {propAsString(o,'title')}
       </li>
     })}</ul>
 
@@ -545,9 +412,9 @@ function Chat({data}) {
                  onClick={()=>setSelected(o)}
                  className={selected===o?"selected":""}
         >
-        <i>{toString(o,'timestamp')}</i>
-        <b>{toString(o.props.sender,'first')}</b>
-        {toString(o, 'contents')}
+        <i>{propAsString(o,'timestamp')}</i>
+        <b>{propAsString(o.props.sender,'first')}</b>
+        {propAsString(o, 'contents')}
       </li>
     })}</ul>
     </HBox>
