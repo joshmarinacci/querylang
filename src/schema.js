@@ -5,6 +5,43 @@ export const CATEGORIES = {
         ID:'CONTACT',
         TYPES:{
             PERSON:'PERSON'
+        },
+        SCHEMAS:{
+            PERSON: {
+                title:'Person',
+                props:  [
+                    {
+                        key:'first',
+                        type:'STRING',
+                        default:''
+                    },
+                    {
+                        key:'last',
+                        type:'STRING',
+                        default:'',
+                    },
+                    {
+                        key:'emails',
+                        type:'ARRAY',
+                        content:{
+                            type:'OBJECT',
+                            title:'email',
+                            props: [
+                                {
+                                    key:'type',
+                                    type:'STRING',
+                                    default:'personal'
+                                },
+                                {
+                                    key:'value',
+                                    type:'STRING',
+                                    default:''
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
         }
     },
     GENERAL: {
@@ -289,12 +326,24 @@ export const SORTS = {
     ASCENDING:"ASCENDING",
 }
 
+function propMissing(obj, key) {
+    if(!obj) return true
+    if(!obj.props) return true
+    if(!obj.props.hasOwnProperty(key)) return true
+    return false
+}
+
 function validateData(data) {
     data.forEach(o => {
         if(o.type === CATEGORIES.TASKS.TYPES.TASK) {
             if(!o.props.hasOwnProperty('notes')) {
                 console.log("missing a note")
                 o.props.notes = ''
+            }
+        }
+        if(o.type === CATEGORIES.CONTACT.TYPES.PERSON) {
+            if(propMissing(o,'emails')) {
+                o.props.emails = []
             }
         }
     })

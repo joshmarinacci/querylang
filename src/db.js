@@ -22,6 +22,11 @@ export function project(items,propsarray) {
 
 export function propAsString(s, key) {
     if(!s) return "--missing--"
+    if(!s.props) {
+        if(s.hasOwnProperty(key)) {
+            return s[key]
+        }
+    }
     if(s.props.hasOwnProperty(key)) {
         let v = s.props[key]
         if(v === true) return "true"
@@ -30,6 +35,18 @@ export function propAsString(s, key) {
         return ""
     }
     return s.props[key]
+}
+
+export function setProp(obj,key,value) {
+    if(!obj.hasOwnProperty('props')) {
+        if(obj.hasOwnProperty(key)) {
+            obj[key] = value
+            return
+        }
+        return
+    }
+    obj.props[key] = value
+    return
 }
 
 export function propAsBoolean(s, key) {

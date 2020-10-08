@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {deepClone, project, propAsString, query, sort} from './db.js'
 import {CATEGORIES, SORTS} from './schema.js'
-import {DataList, HBox, Panel, TextPropEditor, VBox, Window} from './ui.js'
+import {DataList, EnumPropEditor, HBox, Panel, TextPropEditor, VBox, Window} from './ui.js'
 
 export function ContactList({data}) {
     const [selected, setSelected] = useState(null)
@@ -21,12 +21,20 @@ export function ContactList({data}) {
         })
         setEditing(false)
     }
-    const cancelEditing = () => {
-        setEditing(false)
-    }
+    const cancelEditing = () => setEditing(false)
 
-    const updateBuffer = (buffer, key, ev) => {
-        setBuffer(deepClone(buffer))
+    const update = () => setBuffer(deepClone(buffer))
+
+    const addEmail = () => {
+        buffer.props.emails.push({
+            type:'personal',
+            value:'',
+        })
+        update()
+    }
+    const removeEmail = (o) => {
+        buffer.props.emails = buffer.props.emails.filter(t => o!==t)
+        update()
     }
 
     // DATA where type === PERSON, sort ascending by [first, last], project(first,last,id)
@@ -37,21 +45,43 @@ export function ContactList({data}) {
     let panel = <Panel grow>nothing selected</Panel>
     if (selected) {
         panel = <Panel grow>
+            <p>
             {propAsString(selected, 'first')}
             {propAsString(selected, 'last')}
+            </p>
             <img src={selected.props.icon}/>
+            <ul>
+            {
+                selected.props.emails.map((e,i)=>{
+                    return <li key={i}>{e.type} : {e.value}</li>
+                })
+            }
+            </ul>
         </Panel>
         if (editing) {
             panel = <Panel grow>
-                <TextPropEditor buffer={buffer} prop={'first'} onChange={updateBuffer}/>
-                <TextPropEditor buffer={buffer} prop={'last'} onChange={updateBuffer}/>
+                <VBox>
+                    <h3>name</h3>
+                    <TextPropEditor buffer={buffer} prop={'first'} onChange={update}/>
+                    <TextPropEditor buffer={buffer} prop={'last'} onChange={update}/>
+                    <h3>emails</h3>
+                    {buffer.props.emails.map((o,i) => {
+                        return <HBox key={i}>
+                            <button onClick={()=>removeEmail(o)}>-</button>
+                            <EnumPropEditor buffer={o} prop={'type'} onChange={update}/>
+                            <TextPropEditor buffer={o} prop={'value'} onChange={update}/>
+                        </HBox>
+                    })}
+                    <button onClick={addEmail}>+</button>
+                </VBox>
+
                 <button onClick={saveEditing}>save</button>
                 <button onClick={cancelEditing}>cancel</button>
             </Panel>
         }
     }
 
-    return <Window x={120} width={400} height={250} title={'contacts'}>
+    return <Window x={120} width={400} height={300} title={'contacts'}>
         <HBox grow>
             <DataList data={items} selected={selected} setSelected={setSelected}
                       stringify={o => propAsString(o, 'first') + " " + propAsString(o, 'last')}/>

@@ -1,5 +1,5 @@
 import React from 'react'
-import {propAsBoolean, propAsString} from './db.js'
+import {propAsBoolean, propAsString, setProp} from './db.js'
 
 export function HBox ({children, grow}) {
     return <div className={'hbox ' + (grow?"grow":"")}>{children}</div>
@@ -44,7 +44,7 @@ export function TextPropEditor({buffer, prop, onChange}) {
         <input type="text"
                value={propAsString(buffer, prop)}
                onChange={(ev) => {
-                   buffer.props[prop] = ev.target.value
+                   setProp(buffer,prop,ev.target.value)
                    onChange(buffer, prop)
                }}
         />
@@ -58,7 +58,7 @@ export function CheckboxPropEditor({buffer, prop, onChange}) {
         <input type="checkbox"
                checked={propAsBoolean(buffer, prop)}
                onChange={(ev) => {
-                   buffer.props[prop] = ev.target.checked
+                   setProp(buffer,prop,ev.target.checked)
                    onChange(buffer, prop)
                }}
         />
@@ -69,8 +69,20 @@ export function TextareaPropEditor({buffer, prop, onChange}) {
     return <VBox>
         <label>{prop}</label>
         <textarea value={propAsString(buffer, prop)} onChange={(ev) => {
-            buffer.props[prop] = ev.target.value
+            setProp(buffer,prop,ev.target.value)
             onChange(buffer, prop)
         }}/>
     </VBox>
+}
+
+export function EnumPropEditor({buffer, prop, onChange}) {
+    return <HBox>
+            <select value={propAsString(buffer,prop)} onChange={(ev)=>{
+                setProp(buffer,'type',ev.target.value)
+                onChange(buffer,prop)
+        }}>
+            <option>personal</option>
+            <option>work</option>
+        </select>
+    </HBox>
 }
