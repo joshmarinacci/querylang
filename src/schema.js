@@ -288,3 +288,15 @@ export const DATA = [
 export const SORTS = {
     ASCENDING:"ASCENDING",
 }
+
+function validateData(data) {
+    data.forEach(o => {
+        if(o.type === CATEGORIES.TASKS.TYPES.TASK) {
+            if(!o.props.hasOwnProperty('notes')) {
+                console.log("missing a note")
+                o.props.notes = ''
+            }
+        }
+    })
+}
+validateData(DATA)

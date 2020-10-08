@@ -8,28 +8,6 @@ import {Chat} from './chat.js'
 import {Calendar} from './calendar.js'
 import {Notes} from './notes.js'
 
-
-function validateData(data) {
-  data.forEach(o => {
-    if(o.type === CATEGORIES.TASKS.TYPES.TASK) {
-      if(!o.props.hasOwnProperty('notes')) {
-        console.log("missing a note")
-        o.props.notes = ''
-      }
-    }
-  })
-}
-validateData(DATA)
-
-
-
-
-
-// eslint-disable-next-line no-unused-vars
-function p(...args) {
-  console.log(...args)
-}
-
 function App() {
   return <div>
     <ContactList data={DATA}/>
