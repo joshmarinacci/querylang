@@ -1,7 +1,17 @@
 import React, {useState} from 'react'
 import {deepClone, filter, propAsBoolean, propAsString, query} from './db.js'
 import {CATEGORIES} from './schema.js'
-import {CheckboxPropEditor, DataList, HBox, Panel, TextareaPropEditor, TextPropEditor, VBox, Window} from './ui.js'
+import {
+    CheckboxPropEditor,
+    DataList,
+    HBox,
+    Panel, Spacer,
+    TextareaPropEditor,
+    TextPropEditor,
+    Toolbar,
+    VBox,
+    Window
+} from './ui.js'
 
 export function TaskLists({data}) {
     const [selected, setSelected] = useState(null)
@@ -71,10 +81,13 @@ export function TaskLists({data}) {
             }} selected={selectedTask} setSelected={setSelectedTask}/>
             <VBox style={{flex:1}}>
                 {panel}
-                <button
-                    disabled={!selected}
-                    onClick={toggleEditing}>edit
-                </button>
+                <Toolbar>
+                    <Spacer/>
+                    <button
+                        disabled={!selected}
+                        onClick={toggleEditing}>edit
+                    </button>
+                </Toolbar>
             </VBox>
         </HBox>
     </Window>
