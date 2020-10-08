@@ -5,10 +5,21 @@ import {getEnumPropValues} from './schema.js'
 export function HBox ({children, grow}) {
     return <div className={'hbox ' + (grow?"grow":"")}>{children}</div>
 }
-export function VBox ({children, grow, className}) {
+export function VBox ({children, grow, className, style}) {
     className = className?className:""
-    return <div className={'vbox ' + (grow?"grow":"") + " " + className}>{children}</div>
+    style = style || {}
+    return <div style={style} className={'vbox ' + (grow?"grow":"") + " " + className}>{children}</div>
 }
+
+export function Toolbar ({children, grow, className, style}) {
+    className = className?className:""
+    style = style || {}
+    return <div style={style} className={'toolbar ' + (grow?"grow":"") + " " + className}>{children}</div>
+}
+export function Spacer (){
+    return <span className={'spacer'}/>
+}
+
 export function Panel({children, grow}) {
     return <div className={'panel ' + (grow?"grow":"")}>{children}</div>
 }

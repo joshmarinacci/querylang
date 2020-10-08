@@ -2,6 +2,8 @@ body {
   font-size: 10pt;
   line-height: 150%;
   background-color: whitesmoke;
+
+  --selected-color: aqua;
 }
 ul.list {
   border: 1px solid black;
@@ -27,7 +29,11 @@ div.vbox {
 
 
 ul.list li.selected {
-  background-color: aliceblue;
+  background-color: var(--selected-color);
+}
+
+ul.list {
+  min-width: 4em;
 }
 
 
@@ -99,4 +105,14 @@ ul.list li.selected {
 }
 .chat .thread .self p {
   background-color: greenyellow;
+}
+
+
+.toolbar {
+  border: 0px solid red;
+  display: flex;
+  flex-direction: row;
+}
+.spacer {
+  flex: 1.0;
 }

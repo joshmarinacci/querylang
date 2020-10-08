@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
-import {deepClone, filter, propAsString, query} from './db.js'
+import {deepClone, filter, propAsBoolean, propAsString, query} from './db.js'
 import {CATEGORIES} from './schema.js'
-import {CheckboxPropEditor, HBox, Panel, TextareaPropEditor, TextPropEditor, VBox, Window} from './ui.js'
+import {CheckboxPropEditor, DataList, HBox, Panel, TextareaPropEditor, TextPropEditor, VBox, Window} from './ui.js'
 
 export function TaskLists({data}) {
     const [selected, setSelected] = useState(null)
@@ -60,26 +60,16 @@ export function TaskLists({data}) {
         }
     }
 
-    return <Window width={400} height={200} x={0} y={350} title={'tasks'}>
+    return <Window width={620} height={200} x={0} y={350} title={'tasks'}>
         <HBox grow>
-            <ul className={'list'}>{projects.map(o => {
-                return <li key={o.id}
-                           onClick={() => {
-                               setSelected(o)
-                               setSelectedTask(null)
-                           }}
-                           className={selected === o ? "selected" : ""}
-                >{propAsString(o, 'title')}</li>
-            })}</ul>
-            <ul className={'list'}>{tasks.map(o => {
-                return <li key={o.id}
-                           onClick={() => setSelectedTask(o)}
-                           className={selectedTask === o ? "selected" : ""}
-                >
-                    {propAsString(o, 'title')}
-                </li>
-            })}</ul>
-            <VBox>
+            <DataList data={projects} stringify={(o => propAsString(o,'title'))} selected={selected} setSelected={setSelected}/>
+            <DataList data={tasks} stringify={(o) => {
+                return <div>
+                    <b>{propAsString(o,'title')}</b>
+                    <i>{propAsBoolean(o,'completed')?"*":"-"}</i>
+                </div>
+            }} selected={selectedTask} setSelected={setSelectedTask}/>
+            <VBox style={{flex:1}}>
                 {panel}
                 <button
                     disabled={!selected}

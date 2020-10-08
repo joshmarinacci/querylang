@@ -20,7 +20,7 @@ export function Chat({data}) {
 
     // conversations = attach_in(conversations,people,'people','id')
 
-    return <Window width={400} height={250} x={650} y={0} title={'chat'} className={"chat"}>
+    return <Window width={500} height={320} x={650} y={0} title={'chat'} className={"chat"}>
         <HBox>
             <DataList
                 data={conversations}

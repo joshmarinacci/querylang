@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {deepClone, project, propAsString, query, sort} from './db.js'
 import {CATEGORIES, makeNewObject, SORTS} from './schema.js'
-import {DataList, EnumPropEditor, HBox, Panel, TextPropEditor, VBox, Window} from './ui.js'
+import {DataList, EnumPropEditor, HBox, Panel, Spacer, TextPropEditor, Toolbar, VBox, Window} from './ui.js'
 
 export function ContactList({data}) {
     const [selected, setSelected] = useState(null)
@@ -79,16 +79,19 @@ export function ContactList({data}) {
         }
     }
 
-    return <Window x={120} width={500} height={300} title={'contacts'} className={'contacts'}>
+    return <Window x={120} width={500} height={320} title={'contacts'} className={'contacts'}>
         <HBox grow>
             <DataList data={items} selected={selected} setSelected={setSelected}
                       stringify={o => propAsString(o, 'first') + " " + propAsString(o, 'last')}/>
             <VBox grow>
                 {panel}
-                <button
-                    disabled={!selected}
-                    onClick={toggleEditing}>edit
-                </button>
+                <Toolbar>
+                    <Spacer/>
+                    <button
+                        disabled={!selected}
+                        onClick={toggleEditing}>edit
+                    </button>
+                </Toolbar>
             </VBox>
         </HBox>
     </Window>

@@ -10,7 +10,7 @@ export function Notes({data}) {
         category: CATEGORIES.NOTES.ID,
         type: CATEGORIES.NOTES.TYPES.NOTE
     })
-    return <Window width={400} height={300} x={0} y={560}
+    return <Window width={620} height={300} x={0} y={580}
                    title={"notes"}>
         <HBox>
             <DataList data={notes}
@@ -18,7 +18,12 @@ export function Notes({data}) {
                       setSelected={setSelected}
                       stringify={(o) => propAsString(o, 'title')}
             />
-            <p>{propAsString(selected, 'contents')}</p>
+            <p style={{
+                flex:1.0,
+                border:'1px solid black',
+                padding:'1.0em',
+                margin:0,
+            }}>{propAsString(selected, 'contents')}</p>
         </HBox>
     </Window>
 }
