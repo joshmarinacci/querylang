@@ -48,9 +48,9 @@ export function TaskLists({data}) {
     }
 
 
-    let panel = <Panel>nothing selected</Panel>
+    let panel = <Panel grow={true}>nothing selected</Panel>
     if (selectedTask) {
-        panel = <Panel>
+        panel = <Panel grow={true}>
             <HBox>
                 <span>{propAsString(selectedTask, 'title')}</span>
                 <b>{propAsString(selectedTask, 'completed')}</b>
@@ -59,7 +59,7 @@ export function TaskLists({data}) {
 
         </Panel>
         if (editingTask) {
-            panel = <Panel>
+            panel = <Panel grow={true}>
                 <TextPropEditor buffer={buffer} prop={'title'} onChange={updateBuffer}/>
                 <CheckboxPropEditor buffer={buffer} prop={'completed'} onChange={updateBuffer}/>
                 <TextareaPropEditor buffer={buffer} prop={'notes'}
@@ -70,7 +70,7 @@ export function TaskLists({data}) {
         }
     }
 
-    return <Window width={620} height={200} x={0} y={350} title={'tasks'}>
+    return <Window width={620} height={200} x={0} y={350} title={'tasks'} className={'tasks'}>
         <HBox grow>
             <DataList data={projects} stringify={(o => propAsString(o,'title'))} selected={selected} setSelected={setSelected}/>
             <DataList data={tasks} stringify={(o) => {

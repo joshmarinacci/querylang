@@ -21,6 +21,7 @@ ul.list li {
 div.hbox {
   display: flex;
   flex-direction: row;
+  align-items: stretch;
 }
 div.vbox {
   display: flex;

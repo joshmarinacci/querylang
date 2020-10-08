@@ -10,8 +10,7 @@ export function Notes({data}) {
         category: CATEGORIES.NOTES.ID,
         type: CATEGORIES.NOTES.TYPES.NOTE
     })
-    return <Window width={620} height={300} x={0} y={580}
-                   title={"notes"}>
+    return <Window width={620} height={300} x={0} y={580} title={"notes"} className={'notes'}>
         <HBox>
             <DataList data={notes}
                       selected={selected}
