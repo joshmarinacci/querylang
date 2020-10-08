@@ -152,6 +152,7 @@ const DATA = [
       title:'file expense report',
       project:6,
       completed:false,
+      notes:'make sure to check the math before submitting'
     },
   },
   {
@@ -229,6 +230,18 @@ const DATA = [
 
 ]
 
+function validateData(data) {
+  data.forEach(o => {
+    if(o.type === CATEGORIES.TASKS.TYPES.TASK) {
+      if(!o.props.hasOwnProperty('notes')) {
+        console.log("missing a note")
+        o.props.notes = ''
+      }
+    }
+  })
+}
+validateData(DATA)
+
 
 const SORTS = {
   ASCENDING:"ASCENDING",
@@ -276,6 +289,16 @@ function CheckboxPropEditor({buffer, prop, onChange}) {
            }}
     />
   </HBox>
+}
+
+function TextareaPropEditor({buffer,prop,onChange}) {
+  return <VBox>
+    <label>{prop}</label>
+    <textarea value={propAsString(buffer,prop)} onChange={(ev)=>{
+      buffer.props[prop] = ev.target.value
+      onChange(buffer,prop)
+    }}/>
+  </VBox>
 }
 
 function ContactList({data}) {
@@ -393,20 +416,26 @@ function TaskLists({data}) {
   let panel = <Panel>nothing selected</Panel>
   if(selectedTask) {
     panel = <Panel>
-      <p>{propAsString(selectedTask,'title')}</p>
-      <b>{propAsString(selectedTask,'completed')}</b>
+      <HBox>
+        <span>{propAsString(selectedTask,'title')}</span>
+        <b>{propAsString(selectedTask,'completed')}</b>
+      </HBox>
+      <p>{propAsString(selectedTask,'notes')}</p>
+
     </Panel>
     if(editingTask) {
       panel = <Panel>
         <TextPropEditor buffer={buffer} prop={'title'} onChange={updateBuffer}/>
         <CheckboxPropEditor buffer={buffer} prop={'completed'} onChange={updateBuffer}/>
+        <TextareaPropEditor buffer={buffer} prop={'notes'}
+                            onChange={updateBuffer}/>
         <button onClick={saveEditing}>save</button>
         <button onClick={cancelEditing}>cancel</button>
       </Panel>
     }
   }
 
-  return <Window width={400} height={300} x={200} y={300} title={'tasks'}>
+  return <Window width={500} height={300} x={200} y={300} title={'tasks'}>
     <HBox grow>
       <ul className={'list'}>{projects.map(o=> {
         return <li key={o.id}
