@@ -1,4 +1,5 @@
 import React from 'react'
+import {propAsBoolean, propAsString} from './db.js'
 
 export function HBox ({children, grow}) {
     return <div className={'hbox ' + (grow?"grow":"")}>{children}</div>
@@ -35,4 +36,41 @@ export function DataList({data, selected, setSelected, stringify}) {
       </li>
     })}</ul>
 
+}
+
+export function TextPropEditor({buffer, prop, onChange}) {
+    return <HBox>
+        <label>{prop}</label>
+        <input type="text"
+               value={propAsString(buffer, prop)}
+               onChange={(ev) => {
+                   buffer.props[prop] = ev.target.value
+                   onChange(buffer, prop)
+               }}
+        />
+
+    </HBox>
+}
+
+export function CheckboxPropEditor({buffer, prop, onChange}) {
+    return <HBox>
+        <label>{prop}</label>
+        <input type="checkbox"
+               checked={propAsBoolean(buffer, prop)}
+               onChange={(ev) => {
+                   buffer.props[prop] = ev.target.checked
+                   onChange(buffer, prop)
+               }}
+        />
+    </HBox>
+}
+
+export function TextareaPropEditor({buffer, prop, onChange}) {
+    return <VBox>
+        <label>{prop}</label>
+        <textarea value={propAsString(buffer, prop)} onChange={(ev) => {
+            buffer.props[prop] = ev.target.value
+            onChange(buffer, prop)
+        }}/>
+    </VBox>
 }
