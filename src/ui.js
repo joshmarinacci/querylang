@@ -24,6 +24,8 @@ export function Window({x,y,width,height,children,title}) {
 
 
 export function DataList({data, selected, setSelected, stringify}) {
+    if(!stringify) stringify = (s)=>"no stringify"
+    if(!setSelected) setSelected = ()=>{}
     return <ul className={'list'}>{data.map(o=> {
         return <li key={o.id}
                  onClick={()=>setSelected(o)}

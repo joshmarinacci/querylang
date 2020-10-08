@@ -10,7 +10,7 @@ import {
   query,
   sort,
   propAsString,
-  propAsBoolean,
+  propAsBoolean, now, hourAsDateString
 } from './db.js'
 
 const CATEGORIES = {
@@ -40,6 +40,18 @@ const CATEGORIES = {
       CONVERSATION:'CONVERSATION',
     }
   },
+  SETTINGS:{
+    ID:'SETTINGS',
+    TYPES:{
+      USER:'USER'
+    }
+  },
+  CALENDAR: {
+    ID:'CALENDAR',
+    TYPES: {
+      EVENT:'EVENT'
+    }
+  }
 }
 const DATA = [
   {
@@ -226,6 +238,32 @@ const DATA = [
       contents:'have you done your homework?',
       timestamp:5,
     }
+  },
+  {
+    id:17,
+    category: CATEGORIES.SETTINGS.ID,
+    type: CATEGORIES.CHAT.TYPES.MESSAGE,
+    props: {
+      contact:1, // contact card ID
+    }
+  },
+  {
+    id:18,
+    category:CATEGORIES.CALENDAR.ID,
+    type:CATEGORIES.CALENDAR.TYPES.EVENT,
+    props: {
+      title: 'flea meds',
+      start:hourAsDateString(8),
+    }
+  },
+  {
+    id:19,
+    category: CATEGORIES.CALENDAR.ID,
+    type:CATEGORIES.CALENDAR.TYPES.EVENT,
+    props: {
+      title:'go to sleep',
+      start:hourAsDateString(23)
+    }
   }
 
 ]
@@ -260,6 +298,7 @@ function App() {
     <PeopleBar data={DATA}/>
     <TaskLists data={DATA}/>
     <Chat data={DATA}/>
+    <Calendar data={DATA}/>
   </div>
 }
 
@@ -495,6 +534,23 @@ function Chat({data}) {
       }}/>
     </HBox>
     </Window>
+}
+
+function Calendar({data}) {
+  let events = query(data,{category:CATEGORIES.CALENDAR, type:CATEGORIES.CALENDAR.TYPES.EVENT})
+
+  return <Window width={300} height={300} x={750} y={300} title={'calendar'}
+    >
+    <h1>October 8th, 2020</h1>
+    <h2>Thursday</h2>
+    <DataList data={events}
+              stringify={o => {
+                let start = new Date(o.props.start)
+                return  start.toTimeString()
+                    + propAsString(o,'title')
+              }}
+    />
+  </Window>
 }
 
 function DataDumpPanel({data}) {
