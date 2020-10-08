@@ -51,6 +51,12 @@ const CATEGORIES = {
     TYPES: {
       EVENT:'EVENT'
     }
+  },
+  NOTES:{
+    ID:'NOTES',
+    TYPES:{
+      NOTE:'NOTE'
+    }
   }
 }
 const DATA = [
@@ -264,8 +270,31 @@ const DATA = [
       title:'go to sleep',
       start:hourAsDateString(23)
     }
+  },
+  {
+    id:20,
+    category: CATEGORIES.NOTES.ID,
+    type:CATEGORIES.NOTES.TYPES.NOTE,
+    props: {
+      title:'brainstorm',
+      tags:['cool','thinking','bad'],
+      archived:false,
+      deleted:false,
+      contents: "this is my first long note to read."
+    }
+  },
+  {
+    id:21,
+    category: CATEGORIES.NOTES.ID,
+    type:CATEGORIES.NOTES.TYPES.NOTE,
+    props: {
+      title:'story ideas',
+      tags:['thinking'],
+      archived:false,
+      deleted:false,
+      contents:'This would be an epic story idea'
+    }
   }
-
 ]
 
 function validateData(data) {
@@ -299,6 +328,7 @@ function App() {
     <TaskLists data={DATA}/>
     <Chat data={DATA}/>
     <Calendar data={DATA}/>
+    <Notes data={DATA}/>
   </div>
 }
 
@@ -388,7 +418,7 @@ function ContactList({data}) {
     }
   }
 
-  return <Window width={500} height={250} title={'contacts'}>
+  return <Window x={120} width={400} height={250} title={'contacts'}>
     <HBox grow>
       <DataList data={items} selected={selected} setSelected={setSelected}
                 stringify={o => propAsString(o,'first') + " " + propAsString(o,'last')}/>
@@ -408,7 +438,7 @@ function PeopleBar({data}) {
   let items = query(data, {category: CATEGORIES.GENERAL, type:CATEGORIES.GENERAL.TYPES.COLLECTION})
   let collection = filter(items,{name:'peoplebar'})[0]
   items =  find_in_collection(collection,data)
-  return <Window width={100} height={300} y={300} title={'people'}>
+  return <Window width={100} height={300} y={0} x={0} title={'people'}>
     <ul className={'list'}>{items.map(o=>{
       return <li key={o.id}>{propAsString(o,'first')}
         <img src={o.props.icon} alt={'user-icon'}/>
@@ -474,7 +504,7 @@ function TaskLists({data}) {
     }
   }
 
-  return <Window width={500} height={300} x={200} y={300} title={'tasks'}>
+  return <Window width={400} height={200} x={0} y={350} title={'tasks'}>
     <HBox grow>
       <ul className={'list'}>{projects.map(o=> {
         return <li key={o.id}
@@ -521,7 +551,7 @@ function Chat({data}) {
 
   // conversations = attach_in(conversations,people,'people','id')
 
-  return <Window width={400} height={250} x={600} y={0} title={'chat'}>
+  return <Window width={400} height={250} x={650} y={0} title={'chat'}>
     <HBox>
       <DataList
           data={conversations}
@@ -537,7 +567,7 @@ function Chat({data}) {
 }
 
 function Calendar({data}) {
-  let events = query(data,{category:CATEGORIES.CALENDAR, type:CATEGORIES.CALENDAR.TYPES.EVENT})
+  let events = query(data,{category:CATEGORIES.CALENDAR.ID, type:CATEGORIES.CALENDAR.TYPES.EVENT})
 
   return <Window width={300} height={300} x={750} y={300} title={'calendar'}
     >
@@ -550,6 +580,24 @@ function Calendar({data}) {
                     + propAsString(o,'title')
               }}
     />
+  </Window>
+}
+
+function Notes({data}) {
+  const [selected, setSelected] = useState(null)
+
+  let notes = query(data,{category:CATEGORIES.NOTES.ID,
+    type:CATEGORIES.NOTES.TYPES.NOTE})
+  return <Window width={400} height={300} x={0} y={560}
+                 title={"notes"}>
+    <HBox>
+      <DataList data={notes}
+                selected={selected}
+                setSelected={setSelected}
+                stringify={(o)=>propAsString(o,'title')}
+      />
+      <p>{propAsString(selected,'contents')}</p>
+    </HBox>
   </Window>
 }
 
