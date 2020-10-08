@@ -20,7 +20,7 @@ export function Chat({data}) {
 
     // conversations = attach_in(conversations,people,'people','id')
 
-    return <Window width={400} height={250} x={650} y={0} title={'chat'}>
+    return <Window width={400} height={250} x={650} y={0} title={'chat'} className={"chat"}>
         <HBox>
             <DataList
                 data={conversations}
@@ -28,8 +28,12 @@ export function Chat({data}) {
                 setSelected={setSelected}
                 stringify={(o) => propAsString(o, 'title')}
             />
-            <DataList data={messages} stringify={(o) => {
-                return propAsString(o, 'timestamp') + propAsString(o.props.sender, 'first') + propAsString(o, 'contents')
+            <DataList style={{flex:1}} data={messages} className={'thread'} stringify={(o) => {
+                return <div className={(o.props.sender.id===1?"self":"")}>
+                    <b>{propAsString(o, 'timestamp')}</b>
+                    <i>{propAsString(o.props.sender, 'first')}</i>
+                    <p>{propAsString(o, 'contents')}</p>
+                </div>
             }}/>
         </HBox>
     </Window>

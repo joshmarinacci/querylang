@@ -79,7 +79,7 @@ export function ContactList({data}) {
         }
     }
 
-    return <Window x={120} width={400} height={300} title={'contacts'} className={'contacts'}>
+    return <Window x={120} width={500} height={300} title={'contacts'} className={'contacts'}>
         <HBox grow>
             <DataList data={items} selected={selected} setSelected={setSelected}
                       stringify={o => propAsString(o, 'first') + " " + propAsString(o, 'last')}/>

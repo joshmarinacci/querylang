@@ -85,3 +85,18 @@ ul.list li.selected {
   /*box-shadow: none;*/
   /*appearance: none;*/
 }
+
+
+
+.chat .thread .self {
+  background-color: azure;
+  text-align: right;
+}
+.chat .thread p {
+  border-radius: 1.0em;
+  padding: 0.25em 1.0em;
+  background-color: lightblue;
+}
+.chat .thread .self p {
+  background-color: greenyellow;
+}
