@@ -32,6 +32,17 @@ export function propAsString(s, key) {
     return s.props[key]
 }
 
+export function propAsBoolean(s, key) {
+    if(!s) return false
+    return new Boolean(s.props[key]).valueOf()
+}
+
+export function stringAsBoolean(str) {
+    if(str.toLowerCase() === 'false') return false
+    if(str.toLowerCase() === 'on') return true
+    return true
+}
+
 export function filter(list,opts) {
     return list.filter(o => {
         let pass = true

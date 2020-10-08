@@ -1,7 +1,17 @@
 import React, {useState} from 'react'
 import './App.css';
 import {DataList, HBox, Panel, VBox, Window} from './ui.js'
-import {attach, deepClone, filter, find_in_collection, project, query, sort, propAsString} from './db.js'
+import {
+  attach,
+  deepClone,
+  filter,
+  find_in_collection,
+  project,
+  query,
+  sort,
+  propAsString,
+  propAsBoolean,
+} from './db.js'
 
 const CATEGORIES = {
   CONTACT:{
@@ -255,6 +265,19 @@ function TextPropEditor({buffer,prop, onChange}) {
   </HBox>
 }
 
+function CheckboxPropEditor({buffer, prop, onChange}) {
+  return <HBox>
+    <label>{prop}</label>
+    <input type="checkbox"
+           checked={propAsBoolean(buffer,prop)}
+           onChange={(ev)=>{
+             buffer.props[prop] = ev.target.checked
+             onChange(buffer,prop)
+           }}
+    />
+  </HBox>
+}
+
 function ContactList({data}) {
   const [selected, setSelected] = useState(null)
   const [editing, setEditing] = useState(false)
@@ -376,6 +399,7 @@ function TaskLists({data}) {
     if(editingTask) {
       panel = <Panel>
         <TextPropEditor buffer={buffer} prop={'title'} onChange={updateBuffer}/>
+        <CheckboxPropEditor buffer={buffer} prop={'completed'} onChange={updateBuffer}/>
         <button onClick={saveEditing}>save</button>
         <button onClick={cancelEditing}>cancel</button>
       </Panel>
@@ -401,10 +425,12 @@ function TaskLists({data}) {
           {propAsString(o, 'title')}
         </li>
       })}</ul>
+      <VBox>
       {panel}
       <button
           disabled={!selected}
           onClick={toggleEditing}>edit</button>
+      </VBox>
     </HBox>
   </Window>
 }
