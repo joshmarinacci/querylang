@@ -1,5 +1,6 @@
 import React from 'react'
 import {propAsBoolean, propAsString, setProp} from './db.js'
+import {getEnumPropValues} from './schema.js'
 
 export function HBox ({children, grow}) {
     return <div className={'hbox ' + (grow?"grow":"")}>{children}</div>
@@ -81,8 +82,9 @@ export function EnumPropEditor({buffer, prop, onChange}) {
                 setProp(buffer,'type',ev.target.value)
                 onChange(buffer,prop)
         }}>
-            <option>personal</option>
-            <option>work</option>
+                {getEnumPropValues(buffer,prop).map(v=>{
+                    return <option key={v} value={v}>{v}</option>
+                })}
         </select>
     </HBox>
 }

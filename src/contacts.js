@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {deepClone, project, propAsString, query, sort} from './db.js'
-import {CATEGORIES, SORTS} from './schema.js'
+import {CATEGORIES, makeNewObject, SORTS} from './schema.js'
 import {DataList, EnumPropEditor, HBox, Panel, TextPropEditor, VBox, Window} from './ui.js'
 
 export function ContactList({data}) {
@@ -26,10 +26,7 @@ export function ContactList({data}) {
     const update = () => setBuffer(deepClone(buffer))
 
     const addEmail = () => {
-        buffer.props.emails.push({
-            type:'personal',
-            value:'',
-        })
+        buffer.props.emails.push(makeNewObject(CATEGORIES.CONTACT.TYPES.EMAIL))
         update()
     }
     const removeEmail = (o) => {
@@ -53,7 +50,8 @@ export function ContactList({data}) {
             <ul>
             {
                 selected.props.emails.map((e,i)=>{
-                    return <li key={i}>{e.type} : {e.value}</li>
+                    return <li key={i}>{propAsString(e,'type')} :
+                        {propAsString(e,'value')}</li>
                 })
             }
             </ul>

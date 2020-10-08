@@ -4,9 +4,26 @@ export const CATEGORIES = {
     CONTACT:{
         ID:'CONTACT',
         TYPES:{
-            PERSON:'PERSON'
+            PERSON:'PERSON',
+            EMAIL:'EMAIL',
         },
         SCHEMAS:{
+            EMAIL:{
+                title:'email',
+                props: {
+                    type: {
+                        key: 'type',
+                        type: 'ENUM',
+                        values: ['personal', 'work'],
+                        default: 'personal'
+                    },
+                    value: {
+                        key: 'value',
+                        type: 'STRING',
+                        default: ''
+                    }
+                }
+            },
             PERSON: {
                 title:'Person',
                 props:  [
@@ -24,20 +41,7 @@ export const CATEGORIES = {
                         key:'emails',
                         type:'ARRAY',
                         content:{
-                            type:'OBJECT',
-                            title:'email',
-                            props: [
-                                {
-                                    key:'type',
-                                    type:'STRING',
-                                    default:'personal'
-                                },
-                                {
-                                    key:'value',
-                                    type:'STRING',
-                                    default:''
-                                }
-                            ]
+                            type:'EMAIL',
                         }
                     }
                 ]
@@ -93,12 +97,18 @@ export const DATA = [
             last:'Marinacci',
             emails:[
                 {
-                    type:'personal',
-                    value:"joshua@marinacci.org",
+                    type:CATEGORIES.CONTACT.TYPES.EMAIL,
+                    props:{
+                        type:'personal',
+                        value:"joshua@marinacci.org",
+                    },
                 },
                 {
-                    type: 'professional',
-                    value: "josh@josh.earth",
+                    type:CATEGORIES.CONTACT.TYPES.EMAIL,
+                    props:{
+                        type:'work',
+                        value:"josh@josh.earth",
+                    },
                 }
             ],
             phone:[
@@ -119,12 +129,18 @@ export const DATA = [
             last:'Marinacci',
             emails:[
                 {
-                    type:'personal',
-                    value:"jessemarinacci@icloud.com",
+                    type:CATEGORIES.CONTACT.TYPES.EMAIL,
+                    props:{
+                        type:'personal',
+                        value:"jessemarinacci@icloud.com",
+                    },
                 },
                 {
-                    type: 'school',
-                    value: "jesse.marinacci@bsd52.org",
+                    type:CATEGORIES.CONTACT.TYPES.EMAIL,
+                    props: {
+                        type: 'school',
+                        value: "jesse.marinacci@bsd52.org",
+                    }
                 }
             ],
             icon:'http://placekeanu.com/64/64/a',
@@ -349,3 +365,30 @@ function validateData(data) {
     })
 }
 validateData(DATA)
+
+
+
+
+export function getEnumPropValues(obj,prop) {
+    if(obj.type === CATEGORIES.CONTACT.TYPES.EMAIL) {
+        return CATEGORIES.CONTACT.SCHEMAS.EMAIL.props[prop].values
+    }
+    return ["A",'B']
+}
+
+export function makeNewObject(type) {
+    if(type === CATEGORIES.CONTACT.TYPES.EMAIL) {
+        let obj = {
+            type:type,
+            props:{},
+        }
+        let schema = CATEGORIES.CONTACT.SCHEMAS.EMAIL
+        Object.keys(schema.props).forEach(key => {
+            let sc = schema.props[key]
+            obj.props[sc.key] = sc.default
+        })
+        console.log("made new object of type",type,obj)
+        return obj
+    }
+    return null
+}
