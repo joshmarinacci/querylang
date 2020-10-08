@@ -1,6 +1,7 @@
 body {
   font-size: 10pt;
   line-height: 150%;
+  background-color: whitesmoke;
 }
 ul.list {
   border: 1px solid black;
@@ -44,7 +45,7 @@ ul.list li.selected {
   flex: 1.0;
   align-items: stretch;
   justify-content: stretch;
-  background-color: whitesmoke;
+  background-color: white;
 }
 
 .window > title {
@@ -52,4 +53,35 @@ ul.list li.selected {
   background-color: #888;
   color: white;
   padding: 0.125em;
+}
+
+
+.contacts .display-emails {
+  padding:0.25em;
+  margin:0;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+.contacts .display-emails i {
+  font-style: normal;
+  font-weight: normal;
+  text-align: right;
+  color: #888888;
+  padding: 0.25em;
+}
+
+.contacts .display-emails b {
+  font-style: normal;
+  font-weight: normal;
+  text-align: left;
+  padding: 0.25em;
+}
+
+.contacts .edit-emails select {
+  /*border: 0px solid red;*/
+  display: inline-block;
+  /*color: cornflowerblue;*/
+  /*background-color: white;*/
+  /*box-shadow: none;*/
+  /*appearance: none;*/
 }

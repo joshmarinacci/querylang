@@ -47,18 +47,18 @@ export function ContactList({data}) {
             {propAsString(selected, 'last')}
             </p>
             <img src={selected.props.icon}/>
-            <ul>
+            <ul className={'display-emails'}>
             {
                 selected.props.emails.map((e,i)=>{
-                    return <li key={i}>{propAsString(e,'type')} :
-                        {propAsString(e,'value')}</li>
+                    return [<i key={'type'+i}>{propAsString(e,'type')}</i>,
+                        <b key={'value'+i}>{propAsString(e,'value')}</b>]
                 })
             }
             </ul>
         </Panel>
         if (editing) {
             panel = <Panel grow>
-                <VBox>
+                <VBox className={'edit-emails'}>
                     <h3>name</h3>
                     <TextPropEditor buffer={buffer} prop={'first'} onChange={update}/>
                     <TextPropEditor buffer={buffer} prop={'last'} onChange={update}/>
@@ -79,7 +79,7 @@ export function ContactList({data}) {
         }
     }
 
-    return <Window x={120} width={400} height={300} title={'contacts'}>
+    return <Window x={120} width={400} height={300} title={'contacts'} className={'contacts'}>
         <HBox grow>
             <DataList data={items} selected={selected} setSelected={setSelected}
                       stringify={o => propAsString(o, 'first') + " " + propAsString(o, 'last')}/>
