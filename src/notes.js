@@ -82,7 +82,9 @@ export function Notes({data}) {
                 <DataList data={notes}
                           selected={selected}
                           setSelected={doSetSelected}
-                          stringify={(o) => propAsString(o, 'title')}
+                          stringify={(o) => {
+                              return propAsString(o, 'title') + " " + propAsString(o,'lastedited')
+                          }}
                 />
             </VBox>
             <VBox grow>

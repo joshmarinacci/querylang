@@ -117,6 +117,11 @@ export const CATEGORIES = {
                         type:'STRING',
                         default:'',
                     },
+                    lastedited:{
+                        key:'lastedited',
+                        type:'TIMESTAMP',
+                        default:'NOW'
+                    }
                 }
             }
         }
@@ -391,7 +396,8 @@ export const DATA = [
             tags:['thinking'],
             archived: true,
             deleted: true,
-            contents:'in the bin!'
+            contents:'in the bin!',
+            lastedited:10,
         }
     }
 ]
@@ -463,6 +469,10 @@ export function makeNewObject(type) {
                 console.error("schema missing default",sc)
             }
             console.log('setting key',key,sc)
+            if(sc.type === 'TIMESTAMP' && sc.default === 'NOW') {
+                obj.props[sc.key] = Date.now()
+                return
+            }
             obj.props[sc.key] = sc.default
         })
         console.log("made new object of type",type,obj)
