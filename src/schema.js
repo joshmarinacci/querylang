@@ -334,6 +334,30 @@ export const DATA = [
             deleted:false,
             contents:'This would be an epic story idea'
         }
+    },
+    {
+        id:22,
+        category: CATEGORIES.NOTES.ID,
+        type:CATEGORIES.NOTES.TYPES.NOTE,
+        props: {
+            title:'an old archived note',
+            tags:['thinking'],
+            archived: true,
+            deleted: false,
+            contents:'the really old one'
+        }
+    },
+    {
+        id:23,
+        category: CATEGORIES.NOTES.ID,
+        type:CATEGORIES.NOTES.TYPES.NOTE,
+        props: {
+            title:'a deleted note',
+            tags:['thinking'],
+            archived: true,
+            deleted: true,
+            contents:'in the bin!'
+        }
     }
 ]
 
