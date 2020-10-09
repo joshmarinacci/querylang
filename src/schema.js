@@ -33,18 +33,35 @@ export const CATEGORIES = {
                     {
                         key:'first',
                         type:'STRING',
-                        default:''
+                        default:'unnamed'
                     },
                     {
                         key:'last',
                         type:'STRING',
-                        default:'',
+                        default:'unnamed',
                     },
                     {
                         key:'emails',
                         type:'ARRAY',
+                        default:[],
                         content:{
                             type:'EMAIL',
+                        }
+                    },
+                    {
+                        key:'phones',
+                        type:'ARRAY',
+                        default:[],
+                        content: {
+                            type:STRING,
+                        }
+                    },
+                    {
+                        key:'addresses',
+                        type:'ARRAY',
+                        default:[],
+                        content: {
+                            type:STRING,
                         }
                     }
                 ]

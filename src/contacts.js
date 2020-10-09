@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {deepClone, project, propAsString, query, sort} from './db.js'
+import {deepClone, project, propAsString, query, setProp, sort} from './db.js'
 import {CATEGORIES, makeNewObject, SORTS} from './schema.js'
 import {DataList, EnumPropEditor, HBox, Panel, Spacer, TextPropEditor, Toolbar, VBox, Window} from './ui.js'
 
@@ -38,6 +38,14 @@ export function ContactList({data}) {
     let items = query(data, {category: CATEGORIES.CONTACT, type: CATEGORIES.CONTACT.TYPES.PERSON})
     items = sort(items, ["first", "last"], SORTS.ASCENDING)
     items = project(items, ["first", "last", "id"])
+
+
+    const addNewContact = () => {
+        let person = makeNewObject(CATEGORIES.CONTACT.TYPES.PERSON)
+        data.push(person)
+        setSelected(person)
+        toggleEditing()
+    }
 
     let panel = <Panel grow>nothing selected</Panel>
     if (selected) {
@@ -81,8 +89,14 @@ export function ContactList({data}) {
 
     return <Window x={120} width={500} height={320} title={'contacts'} className={'contacts'}>
         <HBox grow>
-            <DataList data={items} selected={selected} setSelected={setSelected}
-                      stringify={o => propAsString(o, 'first') + " " + propAsString(o, 'last')}/>
+            <VBox>
+                <Toolbar>
+                    <input type={'search'}/>
+                    <button onClick={addNewContact}>+</button>
+                </Toolbar>
+                <DataList data={items} selected={selected} setSelected={setSelected}
+                          stringify={o => propAsString(o, 'first') + " " + propAsString(o, 'last')}/>
+            </VBox>
             <VBox grow>
                 {panel}
                 <Toolbar>
