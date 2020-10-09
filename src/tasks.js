@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import {deepClone, filter, propAsBoolean, propAsString, query} from './db.js'
-import {CATEGORIES} from './schema.js'
+import {deepClone, filter, propAsBoolean, propAsString, query, setProp} from './db.js'
+import {CATEGORIES, makeNewObject} from './schema.js'
 import {
     CheckboxPropEditor,
     DataList,
@@ -70,15 +70,30 @@ export function TaskLists({data}) {
         }
     }
 
+    const addNewTask = () => {
+        let task = makeNewObject(CATEGORIES.TASKS.TYPES.TASK)
+        setProp(task,'project',selected.id)
+        data.push(task)
+        console.log(task)
+        // doSetSelected(null)
+    }
+
     return <Window width={620} height={200} x={0} y={350} title={'tasks'} className={'tasks'}>
         <HBox grow>
             <DataList data={projects} stringify={(o => propAsString(o,'title'))} selected={selected} setSelected={setSelected}/>
-            <DataList data={tasks} stringify={(o) => {
-                return <div>
-                    <b>{propAsString(o,'title')}</b>
-                    <i>{propAsBoolean(o,'completed')?"*":"-"}</i>
-                </div>
-            }} selected={selectedTask} setSelected={setSelectedTask}/>
+            <VBox>
+                <Toolbar>
+                    <input type={'search'}/>
+                    <button disabled={selected===null} onClick={addNewTask}>+</button>
+                </Toolbar>
+                <DataList data={tasks} stringify={(o) => {
+                    return <div>
+                        <b>{propAsString(o,'title')}</b>
+                        <i>{propAsBoolean(o,'completed')?"*":"-"}</i>
+                    </div>
+                }} selected={selectedTask} setSelected={setSelectedTask}/>
+
+            </VBox>
             <VBox style={{flex:1}}>
                 {panel}
                 <Toolbar>

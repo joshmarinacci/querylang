@@ -1,5 +1,8 @@
 import {hourAsDateString} from './db.js'
 
+const STRING = 'STRING'
+const BOOLEAN = 'BOOLEAN'
+
 export const CATEGORIES = {
     CONTACT:{
         ID:'CONTACT',
@@ -59,6 +62,31 @@ export const CATEGORIES = {
         TYPES:{
             PROJECT: "PROJECT",
             TASK:"TASK",
+        },
+        SCHEMAS: {
+            TASK:{
+                title:'task',
+                props: {
+                    title:{
+                        key:'title',
+                        type:STRING,
+                        default:'untitled'
+                    },
+                    project:{
+                        key:'project',
+                    },
+                    completed:{
+                        key:'completed',
+                        type:BOOLEAN,
+                        default:false,
+                    },
+                    notes: {
+                        key:'notes',
+                        type:STRING,
+                        default:'',
+                    }
+                }
+            }
         }
     },
     CHAT: {
@@ -403,6 +431,16 @@ export const DATA = [
 ]
 
 
+const SCHEMAS = {}
+Object.values(CATEGORIES).forEach(val => {
+    if(val.SCHEMAS) {
+        Object.keys(val.SCHEMAS).forEach(key => {
+            let schema = val.SCHEMAS[key]
+            SCHEMAS[key] = schema
+        })
+    }
+})
+
 export const SORTS = {
     ASCENDING:"ASCENDING",
 }
@@ -441,28 +479,18 @@ export function getEnumPropValues(obj,prop) {
     return ["A",'B']
 }
 
+function findSchema(type) {
+    if(!SCHEMAS[type]) throw new Error("no schema found for type",type)
+    return SCHEMAS[type]
+}
+
 export function makeNewObject(type) {
-    if(type === CATEGORIES.CONTACT.TYPES.EMAIL) {
-        let obj = {
-            type:type,
-            props:{},
-            id:Math.floor(Math.random()*1000*1000),
-        }
-        let schema = CATEGORIES.CONTACT.SCHEMAS.EMAIL
-        Object.keys(schema.props).forEach(key => {
-            let sc = schema.props[key]
-            obj.props[sc.key] = sc.default
-        })
-        console.log("made new object of type",type,obj)
-        return obj
-    }
-    if(type === CATEGORIES.NOTES.TYPES.NOTE) {
         let obj = {
             type:type,
             id:Math.floor(Math.random()*1000*1000),
             props:{}
         }
-        let schema = CATEGORIES.NOTES.SCHEMAS.NOTE
+        let schema = findSchema(type)
         Object.keys(schema.props).forEach(key => {
             let sc = schema.props[key]
             if(!sc.hasOwnProperty('default')) {
@@ -477,7 +505,4 @@ export function makeNewObject(type) {
         })
         console.log("made new object of type",type,obj)
         return obj
-    }
-    console.error("UNKNOWN TYPE",type)
-    return null
 }
