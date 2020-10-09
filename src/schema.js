@@ -84,6 +84,41 @@ export const CATEGORIES = {
         ID:'NOTES',
         TYPES:{
             NOTE:'NOTE'
+        },
+        SCHEMAS: {
+            NOTE:{
+                title:'note',
+                props: {
+                    title: {
+                        key:'title',
+                        type:'STRING',
+                        default:'untitled',
+                    },
+                    tags: {
+                        key:'tags',
+                        type:'ARRAY',
+                        content: {
+                            type:'STRING'
+                        },
+                        default:[],
+                    },
+                    archived: {
+                        key:'archived',
+                        type:'BOOLEAN',
+                        default:false,
+                    },
+                    deleted: {
+                        key:'deleted',
+                        type:'BOOLEAN',
+                        default:false,
+                    },
+                    contents: {
+                        key:'contents',
+                        type:'STRING',
+                        default:'',
+                    },
+                }
+            }
         }
     }
 }
@@ -405,6 +440,7 @@ export function makeNewObject(type) {
         let obj = {
             type:type,
             props:{},
+            id:Math.floor(Math.random()*1000*1000),
         }
         let schema = CATEGORIES.CONTACT.SCHEMAS.EMAIL
         Object.keys(schema.props).forEach(key => {
@@ -414,5 +450,24 @@ export function makeNewObject(type) {
         console.log("made new object of type",type,obj)
         return obj
     }
+    if(type === CATEGORIES.NOTES.TYPES.NOTE) {
+        let obj = {
+            type:type,
+            id:Math.floor(Math.random()*1000*1000),
+            props:{}
+        }
+        let schema = CATEGORIES.NOTES.SCHEMAS.NOTE
+        Object.keys(schema.props).forEach(key => {
+            let sc = schema.props[key]
+            if(!sc.hasOwnProperty('default')) {
+                console.error("schema missing default",sc)
+            }
+            console.log('setting key',key,sc)
+            obj.props[sc.key] = sc.default
+        })
+        console.log("made new object of type",type,obj)
+        return obj
+    }
+    console.error("UNKNOWN TYPE",type)
     return null
 }

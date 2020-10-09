@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {propAsString, query, setProp} from './db.js'
-import {CATEGORIES} from './schema.js'
+import {CATEGORIES, makeNewObject} from './schema.js'
 import {DataList, HBox, Toolbar, VBox, Window} from './ui.js'
 
 export function Notes({data}) {
@@ -60,6 +60,13 @@ export function Notes({data}) {
         setContents(propAsString(val,'contents'))
     }
 
+    const addNewNote = () => {
+        let note = makeNewObject(CATEGORIES.NOTES.TYPES.NOTE)
+        data.push(note)
+        console.log(note)
+        doSetSelected(null)
+    }
+
     return <Window width={620} height={300} x={0} y={580} title={"notes"} className={'notes'}>
         <HBox grow>
             <DataList data={groups}
@@ -70,7 +77,7 @@ export function Notes({data}) {
             <VBox>
                 <Toolbar>
                     <input type={'search'}/>
-                    <button>+</button>
+                    <button onClick={addNewNote}>+</button>
                 </Toolbar>
                 <DataList data={notes}
                           selected={selected}
