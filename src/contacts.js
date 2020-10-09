@@ -56,12 +56,20 @@ export function ContactList({data}) {
             </p>
             <img src={selected.props.icon}/>
             <ul className={'display-emails'}>
-            {
-                selected.props.emails.map((e,i)=>{
-                    return [<i key={'type'+i}>{propAsString(e,'type')}</i>,
-                        <b key={'value'+i}>{propAsString(e,'value')}</b>]
-                })
-            }
+                {
+                    selected.props.emails.map((email,i)=>{
+                        return [<i key={'type'+i}>{propAsString(email,'type')}</i>,
+                            <b key={'value'+i}>{propAsString(email,'value')}</b>]
+                    })
+                }
+            </ul>
+            <ul className={'display-phones'}>
+                {
+                    selected.props.phones.map((phone,i)=>{
+                        return [<i key={'type'+i}>{propAsString(phone,'type')}</i>,
+                            <b key={'value'+i}>{propAsString(phone,'value')}</b>]
+                    })
+                }
             </ul>
         </Panel>
         if (editing) {

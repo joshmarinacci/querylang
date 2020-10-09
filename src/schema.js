@@ -196,7 +196,7 @@ export const DATA = [
                     },
                 }
             ],
-            phone:[
+            phones:[
                 {
                     type:'cell',
                     value:'707-509-9627'
@@ -478,9 +478,8 @@ function validateData(data) {
             }
         }
         if(o.type === CATEGORIES.CONTACT.TYPES.PERSON) {
-            if(propMissing(o,'emails')) {
-                o.props.emails = []
-            }
+            if(propMissing(o,'emails')) o.props.emails = []
+            if(propMissing(o,'phones')) o.props.phones = []
         }
     })
 }

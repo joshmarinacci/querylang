@@ -63,13 +63,13 @@ ul.list {
 }
 
 
-.contacts .display-emails {
+.contacts .display-emails, .contacts .display-phones {
   padding:0.25em;
   margin:0;
   display: grid;
   grid-template-columns: 1fr 2fr;
 }
-.contacts .display-emails i {
+.contacts .display-emails i, .contacts .display-phones i {
   font-style: normal;
   font-weight: normal;
   text-align: right;
@@ -77,7 +77,7 @@ ul.list {
   padding: 0.25em;
 }
 
-.contacts .display-emails b {
+.contacts .display-emails b, .contacts .display-phones b {
   font-style: normal;
   font-weight: normal;
   text-align: left;
