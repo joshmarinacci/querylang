@@ -33,6 +33,22 @@ export function ContactList({data}) {
         buffer.props.emails = buffer.props.emails.filter(t => o!==t)
         update()
     }
+    const addPhone = () => {
+        buffer.props.phones.push(makeNewObject(CATEGORIES.CONTACT.TYPES.PHONE))
+        update()
+    }
+    const removePhone = (o) => {
+        buffer.props.phones = buffer.props.phones.filter(t => o!==t)
+        update()
+    }
+    const addAddress = () => {
+        buffer.props.addresses.push(makeNewObject(CATEGORIES.CONTACT.TYPES.MAILING_ADDRESS))
+        update()
+    }
+    const removeAddress = (o) => {
+        buffer.props.addresses = buffer.props.addresses.filter(t => o!==t)
+        update()
+    }
 
     // DATA where type === PERSON, sort ascending by [first, last], project(first,last,id)
     let items = query(data, {category: CATEGORIES.CONTACT, type: CATEGORIES.CONTACT.TYPES.PERSON})
@@ -71,6 +87,21 @@ export function ContactList({data}) {
                     })
                 }
             </ul>
+            <ul className={'display-addresses'}>
+                {
+                    selected.props.addresses.map((phone,i)=>{
+                        return [
+                            <i key={'type'+i}>{propAsString(phone,'type')}</i>,
+                            <p key={'address'+i}>
+                                {propAsString(phone,'street1')}<br/>
+                                {propAsString(phone,'city')} &nbsp;
+                                {propAsString(phone,'state')}, &nbsp;
+                                {propAsString(phone,'zipcode')}
+                            </p>,
+                        ]
+                    })
+                }
+            </ul>
         </Panel>
         if (editing) {
             panel = <Panel grow>
@@ -78,15 +109,42 @@ export function ContactList({data}) {
                     <h3>name</h3>
                     <TextPropEditor buffer={buffer} prop={'first'} onChange={update}/>
                     <TextPropEditor buffer={buffer} prop={'last'} onChange={update}/>
-                    <h3>emails</h3>
+                    <h3>email</h3>
                     {buffer.props.emails.map((o,i) => {
-                        return <HBox key={i}>
+                        return <HBox key={'email_'+i}>
                             <button onClick={()=>removeEmail(o)}>-</button>
                             <EnumPropEditor buffer={o} prop={'type'} onChange={update}/>
                             <TextPropEditor buffer={o} prop={'value'} onChange={update}/>
                         </HBox>
                     })}
                     <button onClick={addEmail}>+</button>
+                    <h3>phone</h3>
+                    {buffer.props.phones.map((o,i) => {
+                        return <HBox key={'phone_'+i}>
+                            <button onClick={()=>removePhone(o)}>-</button>
+                            <EnumPropEditor buffer={o} prop={'type'} onChange={update}/>
+                            <TextPropEditor buffer={o} prop={'value'} onChange={update}/>
+                        </HBox>
+                    })}
+                    <button onClick={addPhone}>+</button>
+
+                    <h3>address</h3>
+                    {buffer.props.addresses.map((o,i) => {
+                        return <HBox key={'address_'+i}>
+                            <button onClick={()=>removeAddress(o)}>-</button>
+                            <EnumPropEditor buffer={o} prop={'type'} onChange={update}/>
+                            <VBox>
+                                <TextPropEditor buffer={o} prop={'street1'} onChange={update}/>
+                                <TextPropEditor buffer={o} prop={'street2'} onChange={update}/>
+                                <HBox>
+                                <TextPropEditor buffer={o} prop={'city'} onChange={update}/>
+                                <TextPropEditor buffer={o} prop={'state'} onChange={update}/>
+                                <TextPropEditor buffer={o} prop={'zip'} onChange={update}/>
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                    })}
+                    <button onClick={addAddress}>+</button>
                 </VBox>
 
                 <button onClick={saveEditing}>save</button>

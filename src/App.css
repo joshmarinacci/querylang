@@ -1,6 +1,6 @@
 body {
-  font-size: 10pt;
-  line-height: 150%;
+  font-size: 8pt;
+  line-height: 130%;
   background-color: whitesmoke;
 
   --selected-color: aqua;
@@ -23,7 +23,7 @@ div.hbox {
   flex-direction: row;
   align-items: stretch;
 }
-div.vbox {
+.vbox {
   display: flex;
   flex-direction: column;
 }
@@ -43,6 +43,7 @@ ul.list {
 }
 .grow {
   flex: 1;
+  overflow: auto;
 }
 
 .window {
@@ -53,6 +54,7 @@ ul.list {
   align-items: stretch;
   justify-content: stretch;
   background-color: white;
+  overflow: auto;
 }
 
 .window > title {
@@ -63,13 +65,13 @@ ul.list {
 }
 
 
-.contacts .display-emails, .contacts .display-phones {
+.contacts .display-emails, .contacts .display-phones, .contacts .display-addresses {
   padding:0.25em;
   margin:0;
   display: grid;
   grid-template-columns: 1fr 2fr;
 }
-.contacts .display-emails i, .contacts .display-phones i {
+.contacts .display-emails i, .contacts .display-phones i, .contacts .display-addresses i {
   font-style: normal;
   font-weight: normal;
   text-align: right;
@@ -77,13 +79,16 @@ ul.list {
   padding: 0.25em;
 }
 
-.contacts .display-emails b, .contacts .display-phones b {
+.contacts .display-emails b, .contacts .display-phones b, .contacts .display-addresses p {
   font-style: normal;
   font-weight: normal;
   text-align: left;
   padding: 0.25em;
 }
 
+.contacts .edit-emails {
+  overflow: scroll;
+}
 .contacts .edit-emails select {
   /*border: 0px solid red;*/
   display: inline-block;
