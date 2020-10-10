@@ -75,7 +75,10 @@ export function ContactList({data}) {
                 {
                     selected.props.emails.map((email,i)=>{
                         return [<i key={'type'+i}>{propAsString(email,'type')}</i>,
-                            <b key={'value'+i}>{propAsString(email,'value')}</b>]
+                            <b key={'value'+i}>
+                                <a href={`mailto:${propAsString(email,'value')}`}>
+                                    {propAsString(email,'value')}
+                                </a></b>]
                     })
                 }
             </ul>
@@ -83,20 +86,27 @@ export function ContactList({data}) {
                 {
                     selected.props.phones.map((phone,i)=>{
                         return [<i key={'type'+i}>{propAsString(phone,'type')}</i>,
-                            <b key={'value'+i}>{propAsString(phone,'value')}</b>]
+                            <b key={'value'+i}><a href={`tel:${propAsString}`}>{propAsString(phone,'value')}</a></b>]
                     })
                 }
             </ul>
             <ul className={'display-addresses'}>
                 {
-                    selected.props.addresses.map((phone,i)=>{
+                    selected.props.addresses.map((addr,i)=>{
+                        let map = propAsString(addr,'street1')
+                            +", "+propAsString(addr,'city')
+                            +", "+propAsString(addr,'state')
+                            +", "+propAsString(addr,'zipcode')
+                        map = map.replaceAll(' ','+')
                         return [
-                            <i key={'type'+i}>{propAsString(phone,'type')}</i>,
+                            <i key={'type'+i}>{propAsString(addr,'type')}</i>,
                             <p key={'address'+i}>
-                                {propAsString(phone,'street1')}<br/>
-                                {propAsString(phone,'city')} &nbsp;
-                                {propAsString(phone,'state')}, &nbsp;
-                                {propAsString(phone,'zipcode')}
+                                <a href={`http://maps.apple.com/?address=${map}`}>
+                                    {propAsString(addr,'street1')}<br/>
+                                    {propAsString(addr,'city')} &nbsp;
+                                    {propAsString(addr,'state')}, &nbsp;
+                                    {propAsString(addr,'zipcode')}
+                                </a>
                             </p>,
                         ]
                     })
