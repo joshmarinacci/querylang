@@ -1,7 +1,20 @@
 import React, {useState} from 'react'
 import {deepClone, project, propAsString, query, setProp, sort} from './db.js'
 import {CATEGORIES, makeNewObject, SORTS} from './schema.js'
-import {DataList, EnumPropEditor, HBox, Panel, Spacer, TextPropEditor, Toolbar, VBox, Window} from './ui.js'
+import {
+    AddButton,
+    DataList,
+    EnumPropEditor,
+    HBox,
+    Panel,
+    RemoveButton,
+    Spacer,
+    TextPropEditor,
+    Toolbar,
+    VBox,
+    Window
+} from './ui.js'
+
 
 export function ContactList({data}) {
     const [selected, setSelected] = useState(null)
@@ -122,26 +135,27 @@ export function ContactList({data}) {
                     <h3>email</h3>
                     {buffer.props.emails.map((o,i) => {
                         return <HBox key={'email_'+i}>
-                            <button onClick={()=>removeEmail(o)}>-</button>
+                            <RemoveButton onClick={()=>removeEmail(o)}/>
                             <EnumPropEditor buffer={o} prop={'type'} onChange={update}/>
                             <TextPropEditor buffer={o} prop={'value'} onChange={update}/>
                         </HBox>
                     })}
-                    <button onClick={addEmail}>+</button>
+                    <AddButton onClick={addEmail}/>
+
                     <h3>phone</h3>
                     {buffer.props.phones.map((o,i) => {
                         return <HBox key={'phone_'+i}>
-                            <button onClick={()=>removePhone(o)}>-</button>
+                            <RemoveButton onClick={()=>removePhone(o)}/>
                             <EnumPropEditor buffer={o} prop={'type'} onChange={update}/>
                             <TextPropEditor buffer={o} prop={'value'} onChange={update}/>
                         </HBox>
                     })}
-                    <button onClick={addPhone}>+</button>
+                    <AddButton onClick={addPhone}/>
 
                     <h3>address</h3>
                     {buffer.props.addresses.map((o,i) => {
                         return <HBox key={'address_'+i}>
-                            <button onClick={()=>removeAddress(o)}>-</button>
+                            <RemoveButton onClick={()=>removeAddress(o)}/>
                             <EnumPropEditor buffer={o} prop={'type'} onChange={update}/>
                             <VBox>
                                 <TextPropEditor buffer={o} prop={'street1'} onChange={update}/>
@@ -154,7 +168,7 @@ export function ContactList({data}) {
                             </VBox>
                         </HBox>
                     })}
-                    <button onClick={addAddress}>+</button>
+                    <AddButton onClick={addAddress}/>
                 </VBox>
 
                 <button onClick={saveEditing}>save</button>
@@ -168,7 +182,7 @@ export function ContactList({data}) {
             <VBox>
                 <Toolbar>
                     <input type={'search'}/>
-                    <button onClick={addNewContact}>+</button>
+                    <AddButton onClick={addNewContact}/>
                 </Toolbar>
                 <DataList data={items} selected={selected} setSelected={setSelected}
                           stringify={o => propAsString(o, 'first') + " " + propAsString(o, 'last')}/>

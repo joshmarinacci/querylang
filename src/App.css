@@ -4,6 +4,8 @@ body {
   background-color: whitesmoke;
 
   --selected-color: aqua;
+  --add-color: #0d990d;
+  --remove-color: red;
 }
 ul.list {
   border: 1px solid black;
@@ -121,4 +123,22 @@ ul.list {
 }
 .spacer {
   flex: 1.0;
+}
+
+
+
+button.no-border {
+  border-width: 0;
+  background-color: transparent;
+  border-radius: 1.0em;
+}
+button.no-border:hover {
+  background-color: #ccc;
+}
+
+.add-icon {
+  color: var(--add-color);
+}
+.remove-icon {
+  color: var(--remove-color);
 }

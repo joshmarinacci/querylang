@@ -12,6 +12,7 @@ import {
     VBox,
     Window
 } from './ui.js'
+import {HiPlusCircle} from 'react-icons/hi'
 
 export function TaskLists({data}) {
     const [selected, setSelected] = useState(null)
@@ -84,7 +85,9 @@ export function TaskLists({data}) {
             <VBox>
                 <Toolbar>
                     <input type={'search'}/>
-                    <button disabled={selected===null} onClick={addNewTask}>+</button>
+                    <button disabled={selected===null} onClick={addNewTask} className={'no-border'}>
+                        <HiPlusCircle className={'add-icon'}/>
+                    </button>
                 </Toolbar>
                 <DataList data={tasks} stringify={(o) => {
                     return <div>

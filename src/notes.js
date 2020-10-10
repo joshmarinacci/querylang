@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import {propAsString, query, setProp} from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
-import {DataList, HBox, Toolbar, VBox, Window} from './ui.js'
+import {AddButton, DataList, HBox, Toolbar, VBox, Window} from './ui.js'
+import {HiPlusCircle} from "react-icons/hi"
 
 export function Notes({data}) {
     const [selectedGroup, setSelectedGroup] = useState(null)
@@ -77,7 +78,7 @@ export function Notes({data}) {
             <VBox>
                 <Toolbar>
                     <input type={'search'}/>
-                    <button onClick={addNewNote}>+</button>
+                    <AddButton onClick={addNewNote}/>
                 </Toolbar>
                 <DataList data={notes}
                           selected={selected}

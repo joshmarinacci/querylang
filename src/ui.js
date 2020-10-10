@@ -1,6 +1,8 @@
 import React from 'react'
 import {propAsBoolean, propAsString, setProp} from './db.js'
 import {getEnumPropValues} from './schema.js'
+import {HiMinusCircle, HiPlusCircle} from 'react-icons/hi'
+
 
 export function HBox ({children, grow}) {
     return <div className={'hbox ' + (grow?"grow":"")}>{children}</div>
@@ -102,4 +104,16 @@ export function EnumPropEditor({buffer, prop, onChange}) {
                 })}
         </select>
     </HBox>
+}
+
+
+export function AddButton({onClick}) {
+    return <button onClick={onClick} className={'no-border'}>
+        <HiPlusCircle className={'add-icon'}/>
+    </button>
+}
+export function RemoveButton  ({onClick}) {
+    return <button onClick={onClick} className={'no-border'}>
+        <HiMinusCircle className={'remove-icon'}/>
+    </button>
 }
