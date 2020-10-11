@@ -13,6 +13,7 @@ import {
     Window
 } from './ui.js'
 import {HiPlusCircle} from 'react-icons/hi'
+import {MdBorderOuter, MdCheckBox} from 'react-icons/md'
 
 export function TaskLists({data}) {
     const [selected, setSelected] = useState(null)
@@ -75,8 +76,6 @@ export function TaskLists({data}) {
         let task = makeNewObject(CATEGORIES.TASKS.TYPES.TASK)
         setProp(task,'project',selected.id)
         data.push(task)
-        console.log(task)
-        // doSetSelected(null)
     }
 
     return <Window width={620} height={200} x={0} y={350} title={'tasks'} className={'tasks'}>
@@ -90,10 +89,12 @@ export function TaskLists({data}) {
                     </button>
                 </Toolbar>
                 <DataList data={tasks} stringify={(o) => {
-                    return <div>
+                    return <HBox>
+                        <MdCheckBox/>
+                        {propAsBoolean(o,'completed')?<MdCheckBox/>:<MdBorderOuter/>}
                         <b>{propAsString(o,'title')}</b>
-                        <i>{propAsBoolean(o,'completed')?"*":"-"}</i>
-                    </div>
+                        {/*<i>{propAsBoolean(o,'completed')?"*":"-"}</i>*/}
+                    </HBox>
                 }} selected={selectedTask} setSelected={setSelectedTask}/>
 
             </VBox>
