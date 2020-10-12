@@ -106,7 +106,7 @@ export function Notes({data}) {
     const addNewNote = () => {
         let note = makeNewObject(CATEGORIES.NOTES.TYPES.NOTE)
         data.push(note)
-        doSetSelected(null)
+        doSetSelected(note)
     }
 
     const renderProject = (o,i) => {
