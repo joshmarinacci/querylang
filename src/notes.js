@@ -12,8 +12,6 @@ import {
 } from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
 import {AddButton, DataList, HBox, TagsetEditor, TextareaPropEditor, Toolbar, VBox, Window} from './ui.js'
-import {HiPlusCircle} from "react-icons/hi"
-import {MdArchive, MdDelete} from 'react-icons/md'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 
@@ -78,9 +76,6 @@ export function Notes({data}) {
         setTitle(e.target.value)
     }
     const [tags, setTags] = useState('')
-    const updateTags = (e) => {
-        setTags(e.target.value)
-    }
     const syncTags = (e) => {
         if(tags) {
             let val = tags.split(',')
@@ -90,12 +85,6 @@ export function Notes({data}) {
     }
 
     const [contents, setContents] = useState('')
-    const updateContents = (e) => {
-        setProp(selected,'contents',e.target.value)
-        setContents(e.target.value)
-    }
-
-
     const doSetSelected = (val) => {
         setSelected(val)
         setTitle(propAsString(val,'title'))
