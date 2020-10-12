@@ -3,6 +3,7 @@ import {propAsString, query, setProp} from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
 import {AddButton, DataList, HBox, Toolbar, VBox, Window} from './ui.js'
 import {HiPlusCircle} from "react-icons/hi"
+import {MdArchive, MdDelete} from 'react-icons/md'
 
 export function Notes({data}) {
     const [selectedGroup, setSelectedGroup] = useState(null)
@@ -68,13 +69,20 @@ export function Notes({data}) {
         doSetSelected(null)
     }
 
+    const renderProject = (o,i) => {
+        let title = propAsString(o,'title')
+        let icon = ''
+        if(title === 'archive') icon = <MdArchive className={'icon'}/>
+        if(title === 'trash') icon = <MdDelete className={'icon'}/>
+        return <HBox key={i}>{icon} {title}</HBox>
+    }
+
     return <Window width={620} height={300} x={0} y={580} title={"notes"} className={'notes'}>
         <HBox grow>
             <DataList data={groups}
                       selected={selectedGroup}
                       setSelected={setSelectedGroup}
-                      stringify={(o)=>propAsString(o,'title')}
-                      />
+                      stringify={renderProject}/>
             <VBox>
                 <Toolbar>
                     <input type={'search'}/>

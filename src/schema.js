@@ -354,6 +354,26 @@ export const DATA = [
         }
     },
     {
+        id:117,
+        category: CATEGORIES.TASKS.ID,
+        type: CATEGORIES.TASKS.TYPES.PROJECT,
+        props: {
+            title:'archive',
+            active:true,
+            query:true,
+        }
+    },
+    {
+        id:118,
+        category: CATEGORIES.TASKS.ID,
+        type: CATEGORIES.TASKS.TYPES.PROJECT,
+        props: {
+            title:'trash',
+            active:true,
+            query:true,
+        }
+    },
+    {
         id:8,
         category: CATEGORIES.TASKS.ID,
         type: CATEGORIES.TASKS.TYPES.PROJECT,
@@ -370,7 +390,9 @@ export const DATA = [
             title:'file expense report',
             project:6,
             completed:false,
-            notes:'make sure to check the math before submitting'
+            notes:'make sure to check the math before submitting',
+            archived:false,
+            deleted:false,
         },
     },
     {
@@ -381,6 +403,32 @@ export const DATA = [
             title:'pick up jesse',
             project:7,
             completed:true,
+            archived:false,
+            deleted:false,
+        },
+    },
+    {
+        id:101,
+        category: CATEGORIES.TASKS.ID,
+        type: CATEGORIES.TASKS.TYPES.TASK,
+        props: {
+            title:'an archived task',
+            project:6,
+            completed:true,
+            archived:true,
+            deleted:false,
+        },
+    },
+    {
+        id:102,
+        category: CATEGORIES.TASKS.ID,
+        type: CATEGORIES.TASKS.TYPES.TASK,
+        props: {
+            title:'a deleted task',
+            project:6,
+            completed:true,
+            archived:false,
+            deleted:true,
         },
     },
     {

@@ -13,16 +13,31 @@ import {
     Window
 } from './ui.js'
 import {HiPlusCircle} from 'react-icons/hi'
-import {MdBorderOuter, MdCheckBox} from 'react-icons/md'
+import {MdArchive, MdBorderOuter, MdCheckBox, MdCheckBoxOutlineBlank, MdDelete} from 'react-icons/md'
 
 export function TaskLists({data}) {
-    const [selected, setSelected] = useState(null)
+    const [selectedProject, setSelectedProject] = useState(null)
     const [selectedTask, setSelectedTask] = useState(null)
 
     let projects = query(data, {category: CATEGORIES.TASKS, type: CATEGORIES.TASKS.TYPES.PROJECT})
     projects = filter(projects, {active: true})
     let tasks = query(data, {category: CATEGORIES.TASKS, type: CATEGORIES.TASKS.TYPES.TASK})
-    tasks = filter(tasks, {project: selected ? selected.id : null})
+    if(selectedProject) {
+        if(propAsBoolean(selectedProject,'query')) {
+            if(propAsString(selectedProject,'title') === 'archive') {
+                tasks = filter(tasks, {archived:true})
+            }
+            if(propAsString(selectedProject,'title') === 'trash') {
+                tasks = filter(tasks, {deleted:true})
+            }
+        } else {
+            tasks = filter(tasks, {
+                project: selectedProject ? selectedProject.id : null,
+                archived:false,
+                deleted:false,
+            })
+        }
+    }
 
     let [editingTask, setEditingTask] = useState(false)
 
@@ -74,24 +89,32 @@ export function TaskLists({data}) {
 
     const addNewTask = () => {
         let task = makeNewObject(CATEGORIES.TASKS.TYPES.TASK)
-        setProp(task,'project',selected.id)
+        setProp(task,'project',selectedProject.id)
         data.push(task)
+    }
+
+    const trashTask = () => {
+        //mark as deleted
+        if(selectedTask) setProp(selectedTask, 'deleted',true)
+    }
+    const archiveTask = () => {
+        //mark as archived
+        if(selectedTask) setProp(selectedTask, 'archived',true)
     }
 
     return <Window width={620} height={200} x={0} y={350} title={'tasks'} className={'tasks'}>
         <HBox grow>
-            <DataList data={projects} stringify={(o => propAsString(o,'title'))} selected={selected} setSelected={setSelected}/>
+            <DataList data={projects} stringify={(o => propAsString(o,'title'))} selected={selectedProject} setSelected={setSelectedProject}/>
             <VBox>
                 <Toolbar>
                     <input type={'search'}/>
-                    <button disabled={selected===null} onClick={addNewTask} className={'no-border'}>
+                    <button disabled={selectedProject===null} onClick={addNewTask} className={'no-border'}>
                         <HiPlusCircle className={'add-icon'}/>
                     </button>
                 </Toolbar>
                 <DataList data={tasks} stringify={(o) => {
                     return <HBox>
-                        <MdCheckBox/>
-                        {propAsBoolean(o,'completed')?<MdCheckBox/>:<MdBorderOuter/>}
+                        {propAsBoolean(o,'completed')?<MdCheckBox className={'checkbox-icon'}/>:<MdCheckBoxOutlineBlank/>}
                         <b>{propAsString(o,'title')}</b>
                         {/*<i>{propAsBoolean(o,'completed')?"*":"-"}</i>*/}
                     </HBox>
@@ -103,9 +126,11 @@ export function TaskLists({data}) {
                 <Toolbar>
                     <Spacer/>
                     <button
-                        disabled={!selected}
+                        disabled={!selectedProject}
                         onClick={toggleEditing}>edit
                     </button>
+                    <MdArchive className={'icon'} onClick={archiveTask}/>
+                    <MdDelete className={'icon'} onClick={trashTask}/>
                 </Toolbar>
             </VBox>
         </HBox>

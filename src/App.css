@@ -3,7 +3,8 @@ body {
   line-height: 130%;
   background-color: whitesmoke;
 
-  --selected-color: #2379d4;
+  --selected-color: #4393ec;
+  --selected-icon-color: blue;
   --selected-text-color: white;
   --add-color: #0d990d;
   --remove-color: red;
@@ -143,4 +144,12 @@ button.no-border:hover {
 }
 .remove-icon {
   color: var(--remove-color);
+}
+
+.checkbox-icon {
+  color: var(--selected-icon-color);
+}
+
+.icon {
+  font-size: 150%;
 }
