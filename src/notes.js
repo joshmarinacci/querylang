@@ -1,5 +1,15 @@
 import React, {useState} from 'react'
-import {filterSubstring, project, propAsArray, propAsIcon, propAsString, query, setProp} from './db.js'
+import {
+    filter, filterPropArrayContains,
+    filterSubstring,
+    project,
+    propAsArray,
+    propAsBoolean,
+    propAsIcon,
+    propAsString,
+    query,
+    setProp
+} from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
 import {AddButton, DataList, HBox, TagsetEditor, TextareaPropEditor, Toolbar, VBox, Window} from './ui.js'
 import {HiPlusCircle} from "react-icons/hi"
@@ -18,11 +28,14 @@ export function Notes({data}) {
     })
 
 
+
+
     let groups = [{
             id:199,
             props: {
                 title: 'all',
                 icon:'notes',
+                query:true,
             }
         },
         {
@@ -30,6 +43,7 @@ export function Notes({data}) {
             props: {
                 title: 'archive',
                 icon: 'archive',
+                query:true,
             }
         },
         {
@@ -37,6 +51,7 @@ export function Notes({data}) {
             props: {
                 title: 'trash',
                 icon: 'trash',
+                query:true,
             }
         }
     ]
@@ -50,7 +65,9 @@ export function Notes({data}) {
             id:3000+i,
             props: {
                 title:t,
-                icon:'hash'
+                icon:'hash',
+                query:true,
+                tag:true,
             }
         })
     })
@@ -107,6 +124,20 @@ export function Notes({data}) {
 
     if(searchTerms.length > 1) notes = filterSubstring(notes, {title:searchTerms})
 
+
+
+    if(propAsBoolean(selectedGroup,'query')) {
+        console.log("must do a query", propAsString(selectedGroup,'title'))
+        if(propAsString(selectedGroup,'title') === 'archive') {
+            notes = filter(notes,{archived:true})
+        }
+        if(propAsString(selectedGroup,'title') === 'trash') {
+            notes = filter(notes,{deleted:true})
+        }
+        if(propAsBoolean(selectedGroup,'tag')) {
+            notes = filterPropArrayContains(notes,{tags:propAsString(selectedGroup,'title')})
+        }
+    }
 
     return <Window width={620} height={300} x={0} y={580} title={"notes"} className={'notes'}>
         <HBox grow>

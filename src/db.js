@@ -137,6 +137,30 @@ export function filterSubstring(list,opts) {
     })
 }
 
+export function filterPropArrayContains(list,opts) {
+    return list.filter(o => {
+        let pass = true
+        Object.keys(opts).forEach(k=>{
+            let fv = opts[k]
+            if(!o.props.hasOwnProperty(k)) {
+                pass = false
+                return
+            }
+            let ov = o.props[k]
+            if(!Array.isArray(ov)) {
+                pass = false
+                return
+            }
+            if(!ov.includes(fv)) {
+                pass = false
+                return
+            }
+        })
+        return pass
+    })
+
+}
+
 export function find_in_collection(coll,data) {
     return data.filter(o => coll.props.set.some(id=>id===o.id))
 }
