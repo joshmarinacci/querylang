@@ -22,22 +22,6 @@ export function TaskLists({data}) {
     let projects = query(data, {category: CATEGORIES.TASKS, type: CATEGORIES.TASKS.TYPES.PROJECT})
     projects = filter(projects, {active: true})
     let tasks = query(data, {category: CATEGORIES.TASKS, type: CATEGORIES.TASKS.TYPES.TASK})
-    if(selectedProject) {
-        if(propAsBoolean(selectedProject,'query')) {
-            if(propAsString(selectedProject,'title') === 'archive') {
-                tasks = filter(tasks, {archived:true})
-            }
-            if(propAsString(selectedProject,'title') === 'trash') {
-                tasks = filter(tasks, {deleted:true})
-            }
-        } else {
-            tasks = filter(tasks, {
-                project: selectedProject ? selectedProject.id : null,
-                archived:false,
-                deleted:false,
-            })
-        }
-    }
 
     let [editingTask, setEditingTask] = useState(false)
 
@@ -64,6 +48,29 @@ export function TaskLists({data}) {
         setBuffer(deepClone(buffer))
     }
 
+
+    let [searchTerms, setSearchTerms] = useState("")
+
+    if(selectedProject) {
+        if(propAsBoolean(selectedProject,'query')) {
+            if(propAsString(selectedProject,'title') === 'archive') {
+                tasks = filter(tasks, {archived:true})
+            }
+            if(propAsString(selectedProject,'title') === 'trash') {
+                tasks = filter(tasks, {deleted:true})
+            }
+        } else {
+            tasks = filter(tasks, {
+                project: selectedProject ? selectedProject.id : null,
+                archived:false,
+                deleted:false,
+            })
+        }
+    }
+
+    if(searchTerms.length > 1) {
+        tasks = filter(tasks, {title:searchTerms})
+    }
 
     let panel = <Panel grow={true}>nothing selected</Panel>
     if (selectedTask) {
@@ -107,7 +114,9 @@ export function TaskLists({data}) {
             <DataList data={projects} stringify={(o => propAsString(o,'title'))} selected={selectedProject} setSelected={setSelectedProject}/>
             <VBox>
                 <Toolbar>
-                    <input type={'search'}/>
+                    <input type={'search'} value={searchTerms} onChange={(e)=>{
+                        setSearchTerms(e.target.value)
+                    }}/>
                     <button disabled={selectedProject===null} onClick={addNewTask} className={'no-border'}>
                         <HiPlusCircle className={'add-icon'}/>
                     </button>
