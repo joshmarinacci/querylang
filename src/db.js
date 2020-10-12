@@ -47,6 +47,7 @@ export function propAsIcon(s, key) {
     if(value === 'trash') return <MdDelete className={'icon'}/>
     if(value === 'notes') return <MdNote className={'icon'}/>
     if(value === 'list') return <MdList className={'icon'}/>
+    if(value === 'hash') return <label className={'icon'}>#</label>
     return <MdAccessAlarm className={'icon blank'}/>
 }
 

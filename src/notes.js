@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {filterSubstring, propAsIcon, propAsString, query, setProp} from './db.js'
+import {filterSubstring, project, propAsArray, propAsIcon, propAsString, query, setProp} from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
 import {AddButton, DataList, HBox, TagsetEditor, TextareaPropEditor, Toolbar, VBox, Window} from './ui.js'
 import {HiPlusCircle} from "react-icons/hi"
@@ -16,8 +16,9 @@ export function Notes({data}) {
         category: CATEGORIES.NOTES.ID,
         type: CATEGORIES.NOTES.TYPES.NOTE
     })
-    let [groups] = useState(()=>[
-        {
+
+
+    let groups = [{
             id:199,
             props: {
                 title: 'all',
@@ -38,7 +39,25 @@ export function Notes({data}) {
                 icon: 'trash',
             }
         }
-    ])
+    ]
+
+
+    let tagset = new Set()
+    notes.forEach(n => propAsArray(n,'tags').forEach(t => tagset.add(t)))
+
+    // console.log("tags",Array.from(tagset.values()))
+    Array.from(tagset.values()).forEach((t,i)=>{
+        // console.log(t)
+        groups.push({
+            id:3000+i,
+            props: {
+                title:t,
+                icon:'hash'
+            }
+        })
+    })
+    console.log(groups)
+
 
 
     const [title, setTitle] = useState("")
