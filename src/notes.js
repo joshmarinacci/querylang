@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {propAsIcon, propAsString, query, setProp} from './db.js'
+import {filterSubstring, propAsIcon, propAsString, query, setProp} from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
 import {AddButton, DataList, HBox, TagsetEditor, TextareaPropEditor, Toolbar, VBox, Window} from './ui.js'
 import {HiPlusCircle} from "react-icons/hi"
@@ -86,6 +86,11 @@ export function Notes({data}) {
         return <HBox key={i}>{icon} {title}</HBox>
     }
 
+    let [searchTerms, setSearchTerms] = useState("")
+
+    if(searchTerms.length > 1) notes = filterSubstring(notes, {title:searchTerms})
+
+
     return <Window width={620} height={300} x={0} y={580} title={"notes"} className={'notes'}>
         <HBox grow>
             <DataList data={groups}
@@ -94,7 +99,9 @@ export function Notes({data}) {
                       stringify={renderProject}/>
             <VBox>
                 <Toolbar>
-                    <input type={'search'}/>
+                    <input type={'search'} value={searchTerms} onChange={(e)=>{
+                        setSearchTerms(e.target.value)
+                    }}/>
                     <AddButton onClick={addNewNote}/>
                 </Toolbar>
                 <DataList data={notes}
