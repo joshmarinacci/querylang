@@ -173,7 +173,7 @@ button.no-border:hover {
 
 .tagset-editor .tag-view {
   border: 0px solid black;
-  background-color: red;
+  background-color: green;
   color: white;
   padding:0.25em 0.5em;
   margin:0.25em;
@@ -185,17 +185,13 @@ button.no-border:hover {
 
 .tagset-editor .tag-view label {
   border: 0px solid black;
+  white-space: nowrap;
 }
-.tagset-editor .tag-view button {
-  border: 0px solid black;
-  background-color: transparent;
-  color:white;
-  padding:0;
-  margin:0;
-}
+
 .tagset-editor .tag-view svg {
   border: 0px solid green;
   color: white;
+  padding-left: 0.25em;
 }
 .tagset-editor .tag-view svg:hover {
   color: black;

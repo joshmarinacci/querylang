@@ -122,11 +122,11 @@ export function RemoveButton  ({onClick}) {
 function TagView({tag, deleteTag}) {
     return <div className={'tag-view'}>
         <label>{tag}</label>
-        <button onClick={()=>deleteTag(tag)}><MdClose/></button>
+            <MdClose onClick={()=>deleteTag(tag)}/>
     </div>
 }
 
-export function TagsetEditor({buffer, prop, onChange, onBlur}) {
+export function TagsetEditor({buffer, prop, onChange}) {
     let tags = propAsArray(buffer,prop)
     let [refresh, setRefresh] = useState(false)
 
@@ -135,11 +135,13 @@ export function TagsetEditor({buffer, prop, onChange, onBlur}) {
         tags = [... new Set(tags)] // remove dupes
         setProp(buffer,prop,tags)
         setRefresh(!refresh)
+        onChange(buffer,prop)
     }
     const removeTag = (tag) => {
         tags = tags.filter(t => t !== tag)
         setProp(buffer,prop,tags)
         setRefresh(!refresh)
+        onChange(buffer,prop)
     }
 
     let [partial, setPartial] = useState("")
@@ -148,11 +150,8 @@ export function TagsetEditor({buffer, prop, onChange, onBlur}) {
         {tags.map((t)=><TagView key={t} tag={t} deleteTag={removeTag}/>)}
         <input type="text"
                value={partial}
-               // onBlur={onBlur}
                onChange={(ev) => {
                    setPartial(ev.target.value)
-                   // setProp(buffer,prop,ev.target.value)
-                   // onChange(buffer, prop)
                }}
                onKeyDown={(e)=>{
                    console.log(e.key)
