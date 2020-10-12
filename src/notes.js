@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {propAsString, query, setProp} from './db.js'
+import {propAsIcon, propAsString, query, setProp} from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
 import {AddButton, DataList, HBox, TagsetEditor, TextareaPropEditor, Toolbar, VBox, Window} from './ui.js'
 import {HiPlusCircle} from "react-icons/hi"
@@ -19,15 +19,24 @@ export function Notes({data}) {
     let [groups] = useState(()=>[
         {
             id:199,
-            title:'all'
+            props: {
+                title: 'all',
+                icon:'notes',
+            }
         },
         {
             id:198,
-            title:'archive'
+            props: {
+                title: 'archive',
+                icon: 'archive',
+            }
         },
         {
             id:197,
-            title:'trash'
+            props: {
+                title: 'trash',
+                icon: 'trash',
+            }
         }
     ])
 
@@ -73,9 +82,7 @@ export function Notes({data}) {
 
     const renderProject = (o,i) => {
         let title = propAsString(o,'title')
-        let icon = ''
-        if(title === 'archive') icon = <MdArchive className={'icon'}/>
-        if(title === 'trash') icon = <MdDelete className={'icon'}/>
+        let icon = propAsIcon(o,'icon')
         return <HBox key={i}>{icon} {title}</HBox>
     }
 

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {deepClone, filter, propAsBoolean, propAsString, query, setProp} from './db.js'
+import {deepClone, filter, propAsBoolean, propAsIcon, propAsString, query, setProp} from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
 import {
     CheckboxPropEditor,
@@ -77,7 +77,7 @@ export function TaskLists({data}) {
 
     return <Window width={620} height={200} x={0} y={350} title={'tasks'} className={'tasks'}>
         <HBox grow>
-            <DataList data={projects} stringify={(o => propAsString(o,'title'))} selected={selectedProject} setSelected={setSelectedProject}/>
+            <DataList data={projects} stringify={((o,i) => <HBox key={i}>{propAsIcon(o,'icon')} {propAsString(o,'title')}</HBox>)} selected={selectedProject} setSelected={setSelectedProject}/>
             <VBox>
                 <Toolbar>
                     <input type={'search'} value={searchTerms} onChange={(e)=>{

@@ -1,3 +1,6 @@
+import {MdAccessAlarm, MdArchive, MdDelete, MdList, MdNote} from 'react-icons/md'
+import React from 'react'
+
 export function query(data,opts) {
     if(opts.type) {
         data = data.filter(o => o.type === opts.type)
@@ -36,6 +39,17 @@ export function propAsString(s, key) {
     }
     return s.props[key]
 }
+
+export function propAsIcon(s, key) {
+    if(!s || !s.props || !s.props.hasOwnProperty(key) ) return <MdAccessAlarm className={'icon blank'}/>
+    let value = s.props[key]
+    if(value === 'archive') return <MdArchive className={'icon'}/>
+    if(value === 'trash') return <MdDelete className={'icon'}/>
+    if(value === 'notes') return <MdNote className={'icon'}/>
+    if(value === 'list') return <MdList className={'icon'}/>
+    return <MdAccessAlarm className={'icon blank'}/>
+}
+
 
 export function setProp(obj,key,value) {
     if(!obj.hasOwnProperty('props')) {

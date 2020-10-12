@@ -343,6 +343,7 @@ export const DATA = [
         props: {
             title:'work',
             active:true,
+            icon: 'list',
         }
     },
     {
@@ -352,6 +353,7 @@ export const DATA = [
         props: {
             title:'personal',
             active:true,
+            icon: 'list',
         }
     },
     {
@@ -362,6 +364,7 @@ export const DATA = [
             title:'archive',
             active:true,
             query:true,
+            icon:'archive'
         }
     },
     {
@@ -372,6 +375,7 @@ export const DATA = [
             title:'trash',
             active:true,
             query:true,
+            icon:'trash'
         }
     },
     {

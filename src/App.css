@@ -153,3 +153,6 @@ button.no-border:hover {
 .icon {
   font-size: 150%;
 }
+.icon.blank {
+  color: transparent;
+}
