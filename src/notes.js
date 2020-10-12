@@ -4,6 +4,8 @@ import {CATEGORIES, makeNewObject} from './schema.js'
 import {AddButton, DataList, HBox, Toolbar, VBox, Window} from './ui.js'
 import {HiPlusCircle} from "react-icons/hi"
 import {MdArchive, MdDelete} from 'react-icons/md'
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+
 
 export function Notes({data}) {
     const [selectedGroup, setSelectedGroup] = useState(null)
@@ -92,7 +94,7 @@ export function Notes({data}) {
                           selected={selected}
                           setSelected={doSetSelected}
                           stringify={(o) => {
-                              return propAsString(o, 'title') + " " + propAsString(o,'lastedited')
+                              return propAsString(o, 'title') + " " + formatDistanceToNow(o.props.lastedited)
                           }}
                 />
             </VBox>

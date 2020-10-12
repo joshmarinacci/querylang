@@ -1,4 +1,5 @@
 import {hourAsDateString} from './db.js'
+import sub from 'date-fns/sub'
 
 const STRING = 'STRING'
 const BOOLEAN = 'BOOLEAN'
@@ -528,7 +529,8 @@ export const DATA = [
             tags:['cool','thinking','bad'],
             archived:false,
             deleted:false,
-            contents: "this is my first long note to read."
+            contents: "this is my first long note to read.",
+            lastedited: sub(Date.now(),{days:3})
         }
     },
     {
@@ -540,7 +542,8 @@ export const DATA = [
             tags:['thinking'],
             archived:false,
             deleted:false,
-            contents:'This would be an epic story idea'
+            contents:'This would be an epic story idea',
+            lastedited: sub(Date.now(),{days:5})
         }
     },
     {
@@ -552,7 +555,8 @@ export const DATA = [
             tags:['thinking'],
             archived: true,
             deleted: false,
-            contents:'the really old one'
+            contents:'the really old one',
+            lastedited: sub(Date.now(),{days:0})
         }
     },
     {
@@ -565,7 +569,7 @@ export const DATA = [
             archived: true,
             deleted: true,
             contents:'in the bin!',
-            lastedited:10,
+            lastedited: sub(Date.now(),{days:85})
         }
     }
 ]
