@@ -152,6 +152,9 @@ button.no-border:hover {
 
 .icon {
   font-size: 150%;
+  padding: 0.15em 0.25em;
+  min-width: 1em;
+  text-align: center;
 }
 .icon.blank {
   color: transparent;

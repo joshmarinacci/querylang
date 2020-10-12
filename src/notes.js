@@ -45,9 +45,7 @@ export function Notes({data}) {
     let tagset = new Set()
     notes.forEach(n => propAsArray(n,'tags').forEach(t => tagset.add(t)))
 
-    // console.log("tags",Array.from(tagset.values()))
     Array.from(tagset.values()).forEach((t,i)=>{
-        // console.log(t)
         groups.push({
             id:3000+i,
             props: {
@@ -56,9 +54,6 @@ export function Notes({data}) {
             }
         })
     })
-    console.log(groups)
-
-
 
     const [title, setTitle] = useState("")
     const updateTitle = (e) => {
@@ -85,7 +80,6 @@ export function Notes({data}) {
 
 
     const doSetSelected = (val) => {
-        console.log("selected",val)
         setSelected(val)
         setTitle(propAsString(val,'title'))
         setTags(propAsString(val,'tags'))
@@ -95,14 +89,18 @@ export function Notes({data}) {
     const addNewNote = () => {
         let note = makeNewObject(CATEGORIES.NOTES.TYPES.NOTE)
         data.push(note)
-        console.log(note)
         doSetSelected(null)
     }
 
     const renderProject = (o,i) => {
         let title = propAsString(o,'title')
         let icon = propAsIcon(o,'icon')
-        return <HBox key={i}>{icon} {title}</HBox>
+        return <div style={{
+            border:'0px solid red',
+            display:'flex',
+            flexDirection:'row',
+            alignContent:'center',
+        }} key={i}>{icon} {title}</div>
     }
 
     let [searchTerms, setSearchTerms] = useState("")
