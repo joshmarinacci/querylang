@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {deepClone, filter, propAsBoolean, propAsIcon, propAsString, query, setProp} from './db.js'
+import {deepClone, filter, filterSubstring, propAsBoolean, propAsIcon, propAsString, query, setProp} from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
 import {
     CheckboxPropEditor,
@@ -44,7 +44,7 @@ export function TaskLists({data}) {
     }
 
     if(searchTerms.length > 1) {
-        tasks = filter(tasks, {title:searchTerms})
+        tasks = filterSubstring(tasks, {title:searchTerms})
     }
 
     const doRefresh = () => setRefresh(!refresh)

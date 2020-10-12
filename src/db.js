@@ -107,6 +107,24 @@ export function filter(list,opts) {
         return pass
     })
 }
+export function filterSubstring(list,opts) {
+    return list.filter(o => {
+        let pass = true
+        Object.keys(opts).forEach(k=>{
+            let fv = opts[k]
+            if(!o.props.hasOwnProperty(k)) {
+                pass = false
+                return
+            }
+            let ov = o.props[k]
+            if (!ov.includes(fv)) {
+                pass = false
+                return
+            }
+        })
+        return pass
+    })
+}
 
 export function find_in_collection(coll,data) {
     return data.filter(o => coll.props.set.some(id=>id===o.id))
