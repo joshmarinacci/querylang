@@ -1,7 +1,8 @@
-import React from 'react'
-import {propAsBoolean, propAsString, setProp} from './db.js'
+import React, {useState} from 'react'
+import {propAsArray, propAsBoolean, propAsString, setProp} from './db.js'
 import {getEnumPropValues} from './schema.js'
 import {HiMinusCircle, HiPlusCircle} from 'react-icons/hi'
+import {MdClose} from 'react-icons/md'
 
 
 export function HBox ({children, grow}) {
@@ -117,17 +118,49 @@ export function RemoveButton  ({onClick}) {
         <HiMinusCircle className={'remove-icon'}/>
     </button>
 }
+
+function TagView({tag, deleteTag}) {
+    return <div className={'tag-view'}>
+        <label>{tag}</label>
+        <button onClick={()=>deleteTag(tag)}><MdClose/></button>
+    </div>
+}
+
 export function TagsetEditor({buffer, prop, onChange, onBlur}) {
-    return <HBox>
+    let tags = propAsArray(buffer,prop)
+    let [refresh, setRefresh] = useState(false)
+
+    const addTag = (tag) => {
+        tags.push(tag)
+        tags = [... new Set(tags)] // remove dupes
+        setProp(buffer,prop,tags)
+        setRefresh(!refresh)
+    }
+    const removeTag = (tag) => {
+        tags = tags.filter(t => t !== tag)
+        setProp(buffer,prop,tags)
+        setRefresh(!refresh)
+    }
+
+    let [partial, setPartial] = useState("")
+    return <div className={'tagset-editor'}>
         <label>{prop}</label>
+        {tags.map((t)=><TagView key={t} tag={t} deleteTag={removeTag}/>)}
         <input type="text"
-               value={propAsString(buffer, prop)}
-               onBlur={onBlur}
+               value={partial}
+               // onBlur={onBlur}
                onChange={(ev) => {
-                   console.log("ev.target.value",ev.target.value)
-                   setProp(buffer,prop,ev.target.value)
-                   onChange(buffer, prop)
+                   setPartial(ev.target.value)
+                   // setProp(buffer,prop,ev.target.value)
+                   // onChange(buffer, prop)
+               }}
+               onKeyDown={(e)=>{
+                   console.log(e.key)
+                   if(e.key === 'Enter') {
+                       addTag(partial)
+                       setPartial("")
+                   }
                }}
         />
-    </HBox>
+    </div>
 }

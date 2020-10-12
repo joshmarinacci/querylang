@@ -74,6 +74,16 @@ export function stringAsBoolean(str) {
     return true
 }
 
+export function propAsArray(s, key) {
+    if(!s || !s.props || !s.props.hasOwnProperty(key)) return []
+    let arr = s.props[key]
+    if(Array.isArray(arr)) {
+        return arr
+    } else {
+        return []
+    }
+}
+
 export function filter(list,opts) {
     return list.filter(o => {
         let pass = true

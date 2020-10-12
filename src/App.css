@@ -156,3 +156,48 @@ button.no-border:hover {
 .icon.blank {
   color: transparent;
 }
+
+
+.tagset-editor {
+  border:0px solid red;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.25em;
+}
+
+.tagset-editor input {
+  border: 1px solid black;
+  flex: 1.0;
+}
+
+.tagset-editor .tag-view {
+  border: 0px solid black;
+  background-color: red;
+  color: white;
+  padding:0.25em 0.5em;
+  margin:0.25em;
+  border-radius: 1em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.tagset-editor .tag-view label {
+  border: 0px solid black;
+}
+.tagset-editor .tag-view button {
+  border: 0px solid black;
+  background-color: transparent;
+  color:white;
+  padding:0;
+  margin:0;
+}
+.tagset-editor .tag-view svg {
+  border: 0px solid green;
+  color: white;
+}
+.tagset-editor .tag-view svg:hover {
+  color: black;
+}
+
