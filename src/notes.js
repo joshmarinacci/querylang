@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {propAsString, query, setProp} from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
-import {AddButton, DataList, HBox, Toolbar, VBox, Window} from './ui.js'
+import {AddButton, DataList, HBox, TagsetEditor, TextareaPropEditor, Toolbar, VBox, Window} from './ui.js'
 import {HiPlusCircle} from "react-icons/hi"
 import {MdArchive, MdDelete} from 'react-icons/md'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
@@ -100,16 +100,8 @@ export function Notes({data}) {
             </VBox>
             <VBox grow>
                 <input type={'text'} value={title} onChange={updateTitle}/>
-                <input type={'text'} value={tags} onChange={updateTags} onBlur={syncTags}/>
-                <textarea style={{
-                    flex: 1.0,
-                    border: '1px solid black',
-                    padding: '1.0em',
-                    margin: 0,
-                }}
-                    value={propAsString(selected,'contents')}
-                          onChange={updateContents}
-                />
+                <TagsetEditor buffer={selected} prop={'tags'} onChange={(o,k)=> setTags(o.props[k]) } onBlur={syncTags}/>
+                <TextareaPropEditor buffer={selected} prop={'contents'} onChange={(o,k)=>setContents(o.props[k])}/>
             </VBox>
         </HBox>
     </Window>

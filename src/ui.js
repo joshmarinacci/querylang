@@ -117,3 +117,17 @@ export function RemoveButton  ({onClick}) {
         <HiMinusCircle className={'remove-icon'}/>
     </button>
 }
+export function TagsetEditor({buffer, prop, onChange, onBlur}) {
+    return <HBox>
+        <label>{prop}</label>
+        <input type="text"
+               value={propAsString(buffer, prop)}
+               onBlur={onBlur}
+               onChange={(ev) => {
+                   console.log("ev.target.value",ev.target.value)
+                   setProp(buffer,prop,ev.target.value)
+                   onChange(buffer, prop)
+               }}
+        />
+    </HBox>
+}

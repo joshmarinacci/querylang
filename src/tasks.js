@@ -23,32 +23,7 @@ export function TaskLists({data}) {
     projects = filter(projects, {active: true})
     let tasks = query(data, {category: CATEGORIES.TASKS, type: CATEGORIES.TASKS.TYPES.TASK})
 
-    let [editingTask, setEditingTask] = useState(false)
-
-    let [buffer, setBuffer] = useState({})
-
-    const toggleEditing = () => {
-        if (!editingTask && selectedTask) {
-            setBuffer(deepClone(selectedTask))
-            setEditingTask(true)
-        }
-    }
-
-    const saveEditing = () => {
-        Object.keys(selectedTask.props).forEach(k => {
-            selectedTask.props[k] = buffer.props[k]
-        })
-        setEditingTask(false)
-    }
-    const cancelEditing = () => {
-        setEditingTask(false)
-    }
-
-    const updateBuffer = (buffer, key, ev) => {
-        setBuffer(deepClone(buffer))
-    }
-
-
+    let [refresh, setRefresh] = useState(false)
     let [searchTerms, setSearchTerms] = useState("")
 
     if(selectedProject) {
@@ -72,26 +47,15 @@ export function TaskLists({data}) {
         tasks = filter(tasks, {title:searchTerms})
     }
 
+    const doRefresh = () => setRefresh(!refresh)
+
     let panel = <Panel grow={true}>nothing selected</Panel>
     if (selectedTask) {
         panel = <Panel grow={true}>
-            <HBox>
-                <span>{propAsString(selectedTask, 'title')}</span>
-                <b>{propAsString(selectedTask, 'completed')}</b>
-            </HBox>
-            <p>{propAsString(selectedTask, 'notes')}</p>
-
+            <TextPropEditor buffer={selectedTask} prop={'title'} onChange={doRefresh}/>
+            <CheckboxPropEditor buffer={selectedTask} prop={'completed'} onChange={doRefresh}/>
+            <TextareaPropEditor buffer={selectedTask} prop={'notes'} onChange={doRefresh}/>
         </Panel>
-        if (editingTask) {
-            panel = <Panel grow={true}>
-                <TextPropEditor buffer={buffer} prop={'title'} onChange={updateBuffer}/>
-                <CheckboxPropEditor buffer={buffer} prop={'completed'} onChange={updateBuffer}/>
-                <TextareaPropEditor buffer={buffer} prop={'notes'}
-                                    onChange={updateBuffer}/>
-                <button onClick={saveEditing}>save</button>
-                <button onClick={cancelEditing}>cancel</button>
-            </Panel>
-        }
     }
 
     const addNewTask = () => {
@@ -103,10 +67,12 @@ export function TaskLists({data}) {
     const trashTask = () => {
         //mark as deleted
         if(selectedTask) setProp(selectedTask, 'deleted',true)
+        doRefresh()
     }
     const archiveTask = () => {
         //mark as archived
         if(selectedTask) setProp(selectedTask, 'archived',true)
+        doRefresh()
     }
 
     return <Window width={620} height={200} x={0} y={350} title={'tasks'} className={'tasks'}>
@@ -134,10 +100,6 @@ export function TaskLists({data}) {
                 {panel}
                 <Toolbar>
                     <Spacer/>
-                    <button
-                        disabled={!selectedProject}
-                        onClick={toggleEditing}>edit
-                    </button>
                     <MdArchive className={'icon'} onClick={archiveTask}/>
                     <MdDelete className={'icon'} onClick={trashTask}/>
                 </Toolbar>
