@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {deepClone, project, propAsString, query, setProp, sort} from './db.js'
+import {deepClone, filterSubstring, project, propAsString, query, setProp, sort} from './db.js'
 import {CATEGORIES, makeNewObject, SORTS} from './schema.js'
 import {
     AddButton,
@@ -20,6 +20,7 @@ export function ContactList({data}) {
     const [selected, setSelected] = useState(null)
     const [editing, setEditing] = useState(false)
     const [buffer, setBuffer] = useState({})
+    let [searchTerms, setSearchTerms] = useState("")
 
     const toggleEditing = () => {
         if (!editing && selected) {
@@ -67,6 +68,8 @@ export function ContactList({data}) {
     let items = query(data, {category: CATEGORIES.CONTACT, type: CATEGORIES.CONTACT.TYPES.PERSON})
     items = sort(items, ["first", "last"], SORTS.ASCENDING)
     items = project(items, ["first", "last", "id"])
+
+    if(searchTerms.length > 1) items = filterSubstring(items, {last:searchTerms})
 
 
     const addNewContact = () => {
@@ -181,7 +184,7 @@ export function ContactList({data}) {
         <HBox grow>
             <VBox>
                 <Toolbar>
-                    <input type={'search'}/>
+                    <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
                     <AddButton onClick={addNewContact}/>
                 </Toolbar>
                 <DataList data={items} selected={selected} setSelected={setSelected}

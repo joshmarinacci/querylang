@@ -117,7 +117,7 @@ export function filterSubstring(list,opts) {
                 return
             }
             let ov = o.props[k]
-            if (!ov.includes(fv)) {
+            if (!ov.toLowerCase().includes(fv.toLowerCase())) {
                 pass = false
                 return
             }
