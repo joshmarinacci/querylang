@@ -15,61 +15,46 @@ function isOr(opts) {
     return false
 }
 
+function processEqual(equal, o) {
+    if(!o) return false
+    if(!o.props) return false
+    if(!o.props.hasOwnProperty(equal.prop)) return false
+    if(o.props[equal.prop] !== equal.value) return false
+    return true
+}
+
+function processSubstring(substring, o) {
+    if(!o) return false
+    if(!o.props) return false
+    if(!o.props.hasOwnProperty(substring.prop)) return false
+    if(!o.props[substring.prop].toLowerCase().includes(substring.value.toLowerCase())) return false
+    return true
+}
+
+function passPredicate(pred,o) {
+    if(pred.hasOwnProperty('TYPE') && o.type !== pred.TYPE) return false
+    if(pred.hasOwnProperty('CATEGORY') && o.category !== pred.CATEGORY) return false
+    if(isOr(pred) && !processOr(pred,o)) return false;
+    if(isAnd(pred) && !processAnd(pred,o)) return false;
+    if(pred.hasOwnProperty('equal') && !processEqual(pred.equal,o)) return false
+    if(pred.hasOwnProperty('substring') && !processSubstring(pred.substring,o)) return false
+    return true
+}
+
 function processAnd(opts, o) {
-    let ands = opts.and
     let pass = true
-    ands.forEach((pred)=>{
-        console.log("checking predicate",pred,o)
-        if(pred.hasOwnProperty('TYPE')) {
-            if(o.type !== pred.TYPE) {
-                pass = false
-                console.log("failed")
-            }
-        }
-        if(pred.hasOwnProperty('CATEGORY')) {
-            if(o.category !== pred.CATEGORY) {
-                pass = false
-                console.log("failed")
-            }
-        }
-        if(pred.hasOwnProperty('equal')) {
-            if(pred.equal.prop === 'type') {
-                console.log("checking",o.type,pred.equal.value)
-                if(o.type !== pred.equal.value) {
-                    pass = false
-                    console.log("failed")
-                }
-            }
-            if(pred.equal.prop === 'category') {
-                if(o.category !== pred.equal.value) {
-                    pass = false
-                    console.log("failed")
-                }
-            }
-        }
-        if(isOr(pred)) {
-            let res = processOr(pred,o)
-            console.log("OR result is",res,o)
-            if(!res) {
-                pass = false
-                console.log("failed")
-            }
-            console.log("final is",pass)
-        }
+    opts.and.forEach(pred =>{
+        if(!pass) return //skip ones that have already failed
+        if(!passPredicate(pred,o)) pass = false
     })
     return pass
 }
 
 function processOr(opts, o) {
     let pass = false
-    let ors = opts.or
-    ors.forEach(pred => {
-        if(pred.hasOwnProperty('substring')) {
-            let prop = pred.substring.prop
-            if(o.props && o.props.hasOwnProperty(prop) && o.props[prop].toLowerCase().includes(pred.substring.value.toLowerCase())) {
-                pass = true
-            }
-        }
+    opts.or.forEach(pred => {
+        if(pass) return //skip if one already succeeded
+        if(passPredicate(pred,o)) pass = true
     })
     return pass
 }
@@ -168,4 +153,14 @@ test('query building',()=>{
     expect(res.length).toBe(2)
 })
 
+
+//find all notes where archived is true
+test('archived notes',()=>{
+    const and = (...args) => ({ and: args})
+    const isNote = () => ({ TYPE:CATEGORIES.NOTES.TYPES.NOTE  })
+    const isArchived = () => ({ equal:{prop:'archived',value:true}})
+
+    const res = query2(DATA,and(isNote(),isArchived()))
+    expect(res.length).toBe(2)
+})
 
