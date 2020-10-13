@@ -171,6 +171,32 @@ export const CATEGORIES = {
         TYPES:{
             MESSAGE: 'MESSAGE',
             CONVERSATION:'CONVERSATION',
+        },
+        SCHEMAS: {
+            MESSAGE: {
+                title:'message',
+                props: {
+                    sender:{
+                        key:'sender',
+                    },
+                    receivers:{
+                        key:'receivers',
+                        type:'ARRAY',
+                        default:[],
+                        content: {
+                        }
+                    },
+                    contents:{
+                        key:'contents',
+                        type:STRING,
+                        default:'',
+                    },
+                    timestamp:{
+                        key:'timestamp',
+                        type:'DATE',
+                    }
+                }
+            }
         }
     },
     SETTINGS:{

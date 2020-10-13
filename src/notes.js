@@ -116,7 +116,6 @@ export function Notes({data}) {
 
 
     if(propAsBoolean(selectedGroup,'query')) {
-        console.log("must do a query", propAsString(selectedGroup,'title'))
         if(propAsString(selectedGroup,'title') === 'archive') {
             notes = filter(notes,{archived:true})
         }
