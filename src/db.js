@@ -53,6 +53,7 @@ export function propAsIcon(s, key) {
 
 
 export function setProp(obj,key,value) {
+    if(!obj) return
     if(!obj.hasOwnProperty('props')) {
         if(obj.hasOwnProperty(key)) {
             obj[key] = value

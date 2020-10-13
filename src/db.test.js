@@ -3,70 +3,9 @@ import App from './App.js'
 import React from 'react'
 
 import {CATEGORIES, DATA} from "./schema.js"
+import {query2} from './query2.js'
 
 
-function isAnd(opts) {
-    if(opts.hasOwnProperty('and')) return true
-    return false
-}
-
-function isOr(opts) {
-    if(opts.hasOwnProperty('or')) return true
-    return false
-}
-
-function processEqual(equal, o) {
-    if(!o) return false
-    if(!o.props) return false
-    if(!o.props.hasOwnProperty(equal.prop)) return false
-    if(o.props[equal.prop] !== equal.value) return false
-    return true
-}
-
-function processSubstring(substring, o) {
-    if(!o) return false
-    if(!o.props) return false
-    if(!o.props.hasOwnProperty(substring.prop)) return false
-    if(!o.props[substring.prop].toLowerCase().includes(substring.value.toLowerCase())) return false
-    return true
-}
-
-function passPredicate(pred,o) {
-    if(pred.hasOwnProperty('TYPE') && o.type !== pred.TYPE) return false
-    if(pred.hasOwnProperty('CATEGORY') && o.category !== pred.CATEGORY) return false
-    if(isOr(pred) && !processOr(pred,o)) return false;
-    if(isAnd(pred) && !processAnd(pred,o)) return false;
-    if(pred.hasOwnProperty('equal') && !processEqual(pred.equal,o)) return false
-    if(pred.hasOwnProperty('substring') && !processSubstring(pred.substring,o)) return false
-    return true
-}
-
-function processAnd(opts, o) {
-    let pass = true
-    opts.and.forEach(pred =>{
-        if(!pass) return //skip ones that have already failed
-        if(!passPredicate(pred,o)) pass = false
-    })
-    return pass
-}
-
-function processOr(opts, o) {
-    let pass = false
-    opts.or.forEach(pred => {
-        if(pass) return //skip if one already succeeded
-        if(passPredicate(pred,o)) pass = true
-    })
-    return pass
-}
-
-function query2(data,opts) {
-    let res = []
-    data.forEach(o => {
-        if(isAnd(opts) && processAnd(opts,o)) res.push(o)
-        if(isOr(opts) && processOr(opts,o)) res.push(o)
-    })
-    return res
-}
 
 test('find all chat messages', () => {
 
@@ -141,8 +80,6 @@ test('query building',()=>{
 
     const and = (...args) => ({ and: args})
     const or = (...args) => ({ or: args})
-    const isPerson = () => ({ TYPE:CATEGORIES.CONTACT.TYPES.PERSON  })
-    const isContact = () => ({ CATEGORY:CATEGORIES.CONTACT.ID })
     const hasSubstring = (f,value) => ({substring:{prop:f,value:value }})
 
     const res = query2(DATA,and(isPerson(),isContact(),or(

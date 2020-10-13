@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {deepClone, filter, filterSubstring, propAsBoolean, propAsIcon, propAsString, query, setProp} from './db.js'
+import {deepClone, filter, filterSubstring, propAsBoolean, propAsIcon, propAsString,setProp, query} from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
 import {
     CheckboxPropEditor,
@@ -14,14 +14,25 @@ import {
 } from './ui.js'
 import {HiPlusCircle} from 'react-icons/hi'
 import {MdArchive, MdBorderOuter, MdCheckBox, MdCheckBoxOutlineBlank, MdDelete} from 'react-icons/md'
+import {AND, query2 as QUERY} from './query2.js'
+
+const isProject = () => ({ TYPE:CATEGORIES.TASKS.TYPES.PROJECT })
+const isTask = () => ({ TYPE:CATEGORIES.TASKS.TYPES.TASK })
+const isTaskCategory = () => ({ CATEGORY:CATEGORIES.TASKS.ID })
+const isPropTrue = (prop) => ({ equal: {prop, value:true}})
+const isPropFalse = (prop) => ({ equal: {prop, value:false}})
+const isPropEqual = (prop,value) => ({ equal: {prop, value}})
+const isPropEqualId = (prop,obj) => ({ equal: {prop, value:obj?obj.id:null}})
+const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
+
 
 export function TaskLists({data}) {
     const [selectedProject, setSelectedProject] = useState(null)
     const [selectedTask, setSelectedTask] = useState(null)
 
-    let projects = query(data, {category: CATEGORIES.TASKS, type: CATEGORIES.TASKS.TYPES.PROJECT})
-    projects = filter(projects, {active: true})
-    let tasks = query(data, {category: CATEGORIES.TASKS, type: CATEGORIES.TASKS.TYPES.TASK})
+
+    let projects = QUERY(data, AND(isProject(), isTaskCategory(), isPropTrue('active')))
+    let tasks = QUERY(data, AND(isTaskCategory(), isTask()))
 
     let [refresh, setRefresh] = useState(false)
     let [searchTerms, setSearchTerms] = useState("")
@@ -29,22 +40,22 @@ export function TaskLists({data}) {
     if(selectedProject) {
         if(propAsBoolean(selectedProject,'query')) {
             if(propAsString(selectedProject,'title') === 'archive') {
-                tasks = filter(tasks, {archived:true})
+                tasks = QUERY(tasks, AND(isPropTrue('archived')))
             }
             if(propAsString(selectedProject,'title') === 'trash') {
-                tasks = filter(tasks, {deleted:true})
+                tasks = QUERY(tasks, AND(isPropTrue('deleted')))
             }
         } else {
-            tasks = filter(tasks, {
-                project: selectedProject ? selectedProject.id : null,
-                archived:false,
-                deleted:false,
-            })
+            tasks = QUERY(tasks, AND(
+                isPropEqualId('project',selectedProject),
+                isPropFalse('archived'),
+                isPropFalse('deleted')
+                ))
         }
     }
 
     if(searchTerms.length > 1) {
-        tasks = filterSubstring(tasks, {title:searchTerms})
+        tasks = QUERY(tasks,AND(isPropSubstring('title',searchTerms)))
     }
 
     const doRefresh = () => setRefresh(!refresh)
@@ -62,22 +73,26 @@ export function TaskLists({data}) {
         let task = makeNewObject(CATEGORIES.TASKS.TYPES.TASK)
         setProp(task,'project',selectedProject.id)
         data.push(task)
+        doRefresh()
     }
 
     const trashTask = () => {
-        //mark as deleted
-        if(selectedTask) setProp(selectedTask, 'deleted',true)
+        setProp(selectedTask, 'deleted',true)
         doRefresh()
     }
     const archiveTask = () => {
-        //mark as archived
-        if(selectedTask) setProp(selectedTask, 'archived',true)
+        setProp(selectedTask, 'archived',true)
         doRefresh()
     }
 
     return <Window width={620} height={200} x={0} y={350} title={'tasks'} className={'tasks'}>
         <HBox grow>
-            <DataList data={projects} stringify={((o,i) => <HBox key={i}>{propAsIcon(o,'icon')} {propAsString(o,'title')}</HBox>)} selected={selectedProject} setSelected={setSelectedProject}/>
+            <DataList data={projects} selected={selectedProject} setSelected={setSelectedProject}
+                      stringify={((o,i) => <HBox key={i}>
+                          {propAsIcon(o,'icon')}
+                          {propAsString(o,'title')}
+                      </HBox>)}
+            />
             <VBox>
                 <Toolbar>
                     <input type={'search'} value={searchTerms} onChange={(e)=>{
@@ -87,13 +102,14 @@ export function TaskLists({data}) {
                         <HiPlusCircle className={'add-icon'}/>
                     </button>
                 </Toolbar>
-                <DataList data={tasks} stringify={(o) => {
-                    return <HBox>
-                        {propAsBoolean(o,'completed')?<MdCheckBox className={'checkbox-icon'}/>:<MdCheckBoxOutlineBlank/>}
-                        <b>{propAsString(o,'title')}</b>
-                        {/*<i>{propAsBoolean(o,'completed')?"*":"-"}</i>*/}
-                    </HBox>
-                }} selected={selectedTask} setSelected={setSelectedTask}/>
+                <DataList data={tasks}  selected={selectedTask} setSelected={setSelectedTask}
+                          stringify={(o) => {
+                              return <HBox>
+                                  {propAsBoolean(o,'completed')?<MdCheckBox className={'checkbox-icon'}/>:<MdCheckBoxOutlineBlank/>}
+                                  <b>{propAsString(o,'title')}</b>
+                              </HBox>
+                          }}
+                />
 
             </VBox>
             <VBox style={{flex:1}}>

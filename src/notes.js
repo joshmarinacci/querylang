@@ -23,6 +23,7 @@ import {
     Window
 } from './ui.js'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import {AND, query2 as QUERY} from './query2.js'
 
 
 export function Notes({data}) {
@@ -86,13 +87,15 @@ export function Notes({data}) {
     }
 
     const calcFilter = () => {
-        if(searchTerms.length > 1) return filterSubstring(notes, {title:searchTerms})
+        if(searchTerms.length >= 2) {
+            return QUERY(notes,AND({ substring: { prop:'title', value: searchTerms}}))
+        }
         if(propAsBoolean(selectedGroup,'query')) {
             if(propAsString(selectedGroup,'title') === 'archive') {
-                return filter(notes,{archived:true})
+                return QUERY(notes,AND({equal:{prop:'archived', value:true}}))
             }
             if(propAsString(selectedGroup,'title') === 'trash') {
-                return filter(notes,{deleted:true})
+                return QUERY(notes,AND({equal:{prop:'deleted', value:true}}))
             }
             if(propAsBoolean(selectedGroup,'tag')) {
                 return filterPropArrayContains(notes,{tags:propAsString(selectedGroup,'title')})
