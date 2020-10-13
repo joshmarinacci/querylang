@@ -11,22 +11,31 @@ import {
     setProp
 } from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
-import {AddButton, DataList, HBox, TagsetEditor, TextareaPropEditor, Toolbar, VBox, Window} from './ui.js'
+import {
+    AddButton,
+    DataList,
+    HBox,
+    TagsetEditor,
+    TextareaPropEditor,
+    TextPropEditor,
+    Toolbar,
+    VBox,
+    Window
+} from './ui.js'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 
 export function Notes({data}) {
     const [selectedGroup, setSelectedGroup] = useState(null)
-    const [selected, setSelected] = useState(null)
-
+    const [selectedNote, setSelectedNote] = useState(null)
+    const [searchTerms, setSearchTerms] = useState("")
+    const [refresh, setRefresh] = useState(false)
+    const doRefresh = () => setRefresh(!refresh)
 
     let notes = query(data, {
         category: CATEGORIES.NOTES.ID,
         type: CATEGORIES.NOTES.TYPES.NOTE
     })
-
-
-
 
     let groups = [{
             id:199,
@@ -70,89 +79,57 @@ export function Notes({data}) {
         })
     })
 
-    const [title, setTitle] = useState("")
-    const updateTitle = (e) => {
-        setProp(selected,'title',e.target.value)
-        setTitle(e.target.value)
-    }
-    const [tags, setTags] = useState('')
-    const syncTags = (e) => {
-        if(tags) {
-            let val = tags.split(',')
-            console.log("new tags ", val)
-            setProp(selected, 'tags', val)
-        }
-    }
-
-    const [contents, setContents] = useState('')
-    const doSetSelected = (val) => {
-        setSelected(val)
-        setTitle(propAsString(val,'title'))
-        setTags(propAsString(val,'tags'))
-        setContents(propAsString(val,'contents'))
-    }
-
     const addNewNote = () => {
         let note = makeNewObject(CATEGORIES.NOTES.TYPES.NOTE)
         data.push(note)
-        doSetSelected(note)
+        setSelectedNote(note)
     }
 
-    const renderProject = (o,i) => {
-        let title = propAsString(o,'title')
-        let icon = propAsIcon(o,'icon')
-        return <div style={{
-            border:'0px solid red',
-            display:'flex',
-            flexDirection:'row',
-            alignContent:'center',
-        }} key={i}>{icon} {title}</div>
+    const calcFilter = () => {
+        if(searchTerms.length > 1) return filterSubstring(notes, {title:searchTerms})
+        if(propAsBoolean(selectedGroup,'query')) {
+            if(propAsString(selectedGroup,'title') === 'archive') {
+                return filter(notes,{archived:true})
+            }
+            if(propAsString(selectedGroup,'title') === 'trash') {
+                return filter(notes,{deleted:true})
+            }
+            if(propAsBoolean(selectedGroup,'tag')) {
+                return filterPropArrayContains(notes,{tags:propAsString(selectedGroup,'title')})
+            }
+        }
+        return notes
     }
 
-    let [searchTerms, setSearchTerms] = useState("")
+    notes = calcFilter()
 
-    if(searchTerms.length > 1) notes = filterSubstring(notes, {title:searchTerms})
-
-
-
-    if(propAsBoolean(selectedGroup,'query')) {
-        if(propAsString(selectedGroup,'title') === 'archive') {
-            notes = filter(notes,{archived:true})
-        }
-        if(propAsString(selectedGroup,'title') === 'trash') {
-            notes = filter(notes,{deleted:true})
-        }
-        if(propAsBoolean(selectedGroup,'tag')) {
-            notes = filterPropArrayContains(notes,{tags:propAsString(selectedGroup,'title')})
-        }
-    }
 
     return <Window width={620} height={300} x={0} y={580} title={"notes"} className={'notes'}>
         <HBox grow>
-            <DataList data={groups}
-                      selected={selectedGroup}
-                      setSelected={setSelectedGroup}
-                      stringify={renderProject}/>
+            <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup} stringify={renderProject}/>
             <VBox>
                 <Toolbar>
-                    <input type={'search'} value={searchTerms} onChange={(e)=>{
-                        setSearchTerms(e.target.value)
-                    }}/>
+                    <input type={'search'} value={searchTerms} onChange={e=>setSearchTerms(e.target.value)}/>
                     <AddButton onClick={addNewNote}/>
                 </Toolbar>
-                <DataList data={notes}
-                          selected={selected}
-                          setSelected={doSetSelected}
-                          stringify={(o) => {
-                              return propAsString(o, 'title') + " " + formatDistanceToNow(o.props.lastedited)
-                          }}
-                />
+                <DataList data={notes} selected={selectedNote} setSelected={setSelectedNote} stringify={renderNoteSummary}/>
             </VBox>
             <VBox grow>
-                <input type={'text'} value={title} onChange={updateTitle}/>
-                <TagsetEditor buffer={selected} prop={'tags'} onChange={(o,k)=> setTags(o.props[k]) } onBlur={syncTags}/>
-                <TextareaPropEditor buffer={selected} prop={'contents'} onChange={(o,k)=>setContents(o.props[k])}/>
+                <TextPropEditor buffer={selectedNote} prop={'title'} onChange={doRefresh}/>
+                <TagsetEditor buffer={selectedNote} prop={'tags'} onChange={doRefresh}/>
+                <TextareaPropEditor buffer={selectedNote} prop={'contents'} onChange={doRefresh}/>
             </VBox>
         </HBox>
     </Window>
+}
+
+
+const renderProject = (o) => {
+    let title = propAsString(o,'title')
+    let icon = propAsIcon(o,'icon')
+    return [icon,title]
+}
+
+const renderNoteSummary = (o) => {
+    return propAsString(o, 'title') + " " + formatDistanceToNow(o.props.lastedited)
 }

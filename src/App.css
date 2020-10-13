@@ -19,6 +19,9 @@ ul.list li {
   border: 1px solid gray;
   border-width: 0 0px 1px 0;
   padding: 0.25em 0.5em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 
@@ -199,4 +202,6 @@ button.no-border:hover {
 .tagset-editor .tag-view svg:hover {
   color: black;
 }
+
+
 

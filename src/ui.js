@@ -135,13 +135,13 @@ export function TagsetEditor({buffer, prop, onChange}) {
         tags = [... new Set(tags)] // remove dupes
         setProp(buffer,prop,tags)
         setRefresh(!refresh)
-        onChange(buffer,prop)
+        if(onChange) onChange(buffer,prop)
     }
     const removeTag = (tag) => {
         tags = tags.filter(t => t !== tag)
         setProp(buffer,prop,tags)
         setRefresh(!refresh)
-        onChange(buffer,prop)
+        if(onChange) onChange(buffer,prop)
     }
 
     let [partial, setPartial] = useState("")
