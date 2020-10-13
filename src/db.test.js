@@ -151,3 +151,21 @@ test('find all contacts.people where first or last contains the substring "Mar"'
     })
     expect(res.length).toBe(2)
 })
+
+test('query building',()=>{
+
+    const and = (...args) => ({ and: args})
+    const or = (...args) => ({ or: args})
+    const isPerson = () => ({ TYPE:CATEGORIES.CONTACT.TYPES.PERSON  })
+    const isContact = () => ({ CATEGORY:CATEGORIES.CONTACT.ID })
+    const hasSubstring = (f,value) => ({substring:{prop:f,value:value }})
+
+    const res = query2(DATA,and(isPerson(),isContact(),or(
+        hasSubstring('last','mar'),
+        hasSubstring('first','mar')
+    )))
+
+    expect(res.length).toBe(2)
+})
+
+
