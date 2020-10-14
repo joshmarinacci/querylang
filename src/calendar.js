@@ -1,10 +1,11 @@
 import {propAsString} from './db.js'
 import {CATEGORIES} from './schema.js'
-import {DataList, Window} from './ui.js'
-import React from 'react'
-import {formatWithOptions} from 'date-fns/fp'
+import {DataList, HBox, Window} from './ui.js'
+import React, {useState} from 'react'
 import {format, getWeek, startOfWeek, endOfWeek, isWithinInterval, isBefore,
-    setHours, getHours, setMinutes, getMinutes, isAfter
+    setHours, getHours, setMinutes, getMinutes, isAfter,
+    subDays, addDays,
+    startOfDay, endOfDay,
 } from 'date-fns'
 import {AND, query2 as QUERY} from './query2.js'
 
@@ -36,31 +37,34 @@ function is_event_repeating_daily(e) {
 
 
 export function Calendar({data}) {
-    let now = Date.now()
+    let [today, setToday] = useState(()=>Date.now())
+    let start_week = startOfWeek(today)
+    let end_week = endOfWeek(today)
+    console.log("using today",today)
+    let current_week = {start:start_week, end: end_week}
+    let current_day = {start:startOfDay(today), end:endOfDay(today)}
 
     let events = QUERY(data,AND(isCalendarCategory(),isEvent()))
 
-    let start_week = startOfWeek(now)
-    let end_week = endOfWeek(now)
-    let current_week = {start:start_week, end: end_week}
-    console.log(start_week, end_week, current_week)
-    //only show events that are today
-    events.forEach(e => {
-        console.log(e.props.start)
-        // console.log("inside",isWithinInterval(e.props.start,{start:start_week, end: end_week}))
-    })
-
-
     // only have events that are within the current week
-    events = events.filter(e => {
-        return isWithinInterval(e.props.start,current_week) || is_event_repeating_daily(e)
-    })
-
+    events = events.filter(e => isWithinInterval(e.props.start,current_day) || is_event_repeating_daily(e))
     events.sort((a,b) => day_time_comparator(a.props.start,b.props.start))
 
 
+    function nav_prev_day() {
+        setToday(subDays(today,1))
+    }
+
+    function nav_next_day() {
+        setToday(addDays(today,1))
+    }
+
     return <Window width={500} height={530} x={650} y={350} title={'calendar'} className={'calendar'}>
-        <h1>{format(now,'E MMM d')}</h1>
+        <h1>{format(today,'E MMM d')}</h1>
+        <HBox>
+            <button onClick={nav_prev_day}>prev day</button>
+            <button onClick={nav_next_day}>next day</button>
+        </HBox>
         <DataList data={events}
                   stringify={e => format(e.props.start,"hh:mm aa") + ' ' + propAsString(e,'title')}
         />

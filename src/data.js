@@ -309,7 +309,7 @@ export const DATA = [
         }
     },
     {
-        id:1901,
+        id:1902,
         category: CATEGORIES.CALENDAR.ID,
         type:CATEGORIES.CALENDAR.TYPES.EVENT,
         props: {
