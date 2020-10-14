@@ -1,21 +1,32 @@
 import React, {useState} from 'react'
-import {attach, filter, propAsString, query, setProp, sort} from './db.js'
+import {attach, propAsString, setProp, sort} from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
 import {DataList, HBox, VBox, Window} from './ui.js'
+import {AND, query2 as QUERY} from './query2.js'
+
+const isConversation = () => ({ TYPE:CATEGORIES.CHAT.TYPES.CONVERSATION })
+const isMessage = () => ({ TYPE:CATEGORIES.CHAT.TYPES.MESSAGE })
+const isChatCategory = () => ({ CATEGORY:CATEGORIES.CHAT.ID })
+const isPropEqual = (prop,value) => ({ equal: {prop, value}})
+const isPerson = () => ({ TYPE:CATEGORIES.CONTACT.TYPES.PERSON })
+const isContactCategory = () => ({ CATEGORY:CATEGORIES.CONTACT.ID })
 
 export function Chat({data}) {
     const [selected, setSelected] = useState(null)
     const [text, setText] = useState("")
-    let conversations = query(data, {category: CATEGORIES.CHAT, type: CATEGORIES.CHAT.TYPES.CONVERSATION})
+    let conversations = QUERY(data,AND(isChatCategory(),isConversation()))
+
 
     let messages = []
 
     if (selected) {
-        messages = query(data, {category: CATEGORIES.CHAT, type: CATEGORIES.CHAT.TYPES.MESSAGE})
-        messages = filter(messages, {receivers: selected.props.people})
+        messages = QUERY(data,AND(
+            isChatCategory(),
+            isMessage(),
+            isPropEqual('receivers',selected.props.people)))
     }
 
-    let people = query(data, {category: CATEGORIES.CONTACT, type: CATEGORIES.CONTACT.TYPES.PERSON})
+    let people = QUERY(data, isContactCategory(), isPerson())
     messages = attach(messages, people, 'sender', 'id')
     messages = sort(messages, ['timestamp'])
 
@@ -26,7 +37,6 @@ export function Chat({data}) {
         setProp(msg,'receivers',selected.props.people.slice())
         setProp(msg,'contents',text)
         setProp(msg,'timestamp',Date.now())
-        console.log("made a message",msg, selected.props.people)
         setText("")
         data.push(msg)
     }

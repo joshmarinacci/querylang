@@ -29,6 +29,7 @@ export function propAsString(s, key) {
         if(s.hasOwnProperty(key)) {
             return s[key]
         }
+        return 'no props'
     }
     if(s.props.hasOwnProperty(key)) {
         let v = s.props[key]

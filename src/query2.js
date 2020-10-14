@@ -6,6 +6,15 @@ function processEqual(equal, o) {
     if(!o) return false
     if(!o.props) return false
     if(!o.props.hasOwnProperty(equal.prop)) return false
+    let ov = o.props[equal.prop]
+    let fv = equal.value
+    if(Array.isArray(ov)) {
+        if (ov.length !== fv.length) return false
+        for (let i = 0; i < ov.length; i++) {
+            if (ov[i] !== fv[i]) return false
+        }
+        return true
+    }
     if(o.props[equal.prop] !== equal.value) return false
     return true
 }

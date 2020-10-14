@@ -1,13 +1,17 @@
-import {filter, find_in_collection, propAsString, query} from './db.js'
+import {find_in_collection, propAsString} from './db.js'
 import {CATEGORIES} from './schema.js'
 import {Window} from './ui.js'
 import React from 'react'
+import {AND, query2 as QUERY} from './query2.js'
+
+const isGeneralCategory = () => ({ CATEGORY:CATEGORIES.GENERAL.ID })
+const isCollection = () => ({ TYPE:CATEGORIES.GENERAL.TYPES.COLLECTION })
+const isPropEqual = (prop,value) => ({ equal: {prop, value}})
+
 
 export function PeopleBar({data}) {
-    // set = DATA where type === COLLECTION and name === 'peoplebar'
-    // items = DATA where id in set
-    let items = query(data, {category: CATEGORIES.GENERAL, type: CATEGORIES.GENERAL.TYPES.COLLECTION})
-    let collection = filter(items, {name: 'peoplebar'})[0]
+    let items = QUERY(data, AND(isGeneralCategory(), isCollection()))
+    let collection = QUERY(items, AND(isPropEqual('name','peoplebar')))[0]
     items = find_in_collection(collection, data)
     return <Window width={100} height={300} y={0} x={0} title={'people'} className={"peoplebar"}>
         <ul className={'list'}>{items.map(o => {

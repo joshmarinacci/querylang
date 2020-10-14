@@ -1,11 +1,15 @@
-import {propAsString, query} from './db.js'
+import {propAsString} from './db.js'
 import {CATEGORIES} from './schema.js'
 import {DataList, Window} from './ui.js'
 import React from 'react'
 import {formatWithOptions} from 'date-fns/fp'
+import {AND, query2 as QUERY} from './query2.js'
+
+const isCalendarCategory = () => ({ CATEGORY:CATEGORIES.CALENDAR.ID })
+const isEvent = () => ({ TYPE:CATEGORIES.CALENDAR.TYPES.EVENT })
 
 export function Calendar({data}) {
-    let events = query(data, {category: CATEGORIES.CALENDAR.ID, type: CATEGORIES.CALENDAR.TYPES.EVENT})
+    let events = QUERY(data,AND(isCalendarCategory(),isEvent()))
 
     const dateToString = formatWithOptions({ }, 'h:m a')
 
