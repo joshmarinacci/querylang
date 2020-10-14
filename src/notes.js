@@ -1,14 +1,11 @@
 import React, {useState} from 'react'
 import {
-    filter, filterPropArrayContains,
-    filterSubstring,
-    project,
+    filterPropArrayContains,
     propAsArray,
     propAsBoolean,
     propAsIcon,
     propAsString,
-    query,
-    setProp
+    query
 } from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
 import {

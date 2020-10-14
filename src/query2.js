@@ -57,3 +57,4 @@ export function query2(data,opts) {
 
 
 export const AND = (...args) => ({ and: args})
+export const OR = (...args) => ({ or: args})

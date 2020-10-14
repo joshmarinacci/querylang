@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {deepClone, filterSubstring, project, propAsString, query, setProp, sort} from './db.js'
+import {deepClone, project, propAsString, sort} from './db.js'
 import {CATEGORIES, makeNewObject, SORTS} from './schema.js'
 import {
     AddButton,
@@ -14,6 +14,11 @@ import {
     VBox,
     Window
 } from './ui.js'
+import {AND, OR, query2 as QUERY} from './query2.js'
+
+const isPerson = () => ({ TYPE:CATEGORIES.CONTACT.TYPES.PERSON })
+const isContactCategory = () => ({ CATEGORY:CATEGORIES.CONTACT.ID })
+const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 
 
 export function ContactList({data}) {
@@ -64,12 +69,11 @@ export function ContactList({data}) {
         update()
     }
 
-    // DATA where type === PERSON, sort ascending by [first, last], project(first,last,id)
-    let items = query(data, {category: CATEGORIES.CONTACT, type: CATEGORIES.CONTACT.TYPES.PERSON})
+    let items = QUERY(data, AND(isContactCategory(),isPerson()))
     items = sort(items, ["first", "last"], SORTS.ASCENDING)
     items = project(items, ["first", "last", "id"])
 
-    if(searchTerms.length > 1) items = filterSubstring(items, {last:searchTerms})
+    if(searchTerms.length >= 2) items = QUERY(items,OR(isPropSubstring('last',searchTerms),isPropSubstring('first',searchTerms)))
 
 
     const addNewContact = () => {

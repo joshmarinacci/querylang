@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {deepClone, filter, filterSubstring, propAsBoolean, propAsIcon, propAsString,setProp, query} from './db.js'
+import {propAsBoolean, propAsIcon, propAsString,setProp} from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
 import {
     CheckboxPropEditor,
@@ -13,7 +13,7 @@ import {
     Window
 } from './ui.js'
 import {HiPlusCircle} from 'react-icons/hi'
-import {MdArchive, MdBorderOuter, MdCheckBox, MdCheckBoxOutlineBlank, MdDelete} from 'react-icons/md'
+import {MdArchive, MdCheckBox, MdCheckBoxOutlineBlank, MdDelete} from 'react-icons/md'
 import {AND, query2 as QUERY} from './query2.js'
 
 const isProject = () => ({ TYPE:CATEGORIES.TASKS.TYPES.PROJECT })
