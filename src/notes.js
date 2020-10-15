@@ -23,6 +23,8 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import {AND, OR, query2 as QUERY} from './query2.js'
 
 
+const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
+
 export function Notes({data}) {
     const [selectedGroup, setSelectedGroup] = useState(null)
     const [selectedNote, setSelectedNote] = useState(null)
@@ -82,7 +84,6 @@ export function Notes({data}) {
         data.push(note)
         setSelectedNote(note)
     }
-    const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 
     const calcFilter = () => {
         if(searchTerms.length >= 2) {
