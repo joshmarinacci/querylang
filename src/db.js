@@ -66,6 +66,9 @@ export function setProp(obj,key,value) {
     return
 }
 
+export function hasProp(s,key) {
+    return s && s.props && s.props.hasOwnProperty(key)
+}
 export function propAsBoolean(s, key) {
     if(!s) return false
     return new Boolean(s.props[key]).valueOf()

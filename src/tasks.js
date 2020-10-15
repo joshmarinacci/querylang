@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {propAsBoolean, propAsIcon, propAsString,setProp} from './db.js'
+import {hasProp, propAsBoolean, propAsIcon, propAsString, setProp} from './db.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
 import {
     CheckboxPropEditor,
@@ -38,13 +38,8 @@ export function TaskLists({data}) {
     let [searchTerms, setSearchTerms] = useState("")
 
     if(selectedProject) {
-        if(propAsBoolean(selectedProject,'query')) {
-            if(propAsString(selectedProject,'title') === 'archive') {
-                tasks = QUERY(tasks, AND(isPropTrue('archived')))
-            }
-            if(propAsString(selectedProject,'title') === 'trash') {
-                tasks = QUERY(tasks, AND(isPropTrue('deleted')))
-            }
+        if(propAsBoolean(selectedProject,'query')  && hasProp(selectedProject,'query_impl')) {
+            tasks = QUERY(data,selectedProject.props.query_impl)
         } else {
             tasks = QUERY(tasks, AND(
                 isPropEqualId('project',selectedProject),

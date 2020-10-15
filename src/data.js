@@ -134,7 +134,23 @@ export const DATA = [
             title:'archive',
             active:true,
             query:true,
-            icon:'archive'
+            icon:'archive',
+            query_impl: {
+                and:[
+                    {
+                        CATEGORY:CATEGORIES.TASKS.ID,
+                    },
+                    {
+                        TYPE:CATEGORIES.TASKS.TYPES.TASK,
+                    },
+                    {
+                        equal: {
+                            prop:'archived',
+                            value:true
+                        }
+                    }
+                ]
+            }
         }
     },
     {
@@ -145,7 +161,23 @@ export const DATA = [
             title:'trash',
             active:true,
             query:true,
-            icon:'trash'
+            icon:'trash',
+            query_impl: {
+                and:[
+                    {
+                        CATEGORY:CATEGORIES.TASKS.ID,
+                    },
+                    {
+                        TYPE:CATEGORIES.TASKS.TYPES.TASK,
+                    },
+                    {
+                        equal: {
+                            prop:'deleted',
+                            value:true
+                        }
+                    }
+                ]
+            }
         }
     },
     {
