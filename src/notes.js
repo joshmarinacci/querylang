@@ -20,7 +20,7 @@ import {
     Window
 } from './ui.js'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import {AND, query2 as QUERY} from './query2.js'
+import {AND, OR, query2 as QUERY} from './query2.js'
 
 
 export function Notes({data}) {
@@ -85,7 +85,10 @@ export function Notes({data}) {
 
     const calcFilter = () => {
         if(searchTerms.length >= 2) {
-            return QUERY(notes,AND({ substring: { prop:'title', value: searchTerms}}))
+            return QUERY(notes,OR(
+                { substring: { prop:'title', value: searchTerms}},
+                { substring: { prop:'contents', value: searchTerms}},
+                ))
         }
         if(propAsBoolean(selectedGroup,'query')) {
             if(propAsString(selectedGroup,'title') === 'archive') {
