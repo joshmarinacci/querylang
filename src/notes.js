@@ -82,13 +82,11 @@ export function Notes({data}) {
         data.push(note)
         setSelectedNote(note)
     }
+    const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 
     const calcFilter = () => {
         if(searchTerms.length >= 2) {
-            return QUERY(notes,OR(
-                { substring: { prop:'title', value: searchTerms}},
-                { substring: { prop:'contents', value: searchTerms}},
-                ))
+            return QUERY(notes,OR(isPropSubstring('title',searchTerms), isPropSubstring('contents',searchTerms)))
         }
         if(propAsBoolean(selectedGroup,'query')) {
             if(propAsString(selectedGroup,'title') === 'archive') {
