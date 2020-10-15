@@ -40,7 +40,6 @@ export function Calendar({data}) {
     let [today, setToday] = useState(()=>Date.now())
     let start_week = startOfWeek(today)
     let end_week = endOfWeek(today)
-    console.log("using today",today)
     let current_week = {start:start_week, end: end_week}
     let current_day = {start:startOfDay(today), end:endOfDay(today)}
 
