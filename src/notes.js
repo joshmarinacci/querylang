@@ -4,7 +4,7 @@ import {
     propAsArray,
     propAsBoolean,
     propAsIcon,
-    propAsString,
+    propAsString, useDBChanged
 } from './db.js'
 import {CATEGORIES} from './schema.js'
 import {
@@ -27,6 +27,8 @@ const isNotesCategory = () => ({ CATEGORY:CATEGORIES.NOTES.ID })
 const isNote = () => ({ TYPE:CATEGORIES.NOTES.TYPES.NOTE })
 
 export function Notes({db}) {
+    useDBChanged(db)
+
     const [selectedGroup, setSelectedGroup] = useState(null)
     const [selectedNote, setSelectedNote] = useState(null)
     const [searchTerms, setSearchTerms] = useState("")
