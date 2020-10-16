@@ -32,8 +32,6 @@ export function Notes({db}) {
     const [selectedGroup, setSelectedGroup] = useState(null)
     const [selectedNote, setSelectedNote] = useState(null)
     const [searchTerms, setSearchTerms] = useState("")
-    const [refresh, setRefresh] = useState(false)
-    const doRefresh = () => setRefresh(!refresh)
 
     let notes = db.QUERY(AND(isNotesCategory(),isNote()))
 
@@ -117,9 +115,9 @@ export function Notes({db}) {
                 <DataList data={notes} selected={selectedNote} setSelected={setSelectedNote} stringify={renderNoteSummary}/>
             </VBox>
             <VBox grow>
-                <TextPropEditor buffer={selectedNote} prop={'title'} onChange={doRefresh}/>
-                <TagsetEditor buffer={selectedNote} prop={'tags'} onChange={doRefresh}/>
-                <TextareaPropEditor buffer={selectedNote} prop={'contents'} onChange={doRefresh}/>
+                <TextPropEditor buffer={selectedNote} prop={'title'} db={db}/>
+                <TagsetEditor buffer={selectedNote} prop={'tags'} db={db}/>
+                <TextareaPropEditor buffer={selectedNote} prop={'contents'} db={db}/>
             </VBox>
         </HBox>
     </Window>
