@@ -331,18 +331,18 @@ export function makeNewObject(type, category) {
         }
         let schema = findSchema(type)
         Object.keys(schema.props).forEach(key => {
-            console.log("key ",key)
+            // console.log("key ",key)
             let sc = schema.props[key]
             if(!sc.hasOwnProperty('default')) {
                 console.error("schema missing default",sc)
             }
-            console.log('setting key',key,sc)
+            // console.log('setting key',key,sc)
             if(sc.type === 'TIMESTAMP' && sc.default === 'NOW') {
                 obj.props[sc.key] = Date.now()
                 return
             }
             obj.props[sc.key] = sc.default
         })
-        console.log("made new object of type",type,obj)
+        // console.log("made new object of type",type,obj)
         return obj
 }

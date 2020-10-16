@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import {hasProp, propAsBoolean, propAsIcon, propAsString, setProp} from './db.js'
+import React, {useEffect, useState} from 'react'
+import {hasProp, propAsBoolean, propAsIcon, propAsString, setProp, useDBChanged} from './db.js'
 import {CATEGORIES} from './schema.js'
 import {
     CheckboxPropEditor,
@@ -26,7 +26,10 @@ const isPropEqualId = (prop,obj) => ({ equal: {prop, value:obj?obj.id:null}})
 const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 
 
+
 export function TaskLists({db}) {
+    useDBChanged(db)
+
     const [selectedProject, setSelectedProject] = useState(null)
     const [selectedTask, setSelectedTask] = useState(null)
 
@@ -68,17 +71,10 @@ export function TaskLists({db}) {
         let task = db.make(CATEGORIES.TASKS.ID, CATEGORIES.TASKS.TYPES.TASK)
         setProp(task,'project',selectedProject.id)
         db.add(task)
-        doRefresh()
     }
 
-    const trashTask = () => {
-        setProp(selectedTask, 'deleted',true)
-        doRefresh()
-    }
-    const archiveTask = () => {
-        setProp(selectedTask, 'archived',true)
-        doRefresh()
-    }
+    const trashTask = () => db.setProp(selectedTask,'deleted',true)
+    const archiveTask = () => db.setProp(selectedTask, 'archived',true)
 
     return <Window width={620} height={200} x={0} y={350} title={'tasks'} className={'tasks'}>
         <HBox grow>

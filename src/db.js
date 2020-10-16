@@ -1,5 +1,5 @@
 import {MdAccessAlarm, MdArchive, MdDelete, MdList, MdNote} from 'react-icons/md'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {DATA} from './data.js'
 import {query2} from './query2.js'
 import {makeNewObject} from './schema.js'
@@ -207,16 +207,40 @@ export function attach_in(A, B, ka, kb) {
 class DB {
     constructor(DATA) {
         this.data = DATA
+        this.listeners = []
+    }
+    addEventListener(listener) {
+        this.listeners.push(listener)
+    }
+    removeEventListener(listener) {
+        this.listeners = this.listeners.filter(l => l !== listener)
     }
     QUERY(...args) {
         return query2(this.data,...args)
     }
     add(obj) {
         this.data.push(obj)
-        console.log("added",obj)
+        this._fireUpdate()
     }
     make(category,type) {
         return makeNewObject(type,category)
+    }
+    setProp(obj,key,value) {
+        if(!obj) return
+        if(!obj.hasOwnProperty('props')) {
+            if(obj.hasOwnProperty(key)) {
+                obj[key] = value
+                return
+            }
+            return
+        }
+        obj.props[key] = value
+        this._fireUpdate()
+    }
+
+    _fireUpdate() {
+        // console.log("notifying",obj)
+        this.listeners.forEach(l => l())
     }
 }
 
@@ -224,3 +248,17 @@ export function makeDB() {
     return new DB(DATA)
 }
 
+
+export function useDBChanged(db) {
+    let [refresh, setRefresh] = useState(false)
+    const dbChanged = () => {
+        console.log("useDBChanged: changed")
+        setRefresh(!refresh)
+    }
+    useEffect(()=>{
+        db.addEventListener(dbChanged)
+        return ()=>{
+            db.removeEventListener(dbChanged)
+        }
+    })
+}
