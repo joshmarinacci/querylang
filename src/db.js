@@ -4,13 +4,6 @@ import {DATA} from './data.js'
 import {query2} from './query2.js'
 import {makeNewObject} from './schema.js'
 
-export function query(data,opts) {
-    if(opts.type) {
-        data = data.filter(o => o.type === opts.type)
-    }
-    return data
-}
-
 export function sort(items,sortby,sortorder) {
     items = items.slice()
     items.sort((a,b)=>{
@@ -55,7 +48,6 @@ export function propAsIcon(s, key) {
     return <MdAccessAlarm className={'icon blank'}/>
 }
 
-
 export function setProp(obj,key,value) {
     if(!obj) return
     if(!obj.hasOwnProperty('props')) {
@@ -72,6 +64,7 @@ export function setProp(obj,key,value) {
 export function hasProp(s,key) {
     return s && s.props && s.props.hasOwnProperty(key)
 }
+
 export function propAsBoolean(s, key) {
     if(!s) return false
     return Boolean(s.props[key]).valueOf()

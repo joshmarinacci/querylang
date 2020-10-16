@@ -5,7 +5,6 @@ import {
     propAsBoolean,
     propAsIcon,
     propAsString,
-    query
 } from './db.js'
 import {CATEGORIES} from './schema.js'
 import {
