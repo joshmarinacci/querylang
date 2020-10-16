@@ -56,14 +56,12 @@ export function TaskLists({db}) {
         tasks = QUERY(tasks,AND(isPropSubstring('title',searchTerms)))
     }
 
-    const doRefresh = () => setRefresh(!refresh)
-
     let panel = <Panel grow={true}>nothing selected</Panel>
     if (selectedTask) {
         panel = <Panel grow={true}>
-            <TextPropEditor buffer={selectedTask} prop={'title'} onChange={doRefresh}/>
-            <CheckboxPropEditor buffer={selectedTask} prop={'completed'} onChange={doRefresh}/>
-            <TextareaPropEditor buffer={selectedTask} prop={'notes'} onChange={doRefresh}/>
+            <TextPropEditor buffer={selectedTask} prop={'title'} db={db}/>
+            <CheckboxPropEditor buffer={selectedTask} prop={'completed'} db={db}/>
+            <TextareaPropEditor buffer={selectedTask} prop={'notes'} db={db}/>
         </Panel>
     }
 

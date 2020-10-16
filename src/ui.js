@@ -57,49 +57,65 @@ export function DataList({data, selected, setSelected, className, style, stringi
 
 }
 
-export function TextPropEditor({buffer, prop, onChange}) {
+export function TextPropEditor({buffer, prop, onChange, db}) {
     return <HBox>
         <label>{prop}</label>
         <input type="text"
                value={propAsString(buffer, prop)}
                onChange={(ev) => {
-                   setProp(buffer,prop,ev.target.value)
-                   if(onChange) onChange(buffer, prop)
+                   if(db) {
+                       db.setProp(buffer,prop,ev.target.value)
+                   } else {
+                       setProp(buffer, prop, ev.target.value)
+                   }
+                   if (onChange) onChange(buffer, prop)
                }}
         />
 
     </HBox>
 }
 
-export function CheckboxPropEditor({buffer, prop, onChange}) {
+export function CheckboxPropEditor({buffer, prop, onChange, db}) {
     return <HBox>
         <label>{prop}</label>
         <input type="checkbox"
                checked={propAsBoolean(buffer, prop)}
                onChange={(ev) => {
-                   setProp(buffer,prop,ev.target.checked)
+                   if(db) {
+                       db.setProp(buffer, prop, ev.target.checked)
+                   } else {
+                       setProp(buffer, prop, ev.target.checked)
+                   }
                    if(onChange) onChange(buffer, prop)
                }}
         />
     </HBox>
 }
 
-export function TextareaPropEditor({buffer, prop, onChange}) {
+export function TextareaPropEditor({buffer, prop, onChange, db}) {
     return <VBox>
         <label>{prop}</label>
         <textarea value={propAsString(buffer, prop)} onChange={(ev) => {
-            setProp(buffer,prop,ev.target.value)
+            if(db) {
+                db.setProp(buffer, prop, ev.target.value)
+            } else {
+                setProp(buffer, prop, ev.target.value)
+            }
             if(onChange) onChange(buffer, prop)
         }}/>
     </VBox>
 }
 
-export function EnumPropEditor({buffer, prop, onChange}) {
+export function EnumPropEditor({buffer, prop, onChange, db}) {
     return <HBox>
             <select value={propAsString(buffer,prop)} onChange={(ev)=>{
-                setProp(buffer,'type',ev.target.value)
+                if(db) {
+                    db.setProp(buffer, 'type', ev.target.value)
+                } else {
+                    setProp(buffer, 'type', ev.target.value)
+                }
                 if(onChange) onChange(buffer,prop)
-        }}>
+            }}>
                 {getEnumPropValues(buffer,prop).map(v=>{
                     return <option key={v} value={v}>{v}</option>
                 })}
