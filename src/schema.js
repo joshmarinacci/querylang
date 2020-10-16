@@ -158,6 +158,16 @@ export const CATEGORIES = {
                         key:'notes',
                         type:STRING,
                         default:'',
+                    },
+                    archived:{
+                        key:'archived',
+                        type:BOOLEAN,
+                        default:false,
+                    },
+                    deleted:{
+                        key:'deleted',
+                        type:BOOLEAN,
+                        default:false,
                     }
                 }
             }
@@ -312,14 +322,16 @@ function findSchema(type) {
     return SCHEMAS[type]
 }
 
-export function makeNewObject(type) {
+export function makeNewObject(type, category) {
         let obj = {
-            type:type,
             id:Math.floor(Math.random()*1000*1000),
+            type,
+            category,
             props:{}
         }
         let schema = findSchema(type)
         Object.keys(schema.props).forEach(key => {
+            console.log("key ",key)
             let sc = schema.props[key]
             if(!sc.hasOwnProperty('default')) {
                 console.error("schema missing default",sc)

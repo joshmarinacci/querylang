@@ -78,7 +78,7 @@ export function ContactList({db}) {
 
     const addNewContact = () => {
         let person = makeNewObject(CATEGORIES.CONTACT.TYPES.PERSON)
-        db.data.push(person)
+        db.add(person)
         setSelected(person)
         toggleEditing()
     }

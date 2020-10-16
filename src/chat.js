@@ -15,6 +15,8 @@ export function Chat({db}) {
     const [selected, setSelected] = useState(null)
     const [text, setText] = useState("")
     let conversations = db.QUERY(AND(isChatCategory(),isConversation()))
+    const [refresh, setRefresh] = useState(false)
+    const doRefresh = () => setRefresh(!refresh)
 
 
     let messages = []
@@ -38,7 +40,8 @@ export function Chat({db}) {
         setProp(msg,'contents',text)
         setProp(msg,'timestamp',Date.now())
         setText("")
-        db.data.push(msg)
+        db.add(msg)
+        doRefresh()
     }
 
     return <Window width={500} height={320} x={650} y={0} title={'chat'} className={"chat"}>

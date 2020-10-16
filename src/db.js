@@ -217,6 +217,10 @@ class DB {
     QUERY(...args) {
         return query2(this.data,...args)
     }
+    add(obj) {
+        this.data.push(obj)
+        console.log("added",obj)
+    }
 }
 
 export function makeDB() {

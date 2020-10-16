@@ -33,6 +33,7 @@ export function TaskLists({db}) {
 
     let projects = db.QUERY(AND(isProject(), isTaskCategory(), isPropTrue('active')))
     let tasks = db.QUERY(AND(isTaskCategory(), isTask()))
+    console.log("all tasks are",tasks)
 
     let [refresh, setRefresh] = useState(false)
     let [searchTerms, setSearchTerms] = useState("")
@@ -46,6 +47,7 @@ export function TaskLists({db}) {
                 isPropFalse('archived'),
                 isPropFalse('deleted')
                 ))
+            console.log("checking tasks",tasks.length)
         }
     }
 
@@ -65,9 +67,10 @@ export function TaskLists({db}) {
     }
 
     const addNewTask = () => {
-        let task = makeNewObject(CATEGORIES.TASKS.TYPES.TASK)
+        let task = makeNewObject(CATEGORIES.TASKS.TYPES.TASK, CATEGORIES.TASKS.ID)
         setProp(task,'project',selectedProject.id)
-        db.data.push(task)
+        db.add(task)
+        console.log("doing a new task")
         doRefresh()
     }
 
@@ -80,6 +83,7 @@ export function TaskLists({db}) {
         doRefresh()
     }
 
+    console.log("rendering", tasks)
     return <Window width={620} height={200} x={0} y={350} title={'tasks'} className={'tasks'}>
         <HBox grow>
             <DataList data={projects} selected={selectedProject} setSelected={setSelectedProject}
