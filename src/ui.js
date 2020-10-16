@@ -64,7 +64,7 @@ export function TextPropEditor({buffer, prop, onChange}) {
                value={propAsString(buffer, prop)}
                onChange={(ev) => {
                    setProp(buffer,prop,ev.target.value)
-                   onChange(buffer, prop)
+                   if(onChange) onChange(buffer, prop)
                }}
         />
 
@@ -78,7 +78,7 @@ export function CheckboxPropEditor({buffer, prop, onChange}) {
                checked={propAsBoolean(buffer, prop)}
                onChange={(ev) => {
                    setProp(buffer,prop,ev.target.checked)
-                   onChange(buffer, prop)
+                   if(onChange) onChange(buffer, prop)
                }}
         />
     </HBox>
@@ -89,7 +89,7 @@ export function TextareaPropEditor({buffer, prop, onChange}) {
         <label>{prop}</label>
         <textarea value={propAsString(buffer, prop)} onChange={(ev) => {
             setProp(buffer,prop,ev.target.value)
-            onChange(buffer, prop)
+            if(onChange) onChange(buffer, prop)
         }}/>
     </VBox>
 }
@@ -98,7 +98,7 @@ export function EnumPropEditor({buffer, prop, onChange}) {
     return <HBox>
             <select value={propAsString(buffer,prop)} onChange={(ev)=>{
                 setProp(buffer,'type',ev.target.value)
-                onChange(buffer,prop)
+                if(onChange) onChange(buffer,prop)
         }}>
                 {getEnumPropValues(buffer,prop).map(v=>{
                     return <option key={v} value={v}>{v}</option>
