@@ -25,14 +25,14 @@ import {AND, OR, query2 as QUERY} from './query2.js'
 
 const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 
-export function Notes({data}) {
+export function Notes({db}) {
     const [selectedGroup, setSelectedGroup] = useState(null)
     const [selectedNote, setSelectedNote] = useState(null)
     const [searchTerms, setSearchTerms] = useState("")
     const [refresh, setRefresh] = useState(false)
     const doRefresh = () => setRefresh(!refresh)
 
-    let notes = query(data, {
+    let notes = query(db.data, {
         category: CATEGORIES.NOTES.ID,
         type: CATEGORIES.NOTES.TYPES.NOTE
     })
@@ -81,7 +81,7 @@ export function Notes({data}) {
 
     const addNewNote = () => {
         let note = makeNewObject(CATEGORIES.NOTES.TYPES.NOTE)
-        data.push(note)
+        db.data.push(note)
         setSelectedNote(note)
     }
 

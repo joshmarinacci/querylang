@@ -26,20 +26,20 @@ const isPropEqualId = (prop,obj) => ({ equal: {prop, value:obj?obj.id:null}})
 const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 
 
-export function TaskLists({data}) {
+export function TaskLists({db}) {
     const [selectedProject, setSelectedProject] = useState(null)
     const [selectedTask, setSelectedTask] = useState(null)
 
 
-    let projects = QUERY(data, AND(isProject(), isTaskCategory(), isPropTrue('active')))
-    let tasks = QUERY(data, AND(isTaskCategory(), isTask()))
+    let projects = QUERY(db.data, AND(isProject(), isTaskCategory(), isPropTrue('active')))
+    let tasks = QUERY(db.data, AND(isTaskCategory(), isTask()))
 
     let [refresh, setRefresh] = useState(false)
     let [searchTerms, setSearchTerms] = useState("")
 
     if(selectedProject) {
         if(propAsBoolean(selectedProject,'query')  && hasProp(selectedProject,'query_impl')) {
-            tasks = QUERY(data,selectedProject.props.query_impl)
+            tasks = QUERY(db.data,selectedProject.props.query_impl)
         } else {
             tasks = QUERY(tasks, AND(
                 isPropEqualId('project',selectedProject),
@@ -67,7 +67,7 @@ export function TaskLists({data}) {
     const addNewTask = () => {
         let task = makeNewObject(CATEGORIES.TASKS.TYPES.TASK)
         setProp(task,'project',selectedProject.id)
-        data.push(task)
+        db.data.push(task)
         doRefresh()
     }
 

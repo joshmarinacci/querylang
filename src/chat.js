@@ -11,22 +11,22 @@ const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 const isPerson = () => ({ TYPE:CATEGORIES.CONTACT.TYPES.PERSON })
 const isContactCategory = () => ({ CATEGORY:CATEGORIES.CONTACT.ID })
 
-export function Chat({data}) {
+export function Chat({db}) {
     const [selected, setSelected] = useState(null)
     const [text, setText] = useState("")
-    let conversations = QUERY(data,AND(isChatCategory(),isConversation()))
+    let conversations = QUERY(db.data,AND(isChatCategory(),isConversation()))
 
 
     let messages = []
 
     if (selected) {
-        messages = QUERY(data,AND(
+        messages = QUERY(db.data,AND(
             isChatCategory(),
             isMessage(),
             isPropEqual('receivers',selected.props.people)))
     }
 
-    let people = QUERY(data, isContactCategory(), isPerson())
+    let people = QUERY(db.data, isContactCategory(), isPerson())
     messages = attach(messages, people, 'sender', 'id')
     messages = sort(messages, ['timestamp'])
 
@@ -38,7 +38,7 @@ export function Chat({data}) {
         setProp(msg,'contents',text)
         setProp(msg,'timestamp',Date.now())
         setText("")
-        data.push(msg)
+        db.data.push(msg)
     }
 
     return <Window width={500} height={320} x={650} y={0} title={'chat'} className={"chat"}>
