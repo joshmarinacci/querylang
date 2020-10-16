@@ -1,5 +1,6 @@
 import {MdAccessAlarm, MdArchive, MdDelete, MdList, MdNote} from 'react-icons/md'
 import React from 'react'
+import {DATA} from './data.js'
 
 export function query(data,opts) {
     if(opts.type) {
@@ -207,12 +208,14 @@ export function attach_in(A, B, ka, kb) {
     return data
 }
 
-export function now() {
-    return new Date().toISOString()
+
+class DB {
+    constructor(DATA) {
+        this.data = DATA
+    }
 }
 
-export function hourAsDateString(h) {
-    let date = new Date()
-    date.setHours(h)
-    return date.toISOString()
+export function makeDB() {
+    return new DB(DATA)
 }
+

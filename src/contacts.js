@@ -21,7 +21,7 @@ const isContactCategory = () => ({ CATEGORY:CATEGORIES.CONTACT.ID })
 const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 
 
-export function ContactList({data}) {
+export function ContactList({db}) {
     const [selected, setSelected] = useState(null)
     const [editing, setEditing] = useState(false)
     const [buffer, setBuffer] = useState({})
@@ -69,7 +69,7 @@ export function ContactList({data}) {
         update()
     }
 
-    let items = QUERY(data, AND(isContactCategory(),isPerson()))
+    let items = QUERY(db.data, AND(isContactCategory(),isPerson()))
     items = sort(items, ["first", "last"], SORTS.ASCENDING)
     items = project(items, ["first", "last", "id"])
 
@@ -78,7 +78,7 @@ export function ContactList({data}) {
 
     const addNewContact = () => {
         let person = makeNewObject(CATEGORIES.CONTACT.TYPES.PERSON)
-        data.push(person)
+        db.data.push(person)
         setSelected(person)
         toggleEditing()
     }

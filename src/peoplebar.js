@@ -9,10 +9,10 @@ const isCollection = () => ({ TYPE:CATEGORIES.GENERAL.TYPES.COLLECTION })
 const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 
 
-export function PeopleBar({data}) {
-    let items = QUERY(data, AND(isGeneralCategory(), isCollection()))
+export function PeopleBar({db}) {
+    let items = QUERY(db.data, AND(isGeneralCategory(), isCollection()))
     let collection = QUERY(items, AND(isPropEqual('name','peoplebar')))[0]
-    items = find_in_collection(collection, data)
+    items = find_in_collection(collection, db.data)
     return <Window width={100} height={300} y={0} x={0} title={'people'} className={"peoplebar"}>
         <ul className={'list'}>{items.map(o => {
             return <li key={o.id}>{propAsString(o, 'first')}

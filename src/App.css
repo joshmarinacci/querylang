@@ -17,7 +17,7 @@ ul.list {
 }
 ul.list li {
   border: 1px solid gray;
-  border-width: 0 0px 1px 0;
+  border-width: 0 0 1px 0;
   padding: 0.25em 0.5em;
   display: flex;
   flex-direction: row;
@@ -123,7 +123,7 @@ ul.list {
 
 
 .toolbar {
-  border: 0px solid red;
+  border: 0 solid red;
   display: flex;
   flex-direction: row;
 }
@@ -165,7 +165,7 @@ button.no-border:hover {
 
 
 .tagset-editor {
-  border:0px solid red;
+  border:0 solid red;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -178,7 +178,7 @@ button.no-border:hover {
 }
 
 .tagset-editor .tag-view {
-  border: 0px solid black;
+  border: 0 solid black;
   background-color: green;
   color: white;
   padding:0.25em 0.5em;
@@ -190,12 +190,12 @@ button.no-border:hover {
 }
 
 .tagset-editor .tag-view label {
-  border: 0px solid black;
+  border: 0 solid black;
   white-space: nowrap;
 }
 
 .tagset-editor .tag-view svg {
-  border: 0px solid green;
+  border: 0 solid green;
   color: white;
   padding-left: 0.25em;
 }
