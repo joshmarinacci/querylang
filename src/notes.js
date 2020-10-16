@@ -7,7 +7,7 @@ import {
     propAsString,
     query
 } from './db.js'
-import {CATEGORIES, makeNewObject} from './schema.js'
+import {CATEGORIES} from './schema.js'
 import {
     AddButton,
     DataList,
@@ -79,8 +79,8 @@ export function Notes({db}) {
     })
 
     const addNewNote = () => {
-        let note = makeNewObject(CATEGORIES.NOTES.TYPES.NOTE)
-        db.data.push(note)
+        let note = db.make(CATEGORIES.NOTES.ID,CATEGORIES.NOTES.TYPES.NOTE)
+        db.add(note)
         setSelectedNote(note)
     }
 

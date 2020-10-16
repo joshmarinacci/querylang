@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {attach, propAsString, setProp, sort} from './db.js'
-import {CATEGORIES, makeNewObject} from './schema.js'
+import {CATEGORIES} from './schema.js'
 import {DataList, HBox, VBox, Window} from './ui.js'
 import {AND, query2 as QUERY} from './query2.js'
 
@@ -34,7 +34,7 @@ export function Chat({db}) {
 
     // conversations = attach_in(conversations,people,'people','id')
     const sendText = () => {
-        let msg = makeNewObject(CATEGORIES.CHAT.TYPES.MESSAGE)
+        let msg = db.make(CATEGORIES.CHAT.ID,CATEGORIES.CHAT.TYPES.MESSAGE)
         setProp(msg,'sender',1)
         setProp(msg,'receivers',selected.props.people.slice())
         setProp(msg,'contents',text)

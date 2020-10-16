@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {deepClone, project, propAsString, sort} from './db.js'
-import {CATEGORIES, makeNewObject, SORTS} from './schema.js'
+import {CATEGORIES, SORTS} from './schema.js'
 import {
     AddButton,
     DataList,
@@ -45,7 +45,7 @@ export function ContactList({db}) {
     const update = () => setBuffer(deepClone(buffer))
 
     const addEmail = () => {
-        buffer.props.emails.push(makeNewObject(CATEGORIES.CONTACT.TYPES.EMAIL))
+        buffer.props.emails.push(db.make(CATEGORIES.CONTACT.ID,CATEGORIES.CONTACT.TYPES.EMAIL))
         update()
     }
     const removeEmail = (o) => {
@@ -53,7 +53,7 @@ export function ContactList({db}) {
         update()
     }
     const addPhone = () => {
-        buffer.props.phones.push(makeNewObject(CATEGORIES.CONTACT.TYPES.PHONE))
+        buffer.props.phones.push(db.make(CATEGORIES.CONTACT.ID,CATEGORIES.CONTACT.TYPES.PHONE))
         update()
     }
     const removePhone = (o) => {
@@ -61,7 +61,7 @@ export function ContactList({db}) {
         update()
     }
     const addAddress = () => {
-        buffer.props.addresses.push(makeNewObject(CATEGORIES.CONTACT.TYPES.MAILING_ADDRESS))
+        buffer.props.addresses.push(db.make(CATEGORIES.CONTACT.ID,CATEGORIES.CONTACT.TYPES.MAILING_ADDRESS))
         update()
     }
     const removeAddress = (o) => {
@@ -77,7 +77,7 @@ export function ContactList({db}) {
 
 
     const addNewContact = () => {
-        let person = makeNewObject(CATEGORIES.CONTACT.TYPES.PERSON)
+        let person = db.make(CATEGORIES.CONTACT.ID, CATEGORIES.CONTACT.TYPES.PERSON)
         db.add(person)
         setSelected(person)
         toggleEditing()

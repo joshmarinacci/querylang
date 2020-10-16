@@ -66,7 +66,7 @@ export function setProp(obj,key,value) {
         return
     }
     obj.props[key] = value
-    return
+
 }
 
 export function hasProp(s,key) {
@@ -74,7 +74,7 @@ export function hasProp(s,key) {
 }
 export function propAsBoolean(s, key) {
     if(!s) return false
-    return new Boolean(s.props[key]).valueOf()
+    return Boolean(s.props[key]).valueOf()
 }
 
 export function stringAsBoolean(str) {
@@ -118,7 +118,7 @@ export function filter(list,opts) {
             } else {
                 if (ov !== fv) {
                     pass = false
-                    return
+
                 }
             }
             // console.log("matched")
@@ -138,7 +138,7 @@ export function filterSubstring(list,opts) {
             let ov = o.props[k]
             if (!ov.toLowerCase().includes(fv.toLowerCase())) {
                 pass = false
-                return
+
             }
         })
         return pass
@@ -161,7 +161,7 @@ export function filterPropArrayContains(list,opts) {
             }
             if(!ov.includes(fv)) {
                 pass = false
-                return
+
             }
         })
         return pass

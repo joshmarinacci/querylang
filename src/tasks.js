@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {hasProp, propAsBoolean, propAsIcon, propAsString, setProp} from './db.js'
-import {CATEGORIES, makeNewObject} from './schema.js'
+import {CATEGORIES} from './schema.js'
 import {
     CheckboxPropEditor,
     DataList,
