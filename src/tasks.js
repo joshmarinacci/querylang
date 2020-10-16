@@ -37,7 +37,6 @@ export function TaskLists({db}) {
     let projects = db.QUERY(AND(isProject(), isTaskCategory(), isPropTrue('active')))
     let tasks = db.QUERY(AND(isTaskCategory(), isTask()))
 
-    let [refresh, setRefresh] = useState(false)
     let [searchTerms, setSearchTerms] = useState("")
 
     if(selectedProject) {
