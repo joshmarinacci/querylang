@@ -65,7 +65,7 @@ export function TaskLists({db}) {
     }
 
     const addNewTask = () => {
-        let task = makeNewObject(CATEGORIES.TASKS.TYPES.TASK, CATEGORIES.TASKS.ID)
+        let task = db.make(CATEGORIES.TASKS.ID, CATEGORIES.TASKS.TYPES.TASK)
         setProp(task,'project',selectedProject.id)
         db.add(task)
         doRefresh()

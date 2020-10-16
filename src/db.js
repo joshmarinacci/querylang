@@ -2,6 +2,7 @@ import {MdAccessAlarm, MdArchive, MdDelete, MdList, MdNote} from 'react-icons/md
 import React from 'react'
 import {DATA} from './data.js'
 import {query2} from './query2.js'
+import {makeNewObject} from './schema.js'
 
 export function query(data,opts) {
     if(opts.type) {
@@ -220,6 +221,9 @@ class DB {
     add(obj) {
         this.data.push(obj)
         console.log("added",obj)
+    }
+    make(category,type) {
+        return makeNewObject(type,category)
     }
 }
 
