@@ -31,15 +31,15 @@ export function TaskLists({db}) {
     const [selectedTask, setSelectedTask] = useState(null)
 
 
-    let projects = QUERY(db.data, AND(isProject(), isTaskCategory(), isPropTrue('active')))
-    let tasks = QUERY(db.data, AND(isTaskCategory(), isTask()))
+    let projects = db.QUERY(AND(isProject(), isTaskCategory(), isPropTrue('active')))
+    let tasks = db.QUERY(AND(isTaskCategory(), isTask()))
 
     let [refresh, setRefresh] = useState(false)
     let [searchTerms, setSearchTerms] = useState("")
 
     if(selectedProject) {
         if(propAsBoolean(selectedProject,'query')  && hasProp(selectedProject,'query_impl')) {
-            tasks = QUERY(db.data,selectedProject.props.query_impl)
+            tasks = db.QUERY(selectedProject.props.query_impl)
         } else {
             tasks = QUERY(tasks, AND(
                 isPropEqualId('project',selectedProject),

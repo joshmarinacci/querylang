@@ -24,6 +24,8 @@ import {AND, OR, query2 as QUERY} from './query2.js'
 
 
 const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
+const isNotesCategory = () => ({ CATEGORY:CATEGORIES.NOTES.ID })
+const isNote = () => ({ TYPE:CATEGORIES.NOTES.TYPES.NOTE })
 
 export function Notes({db}) {
     const [selectedGroup, setSelectedGroup] = useState(null)
@@ -32,10 +34,7 @@ export function Notes({db}) {
     const [refresh, setRefresh] = useState(false)
     const doRefresh = () => setRefresh(!refresh)
 
-    let notes = query(db.data, {
-        category: CATEGORIES.NOTES.ID,
-        type: CATEGORIES.NOTES.TYPES.NOTE
-    })
+    let notes = db.QUERY(AND(isNotesCategory(),isNote()))
 
     let groups = [{
             id:199,

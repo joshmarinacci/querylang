@@ -43,7 +43,7 @@ export function Calendar({db}) {
     let current_week = {start:start_week, end: end_week}
     let current_day = {start:startOfDay(today), end:endOfDay(today)}
 
-    let events = QUERY(db.data,AND(isCalendarCategory(),isEvent()))
+    let events = db.QUERY(AND(isCalendarCategory(),isEvent()))
 
     // only have events that are within the current week
     events = events.filter(e => isWithinInterval(e.props.start,current_day) || is_event_repeating_daily(e))

@@ -14,19 +14,19 @@ const isContactCategory = () => ({ CATEGORY:CATEGORIES.CONTACT.ID })
 export function Chat({db}) {
     const [selected, setSelected] = useState(null)
     const [text, setText] = useState("")
-    let conversations = QUERY(db.data,AND(isChatCategory(),isConversation()))
+    let conversations = db.QUERY(AND(isChatCategory(),isConversation()))
 
 
     let messages = []
 
     if (selected) {
-        messages = QUERY(db.data,AND(
+        messages = db.QUERY(AND(
             isChatCategory(),
             isMessage(),
             isPropEqual('receivers',selected.props.people)))
     }
 
-    let people = QUERY(db.data, isContactCategory(), isPerson())
+    let people = db.QUERY(isContactCategory(), isPerson())
     messages = attach(messages, people, 'sender', 'id')
     messages = sort(messages, ['timestamp'])
 

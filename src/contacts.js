@@ -69,7 +69,7 @@ export function ContactList({db}) {
         update()
     }
 
-    let items = QUERY(db.data, AND(isContactCategory(),isPerson()))
+    let items = db.QUERY(AND(isContactCategory(),isPerson()))
     items = sort(items, ["first", "last"], SORTS.ASCENDING)
     items = project(items, ["first", "last", "id"])
 
