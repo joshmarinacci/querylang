@@ -207,12 +207,5 @@ export function attach_in(A, B, ka, kb) {
     return data
 }
 
-export function now() {
-    return new Date().toISOString()
-}
 
-export function hourAsDateString(h) {
-    let date = new Date()
-    date.setHours(h)
-    return date.toISOString()
-}
+
