@@ -401,6 +401,79 @@ export const DATA = [
             contents:'in the bin!',
             lastedited: sub(Date.now(),{days:85})
         }
-    }
+    },
+    {
+        id: 24,
+        category: CATEGORIES.NOTES.ID,
+        type: CATEGORIES.NOTES.TYPES.GROUP,
+        props: {
+            title: 'all',
+            query: true,
+            icon: 'notes',
+            query_impl: {
+                and: [
+                    {
+                        CATEGORY: CATEGORIES.NOTES.ID,
+                    },
+                    {
+                        TYPE: CATEGORIES.NOTES.TYPES.NOTE,
+                    },
+                ]
+            }
+        }
+    },
+    {
+        id: 25,
+        category: CATEGORIES.NOTES.ID,
+        type: CATEGORIES.NOTES.TYPES.GROUP,
+        props: {
+            title: 'archived',
+            query: true,
+            icon: 'archive',
+            query_impl: {
+                and: [
+                    {
+                        CATEGORY: CATEGORIES.NOTES.ID,
+                    },
+                    {
+                        TYPE: CATEGORIES.NOTES.TYPES.NOTE,
+                    },
+                    {
+                        equal: {
+                            prop: 'archived',
+                            value: true
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    {
+        id: 26,
+        category: CATEGORIES.NOTES.ID,
+        type: CATEGORIES.NOTES.TYPES.GROUP,
+        props: {
+            title: 'trash',
+            query: true,
+            icon: 'trash',
+            query_impl: {
+                and: [
+                    {
+                        CATEGORY: CATEGORIES.NOTES.ID,
+                    },
+                    {
+                        TYPE: CATEGORIES.NOTES.TYPES.NOTE,
+                    },
+                    {
+                        equal: {
+                            prop:'deleted',
+                            value:true,
+                        }
+                    }
+                ]
+            }
+        }
+    },
+
 ]
 validateData(DATA)

@@ -221,7 +221,8 @@ export const CATEGORIES = {
     NOTES:{
         ID:'NOTES',
         TYPES:{
-            NOTE:'NOTE'
+            NOTE:'NOTE',
+            GROUP:'GROUP',
         },
         SCHEMAS: {
             NOTE:{

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {
-    filterPropArrayContains,
+    filterPropArrayContains, hasProp,
     propAsArray,
     propAsBoolean,
     propAsIcon,
@@ -25,6 +25,7 @@ import {AND, OR, query2 as QUERY} from './query2.js'
 const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 const isNotesCategory = () => ({ CATEGORY:CATEGORIES.NOTES.ID })
 const isNote = () => ({ TYPE:CATEGORIES.NOTES.TYPES.NOTE })
+const isGroup = () => ({ TYPE:CATEGORIES.NOTES.TYPES.GROUP })
 
 export function Notes({db}) {
     useDBChanged(db)
@@ -34,34 +35,7 @@ export function Notes({db}) {
     const [searchTerms, setSearchTerms] = useState("")
 
     let notes = db.QUERY(AND(isNotesCategory(),isNote()))
-
-    let groups = [{
-            id:199,
-            props: {
-                title: 'all',
-                icon:'notes',
-                query:true,
-            }
-        },
-        {
-            id:198,
-            props: {
-                title: 'archive',
-                icon: 'archive',
-                query:true,
-            }
-        },
-        {
-            id:197,
-            props: {
-                title: 'trash',
-                icon: 'trash',
-                query:true,
-            }
-        }
-    ]
-
-
+    let groups = db.QUERY(AND(isNotesCategory(),isGroup()))
     let tagset = new Set()
     notes.forEach(n => propAsArray(n,'tags').forEach(t => tagset.add(t)))
 
@@ -87,16 +61,11 @@ export function Notes({db}) {
         if(searchTerms.length >= 2) {
             return QUERY(notes,OR(isPropSubstring('title',searchTerms), isPropSubstring('contents',searchTerms)))
         }
-        if(propAsBoolean(selectedGroup,'query')) {
-            if(propAsString(selectedGroup,'title') === 'archive') {
-                return QUERY(notes,AND({equal:{prop:'archived', value:true}}))
-            }
-            if(propAsString(selectedGroup,'title') === 'trash') {
-                return QUERY(notes,AND({equal:{prop:'deleted', value:true}}))
-            }
-            if(propAsBoolean(selectedGroup,'tag')) {
-                return filterPropArrayContains(notes,{tags:propAsString(selectedGroup,'title')})
-            }
+        if(propAsBoolean(selectedGroup,'tag')) {
+            return filterPropArrayContains(notes,{tags:propAsString(selectedGroup,'title')})
+        }
+        if(propAsBoolean(selectedGroup,'query')  && hasProp(selectedGroup,'query_impl')) {
+            return db.QUERY(selectedGroup.props.query_impl)
         }
         return notes
     }
