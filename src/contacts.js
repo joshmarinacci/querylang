@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {deepClone, project, propAsString, sort} from './db.js'
+import {deepClone, project, propAsString, sort, useDBChanged} from './db.js'
 import {CATEGORIES, SORTS} from './schema.js'
 import {
     AddButton,
@@ -22,6 +22,8 @@ const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 
 
 export function ContactList({db}) {
+    useDBChanged(db,CATEGORIES.CONTACT.ID)
+
     const [selected, setSelected] = useState(null)
     const [editing, setEditing] = useState(false)
     const [buffer, setBuffer] = useState({})
@@ -42,31 +44,32 @@ export function ContactList({db}) {
     }
     const cancelEditing = () => setEditing(false)
 
-    const update = () => setBuffer(deepClone(buffer))
+    const update = () => {
+    }
 
     const addEmail = () => {
         buffer.props.emails.push(db.make(CATEGORIES.CONTACT.ID,CATEGORIES.CONTACT.TYPES.EMAIL))
-        update()
+        db.setProp(buffer,'emails',buffer.props.emails)
     }
     const removeEmail = (o) => {
         buffer.props.emails = buffer.props.emails.filter(t => o!==t)
-        update()
+        db.setProp(buffer,'emails',buffer.props.emails)
     }
     const addPhone = () => {
         buffer.props.phones.push(db.make(CATEGORIES.CONTACT.ID,CATEGORIES.CONTACT.TYPES.PHONE))
-        update()
+        db.setProp(buffer,'phones',buffer.props.phones)
     }
     const removePhone = (o) => {
         buffer.props.phones = buffer.props.phones.filter(t => o!==t)
-        update()
+        db.setProp(buffer,'phones',buffer.props.phones)
     }
     const addAddress = () => {
         buffer.props.addresses.push(db.make(CATEGORIES.CONTACT.ID,CATEGORIES.CONTACT.TYPES.MAILING_ADDRESS))
-        update()
+        db.setProp(buffer,'addresses',buffer.props.addresses)
     }
     const removeAddress = (o) => {
         buffer.props.addresses = buffer.props.addresses.filter(t => o!==t)
-        update()
+        db.setProp(buffer,'addresses',buffer.props.addresses)
     }
 
     let items = db.QUERY(AND(isContactCategory(),isPerson()))
@@ -137,14 +140,14 @@ export function ContactList({db}) {
             panel = <Panel grow>
                 <VBox className={'edit-emails'}>
                     <h3>name</h3>
-                    <TextPropEditor buffer={buffer} prop={'first'} onChange={update}/>
-                    <TextPropEditor buffer={buffer} prop={'last'} onChange={update}/>
+                    <TextPropEditor buffer={buffer} prop={'first'} db={db}/>
+                    <TextPropEditor buffer={buffer} prop={'last'} db={db}/>
                     <h3>email</h3>
                     {buffer.props.emails.map((o,i) => {
                         return <HBox key={'email_'+i}>
                             <RemoveButton onClick={()=>removeEmail(o)}/>
-                            <EnumPropEditor buffer={o} prop={'type'} onChange={update}/>
-                            <TextPropEditor buffer={o} prop={'value'} onChange={update}/>
+                            <EnumPropEditor buffer={o} prop={'type'} db={db}/>
+                            <TextPropEditor buffer={o} prop={'value'} db={db}/>
                         </HBox>
                     })}
                     <AddButton onClick={addEmail}/>
@@ -153,8 +156,8 @@ export function ContactList({db}) {
                     {buffer.props.phones.map((o,i) => {
                         return <HBox key={'phone_'+i}>
                             <RemoveButton onClick={()=>removePhone(o)}/>
-                            <EnumPropEditor buffer={o} prop={'type'} onChange={update}/>
-                            <TextPropEditor buffer={o} prop={'value'} onChange={update}/>
+                            <EnumPropEditor buffer={o} prop={'type'} db={db}/>
+                            <TextPropEditor buffer={o} prop={'value'} db={db}/>
                         </HBox>
                     })}
                     <AddButton onClick={addPhone}/>
@@ -163,14 +166,14 @@ export function ContactList({db}) {
                     {buffer.props.addresses.map((o,i) => {
                         return <HBox key={'address_'+i}>
                             <RemoveButton onClick={()=>removeAddress(o)}/>
-                            <EnumPropEditor buffer={o} prop={'type'} onChange={update}/>
+                            <EnumPropEditor buffer={o} prop={'type'} db={db}/>
                             <VBox>
-                                <TextPropEditor buffer={o} prop={'street1'} onChange={update}/>
-                                <TextPropEditor buffer={o} prop={'street2'} onChange={update}/>
+                                <TextPropEditor buffer={o} prop={'street1'} db={db}/>
+                                <TextPropEditor buffer={o} prop={'street2'} db={db}/>
                                 <HBox>
-                                <TextPropEditor buffer={o} prop={'city'} onChange={update}/>
-                                <TextPropEditor buffer={o} prop={'state'} onChange={update}/>
-                                <TextPropEditor buffer={o} prop={'zip'} onChange={update}/>
+                                <TextPropEditor buffer={o} prop={'city'} db={db}/>
+                                <TextPropEditor buffer={o} prop={'state'} db={db}/>
+                                <TextPropEditor buffer={o} prop={'zipcode'} db={db}/>
                                 </HBox>
                             </VBox>
                         </HBox>
