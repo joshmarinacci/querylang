@@ -28,7 +28,7 @@ const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 
 
 export function TaskLists({db}) {
-    useDBChanged(db)
+    useDBChanged(db,CATEGORIES.TASKS.ID)
 
     const [selectedProject, setSelectedProject] = useState(null)
     const [selectedTask, setSelectedTask] = useState(null)

@@ -2,7 +2,7 @@ import {MdAccessAlarm, MdArchive, MdDelete, MdList, MdNote} from 'react-icons/md
 import React, {useEffect, useState} from 'react'
 import {DATA} from './data.js'
 import {query2} from './query2.js'
-import {makeNewObject} from './schema.js'
+import {CATEGORIES, makeNewObject} from './schema.js'
 
 export function sort(items,sortby,sortorder) {
     items = items.slice()
@@ -207,20 +207,23 @@ export function attach_in(A, B, ka, kb) {
 class DB {
     constructor(DATA) {
         this.data = DATA
-        this.listeners = []
+        this.listeners = {}
+        Object.keys(CATEGORIES).forEach(cat => this.listeners[cat] = [])
     }
-    addEventListener(listener) {
-        this.listeners.push(listener)
+    addEventListener(cat,listener) {
+        if(!cat) throw new Error("Missing category")
+        this.listeners[cat].push(listener)
     }
-    removeEventListener(listener) {
-        this.listeners = this.listeners.filter(l => l !== listener)
+    removeEventListener(cat,listener) {
+        if(!cat) throw new Error("Missing category")
+        this.listeners[cat] = this.listeners[cat].filter(l => l !== listener)
     }
     QUERY(...args) {
         return query2(this.data,...args)
     }
     add(obj) {
         this.data.push(obj)
-        this._fireUpdate()
+        this._fireUpdate(obj)
     }
     make(category,type) {
         return makeNewObject(type,category)
@@ -235,12 +238,11 @@ class DB {
             return
         }
         obj.props[key] = value
-        this._fireUpdate()
+        this._fireUpdate(obj)
     }
 
-    _fireUpdate() {
-        // console.log("notifying",obj)
-        this.listeners.forEach(l => l())
+    _fireUpdate(obj) {
+        this.listeners[obj.category].forEach(l => l())
     }
 }
 
@@ -249,16 +251,17 @@ export function makeDB() {
 }
 
 
-export function useDBChanged(db) {
+export function useDBChanged(db,cat) {
+    if(!cat) throw new Error("missing category to monitor")
     let [refresh, setRefresh] = useState(false)
     const dbChanged = () => {
         console.log("useDBChanged: changed")
         setRefresh(!refresh)
     }
     useEffect(()=>{
-        db.addEventListener(dbChanged)
+        db.addEventListener(cat,dbChanged)
         return ()=>{
-            db.removeEventListener(dbChanged)
+            db.removeEventListener(cat,dbChanged)
         }
     })
 }

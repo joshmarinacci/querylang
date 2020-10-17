@@ -28,7 +28,7 @@ const isNote = () => ({ TYPE:CATEGORIES.NOTES.TYPES.NOTE })
 const isGroup = () => ({ TYPE:CATEGORIES.NOTES.TYPES.GROUP })
 
 export function Notes({db}) {
-    useDBChanged(db)
+    useDBChanged(db, CATEGORIES.NOTES.ID)
 
     const [selectedGroup, setSelectedGroup] = useState(null)
     const [selectedNote, setSelectedNote] = useState(null)
