@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {hasProp, propAsBoolean, propAsIcon, propAsString, setProp, useDBChanged} from './db.js'
 import {CATEGORIES} from './schema.js'
 import {
@@ -21,7 +21,7 @@ const isTask = () => ({ TYPE:CATEGORIES.TASKS.TYPES.TASK })
 const isTaskCategory = () => ({ CATEGORY:CATEGORIES.TASKS.ID })
 const isPropTrue = (prop) => ({ equal: {prop, value:true}})
 const isPropFalse = (prop) => ({ equal: {prop, value:false}})
-const isPropEqual = (prop,value) => ({ equal: {prop, value}})
+// const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 const isPropEqualId = (prop,obj) => ({ equal: {prop, value:obj?obj.id:null}})
 const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 

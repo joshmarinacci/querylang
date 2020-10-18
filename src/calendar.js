@@ -2,12 +2,11 @@ import {propAsString} from './db.js'
 import {CATEGORIES} from './schema.js'
 import {DataList, HBox, Window} from './ui.js'
 import React, {useState} from 'react'
-import {format, getWeek, startOfWeek, endOfWeek, isWithinInterval, isBefore,
-    setHours, getHours, setMinutes, getMinutes, isAfter,
+import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, isAfter,
     subDays, addDays,
     startOfDay, endOfDay,
 } from 'date-fns'
-import {AND, query2 as QUERY} from './query2.js'
+import {AND} from './query2.js'
 
 const isCalendarCategory = () => ({ CATEGORY:CATEGORIES.CALENDAR.ID })
 const isEvent = () => ({ TYPE:CATEGORIES.CALENDAR.TYPES.EVENT })
@@ -38,9 +37,6 @@ function is_event_repeating_daily(e) {
 
 export function Calendar({db}) {
     let [today, setToday] = useState(()=>Date.now())
-    let start_week = startOfWeek(today)
-    let end_week = endOfWeek(today)
-    let current_week = {start:start_week, end: end_week}
     let current_day = {start:startOfDay(today), end:endOfDay(today)}
 
     let events = db.QUERY(AND(isCalendarCategory(),isEvent()))

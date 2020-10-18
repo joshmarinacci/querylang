@@ -177,12 +177,6 @@ export function ContactList({db}) {
     const [editing, setEditing] = useState(false)
     let [searchTerms, setSearchTerms] = useState("")
 
-    // const toggleEditing = () => {
-    //     if (!editing && selected) {
-    //         setEditing(true)
-    //         // setBuffer(deepClone(selected))
-    //     }
-    // }
 
     let items = db.QUERY(AND(isContactCategory(),isPerson()))
     items = sort(items, ["first", "last"], SORTS.ASCENDING)

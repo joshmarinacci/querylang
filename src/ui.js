@@ -173,7 +173,7 @@ export function TagsetEditor({buffer, prop, onChange}) {
 
     const addTag = (tag) => {
         tags.push(tag)
-        tags = [... new Set(tags)] // remove dupes
+        tags = [...new Set(tags)] // remove dupes
         setProp(buffer,prop,tags)
         setRefresh(!refresh)
         if(onChange) onChange(buffer,prop)
