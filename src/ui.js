@@ -1,8 +1,10 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {propAsArray, propAsBoolean, propAsString, setProp} from './db.js'
 import {getEnumPropValues} from './schema.js'
 import {HiMinusCircle, HiPlusCircle} from 'react-icons/hi'
 import {MdClose} from 'react-icons/md'
+
+import "./window.css"
 
 
 export function HBox ({children, grow}) {
@@ -27,16 +29,55 @@ export function Panel({children, grow}) {
     return <div className={'panel ' + (grow?"grow":"")}>{children}</div>
 }
 export function Window({x,y,width,height,children,title, className}) {
+
+    let [dragging, setDragging] = useState(false)
+    let [left,setLeft] = useState(x?x:0)
+    let [top,setTop] = useState(y?y:0)
+    let [offx, setOffx] = useState(0)
+    let [offy, setOffy] = useState(0)
+
     let style = {
         width: width ? (width + "px") : "100px",
         height: height ? (height + "px") : "100px",
         position:'absolute',
-        left:x?(x+'px'):'0px',
-        top:y?(y+'px'):'0px',
+        left:(left-offx)+'px',
+        top:(top-offy)+'px',
     }
     if(!className) className = ""
+
+    const mouseMove = (e) => {
+        setLeft(e.screenX)
+        setTop(e.screenY)
+    }
+    const mouseUp = () => {
+        setLeft(left-offx)
+        setOffx(0)
+        setTop(top-offy)
+        setOffy(0)
+        setDragging(false)
+    }
+    useEffect(()=>{
+        if(dragging) {
+            window.addEventListener('mousemove',mouseMove)
+            window.addEventListener('mouseup',mouseUp)
+        }
+        return ()=>{
+            window.removeEventListener('mousemove', mouseMove)
+            window.removeEventListener('mouseup',mouseUp)
+        }
+    })
+    const mouseDown = (e) => {
+        setOffx(e.screenX - left)
+        setLeft(e.screenX)
+        setOffy(e.screenY - top)
+        setTop(e.screenY)
+        setDragging(true)
+    }
+    if(dragging) className += " dragging "
     return <div className={"window " + className} style={style}>
-        <title>{title}</title>
+        <title
+            onMouseDown={mouseDown}
+        >{title}</title>
         {children}</div>
 }
 

@@ -1,0 +1,24 @@
+.window {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    flex: 1.0;
+    align-items: stretch;
+    justify-content: stretch;
+    background-color: white;
+    overflow: auto;
+}
+
+.window > title {
+    display: block;
+    background-color: #888;
+    color: white;
+    padding: 0.125em;
+    padding: 1em;
+    user-select: none;
+}
+
+
+.window.dragging > title {
+    background-color: red;
+}
