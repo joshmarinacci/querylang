@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {attach, propAsString, setProp, sort} from './db.js'
 import {CATEGORIES} from './schema.js'
 import {DataList, HBox, VBox, Window} from './ui.js'
-import {AND, query2 as QUERY} from './query2.js'
+import {AND} from './query2.js'
 
 const isConversation = () => ({ TYPE:CATEGORIES.CHAT.TYPES.CONVERSATION })
 const isMessage = () => ({ TYPE:CATEGORIES.CHAT.TYPES.MESSAGE })
@@ -15,9 +15,6 @@ export function Chat({db}) {
     const [selected, setSelected] = useState(null)
     const [text, setText] = useState("")
     let conversations = db.QUERY(AND(isChatCategory(),isConversation()))
-    const [refresh, setRefresh] = useState(false)
-    const doRefresh = () => setRefresh(!refresh)
-
 
     let messages = []
 
@@ -41,7 +38,6 @@ export function Chat({db}) {
         setProp(msg,'timestamp',Date.now())
         setText("")
         db.add(msg)
-        doRefresh()
     }
 
     return <Window width={500} height={320} x={650} y={0} title={'chat'} className={"chat"}>

@@ -8,10 +8,10 @@ import {MdClose} from 'react-icons/md'
 export function HBox ({children, grow}) {
     return <div className={'hbox ' + (grow?"grow":"")}>{children}</div>
 }
-export function VBox ({children, grow, className, style}) {
+export function VBox ({children, grow, className, style, scroll}) {
     className = className?className:""
     style = style || {}
-    return <div style={style} className={'vbox ' + (grow?"grow":"") + " " + className}>{children}</div>
+    return <div style={style} className={'vbox ' + (grow?"grow":"") + " " + (scroll?"scroll":"") +  " " + className}>{children}</div>
 }
 
 export function Toolbar ({children, grow, className, style}) {
