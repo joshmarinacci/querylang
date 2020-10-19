@@ -36,11 +36,16 @@ export function Window({x,y,width,height,children,title, className}) {
     let [offx, setOffx] = useState(0)
     let [offy, setOffy] = useState(0)
 
+    let [w,sw] = useState(width?width:100)
+    let [h,sh] = useState(height?height:100)
+
+    let [resizing, setResizing] = useState(false)
+
     let style = {
-        width: width ? (width + "px") : "100px",
-        height: height ? (height + "px") : "100px",
+        width: `${w}px`,
+        height: `${h}px`,
         position:'absolute',
-        left:(left-offx)+'px',
+        left:`${left-offx}px`,
         top:(top-offy)+'px',
     }
     if(!className) className = ""
@@ -73,12 +78,42 @@ export function Window({x,y,width,height,children,title, className}) {
         setTop(e.screenY)
         setDragging(true)
     }
+
+    const resize_mouse_down = (e) => {
+        setResizing(true)
+    }
+
+    const resize_mouse_move = (e) => {
+        sw(e.pageX-left)
+        sh(e.pageY - top)
+    }
+    const resize_mouse_up = (e) => {
+        setResizing(false)
+    }
+
+    useEffect(()=>{
+        if(resizing) {
+            window.addEventListener('mousemove',resize_mouse_move)
+            window.addEventListener('mouseup',resize_mouse_up)
+        }
+        return ()=>{
+            window.removeEventListener('mousemove', resize_mouse_move)
+            window.removeEventListener('mouseup',resize_mouse_up)
+        }
+    })
+
+
     if(dragging) className += " dragging "
+    if(resizing) className += " resizing "
     return <div className={"window " + className} style={style}>
         <title
             onMouseDown={mouseDown}
         >{title}</title>
-        {children}</div>
+        {children}
+        <label className={'resize-handle'}
+               onMouseDown={resize_mouse_down}
+        >XXXX</label>
+    </div>
 }
 
 

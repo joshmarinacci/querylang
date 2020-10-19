@@ -7,6 +7,7 @@
     justify-content: stretch;
     background-color: white;
     overflow: auto;
+    position: absolute;
 }
 
 .window > title {
@@ -14,11 +15,25 @@
     background-color: #888;
     color: white;
     padding: 0.125em;
-    padding: 1em;
     user-select: none;
 }
 
 
 .window.dragging > title {
     background-color: red;
+}
+
+.window .resize-handle {
+    position: absolute;
+    right:0;
+    bottom:0;
+    border: 1px solid black;
+    background-color: red;
+    padding: 0.5em;
+    user-select: none;
+}
+
+
+.window.resizing {
+    border-color: red;
 }
