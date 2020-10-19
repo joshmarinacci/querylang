@@ -27,7 +27,7 @@ const isNotesCategory = () => ({ CATEGORY:CATEGORIES.NOTES.ID })
 const isNote = () => ({ TYPE:CATEGORIES.NOTES.TYPES.NOTE })
 const isGroup = () => ({ TYPE:CATEGORIES.NOTES.TYPES.GROUP })
 
-export function Notes({db}) {
+export function Notes({db, app, appService}) {
     useDBChanged(db, CATEGORIES.NOTES.ID)
 
     const [selectedGroup, setSelectedGroup] = useState(null)
@@ -73,7 +73,7 @@ export function Notes({db}) {
     notes = calcFilter()
 
 
-    return <Window width={620} height={300} x={0} y={580} title={"notes"} className={'notes'}>
+    return <Window width={620} height={300} x={0} y={580} title={"notes"} className={'notes'} app={app} appService={appService}>
         <HBox grow>
             <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup} stringify={renderProject}/>
             <VBox>

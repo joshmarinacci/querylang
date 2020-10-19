@@ -170,7 +170,7 @@ export function ContactEditPanel({db, onDone, selected}) {
     </Panel>)
 }
 
-export function ContactList({db}) {
+export function ContactList({db, appService, app}) {
     useDBChanged(db,CATEGORIES.CONTACT.ID)
 
     const [selected, setSelected] = useState(null)
@@ -199,7 +199,7 @@ export function ContactList({db}) {
         panel = <ContactEditPanel selected={selected} onDone={()=>setEditing(false)} db={db}/>
     }
 
-    return <Window x={120} width={500} height={320} title={'contacts'} className={'contacts'}>
+    return <Window x={120} width={500} height={320} title={'contacts'} className={'contacts'} appService={appService} app={app}>
         <HBox grow>
             <VBox>
                 <Toolbar>

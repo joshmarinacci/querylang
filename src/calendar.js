@@ -35,7 +35,7 @@ function is_event_repeating_daily(e) {
 }
 
 
-export function Calendar({db}) {
+export function Calendar({db, app, appService}) {
     let [today, setToday] = useState(()=>Date.now())
     let current_day = {start:startOfDay(today), end:endOfDay(today)}
 
@@ -54,7 +54,7 @@ export function Calendar({db}) {
         setToday(addDays(today,1))
     }
 
-    return <Window width={500} height={530} x={650} y={350} title={'calendar'} className={'calendar'}>
+    return <Window width={500} height={530} x={650} y={350} title={'calendar'} className={'calendar'} app={app} appService={appService}>
         <h1>{format(today,'E MMM d')}</h1>
         <HBox>
             <button onClick={nav_prev_day}>prev day</button>

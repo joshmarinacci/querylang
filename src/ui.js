@@ -28,7 +28,7 @@ export function Spacer (){
 export function Panel({children, grow}) {
     return <div className={'panel ' + (grow?"grow":"")}>{children}</div>
 }
-export function Window({x,y,width,height,children,title, className, resize, hide_titlebar}) {
+export function Window({x,y,width,height,children,title, className, resize, hide_titlebar, appService, app}) {
 
     let [dragging, setDragging] = useState(false)
     let [left,setLeft] = useState(x?x:0)
@@ -106,9 +106,7 @@ export function Window({x,y,width,height,children,title, className, resize, hide
     if(dragging) className += " dragging "
     if(resizing) className += " resizing "
 
-    const closeApp = () => {
-        console.log("closing")
-    }
+    const closeApp = () => appService.close(app)
 
     let resize_handle = ""
     if(resize) {

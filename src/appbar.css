@@ -1,0 +1,4 @@
+.appbar .list  li {
+    border: 5px solid red;
+    min-height: 5rem;
+}

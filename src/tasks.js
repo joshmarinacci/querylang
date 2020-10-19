@@ -27,7 +27,7 @@ const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 
 
 
-export function TaskLists({db}) {
+export function TaskLists({db, app, appService}) {
     useDBChanged(db,CATEGORIES.TASKS.ID)
 
     const [selectedProject, setSelectedProject] = useState(null)
@@ -73,7 +73,7 @@ export function TaskLists({db}) {
     const trashTask = () => db.setProp(selectedTask,'deleted',true)
     const archiveTask = () => db.setProp(selectedTask, 'archived',true)
 
-    return <Window width={620} height={200} x={0} y={350} title={'tasks'} className={'tasks'}>
+    return <Window width={620} height={200} x={0} y={350} title={'tasks'} className={'tasks'} app={app} appService={appService}>
         <HBox grow>
             <DataList data={projects} selected={selectedProject} setSelected={setSelectedProject}
                       stringify={((o,i) => <HBox key={i}>

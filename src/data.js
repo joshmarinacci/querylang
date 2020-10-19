@@ -475,5 +475,66 @@ export const DATA = [
         }
     },
 
+
+    {
+        id:27,
+        category: CATEGORIES.APP.ID,
+        type: CATEGORIES.APP.TYPES.APP,
+        props: {
+            title:'Contacts',
+            appid:'ContactList'
+        }
+    },
+
+    {
+        id:28,
+        category: CATEGORIES.APP.ID,
+        type: CATEGORIES.APP.TYPES.APP,
+        props: {
+            title:'Peoplebar',
+            appid:'PeopleBar'
+        }
+    },
+
+    {
+        id:29,
+        category: CATEGORIES.APP.ID,
+        type: CATEGORIES.APP.TYPES.APP,
+        props: {
+            title:'Tasks',
+            appid:'TaskLists'
+        }
+    },
+
+    {
+        id:30,
+        category: CATEGORIES.APP.ID,
+        type: CATEGORIES.APP.TYPES.APP,
+        props: {
+            title:'Chat',
+            appid:'Chat'
+        }
+    },
+
+    {
+        id:31,
+        category: CATEGORIES.APP.ID,
+        type: CATEGORIES.APP.TYPES.APP,
+        props: {
+            title:'Calendar',
+            appid:'Calendar'
+        }
+    },
+
+    {
+        id:32,
+        category: CATEGORIES.APP.ID,
+        type: CATEGORIES.APP.TYPES.APP,
+        props: {
+            title:'Notes',
+            appid:'Notes'
+        }
+    },
+
 ]
 validateData(DATA)

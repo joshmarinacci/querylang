@@ -11,7 +11,7 @@ const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 const isPerson = () => ({ TYPE:CATEGORIES.CONTACT.TYPES.PERSON })
 const isContactCategory = () => ({ CATEGORY:CATEGORIES.CONTACT.ID })
 
-export function Chat({db}) {
+export function Chat({db, app, appService}) {
     const [selected, setSelected] = useState(null)
     const [text, setText] = useState("")
     let conversations = db.QUERY(AND(isChatCategory(),isConversation()))
@@ -40,7 +40,7 @@ export function Chat({db}) {
         db.add(msg)
     }
 
-    return <Window width={500} height={320} x={650} y={0} title={'chat'} className={"chat"}>
+    return <Window width={500} height={320} x={650} y={0} title={'chat'} className={"chat"} app={app} appService={appService}>
         <HBox grow>
             <DataList
                 data={conversations}

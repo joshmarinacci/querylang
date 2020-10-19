@@ -264,6 +264,29 @@ export const CATEGORIES = {
                 }
             }
         }
+    },
+    APP:{
+        ID:'APP',
+        TYPES:{
+            APP:'APP'
+        },
+        SCHEMAS: {
+            APP: {
+                title:'app',
+                props: {
+                    title: {
+                        key:'title',
+                        type:STRING,
+                        default:'missing app name'
+                    },
+                    appid: {
+                        key:'appid',
+                        type:STRING,
+                        default:'BrokenApp',
+                    }
+                }
+            }
+        }
     }
 }
 
