@@ -105,10 +105,15 @@ export function Window({x,y,width,height,children,title, className}) {
 
     if(dragging) className += " dragging "
     if(resizing) className += " resizing "
+
+    const closeApp = () => {
+        console.log("closing")
+    }
     return <div className={"window " + className} style={style}>
-        <title
-            onMouseDown={mouseDown}
-        >{title}</title>
+        <title onMouseDown={mouseDown}>
+            <b>{title}</b>
+            <MdClose onClick={closeApp}/>
+        </title>
         {children}
         <label className={'resize-handle'}
                onMouseDown={resize_mouse_down}

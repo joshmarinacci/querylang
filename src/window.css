@@ -37,3 +37,12 @@
 .window.resizing {
     border-color: red;
 }
+
+.window > title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.window > title > b {
+    flex: 1.0;
+}
