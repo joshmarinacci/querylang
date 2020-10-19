@@ -1,0 +1,13 @@
+.peoplebar .list {
+
+}
+
+.peoplebar .list li {
+    display: flex;
+    flex-direction: column;
+}
+
+.peoplebar .list li img {
+    border-radius: 1rem;
+    padding: 0.25rem;
+}

@@ -28,7 +28,7 @@ export function Spacer (){
 export function Panel({children, grow}) {
     return <div className={'panel ' + (grow?"grow":"")}>{children}</div>
 }
-export function Window({x,y,width,height,children,title, className}) {
+export function Window({x,y,width,height,children,title, className, resize, titlebar}) {
 
     let [dragging, setDragging] = useState(false)
     let [left,setLeft] = useState(x?x:0)
@@ -109,15 +109,25 @@ export function Window({x,y,width,height,children,title, className}) {
     const closeApp = () => {
         console.log("closing")
     }
-    return <div className={"window " + className} style={style}>
-        <title onMouseDown={mouseDown}>
+
+    let resize_handle = ""
+    if(resize) {
+        resize_handle = <label className={'resize-handle'}
+               onMouseDown={resize_mouse_down}
+        >XXXX</label>
+
+    }
+    let title_ui = ""
+    if(titlebar) {
+        title_ui = <title onMouseDown={mouseDown}>
             <b>{title}</b>
             <MdClose onClick={closeApp}/>
         </title>
+    }
+    return <div className={"window " + className} style={style}>
+        {title_ui}
         {children}
-        <label className={'resize-handle'}
-               onMouseDown={resize_mouse_down}
-        >XXXX</label>
+        {resize_handle}
     </div>
 }
 
