@@ -1,5 +1,5 @@
 .peoplebar .list {
-
+    border-width: 0;
 }
 
 .peoplebar .list li {
@@ -10,4 +10,9 @@
 .peoplebar .list li img {
     border-radius: 1rem;
     padding: 0.25rem;
+}
+
+.peoplebar .list li {
+    border-width: 0;
+    margin: 0.25em;
 }

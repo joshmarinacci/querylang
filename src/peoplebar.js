@@ -12,8 +12,8 @@ const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 
 const PersonView = ({person}) => {
     return <li>
-        <b>{propAsString(person, 'first')}</b>
         <img src={person.props.icon} alt={'user-icon'}/>
+        <b>{propAsString(person, 'first')}</b>
         <i>8am <MdWbSunny/></i>
     </li>
 }
@@ -22,7 +22,7 @@ export function PeopleBar({db}) {
     let items = db.QUERY(AND(isGeneralCategory(), isCollection()))
     let collection = QUERY(items, AND(isPropEqual('name','peoplebar')))[0]
     items = find_in_collection(collection, db.data)
-    return <Window width={100} height={350} y={0} x={0} title={'people'} className={"peoplebar"} resize={false} titlebar={false}>
+    return <Window width={100} height={326} y={0} x={0} title={'people'} className={"peoplebar"} resize={false} hide_titlebar={true}>
         <ul className={'list'}>{items.map(o => {
             return <PersonView key={o.id} person={o}/>
         })}</ul>

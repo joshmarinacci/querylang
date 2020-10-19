@@ -28,7 +28,7 @@ export function Spacer (){
 export function Panel({children, grow}) {
     return <div className={'panel ' + (grow?"grow":"")}>{children}</div>
 }
-export function Window({x,y,width,height,children,title, className, resize, titlebar}) {
+export function Window({x,y,width,height,children,title, className, resize, hide_titlebar}) {
 
     let [dragging, setDragging] = useState(false)
     let [left,setLeft] = useState(x?x:0)
@@ -118,7 +118,7 @@ export function Window({x,y,width,height,children,title, className, resize, titl
 
     }
     let title_ui = ""
-    if(titlebar) {
+    if(!hide_titlebar) {
         title_ui = <title onMouseDown={mouseDown}>
             <b>{title}</b>
             <MdClose onClick={closeApp}/>
