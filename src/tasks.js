@@ -15,6 +15,7 @@ import {
 import {HiPlusCircle} from 'react-icons/hi'
 import {MdArchive, MdCheckBox, MdCheckBoxOutlineBlank, MdDelete} from 'react-icons/md'
 import {AND, query2 as QUERY} from './query2.js'
+import Icon from '@material-ui/core/Icon'
 
 const isProject = () => ({ TYPE:CATEGORIES.TASKS.TYPES.PROJECT })
 const isTask = () => ({ TYPE:CATEGORIES.TASKS.TYPES.TASK })
@@ -102,8 +103,8 @@ export function TaskLists({db, app, appService}) {
                 {panel}
                 <Toolbar>
                     <Spacer/>
-                    <MdArchive className={'icon'} onClick={archiveTask}/>
-                    <MdDelete className={'icon'} onClick={trashTask}/>
+                    <Icon onClick={archiveTask}>archive</Icon>
+                    <Icon onClick={trashTask}>delete</Icon>
                 </Toolbar>
             </VBox>
         </HBox>

@@ -5,6 +5,7 @@ import {HiMinusCircle, HiPlusCircle} from 'react-icons/hi'
 import {MdClose} from 'react-icons/md'
 
 import "./window.css"
+import Icon from '@material-ui/core/Icon'
 
 
 export function HBox ({children, grow}) {
@@ -128,7 +129,7 @@ export function Window({width,height,children,title, className, resize, hide_tit
     if(!hide_titlebar) {
         title_ui = <title onMouseDown={mouseDown}>
             <b>{title}</b>
-            <MdClose onClick={closeApp}/>
+            <Icon onClick={closeApp}>close</Icon>
         </title>
     }
     return <div className={"window " + className} style={style}>
