@@ -482,7 +482,8 @@ export const DATA = [
         type: CATEGORIES.APP.TYPES.APP,
         props: {
             title:'Contacts',
-            appid:'ContactList'
+            appid:'ContactList',
+            icon:'perm_contact_calendar'
         }
     },
 
@@ -492,7 +493,8 @@ export const DATA = [
         type: CATEGORIES.APP.TYPES.APP,
         props: {
             title:'Peoplebar',
-            appid:'PeopleBar'
+            appid:'PeopleBar',
+            icon:'emoji_people'
         }
     },
 
@@ -502,7 +504,8 @@ export const DATA = [
         type: CATEGORIES.APP.TYPES.APP,
         props: {
             title:'Tasks',
-            appid:'TaskLists'
+            appid:'TaskLists',
+            icon:'add_task',
         }
     },
 
@@ -512,7 +515,8 @@ export const DATA = [
         type: CATEGORIES.APP.TYPES.APP,
         props: {
             title:'Chat',
-            appid:'Chat'
+            appid:'Chat',
+            icon:'chat',
         }
     },
 
@@ -522,7 +526,8 @@ export const DATA = [
         type: CATEGORIES.APP.TYPES.APP,
         props: {
             title:'Calendar',
-            appid:'Calendar'
+            appid:'Calendar',
+            icon:'today',
         }
     },
 
@@ -532,7 +537,8 @@ export const DATA = [
         type: CATEGORIES.APP.TYPES.APP,
         props: {
             title:'Notes',
-            appid:'Notes'
+            appid:'Notes',
+            icon:'note',
         }
     },
 

@@ -4,13 +4,17 @@ import React from 'react'
 import {CATEGORIES} from './schema.js'
 import {propAsString} from './db.js'
 import "./appbar.css"
+import Icon from '@material-ui/core/Icon'
 
 const isAppCategory = () => ({ CATEGORY:CATEGORIES.APP.ID })
 const isApp = () => ({ TYPE:CATEGORIES.APP.TYPES.APP })
 
 const AppView = ({app, service}) => {
     const launchApp = () => service.launch(app)
-    return <li onClick={launchApp}>{propAsString(app,'title')}</li>
+    return <li onClick={launchApp}>
+        <Icon>{propAsString(app,'icon')}</Icon>
+        <b>{propAsString(app,'title')}</b>
+    </li>
 }
 export function AppBar({db, appService}) {
     let items = db.QUERY(AND(isAppCategory(), isApp()))
