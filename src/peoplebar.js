@@ -1,14 +1,11 @@
-import {find_in_collection, propAsString} from './db.js'
+import {propAsString} from './db.js'
 import {CATEGORIES} from './schema.js'
 import {Window} from './ui.js'
 import React from 'react'
-import {AND, query2 as QUERY} from './query2.js'
+import {AND} from './query2.js'
 import {MdWbSunny} from 'react-icons/all.js'
 import "./peoplebar.css"
 
-const isGeneralCategory = () => ({ CATEGORY:CATEGORIES.GENERAL.ID })
-const isCollection = () => ({ TYPE:CATEGORIES.GENERAL.TYPES.COLLECTION })
-const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 const isPropTrue = (prop) => ({ equal: {prop, value:true}})
 
 const PersonView = ({person}) => {
