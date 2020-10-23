@@ -18,7 +18,7 @@ const AppView = ({app, service}) => {
 }
 export function AppBar({db, appService}) {
     let items = db.QUERY(AND(isAppCategory(), isApp()))
-    return <Window width={80} height={items.length*100} y={0} x={0} title={'apps'} className={"appbar"} resize={false} hide_titlebar={true}>
+    return <Window width={80} height={items.length*70} y={0} x={0} title={'apps'} className={"appbar"} resize={false} hide_titlebar={true}>
         <ul className={'list'}>{items.map(o => <AppView key={o.id} app={o} service={appService}/>)}</ul>
     </Window>
 }

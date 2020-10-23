@@ -542,5 +542,37 @@ export const DATA = [
         }
     },
 
+
+    {
+        id:33,
+        category: CATEGORIES.APP.ID,
+        type: CATEGORIES.APP.TYPES.APP,
+        props: {
+            title:'Alarms',
+            appid:'Alarms',
+            icon:'note',
+        }
+    },
+    {
+        id:34,
+        category: CATEGORIES.APP.ID,
+        type: CATEGORIES.APP.TYPES.APP,
+        props: {
+            title:'Email',
+            appid:'Email',
+            icon:'note',
+        }
+    },
+    {
+        id:35,
+        category: CATEGORIES.APP.ID,
+        type: CATEGORIES.APP.TYPES.APP,
+        props: {
+            title:'Music',
+            appid:'Music',
+            icon:'note',
+        }
+    },
+
 ]
 validateData(DATA)
