@@ -86,6 +86,7 @@ export const DATA = [
             last:'',
             icon:'https://placekitten.com/64/65',
             favorite:false,
+            timezone:'Europe/Berlin',
         }
     },
     {
@@ -97,6 +98,7 @@ export const DATA = [
             last:'',
             icon:'https://placekitten.com/64/64',
             favorite:true,
+            timezone:'Europe/Berlin',
         }
     },
     {

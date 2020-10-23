@@ -3,16 +3,21 @@ import {CATEGORIES} from './schema.js'
 import {Window} from './ui.js'
 import React from 'react'
 import {AND} from './query2.js'
-import {MdWbSunny} from 'react-icons/all.js'
 import "./peoplebar.css"
+import {format} from 'date-fns'
+import {utcToZonedTime} from 'date-fns-tz'
 
 const isPropTrue = (prop) => ({ equal: {prop, value:true}})
 
 const PersonView = ({person}) => {
+    let tz = propAsString(person,'timezone')
+    if(!tz) tz = "America/Los_Angeles"
+    let time = utcToZonedTime(Date.now(),tz)
     return <li>
         <img src={person.props.icon} alt={'user-icon'}/>
         <b>{propAsString(person, 'first')}</b>
-        <i>8am <MdWbSunny/></i>
+        <i>{format(time,'h:mm aaa')}</i>
+        <i>{tz.substring(tz.indexOf("/")+1)}</i>
     </li>
 }
 

@@ -45,42 +45,51 @@ export const CATEGORIES = {
             },
             PERSON: {
                 title:'Person',
-                props:  [
-                    {
-                        key:'first',
-                        type:'STRING',
-                        default:'unnamed'
+                props: {
+                    first: {
+                        key: 'first',
+                        type: 'STRING',
+                        default: 'unnamed'
                     },
-                    {
-                        key:'last',
-                        type:'STRING',
-                        default:'unnamed',
+                    last: {
+                        key: 'last',
+                        type: 'STRING',
+                        default: 'unnamed',
                     },
-                    {
-                        key:'emails',
-                        type:'ARRAY',
-                        default:[],
-                        content:{
-                            type:'EMAIL',
-                        }
-                    },
-                    {
-                        key:'phones',
-                        type:'ARRAY',
-                        default:[],
+                    emails: {
+                        key: 'emails',
+                        type: 'ARRAY',
+                        default: [],
                         content: {
-                            type:'PHONE',
+                            type: 'EMAIL',
                         }
                     },
-                    {
-                        key:'addresses',
-                        type:'ARRAY',
-                        default:[],
+                    phones: {
+                        key: 'phones',
+                        type: 'ARRAY',
+                        default: [],
                         content: {
-                            type:'MAILING_ADDRESS',
+                            type: 'PHONE',
                         }
-                    }
-                ]
+                    },
+                    addresses: {
+                        key: 'addresses',
+                        type: 'ARRAY',
+                        default: [],
+                        content: {
+                            type: 'MAILING_ADDRESS',
+                        }
+                    },
+                    favorite: {
+                        key: 'favorite',
+                        type: BOOLEAN,
+                        default:false,
+                    },
+                    timezone: {
+                        key:'timezone',
+                        type:STRING,
+                    },
+                }
             },
             MAILING_ADDRESS: {
                 title:'Mailing address',
