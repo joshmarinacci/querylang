@@ -221,7 +221,7 @@ export function RemoveButton  ({onClick}) {
 function TagView({tag, deleteTag}) {
     return <div className={'tag-view'}>
         <label>{tag}</label>
-            <MdClose onClick={()=>deleteTag(tag)}/>
+        <Icon onClick={()=>deleteTag(tag)}>delete</Icon>
     </div>
 }
 
