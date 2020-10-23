@@ -28,7 +28,7 @@ export function Spacer (){
 export function Panel({children, grow}) {
     return <div className={'panel ' + (grow?"grow":"")}>{children}</div>
 }
-export function Window({width,height,children,title, className, resize, hide_titlebar, appService, app}) {
+export function Window({width,height,children,title, className, resize, hide_titlebar, appService, app, anchor="none"}) {
 
     let [dragging, setDragging] = useState(false)
     let [left,setLeft] = useState((title=="apps")?0:100)
@@ -47,6 +47,12 @@ export function Window({width,height,children,title, className, resize, hide_tit
         position:'absolute',
         left:`${left-offx}px`,
         top:(top-offy)+'px',
+    }
+    if(anchor === "top-right"){
+        style.left = null
+        style.right = '0px'
+        style.bottom = null
+        style.top = '0px'
     }
     if(!className) className = ""
 
