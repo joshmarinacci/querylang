@@ -122,6 +122,9 @@ export function Window({width,height,children,title, className, resize, hide_tit
 
     }
     let title_ui = ""
+    if(!title && app && app.props && app.props.title) {
+        title = app.props.title
+    }
     if(!hide_titlebar) {
         title_ui = <title onMouseDown={mouseDown}>
             <b>{title}</b>

@@ -287,6 +287,24 @@ export const CATEGORIES = {
                 }
             }
         }
+    },
+    ALARM:{
+        ID:'ALARM',
+        TYPES:{
+            ALARM:'ALARM',
+        },
+        SCHEMAS: {
+            ALARM: {
+                title:'alarm',
+                props: {
+                    time:{
+                        key:'time',
+                        type:STRING,
+                        default:'8am'
+                    }
+                }
+            }
+        }
     }
 }
 

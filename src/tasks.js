@@ -83,9 +83,7 @@ export function TaskLists({db, app, appService}) {
             />
             <VBox>
                 <Toolbar>
-                    <input type={'search'} value={searchTerms} onChange={(e)=>{
-                        setSearchTerms(e.target.value)
-                    }}/>
+                    <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
                     <button disabled={selectedProject===null} onClick={addNewTask} className={'no-border'}>
                         <HiPlusCircle className={'add-icon'}/>
                     </button>

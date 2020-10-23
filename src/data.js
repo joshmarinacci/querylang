@@ -550,7 +550,7 @@ export const DATA = [
         props: {
             title:'Alarms',
             appid:'Alarms',
-            icon:'note',
+            icon:'alarm',
         }
     },
     {
@@ -560,7 +560,7 @@ export const DATA = [
         props: {
             title:'Email',
             appid:'Email',
-            icon:'note',
+            icon:'email',
         }
     },
     {
@@ -570,7 +570,31 @@ export const DATA = [
         props: {
             title:'Music',
             appid:'Music',
-            icon:'note',
+            icon:'library_music',
+        }
+    },
+
+
+
+    {
+        id:36,
+        category: CATEGORIES.ALARM.ID,
+        type:CATEGORIES.ALARM.TYPES.ALARM,
+        props: {
+            time:'6am',
+            timeonly:true,
+            repeat:'none',
+        }
+    },
+
+    {
+        id:37,
+        category: CATEGORIES.ALARM.ID,
+        type:CATEGORIES.ALARM.TYPES.ALARM,
+        props: {
+            time:'9am',
+            timeonly:true,
+            repeat:'day',
         }
     },
 

@@ -20,7 +20,6 @@ class AppLauncherService {
     this.listeners = []
   }
   launch(app) {
-    console.log("launching")
     this.running.push(app)
     this.listeners.forEach(l => l())
   }
@@ -31,7 +30,6 @@ class AppLauncherService {
     this.listeners = this.listeners.filter(l => l !== handler)
   }
   close(app) {
-    console.log("closing",app)
     this.running = this.running.filter(a => a.id !== app.id)
     this.listeners.forEach(l => l())
   }
@@ -42,7 +40,6 @@ function App() {
   let [apps, setApps] = useState([])
   useEffect(()=>{
     let handler = () => {
-      console.log("updating", service.running)
       setApps(service.running.slice())
     }
     service.addEventListener(handler)
