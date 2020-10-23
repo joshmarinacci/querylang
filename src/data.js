@@ -160,7 +160,7 @@ export const DATA = [
             title:'trash',
             active:true,
             query:true,
-            icon:'trash',
+            icon:'delete',
             query_impl: {
                 and:[
                     {
@@ -455,7 +455,7 @@ export const DATA = [
         props: {
             title: 'trash',
             query: true,
-            icon: 'trash',
+            icon: 'delete',
             query_impl: {
                 and: [
                     {

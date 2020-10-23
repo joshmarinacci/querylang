@@ -61,7 +61,6 @@ function App() {
     return <div>missing app</div>
   })
 
-  console.log("rendering",ins)
   return <div>
     <AppBar db={db} appService={service}/>
     {ins}

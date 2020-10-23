@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react'
 import {DATA} from './data.js'
 import {query2} from './query2.js'
 import {CATEGORIES, makeNewObject} from './schema.js'
+import Icon from '@material-ui/core/Icon'
 
 export function sort(items,sortby,sortorder) {
     items = items.slice()
@@ -40,12 +41,8 @@ export function propAsString(s, key) {
 export function propAsIcon(s, key) {
     if(!s || !s.props || !s.props.hasOwnProperty(key) ) return <MdAccessAlarm className={'icon blank'}/>
     let value = s.props[key]
-    if(value === 'archive') return <MdArchive className={'icon'}/>
-    if(value === 'trash') return <MdDelete className={'icon'}/>
-    if(value === 'notes') return <MdNote className={'icon'}/>
-    if(value === 'list') return <MdList className={'icon'}/>
     if(value === 'hash') return <label className={'icon'}>#</label>
-    return <MdAccessAlarm className={'icon blank'}/>
+    return <Icon>{value}</Icon>
 }
 
 export function setProp(obj,key,value) {
