@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {deepClone, project, propAsString, sort, useDBChanged} from './db.js'
+import {deepClone, project, propAsBoolean, propAsString, sort, useDBChanged} from './db.js'
 import {CATEGORIES, SORTS} from './schema.js'
 import {
     AddButton,
@@ -15,6 +15,7 @@ import {
     Window
 } from './ui.js'
 import {AND, OR, query2 as QUERY} from './query2.js'
+import Icon from '@material-ui/core/Icon'
 
 const isPerson = () => ({ TYPE:CATEGORIES.CONTACT.TYPES.PERSON })
 const isContactCategory = () => ({ CATEGORY:CATEGORIES.CONTACT.ID })
@@ -22,6 +23,10 @@ const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 
 
 export function ContactViewPanel ({selected, onEdit}) {
+    let favorite = <Icon>star_outline</Icon>
+    if(propAsBoolean(selected,'favorite')) {
+        favorite = <Icon>star</Icon>
+    }
     return <Panel grow>
         <Toolbar>
             <button
@@ -29,12 +34,13 @@ export function ContactViewPanel ({selected, onEdit}) {
                 onClick={onEdit}>edit
             </button>
         </Toolbar>
+        <img src={selected.props.icon}/>
         <p>
             {propAsString(selected, 'first')}
             &nbsp;
             {propAsString(selected, 'last')}
         </p>
-        <img src={selected.props.icon}/>
+        {favorite}
         <ul className={'display-emails'}>
             {
                 selected.props.emails.map((email,i)=>{

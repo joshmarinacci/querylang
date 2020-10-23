@@ -9,6 +9,7 @@ import "./peoplebar.css"
 const isGeneralCategory = () => ({ CATEGORY:CATEGORIES.GENERAL.ID })
 const isCollection = () => ({ TYPE:CATEGORIES.GENERAL.TYPES.COLLECTION })
 const isPropEqual = (prop,value) => ({ equal: {prop, value}})
+const isPropTrue = (prop) => ({ equal: {prop, value:true}})
 
 const PersonView = ({person}) => {
     return <li>
@@ -19,9 +20,12 @@ const PersonView = ({person}) => {
 }
 
 export function PeopleBar({db, app, appService}) {
-    let items = db.QUERY(AND(isGeneralCategory(), isCollection()))
-    let collection = QUERY(items, AND(isPropEqual('name','peoplebar')))[0]
-    items = find_in_collection(collection, db.data)
+    let items = db.QUERY(AND(
+    {CATEGORY:CATEGORIES.CONTACT.ID},
+        {TYPE:CATEGORIES.CONTACT.TYPES.PERSON},
+        isPropTrue('favorite')
+    ))
+
     return <Window width={100} height={326} anchor={'top-right'} title={'people'} className={"peoplebar"} resize={false} hide_titlebar={true} app={app} appService={appService}>
         <ul className={'list'}>{items.map(o => {
             return <PersonView key={o.id} person={o}/>

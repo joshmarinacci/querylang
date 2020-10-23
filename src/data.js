@@ -74,6 +74,7 @@ export const DATA = [
                 }
             ],
             icon:'http://placekeanu.com/64/64/a',
+            favorite:true,
         }
     },
     {
@@ -84,6 +85,7 @@ export const DATA = [
             first:'Cocoa',
             last:'',
             icon:'https://placekitten.com/64/65',
+            favorite:false,
         }
     },
     {
@@ -94,6 +96,7 @@ export const DATA = [
             first:'Oreo',
             last:'',
             icon:'https://placekitten.com/64/64',
+            favorite:true,
         }
     },
     {
