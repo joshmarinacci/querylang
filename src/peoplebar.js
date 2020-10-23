@@ -22,7 +22,7 @@ export function PeopleBar({db, app, appService}) {
     let items = db.QUERY(AND(isGeneralCategory(), isCollection()))
     let collection = QUERY(items, AND(isPropEqual('name','peoplebar')))[0]
     items = find_in_collection(collection, db.data)
-    return <Window width={100} height={326} y={0} x={300} title={'people'} className={"peoplebar"} resize={false} hide_titlebar={true} app={app} appService={appService}>
+    return <Window width={100} height={326} anchor={'top-right'} title={'people'} className={"peoplebar"} resize={false} hide_titlebar={true} app={app} appService={appService}>
         <ul className={'list'}>{items.map(o => {
             return <PersonView key={o.id} person={o}/>
         })}</ul>

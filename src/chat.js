@@ -40,7 +40,7 @@ export function Chat({db, app, appService}) {
         db.add(msg)
     }
 
-    return <Window width={500} height={320} x={650} y={0} title={'chat'} className={"chat"} app={app} appService={appService}>
+    return <Window width={500} height={320} title={'chat'} className={"chat"} app={app} appService={appService}>
         <HBox grow>
             <DataList
                 data={conversations}

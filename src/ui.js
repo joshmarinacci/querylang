@@ -28,11 +28,11 @@ export function Spacer (){
 export function Panel({children, grow}) {
     return <div className={'panel ' + (grow?"grow":"")}>{children}</div>
 }
-export function Window({x,y,width,height,children,title, className, resize, hide_titlebar, appService, app}) {
+export function Window({width,height,children,title, className, resize, hide_titlebar, appService, app}) {
 
     let [dragging, setDragging] = useState(false)
-    let [left,setLeft] = useState(x?x:0)
-    let [top,setTop] = useState(y?y:0)
+    let [left,setLeft] = useState((title=="apps")?0:100)
+    let [top,setTop] = useState(0)
     let [offx, setOffx] = useState(0)
     let [offy, setOffy] = useState(0)
 

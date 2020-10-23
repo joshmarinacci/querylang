@@ -1,6 +1,7 @@
 .appbar .list  li {
     border: 5px solid black;
-    min-height: 4rem;
+    min-height: 3rem;
+    max-width: 3rem;
     display: flex;
     flex-direction: column;
     border-radius: 1rem;
@@ -10,6 +11,6 @@
     background-color: #ccc;
 }
 .appbar .list li .material-icons {
-    font-size: 500%;
+    font-size: 2rem;
 }
 
