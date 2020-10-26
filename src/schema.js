@@ -314,6 +314,39 @@ export const CATEGORIES = {
                 }
             }
         }
+    },
+    MUSIC: {
+        ID:'MUSIC',
+        TYPES:{
+            SONG:'SONG',
+        },
+        SCHEMAS: {
+            SONG:{
+                title:'song',
+                props: {
+                    title: {
+                        key: 'title',
+                        type: STRING,
+                        default: ''
+                    },
+                    artist: {
+                        key: 'artist',
+                        type: STRING,
+                        default: ''
+                    },
+                    album: {
+                        key: 'album',
+                        type: STRING,
+                        default: ''
+                    },
+                    url: {
+                        key: 'url',
+                        type: STRING,
+                        default: ''
+                    }
+                }
+            }
+        }
     }
 }
 
