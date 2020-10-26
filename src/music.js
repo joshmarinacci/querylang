@@ -1,22 +1,63 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {DataList, HBox, Spacer, Toolbar, VBox, Window} from './ui.js'
-import {propAsBoolean, propAsIcon, propAsString, useDBChanged} from './db.js'
+import {project, propAsBoolean, propAsIcon, propAsString, useDBChanged} from './db.js'
 import {CATEGORIES} from './schema.js'
 import {AND} from './query2.js'
-import {HiPlusCircle} from 'react-icons/hi'
-import {MdCheckBox, MdCheckBoxOutlineBlank} from 'react-icons/md'
 
 const isGroup = () => ({ TYPE:CATEGORIES.MUSIC.TYPES.GROUP })
 const isSong = () => ({ TYPE:CATEGORIES.MUSIC.TYPES.SONG })
 const isMusicCategory = () => ({ CATEGORY:CATEGORIES.MUSIC.ID })
 const isPropTrue = (prop) => ({ equal: {prop, value:true}})
 
+const uniqueBy = (list,propname) => {
+    let map = new Map()
+    list.forEach(o=>{
+        map.set(o.props[propname],o)
+    })
+    return Array.from(map.values())
+}
+
+export function SongsPanel({songs, playSong, db}) {
+    const [selectedSong, setSelectedSong] = useState(null)
+    return <DataList data={songs} selected={selectedSong} setSelected={setSelectedSong}
+                  stringify={(o) => {
+                      return <HBox>
+                          <button onClick={()=>playSong(o)}>play</button>
+                          {propAsString(o,'title')} &nbsp;
+                          {propAsString(o,'artist')}  &nbsp;
+                          {propAsString(o,'album')}
+                      </HBox>
+                  }}
+        />
+}
+
+export function ArtistsPanel({artists, db}) {
+    const [selectedArtist, setSelectedArtist] = useState(null)
+    return <DataList data={artists}
+                     selected={selectedArtist} setSelected={setSelectedArtist}
+                     stringify={o => propAsString(o,'artist')}
+    >
+
+
+    </DataList>
+}
+
+export function AlbumsPanel({albums, db}) {
+    const [selectedAlbum, setSelectedAlbum] = useState(null)
+    return <DataList data={albums}
+                     selected={selectedAlbum} setSelected={setSelectedAlbum}
+                     stringify={o => propAsString(o,'album')}
+    >
+
+
+    </DataList>
+}
+
 export function Music({db, app, appService}) {
     useDBChanged(db,CATEGORIES.TASKS.ID)
 
     const [selectedGroup, setSelectedGroup] = useState(null)
     const [searchTerms, setSearchTerms] = useState("")
-    const [selectedSong, setSelectedSong] = useState(null)
     const [playingTitle, setPlayingTitle] = useState('====')
     const [playingSong, setPlayingSong] = useState(null)
 
@@ -42,8 +83,6 @@ export function Music({db, app, appService}) {
     }
 
     let groups = db.QUERY(AND(isGroup(), isMusicCategory(), isPropTrue('active')))
-    let songs = db.QUERY(AND(isMusicCategory(), isSong()))
-
 
     const playSong = (o) => {
         console.log("toggling")
@@ -51,6 +90,28 @@ export function Music({db, app, appService}) {
         setPlayingSong(o)
     }
 
+
+
+    let panel = <div>nothing</div>
+    if(selectedGroup) {
+        if(propAsString(selectedGroup,'title') === 'Songs') {
+            let songs = db.QUERY(AND(isMusicCategory(), isSong()))
+            panel = <SongsPanel songs={songs} playSong={playSong} db={db}/>
+        }
+        if(propAsString(selectedGroup,'title') === 'Artists') {
+            let songs = db.QUERY(AND(isMusicCategory(), isSong()))
+            let artists = project(songs,['artist'])
+            artists = uniqueBy(artists,'artist')
+            panel = <ArtistsPanel artists={artists} playSong={playSong}  db={db}/>
+        }
+        if(propAsString(selectedGroup,'title') === 'Albums') {
+            let songs = db.QUERY(AND(isMusicCategory(), isSong()))
+            let albums = project(songs,['album'])
+            albums = uniqueBy(albums,'album')
+            console.log("albums are",albums)
+            panel = <AlbumsPanel albums={albums} playSong={playSong} db={db}/>
+        }
+    }
 
     return <Window  app={app} appService={appService} width={600} height={300}>
         <Toolbar>
@@ -63,22 +124,10 @@ export function Music({db, app, appService}) {
         <HBox grow>
             <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
                       stringify={((o,i) => <HBox key={i}>
-                                                    {propAsString(o,'title')}
+                            {propAsString(o,'title')}
                       </HBox>)}
             />
-            <VBox grow>
-                <DataList data={songs} selected={selectedSong} setSelected={setSelectedSong}
-                          stringify={(o) => {
-                              return <HBox>
-                                  <button onClick={()=>playSong(o)}>play</button>
-                                  {propAsString(o,'title')} &nbsp;
-                                  {propAsString(o,'artist')}  &nbsp;
-                                  {propAsString(o,'album')}
-                              </HBox>
-                          }}
-                />
-
-            </VBox>
+            {panel}
         </HBox>
     </Window>
 }

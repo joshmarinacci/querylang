@@ -319,6 +319,7 @@ export const CATEGORIES = {
         ID:'MUSIC',
         TYPES:{
             SONG:'SONG',
+            GROUP:'GROUP',
         },
         SCHEMAS: {
             SONG:{

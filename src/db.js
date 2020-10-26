@@ -16,8 +16,18 @@ export function sort(items,sortby,sortorder) {
     return items
 }
 
-export function project(items,propsarray) {
-    return items
+export function project(items,propsarray=[]) {
+    return items.map(o => {
+        let oo = {
+            id:Math.floor(Math.random()*1000*1000),
+            props:{}}
+        propsarray.forEach(p=>{
+            if(hasProp(o,p)) {
+                oo.props[p] = o.props[p]
+            }
+        })
+        return oo
+    })
 }
 
 export function propAsString(s, key) {

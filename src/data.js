@@ -780,5 +780,27 @@ export const DATA = [
         }
     },
 
+    {
+        id:203,
+        category: CATEGORIES.MUSIC.ID,
+        type: CATEGORIES.MUSIC.TYPES.GROUP,
+        props: {
+            title:'Albums',
+            active:true,
+            query:true,
+            icon:'person',
+            query_impl: {
+                and:[
+                    {
+                        CATEGORY:CATEGORIES.MUSIC.ID,
+                    },
+                    {
+                        TYPE:CATEGORIES.MUSIC.TYPES.SONG,
+                    },
+                ]
+            }
+        }
+    },
+
 ]
 validateData(DATA)
