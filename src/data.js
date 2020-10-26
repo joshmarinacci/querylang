@@ -602,8 +602,8 @@ export const DATA = [
             repeat:'day',
         }
     },
-    
-    
+
+
     {
         id:38,
         category: CATEGORIES.MUSIC.ID,
@@ -615,8 +615,8 @@ export const DATA = [
             url:"https://apps.josh.earth/music/01%20Heat%20of%20the%20Moment.m4a"
         }
     },
-    
-    
+
+
     {
         id:39,
         category: CATEGORIES.MUSIC.ID,
@@ -629,8 +629,8 @@ export const DATA = [
         }
     },
 
-    
-    
+
+
     {
         id:40,
         category: CATEGORIES.MUSIC.ID,
@@ -643,8 +643,8 @@ export const DATA = [
         }
     },
 
-    
-    
+
+
     {
         id:41,
         category: CATEGORIES.MUSIC.ID,
@@ -657,8 +657,8 @@ export const DATA = [
         }
     },
 
-    
-    
+
+
     {
         id:42,
         category: CATEGORIES.MUSIC.ID,
@@ -672,8 +672,8 @@ export const DATA = [
     },
 
 
-    
-    
+
+
     {
         id:43,
         category: CATEGORIES.MUSIC.ID,
@@ -734,8 +734,51 @@ export const DATA = [
         }
     },
 
-    
-    
-    
+
+
+    {
+        id:201,
+        category: CATEGORIES.MUSIC.ID,
+        type: CATEGORIES.MUSIC.TYPES.GROUP,
+        props: {
+            title:'Songs',
+            active:true,
+            query:true,
+            icon:'music',
+            query_impl: {
+                and:[
+                    {
+                        CATEGORY:CATEGORIES.MUSIC.ID,
+                    },
+                    {
+                        TYPE:CATEGORIES.MUSIC.TYPES.SONG,
+                    },
+                ]
+            }
+        }
+    },
+
+    {
+        id:202,
+        category: CATEGORIES.MUSIC.ID,
+        type: CATEGORIES.MUSIC.TYPES.GROUP,
+        props: {
+            title:'Artists',
+            active:true,
+            query:true,
+            icon:'person',
+            query_impl: {
+                and:[
+                    {
+                        CATEGORY:CATEGORIES.MUSIC.ID,
+                    },
+                    {
+                        TYPE:CATEGORIES.MUSIC.TYPES.SONG,
+                    },
+                ]
+            }
+        }
+    },
+
 ]
 validateData(DATA)
