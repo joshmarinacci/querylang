@@ -602,6 +602,140 @@ export const DATA = [
             repeat:'day',
         }
     },
+    
+    
+    {
+        id:38,
+        category: CATEGORIES.MUSIC.ID,
+        type: CATEGORIES.MUSIC.TYPES.SONG,
+        props: {
+            title:"Heat of the Moment",
+            artist:"Asia",
+            album:"Greatest Hits",
+            url:"https://apps.josh.earth/music/01%20Heat%20of%20the%20Moment.m4a"
+        }
+    },
+    
+    
+    {
+        id:39,
+        category: CATEGORIES.MUSIC.ID,
+        type: CATEGORIES.MUSIC.TYPES.SONG,
+        props: {
+            title:"Mamma Mia",
+            artist:"A-Teens",
+            album:"Greatest Hits",
+            url:"https://apps.josh.earth/music/01%20Mamma%20Mia.m4a"
+        }
+    },
 
+    
+    
+    {
+        id:40,
+        category: CATEGORIES.MUSIC.ID,
+        type: CATEGORIES.MUSIC.TYPES.SONG,
+        props: {
+            title:"Piano Sonata #8 in C Minor, Op. 13, Pathetique",
+            artist:"Arther Rubinstein",
+            album:"Beethoven Sonatas",
+            url:"https://apps.josh.earth/music/02%20Beethoven_%20Piano%20Sonata%20%238%20In%20C%20Minor,%20Op.%2013,%20_Path%c3%a9tique_%20-%202.%20Adagio%20Cantabile.mp3"
+        }
+    },
+
+    
+    
+    {
+        id:41,
+        category: CATEGORIES.MUSIC.ID,
+        type: CATEGORIES.MUSIC.TYPES.SONG,
+        props: {
+            title:"Piano Sonata #14 in C Sharp Minor, Op. 27, Moonlight",
+            artist:"Arther Rubinstein",
+            album:"Beethoven Sonatas",
+            url:"https://apps.josh.earth/music/06%20Beethoven_%20Piano%20Sonata%20%2314%20In%20C%20Sharp%20Minor,%20Op.%2027_2,%20_Moonlight_%20-%203.%20Presto%20Agitato.mp3"
+        }
+    },
+
+    
+    
+    {
+        id:42,
+        category: CATEGORIES.MUSIC.ID,
+        type: CATEGORIES.MUSIC.TYPES.SONG,
+        props: {
+            title:"Piano Sonata #26 in E Flat. Les Adieux",
+            artist:"Arther Rubinstein",
+            album:"Beethoven Sonatas",
+            url:"https://apps.josh.earth/music/10%20Beethoven_%20Piano%20Sonata%20%2326%20In%20E%20Flat,%20Op.%2081A,%20_Les%20Adieux_%20-%201.%20Adagio%20-%20Allegro.mp3"
+        }
+    },
+
+
+    
+    
+    {
+        id:43,
+        category: CATEGORIES.MUSIC.ID,
+        type: CATEGORIES.MUSIC.TYPES.SONG,
+        props: {
+            title:"Here Comes the Sun",
+            artist:"The Beatles",
+            album:"Abbey Road",
+            url:"https://apps.josh.earth/music/07%20Here%20Comes%20The%20Sun.mp3"
+        }
+    },
+
+    {
+        id:44,
+        category: CATEGORIES.MUSIC.ID,
+        type: CATEGORIES.MUSIC.TYPES.SONG,
+        props: {
+            title:"Polythene Pam",
+            artist:"The Beatles",
+            album:"Abbey Road",
+            url:"https://apps.josh.earth/music/12%20Polythene%20Pam.mp3"
+        }
+    },
+
+    {
+        id:45,
+        category: CATEGORIES.MUSIC.ID,
+        type: CATEGORIES.MUSIC.TYPES.SONG,
+        props: {
+            title:"She Came in Through the Bathroom Window",
+            artist:"The Beatles",
+            album:"Abbey Road",
+            url:"https://apps.josh.earth/music/13%20She%20Came%20In%20Through%20The%20Bathroom%20Window.mp3"
+        }
+    },
+
+    {
+        id:46,
+        category: CATEGORIES.MUSIC.ID,
+        type: CATEGORIES.MUSIC.TYPES.SONG,
+        props: {
+            title:"Golden Slumbers",
+            artist:"The Beatles",
+            album:"Abbey Road",
+            url:"https://apps.josh.earth/music/14%20Golden%20Slumbers.mp3"
+        }
+    },
+
+    {
+        id:47,
+        category: CATEGORIES.MUSIC.ID,
+        type: CATEGORIES.MUSIC.TYPES.SONG,
+        props: {
+            title:"Take On Me",
+            artist:"Ah-Ha",
+            album:"The Main Event",
+            url:"https://apps.josh.earth/music/12%20Take%20On%20Me.m4a"
+        }
+    },
+
+    
+    
+    
 ]
 validateData(DATA)
