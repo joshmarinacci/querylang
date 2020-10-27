@@ -30,27 +30,47 @@ export function SongsPanel({songs, playSong, db}) {
                   }}
         />
 }
+const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 
-export function ArtistsPanel({artists, db}) {
+export function ArtistsPanel({artists, db, playSong}) {
     const [selectedArtist, setSelectedArtist] = useState(null)
-    return <DataList data={artists}
-                     selected={selectedArtist} setSelected={setSelectedArtist}
-                     stringify={o => propAsString(o,'artist')}
-    >
+    const [songs,setSongs] = useState([])
+    const choose = (artist) => {
+        setSelectedArtist(artist)
+        setSongs(db.QUERY(AND(
+            isMusicCategory(),
+            isSong(),
+            isPropEqual('artist', propAsString(artist,'artist'))
+        )))
+    }
 
-
-    </DataList>
+    return <HBox grow>
+        <DataList data={artists}
+                  selected={selectedArtist} setSelected={choose}
+                  stringify={o => propAsString(o, 'artist')}
+        />
+        <SongsPanel songs={songs} playSong={playSong} db={db}/>
+    </HBox>
 }
 
-export function AlbumsPanel({albums, db}) {
+export function AlbumsPanel({albums, db, playSong}) {
     const [selectedAlbum, setSelectedAlbum] = useState(null)
-    return <DataList data={albums}
-                     selected={selectedAlbum} setSelected={setSelectedAlbum}
-                     stringify={o => propAsString(o,'album')}
-    >
-
-
-    </DataList>
+    const [songs,setSongs] = useState([])
+    const choose = (album) => {
+        setSelectedAlbum(album)
+        setSongs(db.QUERY(AND(
+            isMusicCategory(),
+            isSong(),
+            isPropEqual('album', propAsString(album,'album'))
+        )))
+    }
+    return <HBox grow>
+        <DataList data={albums}
+                  selected={selectedAlbum} setSelected={choose}
+                  stringify={o => propAsString(o,'album')}
+        />
+        <SongsPanel songs={songs} playSong={playSong} db={db}/>
+    </HBox>
 }
 
 export function Music({db, app, appService}) {
@@ -85,7 +105,6 @@ export function Music({db, app, appService}) {
     let groups = db.QUERY(AND(isGroup(), isMusicCategory(), isPropTrue('active')))
 
     const playSong = (o) => {
-        console.log("toggling")
         setPlayingTitle(propAsString(o,'title'))
         setPlayingSong(o)
     }
@@ -108,7 +127,6 @@ export function Music({db, app, appService}) {
             let songs = db.QUERY(AND(isMusicCategory(), isSong()))
             let albums = project(songs,['album'])
             albums = uniqueBy(albums,'album')
-            console.log("albums are",albums)
             panel = <AlbumsPanel albums={albums} playSong={playSong} db={db}/>
         }
     }
