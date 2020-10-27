@@ -83,7 +83,6 @@ export function PlayPanel({selectedSong}) {
     const handler = (e) => {
         // console.log("event",e.type,e)
         // console.log(audioRef.current.duration)
-        console.log(audioRef.current.paused)
         if(e.type === 'timeupdate') {
             setPlaytime(Math.round(audioRef.current.currentTime))
             setDuration(Math.round(audioRef.current.duration))

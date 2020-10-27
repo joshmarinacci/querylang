@@ -7,30 +7,30 @@ import {MdClose} from 'react-icons/md'
 import "./window.css"
 import Icon from '@material-ui/core/Icon'
 
+const flatten = (obj) => {
+    let str = ""
+    Object.keys(obj).forEach(k => str += obj[k]?(k + " "):"")
+    return str
+}
 
 export function HBox ({children, grow, className, style, scroll, center}) {
-    className = className?className:""
-    className += " hbox"
-    if(grow) className += " grow"
-    if(center) className += " center"
-    if(scroll) className += " scroll"
+    const cls = { hbox:true, grow, center, scroll }
+    if(className) cls[className] = true
     style = style || {}
-    return <div style={style} className={className}>{children}</div>
+    return <div style={style} className={flatten(cls)}>{children}</div>
 }
 export function VBox ({children, grow, className, style, scroll, center}) {
-    className = className?className:""
-    className += " vbox"
-    if(grow) className += " grow"
-    if(center) className += " center"
-    if(scroll) className += " scroll"
+    const cls = { vbox:true, grow, center, scroll }
+    if(className) cls[className] = true
     style = style || {}
-    return <div style={style} className={className}>{children}</div>
+    return <div style={style} className={flatten(cls)}>{children}</div>
 }
 
 export function Toolbar ({children, grow, className, style}) {
-    className = className?className:""
+    const cls = { toolbar:true, grow }
+    if(className) cls[className] = true
     style = style || {}
-    return <div style={style} className={'toolbar ' + (grow?"grow":"") + " " + className}>{children}</div>
+    return <div style={style} className={flatten(cls)}>{children}</div>
 }
 export function Spacer (){
     return <span className={'spacer'}/>
