@@ -21,14 +21,15 @@ const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 
 export function SongsPanel({songs, playSong, db}) {
     const [selectedSong, setSelectedSong] = useState(null)
-    return <VBox grow scroll> <DataTable data={songs} selected={selectedSong} setSelected={setSelectedSong}
-                      headers={["","Title","Artist","Album"]}
-                      prepend={["play"]}
-                  stringifyDataColumn={(o,k) => {
-                      if(k === 'play') return <button onClick={()=>playSong(o)}>play</button>
-                      if(k === 'url') return null
-                      return propAsString(o,k)
-                  }}
+    return <VBox grow scroll>
+        <DataTable data={songs} selected={selectedSong} setSelected={setSelectedSong}
+                   headers={["","Title","Artist","Album"]}
+                   prepend={["play"]}
+                   stringifyDataColumn={(o,k) => {
+                       if(k === 'play') return <Icon onClick={()=>playSong(o)}>play_arrow</Icon>
+                       if(k === 'url') return null
+                       return propAsString(o,k)
+                   }}
         />
     </VBox>
 }

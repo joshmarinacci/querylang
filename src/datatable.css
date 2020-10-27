@@ -3,10 +3,12 @@ table {
     width: 100%;
 }
 table tr td, table tr th {
-    padding: 0.5rem;
+    padding: 0.25rem 0.5rem;
     border: 1px solid black;
     white-space: nowrap;
     text-overflow: ellipsis;
+    max-width: 20em;
+    overflow: hidden;
 }
 
 table th {
@@ -16,4 +18,13 @@ table th {
 table tr.selected {
     background-color: var(--selected-color);
     color: var(--selected-text-color);
+}
+
+
+table tr td .MuiIcon-root {
+    font-size: 100%;
+    padding:0;
+    border-width: 0;
+    background-color: transparent;
+    margin:0;
 }
