@@ -39,16 +39,16 @@ let service = new AppLauncherService()
 
 function App() {
   let [apps, setApps] = useState([
-    {
-      id:27,
-      category: CATEGORIES.APP.ID,
-      type: CATEGORIES.APP.TYPES.APP,
-      props: {
-        title:'Music',
-        appid:'Music',
-        icon:'perm_contact_calendar'
-      }
-    }
+    // {
+    //   id:27,
+    //   category: CATEGORIES.APP.ID,
+    //   type: CATEGORIES.APP.TYPES.APP,
+    //   props: {
+    //     title:'Music',
+    //     appid:'Music',
+    //     icon:'perm_contact_calendar'
+    //   }
+    // }
 
   ])
   useEffect(()=>{

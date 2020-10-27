@@ -85,8 +85,8 @@ export function PlayPanel({selectedSong}) {
     const handler = (e) => {
         // console.log("event",e.type,e)
         // console.log(audioRef.current.duration)
-        if(e.type === 'timeupdate')     setPlaytime(Math.round(audioRef.current.currentTime))
-        if(e.type === 'durationchange') setDuration(Math.round(audioRef.current.duration))
+        if(e.type === 'timeupdate'     && audioRef.current) setPlaytime(Math.round(audioRef.current.currentTime))
+        if(e.type === 'durationchange' && audioRef.current) setDuration(Math.round(audioRef.current.duration))
     }
     useEffect(()=>{
         if(selectedSong && audioRef.current) {
