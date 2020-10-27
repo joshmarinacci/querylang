@@ -3,12 +3,12 @@ import {DataList, HBox, Spacer, Toolbar, VBox, Window} from './ui.js'
 import {project, propAsBoolean, propAsIcon, propAsString, useDBChanged} from './db.js'
 import {CATEGORIES} from './schema.js'
 import {AND} from './query2.js'
+import Icon from '@material-ui/core/Icon'
 
 const isGroup = () => ({ TYPE:CATEGORIES.MUSIC.TYPES.GROUP })
 const isSong = () => ({ TYPE:CATEGORIES.MUSIC.TYPES.SONG })
 const isMusicCategory = () => ({ CATEGORY:CATEGORIES.MUSIC.ID })
 const isPropTrue = (prop) => ({ equal: {prop, value:true}})
-
 const uniqueBy = (list,propname) => {
     let map = new Map()
     list.forEach(o=>{
@@ -16,13 +16,14 @@ const uniqueBy = (list,propname) => {
     })
     return Array.from(map.values())
 }
+const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 
 export function SongsPanel({songs, playSong, db}) {
     const [selectedSong, setSelectedSong] = useState(null)
     return <DataList data={songs} selected={selectedSong} setSelected={setSelectedSong}
                   stringify={(o) => {
                       return <HBox>
-                          <button onClick={()=>playSong(o)}>play</button>
+                          <button onClick={()=>playSong(o)}>select</button>
                           {propAsString(o,'title')} &nbsp;
                           {propAsString(o,'artist')}  &nbsp;
                           {propAsString(o,'album')}
@@ -30,7 +31,6 @@ export function SongsPanel({songs, playSong, db}) {
                   }}
         />
 }
-const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 
 export function ArtistsPanel({artists, db, playSong}) {
     const [selectedArtist, setSelectedArtist] = useState(null)
@@ -73,69 +73,115 @@ export function AlbumsPanel({albums, db, playSong}) {
     </HBox>
 }
 
+export function PlayPanel({selectedSong}) {
+    const audioRef = useRef(null)
+    const [playing, setPlaying] = useState(false)
+    const [playtime, setPlaytime] = useState(0)
+    const [duration, setDuration] = useState(0)
+
+
+    const handler = (e) => {
+        // console.log("event",e.type,e)
+        // console.log(audioRef.current.duration)
+        console.log(audioRef.current.paused)
+        if(e.type === 'timeupdate') {
+            setPlaytime(Math.round(audioRef.current.currentTime))
+            setDuration(Math.round(audioRef.current.duration))
+        }
+    }
+    useEffect(()=>{
+        if(selectedSong && audioRef.current) {
+            console.log("set url")
+            audioRef.current.src = propAsString(selectedSong,'url')
+            // audioRef.current.autoplay = true
+            audioRef.current.volume = 0.2
+            audioRef.current.addEventListener("play",handler)
+            audioRef.current.addEventListener("loadeddata",handler)
+            audioRef.current.addEventListener("durationchange",handler)
+            audioRef.current.addEventListener("timeupdate",handler)
+        }
+        return ()=>{
+            audioRef.current.removeEventListener("play",handler)
+            audioRef.current.removeEventListener("loadeddata",handler)
+            audioRef.current.removeEventListener("durationchange",handler)
+            audioRef.current.addEventListener("timeupdate",handler)
+        }
+    },[selectedSong])
+
+    const togglePlaying = () => {
+        if(selectedSong && audioRef.current) {
+            if(audioRef.current.paused) {
+                audioRef.current.play()
+                setPlaying(true)
+            } else {
+                audioRef.current.pause()
+                setPlaying(false)
+            }
+        }
+    }
+
+    let song = selectedSong
+    if(!song) {
+        song = {
+            props:{
+                title:'',
+                artist:'',
+                album:'',
+            }
+        }
+    }
+
+    let icon = "pause_circle_outline"
+    if(audioRef.current && audioRef.current.paused) {
+        icon = "play_circle_outline"
+    }
+    return <HBox center>
+        <button onClick={togglePlaying}>
+            <Icon>{icon}</Icon>
+        </button>
+        <audio ref={audioRef}/>
+        <VBox center>
+            <label>{propAsString(song,'title')}</label>
+            <label>{propAsString(song,'artist')} - {propAsString(song,'album')}</label>
+            <HBox>
+                <label>{duration}</label> - <label>{playtime}</label>
+            </HBox>
+        </VBox>
+    </HBox>
+}
+
 export function Music({db, app, appService}) {
     useDBChanged(db,CATEGORIES.TASKS.ID)
 
     const [selectedGroup, setSelectedGroup] = useState(null)
     const [searchTerms, setSearchTerms] = useState("")
-    const [playingTitle, setPlayingTitle] = useState('====')
-    const [playingSong, setPlayingSong] = useState(null)
-
-    const audioRef = useRef(null)
-
-    useEffect(()=>{
-        if(playingSong && audioRef.current) {
-            audioRef.current.src = propAsString(playingSong,'url')
-            audioRef.current.volume = 0.2
-        }
-        return ()=>{
-        }
-    })
-
-    const togglePlaying = () => {
-        if(playingSong && audioRef.current) {
-            if(audioRef.current.paused) {
-                audioRef.current.play()
-            } else {
-                audioRef.current.pause()
-            }
-        }
-    }
+    const [selectedSong, setSelectedSong] = useState(null)
 
     let groups = db.QUERY(AND(isGroup(), isMusicCategory(), isPropTrue('active')))
-
-    const playSong = (o) => {
-        setPlayingTitle(propAsString(o,'title'))
-        setPlayingSong(o)
-    }
-
-
 
     let panel = <div>nothing</div>
     if(selectedGroup) {
         if(propAsString(selectedGroup,'title') === 'Songs') {
             let songs = db.QUERY(AND(isMusicCategory(), isSong()))
-            panel = <SongsPanel songs={songs} playSong={playSong} db={db}/>
+            panel = <SongsPanel songs={songs} playSong={setSelectedSong} db={db}/>
         }
         if(propAsString(selectedGroup,'title') === 'Artists') {
             let songs = db.QUERY(AND(isMusicCategory(), isSong()))
             let artists = project(songs,['artist'])
             artists = uniqueBy(artists,'artist')
-            panel = <ArtistsPanel artists={artists} playSong={playSong}  db={db}/>
+            panel = <ArtistsPanel artists={artists} playSong={setSelectedSong}  db={db}/>
         }
         if(propAsString(selectedGroup,'title') === 'Albums') {
             let songs = db.QUERY(AND(isMusicCategory(), isSong()))
             let albums = project(songs,['album'])
             albums = uniqueBy(albums,'album')
-            panel = <AlbumsPanel albums={albums} playSong={playSong} db={db}/>
+            panel = <AlbumsPanel albums={albums} playSong={setSelectedSong} db={db}/>
         }
     }
 
     return <Window  app={app} appService={appService} width={600} height={300}>
         <Toolbar>
-            <button onClick={togglePlaying}>play</button>
-            <label>playing: {playingTitle}</label>
-            <audio ref={audioRef}/>
+            <PlayPanel selectedSong={selectedSong}/>
             <Spacer/>
             <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
         </Toolbar>

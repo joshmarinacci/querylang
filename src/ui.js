@@ -8,13 +8,23 @@ import "./window.css"
 import Icon from '@material-ui/core/Icon'
 
 
-export function HBox ({children, grow}) {
-    return <div className={'hbox ' + (grow?"grow":"")}>{children}</div>
-}
-export function VBox ({children, grow, className, style, scroll}) {
+export function HBox ({children, grow, className, style, scroll, center}) {
     className = className?className:""
+    className += " hbox"
+    if(grow) className += " grow"
+    if(center) className += " center"
+    if(scroll) className += " scroll"
     style = style || {}
-    return <div style={style} className={'vbox ' + (grow?"grow":"") + " " + (scroll?"scroll":"") +  " " + className}>{children}</div>
+    return <div style={style} className={className}>{children}</div>
+}
+export function VBox ({children, grow, className, style, scroll, center}) {
+    className = className?className:""
+    className += " vbox"
+    if(grow) className += " grow"
+    if(center) className += " center"
+    if(scroll) className += " scroll"
+    style = style || {}
+    return <div style={style} className={className}>{children}</div>
 }
 
 export function Toolbar ({children, grow, className, style}) {

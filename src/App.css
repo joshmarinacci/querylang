@@ -54,6 +54,13 @@ ul.list {
   overflow: auto;
 }
 
+.vbox.center {
+  align-items: center;
+}
+.hbox.center {
+  align-items: center;
+}
+
 
 
 .contacts .display-emails, .contacts .display-phones, .contacts .display-addresses {
