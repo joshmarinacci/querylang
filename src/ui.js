@@ -6,12 +6,8 @@ import {MdClose} from 'react-icons/md'
 
 import "./window.css"
 import Icon from '@material-ui/core/Icon'
+import {flatten} from './util.js'
 
-const flatten = (obj) => {
-    let str = ""
-    Object.keys(obj).forEach(k => str += obj[k]?(k + " "):"")
-    return str
-}
 
 export function HBox ({children, grow, className, style, scroll, center}) {
     const cls = { hbox:true, grow, center, scroll }
@@ -42,7 +38,7 @@ export function Panel({children, grow}) {
 export function Window({width,height,children,title, className, resize, hide_titlebar, appService, app, anchor="none"}) {
 
     let [dragging, setDragging] = useState(false)
-    let [left,setLeft] = useState((title=="apps")?0:100)
+    let [left,setLeft] = useState((title==="apps")?0:100)
     let [top,setTop] = useState(0)
     let [offx, setOffx] = useState(0)
     let [offy, setOffy] = useState(0)

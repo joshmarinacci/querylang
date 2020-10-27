@@ -11,6 +11,7 @@ import {AppBar} from './AppBar.js'
 import {Alarms} from './alarms.js'
 import {Email} from './email.js'
 import {Music} from './music.js'
+import {CATEGORIES} from './schema.js'
 
 let db = makeDB()
 
@@ -37,9 +38,22 @@ class AppLauncherService {
 let service = new AppLauncherService()
 
 function App() {
-  let [apps, setApps] = useState([])
+  let [apps, setApps] = useState([
+    {
+      id:27,
+      category: CATEGORIES.APP.ID,
+      type: CATEGORIES.APP.TYPES.APP,
+      props: {
+        title:'Music',
+        appid:'Music',
+        icon:'perm_contact_calendar'
+      }
+    }
+
+  ])
   useEffect(()=>{
     let handler = () => {
+      console.log("setting apps", service.running.slice())
       setApps(service.running.slice())
     }
     service.addEventListener(handler)

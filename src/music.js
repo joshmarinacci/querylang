@@ -4,6 +4,7 @@ import {project, propAsBoolean, propAsIcon, propAsString, useDBChanged} from './
 import {CATEGORIES} from './schema.js'
 import {AND} from './query2.js'
 import Icon from '@material-ui/core/Icon'
+import {DataTable} from './datatable.js'
 
 const isGroup = () => ({ TYPE:CATEGORIES.MUSIC.TYPES.GROUP })
 const isSong = () => ({ TYPE:CATEGORIES.MUSIC.TYPES.SONG })
@@ -20,16 +21,16 @@ const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 
 export function SongsPanel({songs, playSong, db}) {
     const [selectedSong, setSelectedSong] = useState(null)
-    return <DataList data={songs} selected={selectedSong} setSelected={setSelectedSong}
-                  stringify={(o) => {
-                      return <HBox>
-                          <button onClick={()=>playSong(o)}>select</button>
-                          {propAsString(o,'title')} &nbsp;
-                          {propAsString(o,'artist')}  &nbsp;
-                          {propAsString(o,'album')}
-                      </HBox>
+    return <VBox grow scroll> <DataTable data={songs} selected={selectedSong} setSelected={setSelectedSong}
+                      headers={["","Title","Artist","Album"]}
+                      prepend={["play"]}
+                  stringifyDataColumn={(o,k) => {
+                      if(k === 'play') return <button onClick={()=>playSong(o)}>play</button>
+                      if(k === 'url') return null
+                      return propAsString(o,k)
                   }}
         />
+    </VBox>
 }
 
 export function ArtistsPanel({artists, db, playSong}) {
@@ -83,16 +84,13 @@ export function PlayPanel({selectedSong}) {
     const handler = (e) => {
         // console.log("event",e.type,e)
         // console.log(audioRef.current.duration)
-        if(e.type === 'timeupdate') {
-            setPlaytime(Math.round(audioRef.current.currentTime))
-            setDuration(Math.round(audioRef.current.duration))
-        }
+        if(e.type === 'timeupdate')     setPlaytime(Math.round(audioRef.current.currentTime))
+        if(e.type === 'durationchange') setDuration(Math.round(audioRef.current.duration))
     }
     useEffect(()=>{
         if(selectedSong && audioRef.current) {
             console.log("set url")
             audioRef.current.src = propAsString(selectedSong,'url')
-            // audioRef.current.autoplay = true
             audioRef.current.volume = 0.2
             audioRef.current.addEventListener("play",handler)
             audioRef.current.addEventListener("loadeddata",handler)
@@ -185,11 +183,13 @@ export function Music({db, app, appService}) {
             <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
         </Toolbar>
         <HBox grow>
-            <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
-                      stringify={((o,i) => <HBox key={i}>
-                            {propAsString(o,'title')}
-                      </HBox>)}
-            />
+            <VBox scroll>
+                <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
+                          stringify={((o,i) => <HBox key={i}>
+                                {propAsString(o,'title')}
+                          </HBox>)}
+                />
+            </VBox>
             {panel}
         </HBox>
     </Window>

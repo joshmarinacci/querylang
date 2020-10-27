@@ -1,0 +1,19 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+table tr td, table tr th {
+    padding: 0.5rem;
+    border: 1px solid black;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+table th {
+    background-color: #ccc;
+}
+
+table tr.selected {
+    background-color: var(--selected-color);
+    color: var(--selected-text-color);
+}
