@@ -1,3 +1,7 @@
+## DataList
+
+* common ListItem with room for icon, title, subtitle, second icon, and grows properly.
+
 ## DataTable
 
 * can detect columns from a specified type
@@ -60,13 +64,43 @@ than and less than, etc.
 
 # =============== cleanup tasks ===============
 
+* windows
+    * use z-index to move windows to top
+    * hover effect on the close button
+    * icon in the title bar next to the title
+    * remove BG on appbar. with props or just custom CSS?
 * persisted smart queries w/ icons everywhere. nothing hardcoded in the apps
+* chat
+    * search. what does it do?
+    * show icon and name of participants
+* calendar
+    * search based on descriptions in the events?
+    * both day and week view
+    * preload with a lot more events
+    * button to add a new event using a form
+    * button to add a new event using parsed text
+* contacts
+    * 
+* notes
+    * cleanup layout of editing form
+* alarms
+    * make delete button actually work
+* email
+    * stub out email app w/ inbox, two folders. 
+    * list of messages w/ tags for inbox and folders. 
+    * subject, senders, receivers, body. 
+    * no compose. 
+    * lists show subject and sender and date. sorted by date.
+* music
+    * search works for song titles, artists, albums
+    * show song duration
+    * heart to favorite a song
+    * favorite songs list
+    * icons in the queries list
 
-- search works in all apps. common controls?
 - command bar. just say name of app to launch it w/ tab completion
 - chat shows user icons and names. input field with ‘send’ button and return to add to conversation
-- cleanup layout on contacts, notes, tasks
-- stub out email app w/ inbox, two folders. list of messages w/ tags for inbox and folders. subject, senders, receivers, body. no compose. lists show subject and sender and date. sorted by date.
+
 
 
 
