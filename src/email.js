@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import {DataList, HBox, Panel, Spacer, Toolbar, VBox, Window} from './ui.js'
 import {CATEGORIES} from './schema.js'
-import {propAsArray, propAsBoolean, propAsString, useDBChanged} from './db.js'
+import {propAsArray, propAsBoolean, propAsString, sort, useDBChanged} from './db.js'
 import {AND} from './query2.js'
-import {format} from "date-fns"
+import {format, formatDistanceToNow} from "date-fns"
 
 const isMessage = () => ({ TYPE:CATEGORIES.EMAIL.TYPES.MESSAGE })
 const isTask = () => ({ TYPE:CATEGORIES.TASKS.TYPES.TASK })
@@ -60,6 +60,8 @@ export function Email({db, app, appService}) {
         }
     }
 
+    folder_results = sort(folder_results,"timestamp")
+
     return <Window  app={app} appService={appService} resize width={600} height={400}>
         <VBox grow>
             <Toolbar>
@@ -84,7 +86,7 @@ export function Email({db, app, appService}) {
                                   <HBox grow>
                                       <b>{propAsString(o,'sender')}</b>
                                       <Spacer/>
-                                      <i>{format(propAsString(o,'timestamp')," E MMM d")}</i>
+                                      <i>{formatDistanceToNow(o.props.timestamp)}</i>
                                   </HBox>
                                   <label>{propAsString(o,'subject')}</label>
                               </VBox>

@@ -85,12 +85,15 @@ than and less than, etc.
     * cleanup layout of editing form
 * alarms
     * make delete button actually work
+    
 * email
-    * stub out email app w/ inbox, two folders. 
-    * list of messages w/ tags for inbox and folders. 
-    * subject, senders, receivers, body. 
-    * no compose. 
+    * -- stub out email app w/ inbox, two folders. 
+    * -- list of messages w/ tags for inbox and folders. 
+    * -- subject, senders, receivers, body. 
+    * -- no compose. 
     * lists show subject and sender and date. sorted by date.
+    * message viewer shows full senders and receivers and subject and timestamp
+    
 * music
     * search works for song titles, artists, albums
     * show song duration
