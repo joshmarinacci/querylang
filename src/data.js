@@ -827,7 +827,7 @@ export const DATA = [
         type: CATEGORIES.EMAIL.TYPES.MESSAGE,
         props: {
             sender:"jessemarinacci@icloud.com",
-            receiver:["joshua@marinacci.org","jennifer@marinacci.org"],
+            receivers:["joshua@marinacci.org","jennifer@marinacci.org"],
             subject:"Homework done",
             body: "Hi Mommy and Daddy.\nI finished my homework.",
             read:true,

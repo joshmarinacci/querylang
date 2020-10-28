@@ -5,6 +5,8 @@ import {propAsArray, propAsBoolean, propAsString, sort, useDBChanged} from './db
 import {AND} from './query2.js'
 import {format, formatDistanceToNow} from "date-fns"
 
+import "./email.css"
+
 const isMessage = () => ({ TYPE:CATEGORIES.EMAIL.TYPES.MESSAGE })
 const isTask = () => ({ TYPE:CATEGORIES.TASKS.TYPES.TASK })
 const isEmailCategory = () => ({ CATEGORY:CATEGORIES.EMAIL.ID })
@@ -43,13 +45,19 @@ export function Email({db, app, appService}) {
     let messages = db.QUERY(AND(isMessage(), isEmailCategory()))
     let folders = calculateFoldersFromTags(messages)
 
-    let panel = <div>no message selected</div>
+    let panel = <Panel grow>no message selected</Panel>
     if(selectedMessage) {
-        panel = <div style={{
-            width:'100%',
-            whiteSpace:"pre-line",
-            padding:'1em',
-        }}>{propAsString(selectedMessage,'body')}</div>
+        panel = <Panel grow className="message-view">
+            <HBox><i>From: </i><b>{propAsString(selectedMessage,'sender')}</b>
+                <Spacer/>
+                <b>{format(selectedMessage.props.timestamp,"PPp")}</b>
+            </HBox>
+            <HBox><i>To: </i><b>{propAsString(selectedMessage,'receivers')}</b></HBox>
+            <HBox><label>subject</label><b>{propAsString(selectedMessage,'subject')}</b></HBox>
+            <div className={"body"}>
+                {propAsString(selectedMessage,'body')}
+            </div>
+        </Panel>
     }
 
     let folder_results = []
@@ -91,7 +99,7 @@ export function Email({db, app, appService}) {
                                   <label>{propAsString(o,'subject')}</label>
                               </VBox>
                 }}/>
-                <Panel grow>{panel}</Panel>
+                {panel}
             </HBox>
             </VBox>
     </Window>

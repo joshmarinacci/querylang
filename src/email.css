@@ -1,0 +1,12 @@
+
+.panel.message-view {
+    padding: 0.5rem;
+}
+.panel.message-view .hbox {
+    padding: 0.5rem;
+}
+
+.panel.message-view .body {
+    padding: 0.5rem;
+    border: 1px solid #888888;
+}

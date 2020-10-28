@@ -35,8 +35,11 @@ export function Spacer (){
     return <span className={'spacer'}/>
 }
 
-export function Panel({children, grow}) {
-    return <div className={'panel ' + (grow?"grow":"")}>{children}</div>
+export function Panel({children, grow, className, style}) {
+    const cls = { panel:true, grow }
+    if(className) cls[className] = true
+    style = style || {}
+    return <div className={flatten(cls)}>{children}</div>
 }
 
 export function DataList({data, selected, setSelected, className, style, stringify}) {
