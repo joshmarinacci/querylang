@@ -861,7 +861,7 @@ export const DATA = [
             subject:"Email should be deleted",
             body: "Lets delete this email",
             read:false,
-            tags:["junk, trash"],
+            tags:["junk","trash"],
             timestamp: new Date(2020,9, 21, 12+2, 33), //october 21st at 2:33 pm
         }
     },

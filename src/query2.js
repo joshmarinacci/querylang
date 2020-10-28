@@ -27,6 +27,15 @@ function processSubstring(substring, o) {
     return true
 }
 
+function processContains(args, o) {
+    if(!o) return false
+    if(!o.props) return false
+    if(!o.props.hasOwnProperty(args.prop)) return false
+    let list = o.props[args.prop]
+    if(list.indexOf(args.value) >= 0) return true
+    return false
+}
+
 function passPredicate(pred,o) {
     if(pred.hasOwnProperty('TYPE') && o.type !== pred.TYPE) return false
     if(pred.hasOwnProperty('CATEGORY') && o.category !== pred.CATEGORY) return false
@@ -34,6 +43,7 @@ function passPredicate(pred,o) {
     if(isAnd(pred) && !processAnd(pred,o)) return false;
     if(pred.hasOwnProperty('equal') && !processEqual(pred.equal,o)) return false
     if(pred.hasOwnProperty('substring') && !processSubstring(pred.substring,o)) return false
+    if(pred.hasOwnProperty('contains') && !processContains(pred.contains,o)) return false
     return true
 }
 
