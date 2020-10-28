@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {DataList, HBox, Panel, Spacer, VBox, Window} from './ui.js'
+import {DataList, HBox, Panel, Spacer, Toolbar, VBox, Window} from './ui.js'
 import {CATEGORIES} from './schema.js'
 import {propAsString, useDBChanged} from './db.js'
 import {AND} from './query2.js'
@@ -31,22 +31,30 @@ export function Email({db, app, appService}) {
     }
 
     return <Window  app={app} appService={appService} resize width={600} height={400}>
-        <HBox grow>
+        <VBox grow>
+            <Toolbar>
+                <button>new</button>
+                <button>delete</button>
+                <button>inbox</button>
+                <input type="search"/>
+            </Toolbar>
+            <HBox grow>
 
-            <DataList data={messages}
-                      selected={selected}
-                      setSelected={setSelected}
-                      stringify={o => {
-                return <VBox grow>
-                    <HBox grow>
-                        <b>{propAsString(o,'sender')}</b>
-                        <Spacer/>
-                        <i>{format(propAsString(o,'timestamp')," E MMM d")}</i>
-                    </HBox>
-                    <label>{propAsString(o,'subject')}</label>
-                </VBox>
-            }}/>
-            <Panel grow>{panel}</Panel>
-        </HBox>
+                <DataList data={messages}
+                          selected={selected}
+                          setSelected={setSelected}
+                          stringify={o => {
+                    return <VBox grow>
+                        <HBox grow>
+                            <b>{propAsString(o,'sender')}</b>
+                            <Spacer/>
+                            <i>{format(propAsString(o,'timestamp')," E MMM d")}</i>
+                        </HBox>
+                        <label>{propAsString(o,'subject')}</label>
+                    </VBox>
+                }}/>
+                <Panel grow>{panel}</Panel>
+            </HBox>
+            </VBox>
     </Window>
 }
