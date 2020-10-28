@@ -21,6 +21,11 @@
 * click elsewhere to close the menu.
 * can put custom components inside of a popup container too
 
+## TextBox
+
+* single line single font texty editor
+* hooks for keystroke filtering and popups with arrows
+
 ## TextArea
 
 * single font text editor
@@ -49,7 +54,6 @@ Work with min/max values. before/after for dates and times.  greater
 than and less than, etc.
 
 - nested popup menus w/ a hamburger menu
-- notification service. notifications in lower right, timeout after 5 seconds. set fields. click to trigger action.
 
 
 
@@ -80,25 +84,39 @@ than and less than, etc.
 
 * create, edit, delete alarm objects in database
 * send notification when an active alarm triggers
+* send notification when a repeated alarm triggers
 
 
+### Notification Service and App
+
+* category in database of notifications
+* display in lower right that shows most recent notifications
+* notification fades out after N seconds
+* only most recent notifications are show, but all still exist in DB
+* does it actually need a service or just the DB?
+* icon and title and subtitle props
+* action to trigger? launch app with args?
+
+### NLP service
+
+* parse incrementally typed code to show suggestions
+* `open appname` -> launch app
+* `appname` -> launch app
+* `email josh` -> launch email compose with recipient prefilled
+* `chat with josh` -> launch chat with participants prefilled
+* `log my weight` -> launches a script that asks for a number
+* `log my weight as 143` -> launches a script with value prefilled
 
 
+### Database Service
 
-
-
-
-
-
-
-
-
-
-
-
-
-- alarms
-- database with overlay persistence and nuke button
-- NLP command shell
-- notification service
-- notification display
+* loads prefab database
+* add, update, delete objects in the database
+* caches queries
+* sends notifications when data changes
+* save to local storage or indexdb. only objects that have been changed are persisted.
+* function to nuke local storage and reset to defaults
+* prefab data is loaded, then real data is loaded. hash by id. loaded ids override existing ids.
+* on load, objects are validated against the schema
+* objects are upgraded using schema defaults. so adding a new schema field can apply to previously edited objects.
+* schema can also delete properties using some special syntax, to upgrade old objects by deleting, or renaming.  
