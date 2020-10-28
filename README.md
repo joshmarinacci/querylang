@@ -1,68 +1,104 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## DataTable
 
-## Available Scripts
+* can detect columns from a specified type
+* can detect columns from the first data row
+* can insert extra synthetic columns
+* put in a renderer to customize anything
+* add classname and styles to any row or column
+* header is generated from keynames
+* right click header to get list of headers to toggle
+* rearrange headers by drag and drop?
+* click header to change sort
+* booleans to enable / disable features
+* scrolls properly on it's own. just drop it in and give it a size
 
-In the project directory, you can run:
+## PopupMenu
 
-### `npm start`
+* A single column menu.
+* inside a popup container
+* properly handles modality within the app or whole screen?
+* give it menu items which are buttons with actions and hover effects.
+* click elsewhere to close the menu.
+* can put custom components inside of a popup container too
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## TextArea
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+* single font text editor
+* hooks to filter keystrokes
+* position popup at the cursor
+* capture arrow keys to select something within the popup
 
-### `npm test`
+## Toolbar
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* improved toolbar style box
+* icon buttons
+* labels
+* text buttons
+* search fields
+* spacers
 
-### `npm run build`
+## Dialogs
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+dialogs that are modal within an app
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Query Builder
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Standard query builder panel that uses the schema to let the user
+create custom queries. Should be as rich as what you can do in itunes.
+Work with min/max values. before/after for dates and times.  greater
+than and less than, etc.
 
-### `npm run eject`
+- nested popup menus w/ a hamburger menu
+- notification service. notifications in lower right, timeout after 5 seconds. set fields. click to trigger action.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+# =============== cleanup tasks ===============
 
-## Learn More
+* persisted smart queries w/ icons everywhere. nothing hardcoded in the apps
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- search works in all apps. common controls?
+- command bar. just say name of app to launch it w/ tab completion
+- chat shows user icons and names. input field with ‘send’ button and return to add to conversation
+- cleanup layout on contacts, notes, tasks
+- stub out email app w/ inbox, two folders. list of messages w/ tags for inbox and folders. subject, senders, receivers, body. no compose. lists show subject and sender and date. sorted by date.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-### Analyzing the Bundle Size
+# ================ Services =================
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### App Service
 
-### Making a Progressive Web App
+* launch app by id
+* close app by id
+* allow or disallow multiple instances of app?
+* send args to the app. ex: open chat w/ user, creating a new conversation if needed.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+### Alarm Service
 
-### Advanced Configuration
+* create, edit, delete alarm objects in database
+* send notification when an active alarm triggers
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-### Deployment
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
-### `npm run build` fails to minify
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+
+
+
+
+
+
+
+
+
+
+- alarms
+- database with overlay persistence and nuke button
+- NLP command shell
+- notification service
+- notification display
