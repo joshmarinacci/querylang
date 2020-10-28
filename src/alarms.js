@@ -1,6 +1,6 @@
 import React from 'react'
-import {DataList, HBox, Window} from './ui.js'
-import {propAsString, useDBChanged} from './db.js'
+import {DataList, EnumPropEditor, HBox, Spacer, TextPropEditor, Toolbar, VBox, Window} from './ui.js'
+import {propAsBoolean, propAsString, useDBChanged} from './db.js'
 import {AND} from './query2.js'
 import {CATEGORIES} from './schema.js'
 import {Icon} from '@material-ui/core'
@@ -8,6 +8,23 @@ import {Icon} from '@material-ui/core'
 const isAlarm = () => ({ TYPE:CATEGORIES.ALARM.TYPES.ALARM })
 const isAlarmCategory = () => ({ CATEGORY:CATEGORIES.ALARM.ID })
 
+/*
+
+//show all alarms
+//add a new alarm
+//alarm needs a time
+//alarm needs description
+//enable and disable using checkbox or other icon
+//list of alarms
+//button to add alarm
+//button to delete alarm
+//edit title of alarm
+//disable or enable alarms
+
+have an alarm service that prints to the console when alarm happens
+update every second
+
+ */
 
 export function Alarms({db, app, appService}) {
     useDBChanged(db,CATEGORIES.ALARM.ID)
@@ -17,16 +34,31 @@ export function Alarms({db, app, appService}) {
         let task = db.make(CATEGORIES.ALARM.ID, CATEGORIES.ALARM.TYPES.ALARM)
         db.add(task)
     }
-    return <Window width={300} height={200} app={app} appService={appService} resize>
-        <HBox grow>
-            <button onClick={addAlarm}><Icon>alarm_add</Icon></button>
-            <DataList data={alarms} stringify={(o)=>{
-                return <HBox>
-                    <label>{propAsString(o,'time')}</label>
-                    <label>{propAsString(o,'repeat')}</label>
-                    <button><Icon>delete</Icon></button>
-                </HBox>
-            }}/>
-        </HBox>
+    return <Window width={400} height={200} app={app} appService={appService} resize>
+        <VBox grow>
+            <Toolbar>
+                <button onClick={addAlarm}><Icon>alarm_add</Icon></button>
+                <Spacer/>
+            </Toolbar>
+            <DataList data={alarms} stringify={(o)=> <AlarmItem key={o.id} alarm={o} db={db}/>}/>
+        </VBox>
     </Window>
+}
+
+
+function AlarmItem({alarm, db}) {
+    const toggleAlarm = () => {
+        db.setProp(alarm,"enabled",!propAsBoolean(alarm,'enabled'))
+    }
+    const deleteAlarm = () => {
+        console.log("deleting")
+    }
+    return <HBox grow center>
+        <Icon onClick={toggleAlarm}>{propAsBoolean(alarm,'enabled')?"toggle_on":"toggle_off"}</Icon>
+        <input type={"time"} value={propAsString(alarm,'time')}/>
+        <TextPropEditor buffer={alarm} prop={'title'} db={db}/>
+        <Spacer/>
+        <EnumPropEditor buffer={alarm} prop={"repeat"} db={db}/>
+        <Icon onClick={deleteAlarm}>delete</Icon>
+    </HBox>
 }

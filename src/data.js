@@ -586,9 +586,11 @@ export const DATA = [
         category: CATEGORIES.ALARM.ID,
         type:CATEGORIES.ALARM.TYPES.ALARM,
         props: {
-            time:'6am',
+            time:'06:00',
             timeonly:true,
             repeat:'none',
+            enabled:true,
+            title:"wake up"
         }
     },
 
@@ -597,9 +599,11 @@ export const DATA = [
         category: CATEGORIES.ALARM.ID,
         type:CATEGORIES.ALARM.TYPES.ALARM,
         props: {
-            time:'9am',
+            time:'14:00',
             timeonly:true,
             repeat:'day',
+            enabled:false,
+            title:"afternoon coffee"
         }
     },
 

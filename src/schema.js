@@ -309,8 +309,19 @@ export const CATEGORIES = {
                     time:{
                         key:'time',
                         type:STRING,
-                        default:'8am'
-                    }
+                        default:'08:00'
+                    },
+                    title: {
+                        key:'title',
+                        type:STRING,
+                        default:"Alarm",
+                    },
+                    repeat: {
+                        key: 'type',
+                        type: 'ENUM',
+                        values: ['none', 'day'],
+                        default: 'none'
+                    },
                 }
             }
         }
@@ -398,6 +409,9 @@ export function getEnumPropValues(obj,prop) {
     }
     if(obj.type === CATEGORIES.CONTACT.TYPES.MAILING_ADDRESS) {
         return CATEGORIES.CONTACT.SCHEMAS.MAILING_ADDRESS.props[prop].values
+    }
+    if(obj.type === CATEGORIES.ALARM.TYPES.ALARM) {
+        return CATEGORIES.ALARM.SCHEMAS.ALARM.props[prop].values
     }
     return ["A",'B']
 }

@@ -95,7 +95,7 @@ export function TextareaPropEditor({buffer, prop, onChange, db}) {
 export function EnumPropEditor({buffer, prop, onChange, db}) {
     return <HBox>
             <select value={propAsString(buffer,prop)} onChange={(ev)=>{
-                db.setProp(buffer, 'type', ev.target.value)
+                db.setProp(buffer, prop, ev.target.value)
                 if(onChange) onChange(buffer,prop)
             }}>
                 {getEnumPropValues(buffer,prop).map(v=>{
