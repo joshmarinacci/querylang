@@ -806,5 +806,65 @@ export const DATA = [
         }
     },
 
+    {
+        id:48,
+        category: CATEGORIES.EMAIL.ID,
+        type: CATEGORIES.EMAIL.TYPES.MESSAGE,
+        props: {
+            sender:"jessemarinacci@icloud.com",
+            receivers:["josh@josh.earth"],
+            subject:"New Lego Set!",
+            body: "There's a crazy new LEGO set for us to buy.\n I can't wait!",
+            read:false,
+            tags:["inbox"],
+            timestamp: new Date(2020,9, 8, 12+10, 0), //october 8th at 10pm
+        }
+    },
+
+    {
+        id:49,
+        category: CATEGORIES.EMAIL.ID,
+        type: CATEGORIES.EMAIL.TYPES.MESSAGE,
+        props: {
+            sender:"jessemarinacci@icloud.com",
+            receiver:["joshua@marinacci.org","jennifer@marinacci.org"],
+            subject:"Homework done",
+            body: "Hi Mommy and Daddy.\nI finished my homework.",
+            read:true,
+            timestamp: new Date(2020,9, 8, 0+8, 0), //october 8th at 8am
+            tags:["inbox"],
+        }
+    },
+
+    {
+        id:50,
+        category: CATEGORIES.EMAIL.ID,
+        type: CATEGORIES.EMAIL.TYPES.MESSAGE,
+        props: {
+            sender:"junk@junk.com",
+            receiver:["josh@josh.earth"],
+            subject:"Awesome Junk For Sale!",
+            body: "Please buy our crap. It's awesome. With links!",
+            read:false,
+            tags:["junk"],
+            timestamp: new Date(2020,9, 20, 0+2, 0), //october 20th at 2pm
+        }
+    },
+
+    {
+        id:51,
+        category: CATEGORIES.EMAIL.ID,
+        type: CATEGORIES.EMAIL.TYPES.MESSAGE,
+        props: {
+            sender:"jessemarinacci@icloud.com",
+            receiver:["josh@josh.earth"],
+            subject:"Email should be deleted",
+            body: "Lets delete this email",
+            read:false,
+            tags:["junk, trash"],
+            timestamp: new Date(2020,9, 21, 12+2, 33), //october 21st at 2:33 pm
+        }
+    },
+
 ]
 validateData(DATA)

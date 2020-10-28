@@ -1,5 +1,8 @@
 const STRING = 'STRING'
+const ENUM = 'ENUM'
 const BOOLEAN = 'BOOLEAN'
+const ARRAY = 'ARRAY'
+const TIMESTAMP = 'TIMESTAMP'
 
 export const CATEGORIES = {
     CONTACT:{
@@ -16,13 +19,13 @@ export const CATEGORIES = {
                 props: {
                     type: {
                         key: 'type',
-                        type: 'ENUM',
+                        type: ENUM,
                         values: ['personal', 'work'],
                         default: 'personal'
                     },
                     value: {
                         key: 'value',
-                        type: 'STRING',
+                        type: STRING,
                         default: ''
                     }
                 }
@@ -32,13 +35,13 @@ export const CATEGORIES = {
                 props:{
                     type: {
                         key: 'type',
-                        type: 'ENUM',
+                        type: ENUM,
                         values: ['personal', 'work'],
                         default: 'personal'
                     },
                     value: {
                         key: 'value',
-                        type: 'STRING',
+                        type: STRING,
                         default: ''
                     }
                 }
@@ -48,17 +51,17 @@ export const CATEGORIES = {
                 props: {
                     first: {
                         key: 'first',
-                        type: 'STRING',
+                        type: STRING,
                         default: 'unnamed'
                     },
                     last: {
                         key: 'last',
-                        type: 'STRING',
+                        type: STRING,
                         default: 'unnamed',
                     },
                     emails: {
                         key: 'emails',
-                        type: 'ARRAY',
+                        type: ARRAY,
                         default: [],
                         content: {
                             type: 'EMAIL',
@@ -66,7 +69,7 @@ export const CATEGORIES = {
                     },
                     phones: {
                         key: 'phones',
-                        type: 'ARRAY',
+                        type: ARRAY,
                         default: [],
                         content: {
                             type: 'PHONE',
@@ -74,7 +77,7 @@ export const CATEGORIES = {
                     },
                     addresses: {
                         key: 'addresses',
-                        type: 'ARRAY',
+                        type: ARRAY,
                         default: [],
                         content: {
                             type: 'MAILING_ADDRESS',
@@ -96,7 +99,7 @@ export const CATEGORIES = {
                 props: {
                     type: {
                         key: 'type',
-                        type: 'ENUM',
+                        type: ENUM,
                         values: ['personal', 'work'],
                         default: 'personal'
                     },
@@ -197,7 +200,7 @@ export const CATEGORIES = {
                     },
                     receivers:{
                         key:'receivers',
-                        type:'ARRAY',
+                        type:ARRAY,
                         default:[],
                         content: {
                         }
@@ -209,7 +212,7 @@ export const CATEGORIES = {
                     },
                     timestamp:{
                         key:'timestamp',
-                        type:'DATE',
+                        type:TIMESTAMP
                     }
                 }
             }
@@ -239,36 +242,36 @@ export const CATEGORIES = {
                 props: {
                     title: {
                         key:'title',
-                        type:'STRING',
+                        type:STRING,
                         default:'untitled',
                     },
                     tags: {
                         key:'tags',
-                        type:'ARRAY',
+                        type: ARRAY,
                         content: {
-                            type:'STRING'
+                            type:STRING
                         },
                         default:[],
                     },
                     archived: {
                         key:'archived',
-                        type:'BOOLEAN',
+                        type: BOOLEAN,
                         default:false,
                     },
                     deleted: {
                         key:'deleted',
-                        type:'BOOLEAN',
+                        type:BOOLEAN,
                         default:false,
                     },
                     contents: {
                         key:'contents',
-                        type:'STRING',
+                        type:STRING,
                         default:'',
                     },
                     lastedited:{
                         key:'lastedited',
-                        type:'TIMESTAMP',
-                        default:'NOW'
+                        type:TIMESTAMP,
+                        default:()=>Date.now(),
                     }
                 }
             }
@@ -318,7 +321,7 @@ export const CATEGORIES = {
                     },
                     repeat: {
                         key: 'type',
-                        type: 'ENUM',
+                        type: ENUM,
                         values: ['none', 'day'],
                         default: 'none'
                     },
@@ -355,6 +358,62 @@ export const CATEGORIES = {
                         key: 'url',
                         type: STRING,
                         default: ''
+                    }
+                }
+            }
+        }
+    },
+    EMAIL:{
+        ID:'EMAIL',
+        TYPES:{
+            MESSAGE:'MESSAGE'
+        },
+        SCHEMAS: {
+            MESSAGE: {
+                title:'message',
+                props: {
+                    sender: {
+                        key: 'sender',
+                        type: STRING,
+                        default: "",
+                    },
+                    receivers:{
+                        key:'receivers',
+                        type: ARRAY,
+                        default:[],
+                        content: {
+                            type: STRING,
+                        }
+                    },
+                    subject:{
+                        key:'subject',
+                        type:STRING,
+                        default:""
+                    },
+                    body:{
+                        key:'body',
+                        type:STRING,
+                        default:""
+                    },
+                    read: {
+                        key:'read',
+                        type:BOOLEAN,
+                        default:false,
+                    },
+
+                    tags:{
+                        key:'tags',
+                        type: ARRAY,
+                        default:[],
+                        content: {
+                            type: STRING,
+                        }
+
+                    },
+                    timestamp: {
+                        key:'timestamp',
+                        type: TIMESTAMP,
+                        default: ()=> Date.now(),
                     }
                 }
             }
@@ -436,7 +495,7 @@ export function makeNewObject(type, category) {
                 console.error("schema missing default",sc)
             }
             // console.log('setting key',key,sc)
-            if(sc.type === 'TIMESTAMP' && sc.default === 'NOW') {
+            if(sc.type === TIMESTAMP && sc.default === 'NOW') {
                 obj.props[sc.key] = Date.now()
                 return
             }
