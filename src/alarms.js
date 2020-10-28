@@ -17,7 +17,7 @@ export function Alarms({db, app, appService}) {
         let task = db.make(CATEGORIES.ALARM.ID, CATEGORIES.ALARM.TYPES.ALARM)
         db.add(task)
     }
-    return <Window width={300} height={200} app={app} appService={appService}>
+    return <Window width={300} height={200} app={app} appService={appService} resize>
         <HBox grow>
             <button onClick={addAlarm}><Icon>alarm_add</Icon></button>
             <DataList data={alarms} stringify={(o)=>{

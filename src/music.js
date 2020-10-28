@@ -177,7 +177,7 @@ export function Music({db, app, appService}) {
         }
     }
 
-    return <Window  app={app} appService={appService} width={600} height={300}>
+    return <Window  app={app} appService={appService} width={600} height={300} resize>
         <Toolbar>
             <PlayPanel selectedSong={selectedSong}/>
             <Spacer/>

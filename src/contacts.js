@@ -205,7 +205,7 @@ export function ContactList({db, appService, app}) {
         panel = <ContactEditPanel selected={selected} onDone={()=>setEditing(false)} db={db}/>
     }
 
-    return <Window x={120} width={500} height={320} title={'contacts'} className={'contacts'} appService={appService} app={app}>
+    return <Window x={120} width={500} height={320} title={'contacts'} className={'contacts'} appService={appService} app={app} resize>
         <HBox grow>
             <VBox>
                 <Toolbar>

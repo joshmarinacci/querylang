@@ -54,7 +54,7 @@ export function Calendar({db, app, appService}) {
         setToday(addDays(today,1))
     }
 
-    return <Window width={500} height={530} title={'calendar'} className={'calendar'} app={app} appService={appService}>
+    return <Window width={500} height={530} title={'calendar'} className={'calendar'} app={app} appService={appService} resize>
         <h1>{format(today,'E MMM d')}</h1>
         <HBox>
             <button onClick={nav_prev_day}>prev day</button>
