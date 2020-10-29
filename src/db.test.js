@@ -2,8 +2,11 @@ import {render} from '@testing-library/react'
 import App from './App.js'
 import React from 'react'
 
-import {CATEGORIES, DATA} from "./schema.js"
+import {CATEGORIES} from "./schema.js"
 import {query2} from './query2.js'
+import {DATA} from "./data.js"
+import {sort} from './db.js'
+import {compareAsc} from "date-fns"
 
 
 
@@ -101,3 +104,17 @@ test('archived notes',()=>{
     expect(res.length).toBe(2)
 })
 
+
+test('sort by date',()=>{
+    const and = (...args) => ({ and: args})
+    const isEmail = () => ({ TYPE:CATEGORIES.EMAIL.TYPES.MESSAGE  })
+    const isMessage = () => ({ CATEGORY:CATEGORIES.EMAIL.ID})
+
+    let res1 = query2(DATA,and(isMessage(),isEmail()))
+    res1 = sort(res1,["timestamp"])
+    let res2 = res1.slice()
+    res2.sort((a,b)=> compareAsc(a.props.timestamp, b.props.timestamp))
+    console.log("res2", res2.map(o => o.props.timestamp))
+    expect(res1.length).toBe(4)
+    expect(res1).toEqual(res2)
+})

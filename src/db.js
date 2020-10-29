@@ -2,15 +2,31 @@ import {MdAccessAlarm, MdArchive, MdDelete, MdList, MdNote} from 'react-icons/md
 import React, {useEffect, useState} from 'react'
 import {DATA} from './data.js'
 import {query2} from './query2.js'
-import {CATEGORIES, makeNewObject} from './schema.js'
+import {CATEGORIES, makeNewObject, SORTS} from './schema.js'
 import Icon from '@material-ui/core/Icon'
+import {compareAsc, compareDesc} from "date-fns"
 
 export function sort(items,sortby,sortorder) {
+    if(!Array.isArray(sortby)) throw new Error("sort(items, sortby) sortby must be an array of key names")
     items = items.slice()
-    items.sort((a,b)=>{
+    items.sort((A,B)=>{
         let key = sortby[0]
-        if(a.props[key] === b.props[key]) return 0
-        if(a.props[key]>b.props[key]) return 1
+        let a = A.props[key]
+        let b = B.props[key]
+        // console.log("a,b",key,A,B,a,b)
+
+        //date sort
+        // console.log("is date",a instanceof Date)
+        if(a instanceof Date) {
+            if(sortorder === SORTS.DESCENDING) {
+                return compareDesc(a,b)
+            } else {
+                return compareAsc(a,b)
+            }
+        }
+
+        if(A.props[key] === B.props[key]) return 0
+        if(A.props[key]>B.props[key]) return 1
         return -1
     })
     return items

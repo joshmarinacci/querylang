@@ -91,8 +91,9 @@ than and less than, etc.
     * -- list of messages w/ tags for inbox and folders. 
     * -- subject, senders, receivers, body. 
     * -- no compose. 
-    * lists show subject and sender and date. sorted by date.
-    * message viewer shows full senders and receivers and subject and timestamp
+    * -- lists show subject and sender and date. sorted by date.
+    * -- sort by date
+    * -- message viewer shows full senders and receivers and subject and timestamp
     
 * music
     * search works for song titles, artists, albums
@@ -103,9 +104,6 @@ than and less than, etc.
 
 - command bar. just say name of app to launch it w/ tab completion
 - chat shows user icons and names. input field with ‘send’ button and return to add to conversation
-
-
-
 
 
 # ================ Services =================

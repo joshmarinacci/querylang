@@ -433,6 +433,7 @@ Object.values(CATEGORIES).forEach(val => {
 
 export const SORTS = {
     ASCENDING:"ASCENDING",
+    DESCENDING:"DESCENDING",
 }
 
 function propMissing(obj, key) {

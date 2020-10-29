@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {DataList, HBox, Panel, Spacer, Toolbar, VBox, Window} from './ui.js'
-import {CATEGORIES} from './schema.js'
+import {CATEGORIES, SORTS} from './schema.js'
 import {propAsArray, propAsBoolean, propAsString, sort, useDBChanged} from './db.js'
 import {AND} from './query2.js'
 import {format, formatDistanceToNow} from "date-fns"
@@ -68,7 +68,7 @@ export function Email({db, app, appService}) {
         }
     }
 
-    folder_results = sort(folder_results,"timestamp")
+    folder_results = sort(folder_results,["timestamp"], SORTS.DESCENDING)
 
     return <Window  app={app} appService={appService} resize width={600} height={400}>
         <VBox grow>
