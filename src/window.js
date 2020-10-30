@@ -13,6 +13,7 @@ export function Window({width,height,children,title, className, resize, hide_tit
     let [h,sh] = useState(height?height:100)
 
     let [resizing, setResizing] = useState(false)
+    let [z, setZ] = useState(1)
 
     let style = {
         width: `${w}px`,
@@ -20,6 +21,7 @@ export function Window({width,height,children,title, className, resize, hide_tit
         position:'absolute',
         left:`${left-offx}px`,
         top:(top-offy)+'px',
+        zIndex: z,
     }
     if(anchor === "top-right"){
         style.left = null
@@ -39,6 +41,7 @@ export function Window({width,height,children,title, className, resize, hide_tit
         setTop(top-offy)
         setOffy(0)
         setDragging(false)
+        setZ(z+1)
     }
     useEffect(()=>{
         if(dragging) {
