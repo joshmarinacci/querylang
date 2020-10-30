@@ -24,6 +24,25 @@
     background-color: red;
 }
 
+.window title {
+    padding:0;
+}
+.window title b {
+    padding: 0.25em;
+    text-transform: capitalize;
+}
+.window title .appicon {
+    margin-right: 0.25rem;
+}
+.window title .close {
+    color:#555;
+    margin: 0;
+}
+.window title .close:hover {
+    color:#fff;
+    cursor: auto;
+}
+
 .window .resize-handle {
     position: absolute;
     right:0;

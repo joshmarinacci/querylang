@@ -91,7 +91,7 @@ export function Window({width,height,children,title, className, resize, hide_tit
     if(resize) {
         resize_handle = <label className={'resize-handle'}
                                onMouseDown={resize_mouse_down}
-        ></label>
+        />
 
     }
     let title_ui = ""
@@ -100,8 +100,9 @@ export function Window({width,height,children,title, className, resize, hide_tit
     }
     if(!hide_titlebar) {
         title_ui = <title onMouseDown={mouseDown}>
+            <Icon className={'appicon'}>{app.props.icon}</Icon>
             <b>{title}</b>
-            <Icon onClick={closeApp}>close</Icon>
+            <Icon onClick={closeApp} className={'close'}>close</Icon>
         </title>
     }
     return <div className={"window " + className} style={style}>

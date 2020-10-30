@@ -66,8 +66,8 @@ than and less than, etc.
 
 * windows
     * use z-index to move windows to top
-    * hover effect on the close button
-    * icon in the title bar next to the title
+    * -- hover effect on the close button
+    * -- icon in the title bar next to the title
     * remove BG on appbar. with props or just custom CSS?
 * persisted smart queries w/ icons everywhere. nothing hardcoded in the apps
 * chat
