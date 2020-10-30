@@ -8,6 +8,8 @@ import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, is
 } from 'date-fns'
 import {AND} from './query2.js'
 
+import "./calendar.css"
+
 const isCalendarCategory = () => ({ CATEGORY:CATEGORIES.CALENDAR.ID })
 const isEvent = () => ({ TYPE:CATEGORIES.CALENDAR.TYPES.EVENT })
 
@@ -34,6 +36,8 @@ function is_event_repeating_daily(e) {
     return false
 }
 
+let START_HOUR = 6
+let END_HOUR = 12+10
 
 export function Calendar({db, app, appService}) {
     let [today, setToday] = useState(()=>Date.now())
@@ -60,8 +64,58 @@ export function Calendar({db, app, appService}) {
             <button onClick={nav_prev_day}>prev day</button>
             <button onClick={nav_next_day}>next day</button>
         </HBox>
-        <DataList data={events}
-                  stringify={e => format(e.props.start,"hh:mm aa") + ' ' + propAsString(e,'title')}
-        />
+        <DayView/>
+        {/*<DataList data={events}*/}
+        {/*          stringify={e => format(e.props.start,"hh:mm aa") + ' ' + propAsString(e,'title')}*/}
+        {/*/>*/}
     </Window>
+}
+
+const time_to_row = (date) => {
+    let h = getHours(date)
+    let m = getMinutes(date)
+    return (h-START_HOUR)*4 + 1 + Math.floor(m/15)*1
+}
+
+const duration_to_span = (duration) => {
+    let hours = duration.hours || 0
+    let minutes = duration.minutes || 0
+    return hours*4 + Math.floor(minutes/15)*1
+}
+
+const HourGutterItem = ({hour}) => {
+    let date = Date.now()
+    date = setHours(date,hour)
+    date = setMinutes(date,0)
+    let str = format(date,"p")
+    return <div className={'hour'} style={{
+        gridRowStart: time_to_row(new Date(0,0,0,hour)),
+    }}>{str}</div>
+}
+
+const EventItem = ({event}) => {
+    return <div className={'event'} style={{
+        gridRowStart: time_to_row(event.date),
+        gridRowEnd: time_to_row(event.date) + duration_to_span(event.duration)
+    }}>{event.title} </div>
+}
+
+function DayView () {
+
+    let events = [
+        { title:"9am for an hour", date:new Date(0,0,0,9,0), duration: { hours: 1}},
+        { title:"2:30pm for 15 min", date:new Date(0,0,0,12+2,30), duration: { minutes: 15}},
+        { title:"3:00pm for 45 min", date:new Date(0,0,0,12+3,0), duration: {minutes: 45}},
+    ]
+    events = events.map((e,i) => <EventItem key={'event'+i} event={e}/>)
+
+
+    let hours_gutter = []
+    for(let i=START_HOUR; i<END_HOUR; i++) hours_gutter.push(<HourGutterItem key={"gutter"+i} hour={i}/>)
+
+
+    return <div className={'day-view'}>
+        {hours_gutter}
+        {events}
+    </div>
 }

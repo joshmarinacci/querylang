@@ -1,0 +1,22 @@
+.day-view {
+    border: 1px solid black;
+    display: grid;
+    grid-template-columns: 4rem auto;
+    grid-auto-rows: 1rem;
+    overflow: auto;
+}
+
+.day-view .hour {
+    border: 1px solid #ccc;
+    border-width: 1px 0 0 0;
+    grid-column: 1 / span 2;
+    padding-left: 0.5rem;
+    padding-top: 0.25rem;
+}
+
+.day-view .event {
+    border: 1px solid black;
+    background-color: lightblue;
+    grid-column: 2 / span 1;
+    padding: 0.25rem;
+}

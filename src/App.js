@@ -44,8 +44,8 @@ function App() {
       category: CATEGORIES.APP.ID,
       type: CATEGORIES.APP.TYPES.APP,
       props: {
-        title:'Alarms',
-        appid:'Email',
+        title:'Calendar',
+        appid:'Calendar',
         icon:'perm_contact_calendar'
       }
     }

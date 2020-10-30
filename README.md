@@ -69,6 +69,7 @@ than and less than, etc.
     * -- hover effect on the close button
     * -- icon in the title bar next to the title
     * remove BG on appbar. with props or just custom CSS?
+    
 * persisted smart queries w/ icons everywhere. nothing hardcoded in the apps
 * chat
     * search. what does it do?
@@ -86,7 +87,7 @@ than and less than, etc.
 * alarms
     * make delete button actually work
     
-* email
+* -- email
     * -- stub out email app w/ inbox, two folders. 
     * -- list of messages w/ tags for inbox and folders. 
     * -- subject, senders, receivers, body. 
