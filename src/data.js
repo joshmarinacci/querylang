@@ -499,7 +499,8 @@ export const DATA = [
         props: {
             title:'Peoplebar',
             appid:'PeopleBar',
-            icon:'emoji_people'
+            icon:'emoji_people',
+            launchbar:false,
         }
     },
 
@@ -865,6 +866,28 @@ export const DATA = [
             timestamp: new Date(2020,9, 21, 12+2, 33), //october 21st at 2:33 pm
         }
     },
+
+    {
+        id:1222,
+        category: CATEGORIES.APP.ID,
+        type: CATEGORIES.APP.TYPES.APP,
+        props: {
+            title:'Notifications',
+            appid:'NotificationPanel',
+            icon:'perm_contact_calendar',
+            preload:true,
+            launchbar:false,
+        }
+    },
+
+    {
+        id:300,
+        category: CATEGORIES.NOTIFICATION.ID,
+        type: CATEGORIES.NOTIFICATION.TYPES.ALERT,
+        props: {
+            title: "launched desktop"
+        }
+    }
 
 ]
 validateData(DATA)

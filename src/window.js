@@ -29,6 +29,12 @@ export function Window({width,height,children,title, className, resize, hide_tit
         style.bottom = null
         style.top = '0px'
     }
+    if(anchor === "bottom-right"){
+        style.left = null
+        style.right = '0px'
+        style.bottom = '0px'
+        style.top = null
+    }
     if(!className) className = ""
 
     const mouseMove = (e) => {

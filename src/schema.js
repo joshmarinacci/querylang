@@ -295,6 +295,21 @@ export const CATEGORIES = {
                         key:'appid',
                         type:STRING,
                         default:'BrokenApp',
+                    },
+                    icon: {
+                        key:'icon',
+                        type: STRING,
+                        default:"close"
+                    },
+                    preload: {
+                        key:'preload',
+                        type: BOOLEAN,
+                        default: false,
+                    },
+                    launchbar: {
+                        key:'launchbar',
+                        type: BOOLEAN,
+                        default: true
                     }
                 }
             }
@@ -418,6 +433,28 @@ export const CATEGORIES = {
                 }
             }
         }
+    },
+    NOTIFICATION:{
+        ID:'NOTIFICATION',
+        TYPES:{
+            ALERT:'ALERT'
+        },
+        SCHEMAS:{
+            ALERT:{
+                title:'ALERT',
+                props: {
+                    title:{
+                        key:'title',
+                        type: STRING,
+                        default:""
+                    },
+                    icon: {
+                        key:'icon',
+                        type: STRING
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -455,6 +492,19 @@ export function validateData(data) {
             if(propMissing(o,'emails')) o.props.emails = []
             if(propMissing(o,'phones')) o.props.phones = []
             if(propMissing(o,'addresses')) o.props.addresses = []
+        }
+        if(o.type === CATEGORIES.APP.TYPES.APP) {
+            let schema = CATEGORIES.APP.SCHEMAS.APP
+            // console.log("schema is",schema)
+            Object.keys(schema.props).forEach(key => {
+                let sch = schema.props[key]
+                // console.log(key,sch)
+                if(propMissing(o,key)) {
+                    // console.log("missing prop",key, 'setting', sch.default, o)
+                    o.props[key] = sch.default
+                }
+            })
+            // if(propMissing(o,'launchbar')) o.props.launchbar = true
         }
     })
 }
