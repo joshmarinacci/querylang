@@ -1,0 +1,20 @@
+.notification-panel {
+    border: 0px solid red;
+    display: flex;
+    justify-content: flex-end;
+    background-color: transparent;
+}
+.notification-panel .list {
+    border: 0px solid blue;
+}
+.notification-panel .list .hbox {
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+    margin: 0.25rem;
+    background-color: white;
+    align-items: center;
+}
+.notification-panel .list .hbox .MuiIcon-root {
+    padding-right: 0.25rem;
+}

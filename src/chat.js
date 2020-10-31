@@ -38,6 +38,11 @@ export function Chat({db, app, appService}) {
         setProp(msg,'timestamp',Date.now())
         setText("")
         db.add(msg)
+
+
+        let alert = db.make(CATEGORIES.NOTIFICATION.ID, CATEGORIES.NOTIFICATION.TYPES.ALERT)
+        setProp(alert,'title','sent a message')
+        db.add(alert)
     }
 
     return <Window width={500} height={320} title={'chat'} className={"chat"} app={app} appService={appService} resize>

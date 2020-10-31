@@ -450,7 +450,13 @@ export const CATEGORIES = {
                     },
                     icon: {
                         key:'icon',
-                        type: STRING
+                        type: STRING,
+                        default:'info',
+                    },
+                    read: {
+                        key:'read',
+                        type: BOOLEAN,
+                        default:false,
                     }
                 }
             }

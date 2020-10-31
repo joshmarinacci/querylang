@@ -886,7 +886,9 @@ export const DATA = [
         category: CATEGORIES.NOTIFICATION.ID,
         type: CATEGORIES.NOTIFICATION.TYPES.ALERT,
         props: {
-            title: "launched desktop"
+            title: "launched desktop",
+            icon:'info',
+            read:false,
         }
     }
 
