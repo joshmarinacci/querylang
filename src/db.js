@@ -274,6 +274,10 @@ export function makeDB() {
 }
 
 
+export const DBContext = React.createContext('db')
+
+
+
 export function useDBChanged(db,cat) {
     if(!cat) throw new Error("missing category to monitor")
     let [refresh, setRefresh] = useState(false)

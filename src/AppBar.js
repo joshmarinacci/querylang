@@ -1,10 +1,11 @@
-import {AND, query2 as QUERY} from './query2.js'
+import {AND} from './query2.js'
 import {Window} from './ui.js'
-import React from 'react'
+import React, {useContext} from 'react'
 import {CATEGORIES} from './schema.js'
-import {propAsString} from './db.js'
+import {DBContext, propAsString} from './db.js'
 import "./appbar.css"
 import Icon from '@material-ui/core/Icon'
+import {AppLauncherContext} from './services/AppLauncherService.js'
 
 const isAppCategory = () => ({ CATEGORY:CATEGORIES.APP.ID })
 const isApp = () => ({ TYPE:CATEGORIES.APP.TYPES.APP })
@@ -18,7 +19,9 @@ const AppView = ({app, service}) => {
 }
 const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 
-export function AppBar({db, appService}) {
+export function AppBar({}) {
+    let db = useContext(DBContext)
+    let appService = useContext(AppLauncherContext)
     let items = db.QUERY(AND(isAppCategory(),
         isApp(),
         isPropEqual('launchbar',true)))

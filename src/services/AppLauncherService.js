@@ -1,3 +1,4 @@
+import React from 'react'
 
 export class AppLauncherService {
     constructor() {
@@ -19,3 +20,5 @@ export class AppLauncherService {
         this.listeners.forEach(l => l())
     }
 }
+
+export const AppLauncherContext = React.createContext('app-launcher')
