@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import {deepClone, project, propAsBoolean, propAsString, sort, useDBChanged} from './db.js'
+import React, {useContext, useState} from 'react'
+import {DBContext, deepClone, project, propAsBoolean, propAsString, sort, useDBChanged} from './db.js'
 import {CATEGORIES, SORTS} from './schema.js'
 import {
     AddButton,
@@ -16,6 +16,7 @@ import {
 } from './ui.js'
 import {AND, OR, query2 as QUERY} from './query2.js'
 import Icon from '@material-ui/core/Icon'
+import {AppLauncherContext} from './services/AppLauncherService.js'
 
 const isPerson = () => ({ TYPE:CATEGORIES.CONTACT.TYPES.PERSON })
 const isContactCategory = () => ({ CATEGORY:CATEGORIES.CONTACT.ID })
@@ -176,7 +177,9 @@ export function ContactEditPanel({db, onDone, selected}) {
     </Panel>)
 }
 
-export function ContactList({db, appService, app}) {
+export function ContactList({app}) {
+    const db = useContext(DBContext)
+    const appService = useContext(AppLauncherContext)
     useDBChanged(db,CATEGORIES.CONTACT.ID)
 
     const [selected, setSelected] = useState(null)

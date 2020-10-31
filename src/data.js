@@ -501,6 +501,7 @@ export const DATA = [
             appid:'PeopleBar',
             icon:'emoji_people',
             launchbar:false,
+            preload:true,
         }
     },
 

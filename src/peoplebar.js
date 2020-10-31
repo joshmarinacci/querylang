@@ -1,11 +1,12 @@
-import {propAsString} from './db.js'
+import {DBContext, propAsString} from './db.js'
 import {CATEGORIES} from './schema.js'
 import {Window} from './ui.js'
-import React from 'react'
+import React, {useContext} from 'react'
 import {AND} from './query2.js'
 import "./peoplebar.css"
 import {format} from 'date-fns'
 import {utcToZonedTime} from 'date-fns-tz'
+import {AppLauncherContext} from './services/AppLauncherService.js'
 
 const isPropTrue = (prop) => ({ equal: {prop, value:true}})
 
@@ -21,7 +22,9 @@ const PersonView = ({person}) => {
     </li>
 }
 
-export function PeopleBar({db, app, appService}) {
+export function PeopleBar({app}) {
+    const db = useContext(DBContext)
+    const appService = useContext(AppLauncherContext)
     let items = db.QUERY(AND(
     {CATEGORY:CATEGORIES.CONTACT.ID},
         {TYPE:CATEGORIES.CONTACT.TYPES.PERSON},

@@ -39,7 +39,7 @@ function App() {
   let ins = apps.map((app,i) => {
     let appid = app.props.appid
     // console.log("appid is",appid)
-    if(appid === 'PeopleBar') return <PeopleBar app={app} key={appid} db={db_service} appService={app_launcher_service}/>
+    if(appid === 'PeopleBar') return <PeopleBar app={app} key={appid}/>
     if(appid === 'ContactList') return <ContactList app={app} key={appid} db={db_service} appService={app_launcher_service}/>
     if(appid === 'TaskLists') return <TaskLists key={appid} db={db_service} app={app} appService={app_launcher_service}/>
     if(appid === 'Chat') return <Chat key={appid} db={db_service} app={app} appService={app_launcher_service}/>
