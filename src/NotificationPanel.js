@@ -28,10 +28,7 @@ export function NotificationPanel({app}) {
 
 function NotificationView({alert}) {
     let db = useContext(DBContext)
-    const closeAlert = () => {
-        db.setProp(alert,'read',true)
-        console.log("marking as read")
-    }
+    const closeAlert = () => db.setProp(alert,'read',true)
     return <HBox>
         <Icon>{propAsString(alert,'icon')}</Icon>
         <b>{propAsString(alert,'title')}</b>
