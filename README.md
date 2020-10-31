@@ -64,95 +64,106 @@ than and less than, etc.
 
 # =============== cleanup tasks ===============
 
-* windows
-    * use z-index to move windows to top
-    * -- hover effect on the close button
-    * -- icon in the title bar next to the title
-    * remove BG on appbar. with props or just custom CSS?
-    
-* persisted smart queries w/ icons everywhere. nothing hardcoded in the apps
-* chat
-    * search. what does it do?
-    * show icon and name of participants
-* calendar
-    * search based on descriptions in the events?
-    * both day and week view
-    * preload with a lot more events
-    * button to add a new event using a form
-    * button to add a new event using parsed text
-* contacts
-    * 
-* notes
-    * cleanup layout of editing form
-* alarms
-    * make delete button actually work
-    
-* -- email
-    * -- stub out email app w/ inbox, two folders. 
-    * -- list of messages w/ tags for inbox and folders. 
-    * -- subject, senders, receivers, body. 
-    * -- no compose. 
-    * -- lists show subject and sender and date. sorted by date.
-    * -- sort by date
-    * -- message viewer shows full senders and receivers and subject and timestamp
-    
-* music
-    * search works for song titles, artists, albums
-    * show song duration
-    * heart to favorite a song
-    * favorite songs list
-    * icons in the queries list
+### General
+- [ ] persisted smart queries w/ icons everywhere. nothing hardcoded in the apps
 
-- command bar. just say name of app to launch it w/ tab completion
-- chat shows user icons and names. input field with ‘send’ button and return to add to conversation
+### windows
+- [ ] use z-index to move windows to top
+- [x] hover effect on the close button
+- [x] icon in the title bar next to the title
+- [ ] remove BG on appbar. with props or just custom CSS?
+    
+
+### Calendar
+- [ ] search based on descriptions in the events?
+- [ ] both day and week view
+- [ ] preload with a lot more events
+- [ ] button to add a new event using a form
+- [ ] button to add a new event using parsed text
+
+### Contacts
+- [ ] crashing
+
+### notes
+- [ ]  cleanup layout of editing form
+
+### alarms and timers
+- [ ] make delete button actually work
+- [ ] send alert when active alarm triggers
+- [ ] add snooze button to the alert
+- [ ] add a big timer button that spawns in a new window. ex: set a timer for 15 min.
+
+### email    
+- [x] stub out email app w/ inbox, two folders. 
+- [x] list of messages w/ tags for inbox and folders. 
+- [x] subject, senders, receivers, body. 
+- [x] no compose. 
+- [x] lists show subject and sender and date. sorted by date.
+- [x] sort by date
+- [x] message viewer shows full senders and receivers and subject and timestamp
+    
+### music
+- [ ] search works for song titles, artists, albums
+- [ ] show song duration
+- [ ] heart to favorite a song
+- [ ] favorite songs list
+- [ ] icons in the queries list
+
+### Command Bar
+- [ ] command bar. just say name of app to launch it w/ tab completion
+
+### Chat
+- [ ] input field with ‘send’ button and return to add to conversation
+- [ ] search. what does it do?
+- [ ] show icon and short name of participants
 
 
 # ================ Services =================
 
 ### App Service
 
-* launch app by id
-* close app by id
-* allow or disallow multiple instances of app?
-* send args to the app. ex: open chat w/ user, creating a new conversation if needed.
+- [x] launch app by id
+- [x] close app by id
+- [ ] allow or disallow multiple instances of app?
+- [ ] send args to the app. ex: open chat w/ user, creating a new conversation if needed.
 
 ### Alarm Service
 
-* create, edit, delete alarm objects in database
-* send notification when an active alarm triggers
-* send notification when a repeated alarm triggers
+- [ ] create, edit, delete alarm objects in database
+- [ ] send notification when an active alarm triggers
+- [ ] send notification when a repeated alarm triggers
 
 
 ### Notification Service and App
 
-* category in database of notifications
-* display in lower right that shows most recent notifications
-* notification fades out after N seconds
-* only most recent notifications are show, but all still exist in DB
-* does it actually need a service or just the DB?
-* icon and title and subtitle props
-* action to trigger? launch app with args?
+- [x] category in database of notifications
+- [x] display in lower right that shows most recent notifications
+- [ ] notification fades out after N seconds
+- [ ] only most recent notifications are show, but all still exist in DB
+- [x] does it actually need a service or just the DB?
+- [ ] icon and title and subtitle props
+- [ ] action to trigger? launch app with args?
 
 ### NLP service
 
-* parse incrementally typed code to show suggestions
-* `open appname` -> launch app
-* `appname` -> launch app
-* `email josh` -> launch email compose with recipient prefilled
-* `chat with josh` -> launch chat with participants prefilled
-* `log my weight` -> launches a script that asks for a number
-* `log my weight as 143` -> launches a script with value prefilled
+- [ ] parse incrementally typed code to show suggestions
+- [ ] `open appname` -> launch app
+- [ ] `appname` -> launch app
+- [ ] `email josh` -> launch email compose with recipient prefilled
+- [ ] `chat with josh` -> launch chat with participants prefilled
+- [ ] `log my weight` -> launches a script that asks for a number
+- [ ] `log my weight as 143` -> launches a script with value prefilled
 
 
 ### Database Service
 
-* loads prefab database
-* add, update, delete objects in the database
-* caches queries
-* sends notifications when data changes
-* save to local storage or indexdb. only objects that have been changed are persisted.
-* function to nuke local storage and reset to defaults
-* prefab data is loaded, then real data is loaded. hash by id. loaded ids override existing ids.
-* on load, objects are validated against the schema
-* objects are upgraded using schema defaults. so adding a new schema field can apply to previously edited objects.
-* schema can also delete properties using some special syntax, to upgrade old objects by deleting, or renaming.  
+- [ ] loads prefab database
+- [ ] add, update, delete objects in the database
+- [ ] caches queries
+- [ ] sends notifications when data changes
+- [ ] save to local storage or indexdb. only objects that have been changed are persisted.
+- [ ] function to nuke local storage and reset to defaults
+- [ ] prefab data is loaded, then real data is loaded. hash by id. loaded ids override existing ids.
+- [ ] on load, objects are validated against the schema
+- [ ] objects are upgraded using schema defaults. so adding a new schema field can apply to previously edited objects.
+- [ ] schema can also delete properties using some special syntax, to upgrade old objects by deleting, or renaming.  
