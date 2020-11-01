@@ -1,6 +1,6 @@
 ## DataList
 
-* common ListItem with room for icon, title, subtitle, second icon, and grows properly.
+- [x] common ListItem with room for icon, title, subtitle, second icon, and grows properly.
 
 ## DataTable
 

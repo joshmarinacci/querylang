@@ -189,7 +189,6 @@ export function ContactList({app}) {
 
     let items = db.QUERY(AND(isContactCategory(),isPerson()))
     items = sort(items, ["first", "last"], SORTS.ASCENDING)
-    items = project(items, ["first", "last", "id"])
 
     if(searchTerms.length >= 2) items = QUERY(items,OR(isPropSubstring('last',searchTerms),isPropSubstring('first',searchTerms)))
 

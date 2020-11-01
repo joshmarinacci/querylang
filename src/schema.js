@@ -487,30 +487,26 @@ function propMissing(obj, key) {
 }
 
 export function validateData(data) {
-    data.forEach(o => {
-        if(o.type === CATEGORIES.TASKS.TYPES.TASK) {
-            if(!o.props.hasOwnProperty('notes')) {
-                console.log("missing a note")
-                o.props.notes = ''
+    function fix_with_schema(o) {
+        // let schema = CATEGORIES.APP.SCHEMAS.APP
+        let schema = CATEGORIES[o.category].SCHEMAS[o.type]
+        // console.log("fixing",o.type, o.category, schema)
+        Object.keys(schema.props).forEach(key => {
+            let sch = schema.props[key]
+            // console.log(key,sch)
+            if(propMissing(o,key)) {
+                console.log("missing prop",key, 'setting', sch.default, o)
+                o.props[key] = sch.default
             }
-        }
+        })
+    }
+
+    data.forEach(o => {
         if(o.type === CATEGORIES.CONTACT.TYPES.PERSON) {
-            if(propMissing(o,'emails')) o.props.emails = []
-            if(propMissing(o,'phones')) o.props.phones = []
-            if(propMissing(o,'addresses')) o.props.addresses = []
+            fix_with_schema(o)
         }
         if(o.type === CATEGORIES.APP.TYPES.APP) {
-            let schema = CATEGORIES.APP.SCHEMAS.APP
-            // console.log("schema is",schema)
-            Object.keys(schema.props).forEach(key => {
-                let sch = schema.props[key]
-                // console.log(key,sch)
-                if(propMissing(o,key)) {
-                    // console.log("missing prop",key, 'setting', sch.default, o)
-                    o.props[key] = sch.default
-                }
-            })
-            // if(propMissing(o,'launchbar')) o.props.launchbar = true
+            fix_with_schema(o)
         }
     })
 }
