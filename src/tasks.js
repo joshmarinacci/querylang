@@ -5,7 +5,7 @@ import {
     CheckboxPropEditor,
     DataList,
     HBox,
-    Panel, Spacer,
+    Panel, Spacer, StandardListItem,
     TextareaPropEditor,
     TextPropEditor,
     Toolbar,
@@ -77,10 +77,9 @@ export function TaskLists({db, app, appService}) {
     return <Window width={620} height={200} title={'tasks'} className={'tasks'} app={app} appService={appService} resize>
         <HBox grow>
             <DataList data={projects} selected={selectedProject} setSelected={setSelectedProject}
-                      stringify={((o,i) => <HBox key={i}>
-                          {propAsIcon(o,'icon')}
-                          {propAsString(o,'title')}
-                      </HBox>)}
+                      stringify={((o,i) => <StandardListItem key={i}
+                                                             icon={propAsString(o,'icon')}
+                                                             title={propAsString(o,'title')}/>)}
             />
             <VBox>
                 <Toolbar>
@@ -90,12 +89,9 @@ export function TaskLists({db, app, appService}) {
                     </button>
                 </Toolbar>
                 <DataList data={tasks}  selected={selectedTask} setSelected={setSelectedTask}
-                          stringify={(o) => {
-                              return <HBox>
-                                  {propAsBoolean(o,'completed')?<MdCheckBox className={'checkbox-icon'}/>:<MdCheckBoxOutlineBlank/>}
-                                  <b>{propAsString(o,'title')}</b>
-                              </HBox>
-                          }}
+                          stringify={(o,i) => <StandardListItem key={i}
+                                                               icon={(propAsBoolean(o,'completed')?"check_box":"check_box_outline_blank")}
+                                                               title={propAsString(o,'title')}/>}
                 />
 
             </VBox>

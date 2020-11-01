@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {DataList, HBox, Panel, Spacer, Toolbar, VBox, Window} from './ui.js'
+import {DataList, HBox, Panel, Spacer, StandardListItem, Toolbar, VBox, Window} from './ui.js'
 import {CATEGORIES, SORTS} from './schema.js'
 import {propAsArray, propAsBoolean, propAsString, sort, useDBChanged} from './db.js'
 import {AND} from './query2.js'
@@ -83,22 +83,23 @@ export function Email({db, app, appService}) {
                           selected={selectedFolder}
                           setSelected={setSelectedFolder}
                           stringify={o => {
-                              return <label>{propAsString(o,'title')}</label>
+                              let icon = "folder"
+                              let title = propAsString(o,'title')
+                              if(title === 'inbox') icon = 'inbox'
+                              return <StandardListItem title={title} icon={icon}/>
                           }}
                 />
                 <DataList data={folder_results}
                           selected={selectedMessage}
                           setSelected={setSelectedMessage}
                           stringify={o => {
-                              return <VBox grow>
-                                  <HBox grow>
-                                      <b>{propAsString(o,'sender')}</b>
-                                      <Spacer/>
-                                      <i>{formatDistanceToNow(o.props.timestamp)}</i>
-                                  </HBox>
-                                  <label>{propAsString(o,'subject')}</label>
-                              </VBox>
-                }}/>
+                              return <StandardListItem
+                                  title={propAsString(o,'sender')}
+                                  trailing_title={formatDistanceToNow(o.props.timestamp)}
+                                  subtitle={propAsString(o,'subject')}
+                                  />}}
+                                  />
+
                 {panel}
             </HBox>
             </VBox>

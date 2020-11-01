@@ -5,6 +5,7 @@ import {HiMinusCircle, HiPlusCircle} from 'react-icons/hi'
 import {MdClose} from 'react-icons/md'
 
 import "./window.css"
+import "./ui.css"
 import Icon from '@material-ui/core/Icon'
 import {flatten} from './util.js'
 
@@ -56,6 +57,27 @@ export function DataList({data, selected, setSelected, className, style, stringi
       </li>
     })}</ul>
 
+}
+
+export function StandardListItem({
+                                     icon, onClickIcon,
+                                     title,
+                                     trailing_title,
+                                     subtitle,
+                                     trailingIcon,
+                                    onClickTrailingIcon
+                                 }) {
+    return <HBox className={"list-item"}>
+        {icon?<Icon onClick={onClickIcon}>{icon}</Icon>:""}
+        <VBox>
+            {title?<b className={"title"}>{title}</b>:""}
+            {subtitle?<i className="subtitle">{subtitle}</i>:""}
+        </VBox>
+        <Spacer/>
+        {trailing_title?<b>{trailing_title}</b>:""}
+        {trailingIcon?<Icon onClick={onClickTrailingIcon}>{trailingIcon}</Icon>:""}
+
+    </HBox>
 }
 
 export function TextPropEditor({buffer, prop, onChange, db}) {

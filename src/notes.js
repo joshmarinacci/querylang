@@ -10,7 +10,7 @@ import {CATEGORIES} from './schema.js'
 import {
     AddButton,
     DataList,
-    HBox,
+    HBox, StandardListItem,
     TagsetEditor,
     TextareaPropEditor,
     TextPropEditor,
@@ -44,7 +44,7 @@ export function Notes({db, app, appService}) {
             id:3000+i,
             props: {
                 title:t,
-                icon:'hash',
+                icon:'label',
                 query:true,
                 tag:true,
             }
@@ -94,11 +94,14 @@ export function Notes({db, app, appService}) {
 
 
 const renderProject = (o) => {
-    let title = propAsString(o,'title')
-    let icon = propAsIcon(o,'icon')
-    return [icon,title]
+    return <StandardListItem
+        title={propAsString(o,'title')}
+        icon={propAsString(o,'icon')}/>
 }
 
 const renderNoteSummary = (o) => {
-    return propAsString(o, 'title') + " " + formatDistanceToNow(o.props.lastedited)
+    return <StandardListItem
+        icon={'note'}
+        title={propAsString(o,'title')}
+        subtitle={formatDistanceToNow(o.props.lastedited)}/>
 }

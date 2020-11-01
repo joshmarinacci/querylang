@@ -750,7 +750,7 @@ export const DATA = [
             title:'Songs',
             active:true,
             query:true,
-            icon:'music',
+            icon:'audiotrack',
             query_impl: {
                 and:[
                     {
@@ -794,7 +794,7 @@ export const DATA = [
             title:'Albums',
             active:true,
             query:true,
-            icon:'person',
+            icon:'album',
             query_impl: {
                 and:[
                     {

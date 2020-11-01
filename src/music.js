@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react'
-import {DataList, HBox, Spacer, Toolbar, VBox, Window} from './ui.js'
+import {DataList, HBox, Spacer, StandardListItem, Toolbar, VBox, Window} from './ui.js'
 import {project, propAsBoolean, propAsIcon, propAsString, useDBChanged} from './db.js'
 import {CATEGORIES} from './schema.js'
 import {AND} from './query2.js'
@@ -49,7 +49,7 @@ export function ArtistsPanel({artists, db, playSong}) {
     return <HBox grow>
         <DataList data={artists}
                   selected={selectedArtist} setSelected={choose}
-                  stringify={o => propAsString(o, 'artist')}
+                  stringify={o => <StandardListItem  title={propAsString(o, 'artist')}/>}
         />
         <SongsPanel songs={songs} playSong={playSong} db={db}/>
     </HBox>
@@ -69,7 +69,7 @@ export function AlbumsPanel({albums, db, playSong}) {
     return <HBox grow>
         <DataList data={albums}
                   selected={selectedAlbum} setSelected={choose}
-                  stringify={o => propAsString(o,'album')}
+                  stringify={o => <StandardListItem  title={propAsString(o, 'album')}/>}
         />
         <SongsPanel songs={songs} playSong={playSong} db={db}/>
     </HBox>
@@ -83,8 +83,6 @@ export function PlayPanel({selectedSong}) {
 
 
     const handler = (e) => {
-        // console.log("event",e.type,e)
-        // console.log(audioRef.current.duration)
         if(e.type === 'timeupdate'     && audioRef.current) setPlaytime(Math.round(audioRef.current.currentTime))
         if(e.type === 'durationchange' && audioRef.current) setDuration(Math.round(audioRef.current.duration))
     }
@@ -186,9 +184,7 @@ export function Music({db, app, appService}) {
         <HBox grow>
             <VBox scroll>
                 <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
-                          stringify={((o,i) => <HBox key={i}>
-                                {propAsString(o,'title')}
-                          </HBox>)}
+                      stringify={(o,i) => <StandardListItem key={i} title={propAsString(o,'title')} icon={propAsString(o,'icon')}/>}
                 />
             </VBox>
             {panel}

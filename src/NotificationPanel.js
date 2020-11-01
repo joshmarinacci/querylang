@@ -6,8 +6,7 @@ import {DBContext, propAsString, useDBChanged} from './db.js'
 import {AppLauncherContext} from './services/AppLauncherService.js'
 
 import "./notifications.css"
-import Icon from '@material-ui/core/Icon'
-import {HBox, Spacer} from './ui.js'
+import {StandardListItem} from './ui.js'
 
 const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 
@@ -29,11 +28,10 @@ export function NotificationPanel({app}) {
 function NotificationView({alert}) {
     let db = useContext(DBContext)
     const closeAlert = () => db.setProp(alert,'read',true)
-    return <HBox>
-        <Icon>{propAsString(alert,'icon')}</Icon>
-        <b>{propAsString(alert,'title')}</b>
-        <Spacer/>
-        <Icon onClick={closeAlert}>close</Icon>
-    </HBox>
-
+    return <StandardListItem
+        title={propAsString(alert,'title')}
+        icon={propAsString(alert,'icon')}
+        trailingIcon={"close"}
+        onClickTrailingIcon={closeAlert}
+        />
 }

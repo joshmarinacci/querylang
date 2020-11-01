@@ -8,7 +8,7 @@ import {
     HBox,
     Panel,
     RemoveButton,
-    Spacer,
+    Spacer, StandardListItem,
     TextPropEditor,
     Toolbar,
     VBox,
@@ -216,7 +216,7 @@ export function ContactList({app}) {
                     <AddButton onClick={addNewContact}/>
                 </Toolbar>
                 <DataList data={items} selected={selected} setSelected={setSelected}
-                          stringify={o => propAsString(o, 'first') + " " + propAsString(o, 'last')}/>
+                          stringify={(o,i) => <StandardListItem icon={'person'} title={`${propAsString(o,'first')} ${propAsString(o,'last')}`}/>}/>
             </VBox>
             <VBox grow>
                 {panel}

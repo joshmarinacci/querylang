@@ -1,0 +1,16 @@
+.hbox.list-item {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #ccc;
+    border-width: 0 0 0.5px 0;
+    padding: 0.25em 0.5em;
+    align-items: center;
+    margin: 0rem;
+}
+
+.hbox.list-item .vbox {
+    padding-left: 0.25rem;
+}
+.hbox.list-item .subtitle {
+    font-style: italic;
+}

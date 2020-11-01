@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {attach, propAsString, setProp, sort} from './db.js'
 import {CATEGORIES} from './schema.js'
-import {DataList, HBox, VBox, Window} from './ui.js'
+import {DataList, HBox, StandardListItem, VBox, Window} from './ui.js'
 import {AND} from './query2.js'
 
 const isConversation = () => ({ TYPE:CATEGORIES.CHAT.TYPES.CONVERSATION })
@@ -51,7 +51,7 @@ export function Chat({db, app, appService}) {
                 data={conversations}
                 selected={selected}
                 setSelected={setSelected}
-                stringify={(o) => propAsString(o, 'title')}
+                stringify={(o) => <StandardListItem title={propAsString(o, 'title')} icon={'chat'}/>}
             />
             <VBox grow>
                 <DataList style={{flex:1}} data={messages} className={'thread'} stringify={(o) => {
