@@ -889,7 +889,18 @@ export const DATA = [
             icon:'info',
             read:false,
         }
-    }
+    },
+
+    {
+        id:1223,
+        category: CATEGORIES.APP.ID,
+        type: CATEGORIES.APP.TYPES.APP,
+        props: {
+            title:'debug',
+            appid:'DebugPanel',
+            icon:'bug_report'
+        }
+    },
 
 ]
-validateData(DATA)
+// validateData(DATA)

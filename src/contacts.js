@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {DBContext, deepClone, project, propAsBoolean, propAsString, sort, useDBChanged} from './db.js'
+import {DBContext, deepClone, propAsBoolean, propAsString, setProp, sort, useDBChanged} from './db.js'
 import {CATEGORIES, SORTS} from './schema.js'
 import {
     AddButton,
@@ -117,7 +117,7 @@ export function ContactEditPanel({db, onDone, selected}) {
 
     const saveEditing = () => {
         Object.keys(selected.props).forEach(k => {
-            selected.props[k] = buffer.props[k]
+            setProp(selected,k,buffer.props[k])
         })
         onDone()
     }

@@ -159,13 +159,14 @@ than and less than, etc.
 
 ### Database Service
 
-- [ ] loads prefab database
-- [ ] add, update, delete objects in the database
+- [ ] track when object changed, so we can tell if it's dirty
+- [x] save to local storage or indexdb. only objects that have been changed are persisted.
+- [x] function to nuke local storage and reset to defaults
+- [x] loads prefab database
+- [x] add, update, delete objects in the database
 - [ ] caches queries
-- [ ] sends notifications when data changes
-- [ ] save to local storage or indexdb. only objects that have been changed are persisted.
-- [ ] function to nuke local storage and reset to defaults
-- [ ] prefab data is loaded, then real data is loaded. hash by id. loaded ids override existing ids.
-- [ ] on load, objects are validated against the schema
-- [ ] objects are upgraded using schema defaults. so adding a new schema field can apply to previously edited objects.
+- [x] sends notifications when data changes
+- [x] prefab data is loaded, then real data is loaded. hash by id. loaded ids override existing ids.
+- [x] on load, objects are validated against the schema
+- [x] objects are upgraded using schema defaults. so adding a new schema field can apply to previously edited objects.
 - [ ] schema can also delete properties using some special syntax, to upgrade old objects by deleting, or renaming.  

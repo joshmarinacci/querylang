@@ -2,7 +2,7 @@ import {MdAccessAlarm, MdArchive, MdDelete, MdList, MdNote} from 'react-icons/md
 import React, {useEffect, useState} from 'react'
 import {DATA} from './data.js'
 import {query2} from './query2.js'
-import {CATEGORIES, makeNewObject, SORTS} from './schema.js'
+import {CATEGORIES, makeNewObject, SORTS, validateData} from './schema.js'
 import Icon from '@material-ui/core/Icon'
 import {compareAsc, compareDesc} from "date-fns"
 
@@ -81,7 +81,7 @@ export function setProp(obj,key,value) {
         return
     }
     obj.props[key] = value
-
+    obj.local = true
 }
 
 export function hasProp(s,key) {
@@ -227,11 +227,20 @@ export function attach_in(A, B, ka, kb) {
 }
 
 
+const ROOT = "query_lang_root_key"
 class DB {
-    constructor(DATA) {
-        this.data = DATA
+    log(...args) {
+        console.log("DB:",...args)
+    }
+    constructor(data) {
+        this._original_data = data
+        this.log("making database")
+        this.object_cache = {}
         this.listeners = {}
         Object.keys(CATEGORIES).forEach(cat => this.listeners[cat] = [])
+        this.loadPresetData()
+        this.loadLocalStorage()
+        this.validateData()
     }
     addEventListener(cat,listener) {
         if(!cat) throw new Error("Missing category")
@@ -246,6 +255,7 @@ class DB {
     }
     add(obj) {
         this.data.push(obj)
+        obj.local = true
         this._fireUpdate(obj)
     }
     remove(obj) {
@@ -265,11 +275,77 @@ class DB {
             return
         }
         obj.props[key] = value
+        obj.local = true
         this._fireUpdate(obj)
     }
 
     _fireUpdate(obj) {
         this.listeners[obj.category].forEach(l => l())
+    }
+
+    loadPresetData() {
+        this.data = this._original_data.slice()
+        this.data.forEach(item => {
+            item.local = false
+            this.object_cache[item.id] = item
+        })
+    }
+
+    loadLocalStorage() {
+        this.log("loading local storage")
+        if(localStorage.getItem(ROOT)) {
+            let localJSON = localStorage.getItem(ROOT)
+            console.log("local is",localJSON)
+            let local = JSON.parse(localJSON)
+            console.log("local data is",local)
+            local.forEach(item => {
+                this.data.push(item)
+                this.object_cache[item.id] = item
+            })
+        } else {
+            this.log("no local storage present")
+        }
+    }
+    clearLocalStorage() {
+        localStorage.removeItem(ROOT)
+    }
+    validateData() {
+        validateData(this.data)
+        this.data = Object.values(this.object_cache).slice()
+        this.log("total object count",this.data.length)
+        this.log("total unique count", Object.keys(this.object_cache).length)
+    }
+
+    persist() {
+        this.log("persisting data")
+        let preset = this.data.filter(i => i.local === false)
+        let local = this.data.filter(i => i.local === true)
+        this.log(`preset items ${preset.length}`)
+        this.log(`local items ${local.length}`)
+        this.log(`total item count ${this.data.length}`)
+        this.log("local items")
+        local.forEach(item => this.log("    ",item))
+        localStorage.setItem(ROOT,JSON.stringify(local))
+    }
+    reload() {
+        this.object_cache = {}
+        this.loadPresetData(this._original_data)
+        this.loadLocalStorage()
+        this.validateData()
+        this._fireUpdateAll()
+    }
+    nukeAndReload() {
+        console.log("nuking and reloading")
+        this.object_cache = {}
+        this.clearLocalStorage()
+        this.loadPresetData(this._original_data)
+        this.loadLocalStorage()
+        this.validateData()
+        this._fireUpdateAll()
+    }
+
+    _fireUpdateAll() {
+        Object.values(this.listeners).forEach(category => category.forEach(listener => listener()))
     }
 }
 

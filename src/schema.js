@@ -556,7 +556,7 @@ export function makeNewObject(type, category) {
             // console.log("key ",key)
             let sc = schema.props[key]
             if(!sc.hasOwnProperty('default')) {
-                console.error("schema missing default",sc)
+                console.error("schema missing default",category,type,sc)
             }
             // console.log('setting key',key,sc)
             if(sc.type === TIMESTAMP && sc.default === 'NOW') {
