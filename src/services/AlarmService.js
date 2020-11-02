@@ -1,10 +1,7 @@
 import React from 'react'
 import {AND} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
-import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, isAfter, isBefore,
-    subDays, addDays, addMinutes, setMilliseconds, setSeconds,
-    startOfDay, endOfDay,
-} from 'date-fns'
+import {getHours, getMinutes, isAfter, setHours, setMilliseconds, setMinutes, setSeconds} from 'date-fns'
 import {propAsString, setProp} from '../db.js'
 
 export class AlarmService {
@@ -13,7 +10,7 @@ export class AlarmService {
         this.db = db
         this.listeners = []
         this.handler = () => this.processAlarms()
-        this.interval = setInterval(this.handler,5000)
+        this.interval = setInterval(this.handler,15*1000) //every 15 seconds
     }
     addEventListener(handler) {
         this.listeners.push(handler)
