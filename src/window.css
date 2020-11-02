@@ -21,7 +21,8 @@
 
 
 .window.dragging > title {
-    background-color: red;
+    background-color: greenyellow;
+    color: black;
 }
 
 .window title {
@@ -67,7 +68,7 @@
 
 
 .window.resizing {
-    border-color: red;
+    border-color: greenyellow;
 }
 
 .window > title {

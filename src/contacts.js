@@ -212,7 +212,7 @@ export function ContactList({app}) {
             <VBox>
                 <Toolbar>
                     <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
-                    <AddButton onClick={addNewContact}/>
+                    <Icon onClick={addNewContact}>add_circle</Icon>
                 </Toolbar>
                 <DataList data={items} selected={selected} setSelected={setSelected}
                           stringify={(o,i) => <StandardListItem icon={'person'} title={`${propAsString(o,'first')} ${propAsString(o,'last')}`}/>}/>

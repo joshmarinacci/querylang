@@ -1,3 +1,28 @@
+.hbox {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+.vbox {
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar {
+    border: 0 solid red;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.spacer {
+    flex: 1.0;
+}
+
+
+
+
+
 .hbox.list-item {
     display: flex;
     flex-direction: row;
@@ -13,4 +38,37 @@
 }
 .hbox.list-item .subtitle {
     font-style: italic;
+}
+
+
+
+
+button {
+    border: 1px solid #333;
+    border-radius: 1.0rem;
+    font-weight: normal;
+    padding: 0.25rem 0.5rem;
+    margin: 0.25rem;
+    background-color: #ccc;
+    color: black;
+}
+button:hover {
+    background-color: #888888;
+    color: white;
+}
+button.primary {
+    background-color: #5fe0f5;
+    color: black;
+}
+button.primary:hover {
+    background-color: #1d92a5;
+    color: white;
+}
+button.danger {
+    background-color: red;
+    color: black;
+}
+button.danger:hover {
+    background-color: #ab0505;
+    color: white;
 }

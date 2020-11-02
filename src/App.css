@@ -24,15 +24,6 @@ ul.list li {
 }
 
 
-div.hbox {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-}
-.vbox {
-  display: flex;
-  flex-direction: column;
-}
 
 
 ul.list li.selected {
@@ -109,17 +100,6 @@ ul.list {
 .chat .thread .self p {
   background-color: greenyellow;
 }
-
-
-.toolbar {
-  border: 0 solid red;
-  display: flex;
-  flex-direction: row;
-}
-.spacer {
-  flex: 1.0;
-}
-
 
 
 button.no-border {

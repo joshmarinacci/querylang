@@ -20,6 +20,7 @@ import {
 } from './ui.js'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import {AND, OR, query2 as QUERY} from './query2.js'
+import Icon from '@material-ui/core/Icon'
 
 
 const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
@@ -79,7 +80,7 @@ export function Notes({db, app, appService}) {
             <VBox>
                 <Toolbar>
                     <input type={'search'} value={searchTerms} onChange={e=>setSearchTerms(e.target.value)}/>
-                    <AddButton onClick={addNewNote}/>
+                    <Icon onClick={addNewNote}>add_circle</Icon>
                 </Toolbar>
                 <DataList data={notes} selected={selectedNote} setSelected={setSelectedNote} stringify={renderNoteSummary}/>
             </VBox>
