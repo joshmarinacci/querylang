@@ -248,6 +248,10 @@ class DB {
         this.data.push(obj)
         this._fireUpdate(obj)
     }
+    remove(obj) {
+        this.data = this.data.filter(d => d.id !== obj.id)
+        this._fireUpdate(obj)
+    }
     make(category,type) {
         return makeNewObject(type,category)
     }
@@ -281,10 +285,7 @@ export const DBContext = React.createContext('db')
 export function useDBChanged(db,cat) {
     if(!cat) throw new Error("missing category to monitor")
     let [refresh, setRefresh] = useState(false)
-    const dbChanged = () => {
-        console.log("useDBChanged: changed")
-        setRefresh(!refresh)
-    }
+    const dbChanged = () => setRefresh(!refresh)
     useEffect(()=>{
         db.addEventListener(cat,dbChanged)
         return ()=>{
