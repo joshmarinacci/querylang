@@ -132,6 +132,8 @@ than and less than, etc.
 - [ ] create, edit, delete alarm objects in database
 - [ ] send notification when an active alarm triggers
 - [ ] send notification when a repeated alarm triggers
+- [ ] alarm has time, label, repeat
+- [ ] repeat = array of numbers for the day to repeat
 
 
 ### Notification Service and App

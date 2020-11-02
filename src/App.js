@@ -15,9 +15,11 @@ import {CATEGORIES} from './schema.js'
 import {AppLauncherService, AppLauncherContext} from './services/AppLauncherService.js'
 import {NotificationPanel} from './NotificationPanel.js'
 import {AND} from './query2.js'
+import {AlarmContext, AlarmService} from './services/AlarmService.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
+let alarm_service = new AlarmService(db_service)
 
 function App() {
   useEffect(()=>{
@@ -55,8 +57,10 @@ function App() {
   return <div>
     <DBContext.Provider value={db_service}>
       <AppLauncherContext.Provider value={app_launcher_service}>
-        <AppBar/>
-        {ins}
+        <AlarmContext.Provider value={alarm_service}>
+          <AppBar/>
+          {ins}
+        </AlarmContext.Provider>
       </AppLauncherContext.Provider>
     </DBContext.Provider>
   </div>

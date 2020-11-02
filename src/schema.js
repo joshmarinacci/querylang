@@ -1,4 +1,5 @@
 const STRING = 'STRING'
+const INTEGER = 'INTEGER'
 const ENUM = 'ENUM'
 const BOOLEAN = 'BOOLEAN'
 const ARRAY = 'ARRAY'
@@ -326,8 +327,8 @@ export const CATEGORIES = {
                 props: {
                     time:{
                         key:'time',
-                        type:STRING,
-                        default:'08:00'
+                        type:TIMESTAMP,
+                        default:new Date(0,0,0,8)
                     },
                     title: {
                         key:'title',
@@ -335,11 +336,21 @@ export const CATEGORIES = {
                         default:"Alarm",
                     },
                     repeat: {
-                        key: 'type',
+                        key: 'repeat',
                         type: ENUM,
-                        values: ['none', 'day'],
-                        default: 'none'
+                        values: ['none','everyday','weekdays'],
+                        default: 'none',
                     },
+                    enabled: {
+                        key: 'enabled',
+                        type:BOOLEAN,
+                        default:false,
+                    },
+                    alerted: {
+                        key:'alerted',
+                        type:BOOLEAN,
+                        default:false
+                    }
                 }
             }
         }
@@ -512,7 +523,7 @@ export function validateData(data) {
 }
 
 export function getEnumPropValues(obj,prop) {
-    console.log("looking up values for",obj,prop)
+    // console.log("looking up values for",obj,prop)
     if(obj.type === CATEGORIES.CONTACT.TYPES.EMAIL) {
         return CATEGORIES.CONTACT.SCHEMAS.EMAIL.props[prop].values
     }

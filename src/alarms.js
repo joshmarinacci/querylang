@@ -5,6 +5,11 @@ import {AND} from './query2.js'
 import {CATEGORIES} from './schema.js'
 import {Icon} from '@material-ui/core'
 
+import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, isAfter, isBefore,
+    subDays, addDays, addMinutes, setMilliseconds, setSeconds,
+    startOfDay, endOfDay,
+} from 'date-fns'
+
 const isAlarm = () => ({ TYPE:CATEGORIES.ALARM.TYPES.ALARM })
 const isAlarmCategory = () => ({ CATEGORY:CATEGORIES.ALARM.ID })
 
@@ -55,7 +60,7 @@ function AlarmItem({alarm, db}) {
     }
     return <HBox grow center>
         <Icon onClick={toggleAlarm}>{propAsBoolean(alarm,'enabled')?"toggle_on":"toggle_off"}</Icon>
-        <input type={"time"} value={propAsString(alarm,'time')}/>
+        <input type={"time"} value={format(alarm.props.time,'hh:mm')}/>
         <TextPropEditor buffer={alarm} prop={'title'} db={db}/>
         <Spacer/>
         <EnumPropEditor buffer={alarm} prop={"repeat"} db={db}/>
