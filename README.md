@@ -148,7 +148,7 @@ than and less than, etc.
 - [ ] notification fades out after N seconds
 - [ ] only most recent notifications are show, but all still exist in DB
 - [x] does it actually need a service or just the DB?
-- [ ] icon and title and subtitle props
+- [x] icon and title and subtitle props
 - [ ] action to trigger? launch app with args?
 
 ### NLP service
@@ -177,4 +177,15 @@ than and less than, etc.
 - [ ] deleting object doesn't persist. needs a tombstone
 - [ ] schema can also delete properties using some special syntax, to upgrade old objects by deleting, or renaming.
 - [ ] JSON storage encodes types into the keynames using the schemas
-- [ ] properly store non-JSON safe properties using custom converters 
+- [ ] properly store non-JSON safe properties using custom converters
+
+
+
+# important things 
+
+* use contexts for app and db.
+* move app inside of window and fix z-index
+* text field and text area with popups
+* standardize a bunch of query util functions.  isCategory, isType, isPropEqual, isPropTrue, isPropFalse, etc.
+
+* dialogs and popups?
