@@ -328,7 +328,7 @@ export const CATEGORIES = {
                     time:{
                         key:'time',
                         type:TIMESTAMP,
-                        default:new Date(0,0,0,8)
+                        default:() => new Date(2000,0,0,8)
                     },
                     title: {
                         key:'title',
@@ -563,7 +563,11 @@ export function makeNewObject(type, category) {
                 obj.props[sc.key] = Date.now()
                 return
             }
-            obj.props[sc.key] = sc.default
+            if(typeof sc.default === 'function') {
+                obj.props[sc.key] = sc.default()
+            } else {
+                obj.props[sc.key] = sc.default
+            }
         })
         // console.log("made new object of type",type,obj)
         return obj
