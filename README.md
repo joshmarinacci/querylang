@@ -66,9 +66,12 @@ than and less than, etc.
 
 ### General
 - [ ] persisted smart queries w/ icons everywhere. nothing hardcoded in the apps
+- [ ] use contexts instead of passing DB and app service around
 
 ### windows
 - [ ] use z-index to move windows to top
+    requires scanning all windows to check z-index on the dom
+    or move Window outside of App
 - [x] hover effect on the close button
 - [x] icon in the title bar next to the title
 - [ ] remove BG on appbar. with props or just custom CSS?
@@ -80,16 +83,18 @@ than and less than, etc.
 - [ ] preload with a lot more events
 - [ ] button to add a new event using a form
 - [ ] button to add a new event using parsed text
+- [ ] research fetching and parsing ical from google calendar
 
 ### Contacts
-- [ ] crashing
+- [x] crashing
+- [ ] can't toggle 'favorite' setting
 
 ### notes
-- [ ]  cleanup layout of editing form
+- [ ] cleanup layout of editing form
 
 ### alarms and timers
-- [ ] make delete button actually work
-- [ ] send alert when active alarm triggers
+- [x] make delete button actually work
+- [x] send alert when active alarm triggers
 - [ ] add snooze button to the alert
 - [ ] add a big timer button that spawns in a new window. ex: set a timer for 15 min.
 
@@ -129,11 +134,11 @@ than and less than, etc.
 
 ### Alarm Service
 
-- [ ] create, edit, delete alarm objects in database
-- [ ] send notification when an active alarm triggers
+- [x] create, edit, delete alarm objects in database
+- [x] send notification when an active alarm triggers
 - [ ] send notification when a repeated alarm triggers
-- [ ] alarm has time, label, repeat
-- [ ] repeat = array of numbers for the day to repeat
+- [x] alarm has time, label, repeat
+- [ ] repeat = enum of none, daily, weekdays, weekenddays
 
 
 ### Notification Service and App
@@ -169,6 +174,7 @@ than and less than, etc.
 - [x] prefab data is loaded, then real data is loaded. hash by id. loaded ids override existing ids.
 - [x] on load, objects are validated against the schema
 - [x] objects are upgraded using schema defaults. so adding a new schema field can apply to previously edited objects.
+- [ ] deleting object doesn't persist. needs a tombstone
 - [ ] schema can also delete properties using some special syntax, to upgrade old objects by deleting, or renaming.
 - [ ] JSON storage encodes types into the keynames using the schemas
 - [ ] properly store non-JSON safe properties using custom converters 
