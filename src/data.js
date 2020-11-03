@@ -1,5 +1,7 @@
 import sub from "date-fns/sub"
 import {CATEGORIES, validateData} from './schema.js'
+import {Window} from './window.js'
+import React from 'react'
 
 export const DATA = [
     {
@@ -488,7 +490,11 @@ export const DATA = [
         props: {
             title:'Contacts',
             appid:'ContactList',
-            icon:'perm_contact_calendar'
+            icon:'perm_contact_calendar',
+            window: {
+                default_width: 600,
+                default_height: 300,
+            }
         }
     },
 
@@ -502,6 +508,11 @@ export const DATA = [
             icon:'emoji_people',
             launchbar:false,
             preload:true,
+            window: {
+                default_width:100,
+                default_height:326,
+                anchor:'top-right',
+            }
         }
     },
 
@@ -513,6 +524,10 @@ export const DATA = [
             title:'Tasks',
             appid:'TaskLists',
             icon:'add_task',
+            window: {
+                default_width: 600,
+                default_height: 300,
+            }
         }
     },
 
@@ -524,6 +539,10 @@ export const DATA = [
             title:'Chat',
             appid:'Chat',
             icon:'chat',
+            window: {
+                default_width: 600,
+                default_height: 300,
+            }
         }
     },
 
@@ -535,6 +554,10 @@ export const DATA = [
             title:'Calendar',
             appid:'Calendar',
             icon:'today',
+            window: {
+                default_width: 500,
+                default_height: 600,
+            }
         }
     },
 
@@ -546,6 +569,10 @@ export const DATA = [
             title:'Notes',
             appid:'Notes',
             icon:'note',
+            window: {
+                default_width: 600,
+                default_height: 300,
+            }
         }
     },
 
@@ -558,6 +585,10 @@ export const DATA = [
             title:'Alarms',
             appid:'Alarms',
             icon:'alarm',
+            window: {
+                default_width: 500,
+                default_height: 300,
+            }
         }
     },
     {
@@ -568,6 +599,10 @@ export const DATA = [
             title:'Email',
             appid:'Email',
             icon:'email',
+            window: {
+                default_width: 600,
+                default_height: 300,
+            }
         }
     },
     {
@@ -578,6 +613,10 @@ export const DATA = [
             title:'Music',
             appid:'Music',
             icon:'library_music',
+            window: {
+                default_width: 600,
+                default_height: 300,
+            }
         }
     },
 
@@ -877,6 +916,11 @@ export const DATA = [
             icon:'perm_contact_calendar',
             preload:true,
             launchbar:false,
+            window: {
+                default_width: 200,
+                default_height: 326,
+                anchor:'bottom-right',
+            }
         }
     },
 
@@ -898,7 +942,12 @@ export const DATA = [
         props: {
             title:'debug',
             appid:'DebugPanel',
-            icon:'bug_report'
+            icon:'bug_report',
+            window: {
+                default_width: 200,
+                default_height: 200,
+                anchor: 'bottom-left',
+            }
         }
     },
 

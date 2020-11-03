@@ -1,4 +1,4 @@
-.appbar .list  li {
+.AppBar .list  li {
     border: 5px solid black;
     min-height: 3rem;
     max-width: 3rem;
@@ -8,10 +8,10 @@
     margin: 0.25rem;
     padding: 0.25em 0.5em;
 }
-.appbar .list li:hover {
+.AppBar .list li:hover {
     background-color: #ccc;
 }
-.appbar .list li .material-icons {
+.AppBar .list li .material-icons {
     font-size: 2rem;
 }
 

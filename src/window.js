@@ -1,7 +1,28 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import Icon from '@material-ui/core/Icon'
+import {propAsString} from './db.js'
+import {AppLauncherContext} from './services/AppLauncherService.js'
 
-export function Window({width,height,children,title, className, resize, hide_titlebar, appService, app, anchor="none"}) {
+export function Window({children, resize, hide_titlebar, app, anchor="none"}) {
+    let appService = useContext(AppLauncherContext)
+    let title = propAsString(app,'title')
+    // console.log("making window for app",app)
+    let width = 300
+    if(app && app.props.window && app.props.window.default_width) {
+        width = app.props.window.default_width
+    }
+    let height = 300
+    if(app && app.props.window && app.props.window.default_height) {
+        height = app.props.window.default_height
+    }
+    if(app && app.props.window && app.props.window.anchor) {
+        anchor = app.props.window.anchor
+    }
+
+    let className = ""
+    if(app) {
+        className = propAsString(app,'appid')
+    }
 
     let [dragging, setDragging] = useState(false)
     let [left,setLeft] = useState((title==="apps")?0:100)
@@ -26,6 +47,12 @@ export function Window({width,height,children,title, className, resize, hide_tit
     if(anchor === "top-right"){
         style.left = null
         style.right = '0px'
+        style.bottom = null
+        style.top = '0px'
+    }
+    if(anchor === "top-left"){
+        style.left = '0px'
+        style.right = null
         style.bottom = null
         style.top = '0px'
     }

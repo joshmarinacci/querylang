@@ -6,7 +6,6 @@ import {AND} from './query2.js'
 import "./peoplebar.css"
 import {format} from 'date-fns'
 import {utcToZonedTime} from 'date-fns-tz'
-import {AppLauncherContext} from './services/AppLauncherService.js'
 
 const isPropTrue = (prop) => ({ equal: {prop, value:true}})
 
@@ -24,14 +23,13 @@ const PersonView = ({person}) => {
 
 export function PeopleBar({app}) {
     const db = useContext(DBContext)
-    const appService = useContext(AppLauncherContext)
     let items = db.QUERY(AND(
     {CATEGORY:CATEGORIES.CONTACT.ID},
         {TYPE:CATEGORIES.CONTACT.TYPES.PERSON},
         isPropTrue('favorite')
     ))
 
-    return <Window width={100} height={326} anchor={'top-right'} title={'people'} className={"peoplebar"} resize={false} hide_titlebar={true} app={app} appService={appService}>
+    return <Window resize={false} hide_titlebar={true} app={app}>
         <ul className={'list'}>{items.map(o => {
             return <PersonView key={o.id} person={o}/>
         })}</ul>

@@ -74,7 +74,7 @@ export function Notes({db, app, appService}) {
     notes = calcFilter()
 
 
-    return <Window width={620} height={300} title={"notes"} className={'notes'} app={app} appService={appService} resize>
+    return <Window title={"notes"} className={'notes'} app={app} resize>
         <HBox grow>
             <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup} stringify={renderProject}/>
             <VBox>

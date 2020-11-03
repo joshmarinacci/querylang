@@ -10,8 +10,9 @@ import {AppLauncherContext} from './services/AppLauncherService.js'
 const isAppCategory = () => ({ CATEGORY:CATEGORIES.APP.ID })
 const isApp = () => ({ TYPE:CATEGORIES.APP.TYPES.APP })
 
-const AppView = ({app, service}) => {
-    const launchApp = () => service.launch(app)
+const AppView = ({app}) => {
+    let appService = useContext(AppLauncherContext)
+    const launchApp = () => appService.launch(app)
     return <li onClick={launchApp}>
         <Icon>{propAsString(app,'icon')}</Icon>
         <b>{propAsString(app,'title')}</b>
@@ -21,11 +22,29 @@ const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 
 export function AppBar({}) {
     let db = useContext(DBContext)
-    let appService = useContext(AppLauncherContext)
     let items = db.QUERY(AND(isAppCategory(),
         isApp(),
         isPropEqual('launchbar',true)))
-    return <Window width={80} height={items.length*70} y={0} x={0} title={'apps'} className={"appbar"} resize={false} hide_titlebar={true}>
-        <ul className={'list'}>{items.map(o => <AppView key={o.id} app={o} service={appService}/>)}</ul>
+    let app = {
+        id: 1222,
+        category: CATEGORIES.APP.ID,
+        type: CATEGORIES.APP.TYPES.APP,
+        props: {
+            title: 'Apps',
+            appid: 'AppBar',
+            icon: 'perm_contact_calendar',
+            preload: true,
+            launchbar: false,
+            window: {
+                default_width: 80,
+                default_height: items.length*70,
+                anchor: 'top-left',
+            }
+        }
+    }
+
+    console.log("making appbar window")
+    return <Window resize={false} hide_titlebar={true} app={app}>
+        <ul className={'list'}>{items.map(o => <AppView key={o.id} app={o}/>)}</ul>
     </Window>
 }
