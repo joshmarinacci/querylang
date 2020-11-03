@@ -118,3 +118,54 @@ test('sort by date',()=>{
     expect(res1.length).toBe(4)
     expect(res1).toEqual(res2)
 })
+
+function encode_props_with_types(value) {
+    let props = {}
+    Object.keys(value).forEach(k => {
+        let prefix = ''
+        let val = value[k]
+        if(value[k] instanceof Date) {
+            prefix = '_date_'
+            val = val.toISOString()
+        }
+        props[prefix+k] = val
+    })
+    return props
+}
+
+function decode_props_with_types(value) {
+    let props = {}
+    Object.keys(value).forEach(k => {
+        if(k.startsWith('_date_')) {
+            let k2 = k.replace('_date_','')
+            props[k2] = new Date(value[k])
+        } else {
+            props[k] = value[k]
+        }
+    })
+    return props
+}
+
+test('date encoding test',() => {
+    let obj1 = {
+        props: {
+            time: new Date()
+        }
+    }
+
+    console.log("obj1",obj1)
+    expect(typeof obj1.props.time).toBe('object')
+
+    let str = JSON.stringify(obj1,function(key,value){
+        if(key === 'props') return encode_props_with_types(value)
+        return value
+    })
+    console.log('JSON string is',str)
+    let obj2 = JSON.parse(str,function(key,value) {
+        if(key === 'props') return decode_props_with_types(value);
+        return value
+    })
+    console.log('obj2',obj2)
+    expect(obj2.props.time instanceof Date).toBe(true)
+    expect(obj2.props.time.toISOString()).toBe(obj1.props.time.toISOString())
+})

@@ -35,6 +35,7 @@ function AlarmItem({alarm, db}) {
         console.log("deleting")
         db.remove(alarm)
     }
+    console.log(alarm.props.time)
     return <HBox grow center>
         <Icon onClick={toggleAlarm}>{propAsBoolean(alarm,'enabled')?"toggle_on":"toggle_off"}</Icon>
         <input type={"time"} value={format(alarm.props.time,'hh:mm')}/>
