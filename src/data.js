@@ -525,8 +525,8 @@ export const DATA = [
             appid:'TaskLists',
             icon:'add_task',
             window: {
-                default_width: 600,
-                default_height: 300,
+                default_width: 620,
+                default_height: 200,
             }
         }
     },
@@ -540,8 +540,8 @@ export const DATA = [
             appid:'Chat',
             icon:'chat',
             window: {
-                default_width: 600,
-                default_height: 300,
+                default_width: 500,
+                default_height: 320,
             }
         }
     },
@@ -556,7 +556,7 @@ export const DATA = [
             icon:'today',
             window: {
                 default_width: 500,
-                default_height: 600,
+                default_height: 530,
             }
         }
     },
@@ -587,7 +587,7 @@ export const DATA = [
             icon:'alarm',
             window: {
                 default_width: 500,
-                default_height: 300,
+                default_height: 200,
             }
         }
     },
@@ -601,7 +601,7 @@ export const DATA = [
             icon:'email',
             window: {
                 default_width: 600,
-                default_height: 300,
+                default_height: 400,
             }
         }
     },

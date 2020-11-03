@@ -1,7 +1,6 @@
-import {propAsString} from './db.js'
 import {CATEGORIES} from './schema.js'
-import {DataList, HBox, Window} from './ui.js'
-import React, {useState} from 'react'
+import {HBox, Window} from './ui.js'
+import React, {useContext, useState} from 'react'
 import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, isAfter,
     subDays, addDays,
     startOfDay, endOfDay,
@@ -9,6 +8,7 @@ import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, is
 import {AND} from './query2.js'
 
 import "./calendar.css"
+import {DBContext} from './db.js'
 
 const isCalendarCategory = () => ({ CATEGORY:CATEGORIES.CALENDAR.ID })
 const isEvent = () => ({ TYPE:CATEGORIES.CALENDAR.TYPES.EVENT })
@@ -39,9 +39,10 @@ function is_event_repeating_daily(e) {
 let START_HOUR = 6
 let END_HOUR = 12+10
 
-export function Calendar({db, app, appService}) {
+export function Calendar({app}) {
     let [today, setToday] = useState(()=>Date.now())
     let current_day = {start:startOfDay(today), end:endOfDay(today)}
+    let db = useContext(DBContext)
 
     let events = db.QUERY(AND(isCalendarCategory(),isEvent()))
 
@@ -58,16 +59,13 @@ export function Calendar({db, app, appService}) {
         setToday(addDays(today,1))
     }
 
-    return <Window width={500} height={530} title={'calendar'} className={'calendar'} app={app} appService={appService} resize>
+    return <Window app={app}>
         <h1>{format(today,'E MMM d')}</h1>
         <HBox>
             <button onClick={nav_prev_day}>prev day</button>
             <button onClick={nav_next_day}>next day</button>
         </HBox>
         <DayView/>
-        {/*<DataList data={events}*/}
-        {/*          stringify={e => format(e.props.start,"hh:mm aa") + ' ' + propAsString(e,'title')}*/}
-        {/*/>*/}
     </Window>
 }
 

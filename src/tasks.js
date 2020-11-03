@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import {hasProp, propAsBoolean, propAsIcon, propAsString, setProp, useDBChanged} from './db.js'
+import React, {useContext, useState} from 'react'
+import {DBContext, hasProp, propAsBoolean, propAsString, setProp, useDBChanged} from './db.js'
 import {CATEGORIES} from './schema.js'
 import {
     CheckboxPropEditor,
@@ -12,8 +12,6 @@ import {
     VBox,
     Window
 } from './ui.js'
-import {HiPlusCircle} from 'react-icons/hi'
-import {MdArchive, MdCheckBox, MdCheckBoxOutlineBlank, MdDelete} from 'react-icons/md'
 import {AND, query2 as QUERY} from './query2.js'
 import Icon from '@material-ui/core/Icon'
 
@@ -28,7 +26,8 @@ const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 
 
 
-export function TaskLists({db, app, appService}) {
+export function TaskLists({app}) {
+    let db = useContext(DBContext)
     useDBChanged(db,CATEGORIES.TASKS.ID)
 
     const [selectedProject, setSelectedProject] = useState(null)
@@ -74,7 +73,7 @@ export function TaskLists({db, app, appService}) {
     const trashTask = () => db.setProp(selectedTask,'deleted',true)
     const archiveTask = () => db.setProp(selectedTask, 'archived',true)
 
-    return <Window width={620} height={200} title={'tasks'} className={'tasks'} app={app} appService={appService} resize>
+    return <Window app={app}>
         <HBox grow>
             <DataList data={projects} selected={selectedProject} setSelected={setSelectedProject}
                       stringify={((o,i) => <StandardListItem key={i}

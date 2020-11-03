@@ -1,6 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import {DataList, HBox, Spacer, StandardListItem, Toolbar, VBox, Window} from './ui.js'
-import {project, propAsBoolean, propAsIcon, propAsString, useDBChanged} from './db.js'
+import {DBContext, project, propAsBoolean, propAsIcon, propAsString, useDBChanged} from './db.js'
 import {CATEGORIES} from './schema.js'
 import {AND} from './query2.js'
 import Icon from '@material-ui/core/Icon'
@@ -146,7 +146,8 @@ export function PlayPanel({selectedSong}) {
     </HBox>
 }
 
-export function Music({db, app, appService}) {
+export function Music({app}) {
+    let db = useContext(DBContext)
     useDBChanged(db,CATEGORIES.TASKS.ID)
 
     const [selectedGroup, setSelectedGroup] = useState(null)
@@ -175,7 +176,7 @@ export function Music({db, app, appService}) {
         }
     }
 
-    return <Window  app={app} appService={appService} width={600} height={300} resize>
+    return <Window app={app}>
         <Toolbar>
             <PlayPanel selectedSong={selectedSong}/>
             <Spacer/>

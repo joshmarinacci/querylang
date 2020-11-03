@@ -1,0 +1,12 @@
+.Chat .thread .self {
+    background-color: azure;
+    text-align: right;
+}
+.Chat .thread p {
+    border-radius: 1.0em;
+    padding: 0.25em 1.0em;
+    background-color: lightblue;
+}
+.Chat .thread .self p {
+    background-color: greenyellow;
+}

@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {DataList, HBox, Panel, Spacer, StandardListItem, Toolbar, VBox, Window} from './ui.js'
 import {CATEGORIES, SORTS} from './schema.js'
-import {propAsArray, propAsBoolean, propAsString, sort, useDBChanged} from './db.js'
+import {DBContext, propAsArray, propAsBoolean, propAsString, sort, useDBChanged} from './db.js'
 import {AND} from './query2.js'
 import {format, formatDistanceToNow} from "date-fns"
 
@@ -36,7 +36,8 @@ function calculateFoldersFromTags(folders) {
     })
 }
 
-export function Email({db, app, appService}) {
+export function Email({app }) {
+    let db = useContext(DBContext)
     useDBChanged(db,CATEGORIES.EMAIL.ID)
 
     const [selectedFolder, setSelectedFolder] = useState(null)
@@ -70,7 +71,7 @@ export function Email({db, app, appService}) {
 
     folder_results = sort(folder_results,["timestamp"], SORTS.DESCENDING)
 
-    return <Window  app={app} appService={appService} resize width={600} height={400}>
+    return <Window app={app}>
         <VBox grow>
             <Toolbar>
                 <button>new</button>

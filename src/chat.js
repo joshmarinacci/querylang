@@ -1,8 +1,9 @@
-import React, {useState} from 'react'
-import {attach, propAsString, setProp, sort} from './db.js'
+import React, {useContext, useState} from 'react'
+import {attach, DBContext, propAsString, setProp, sort} from './db.js'
 import {CATEGORIES} from './schema.js'
 import {DataList, HBox, StandardListItem, VBox, Window} from './ui.js'
 import {AND} from './query2.js'
+import "./chat.css"
 
 const isConversation = () => ({ TYPE:CATEGORIES.CHAT.TYPES.CONVERSATION })
 const isMessage = () => ({ TYPE:CATEGORIES.CHAT.TYPES.MESSAGE })
@@ -11,9 +12,10 @@ const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 const isPerson = () => ({ TYPE:CATEGORIES.CONTACT.TYPES.PERSON })
 const isContactCategory = () => ({ CATEGORY:CATEGORIES.CONTACT.ID })
 
-export function Chat({db, app, appService}) {
+export function Chat({app}) {
     const [selected, setSelected] = useState(null)
     const [text, setText] = useState("")
+    let db = useContext(DBContext)
     let conversations = db.QUERY(AND(isChatCategory(),isConversation()))
 
     let messages = []
@@ -45,7 +47,7 @@ export function Chat({db, app, appService}) {
         db.add(alert)
     }
 
-    return <Window width={500} height={320} title={'chat'} className={"chat"} app={app} appService={appService} resize>
+    return <Window app={app}>
         <HBox grow>
             <DataList
                 data={conversations}

@@ -43,16 +43,16 @@ function App() {
     let appid = app.props.appid
     // console.log("appid is",appid)
     if(appid === 'PeopleBar') return <PeopleBar app={app} key={appid}/>
-    if(appid === 'ContactList') return <ContactList app={app} key={appid} db={db_service} appService={app_launcher_service}/>
-    if(appid === 'TaskLists') return <TaskLists key={appid} db={db_service} app={app} appService={app_launcher_service}/>
-    if(appid === 'Chat') return <Chat key={appid} db={db_service} app={app} appService={app_launcher_service}/>
-    if(appid === 'Calendar') return <Calendar key={appid} db={db_service} app={app} appService={app_launcher_service}/>
-    if(appid === 'Notes') return <Notes key={appid} db={db_service} app={app} appService={app_launcher_service}/>
-    if(appid === 'Alarms') return <Alarms key={appid} db={db_service} app={app} appService={app_launcher_service}/>
-    if(appid === 'Email') return <Email key={appid} db={db_service} app={app} appService={app_launcher_service}/>
-    if(appid === 'Music') return <Music key={appid} db={db_service} app={app} appService={app_launcher_service}/>
-    if(appid === 'NotificationPanel') return <NotificationPanel key={appid} db={db_service} app={app} appService={app_launcher_service}/>
-    if(appid === 'DebugPanel') return <DebugPanel key={appid} db={db_service} app={app} appService={app_launcher_service}/>
+    if(appid === 'ContactList') return <ContactList app={app} key={appid}/>
+    if(appid === 'TaskLists') return <TaskLists key={appid} app={app} />
+    if(appid === 'Chat') return <Chat key={appid} app={app} />
+    if(appid === 'Calendar') return <Calendar key={appid} app={app} />
+    if(appid === 'Notes') return <Notes key={appid} app={app} />
+    if(appid === 'Alarms') return <Alarms key={appid} app={app} />
+    if(appid === 'Email') return <Email key={appid} app={app} />
+    if(appid === 'Music') return <Music key={appid} app={app} />
+    if(appid === 'NotificationPanel') return <NotificationPanel key={appid} app={app} />
+    if(appid === 'DebugPanel') return <DebugPanel key={appid} app={app} />
     return <div>missing app</div>
   })
 

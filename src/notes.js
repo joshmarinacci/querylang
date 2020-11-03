@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {
+    DBContext,
     filterPropArrayContains, hasProp,
     propAsArray,
     propAsBoolean,
@@ -28,7 +29,8 @@ const isNotesCategory = () => ({ CATEGORY:CATEGORIES.NOTES.ID })
 const isNote = () => ({ TYPE:CATEGORIES.NOTES.TYPES.NOTE })
 const isGroup = () => ({ TYPE:CATEGORIES.NOTES.TYPES.GROUP })
 
-export function Notes({db, app, appService}) {
+export function Notes({app}) {
+    let db = useContext(DBContext)
     useDBChanged(db, CATEGORIES.NOTES.ID)
 
     const [selectedGroup, setSelectedGroup] = useState(null)
@@ -74,7 +76,7 @@ export function Notes({db, app, appService}) {
     notes = calcFilter()
 
 
-    return <Window title={"notes"} className={'notes'} app={app} resize>
+    return <Window app={app}>
         <HBox grow>
             <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup} stringify={renderProject}/>
             <VBox>

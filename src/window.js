@@ -3,7 +3,7 @@ import Icon from '@material-ui/core/Icon'
 import {propAsString} from './db.js'
 import {AppLauncherContext} from './services/AppLauncherService.js'
 
-export function Window({children, resize, hide_titlebar, app, anchor="none"}) {
+export function Window({children, resize=true, hide_titlebar, app, anchor="none"}) {
     let appService = useContext(AppLauncherContext)
     let title = propAsString(app,'title')
     // console.log("making window for app",app)
