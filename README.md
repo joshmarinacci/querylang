@@ -159,7 +159,7 @@ than and less than, etc.
 
 ### Database Service
 
-- [ ] track when object changed, so we can tell if it's dirty
+- [x] track when object changed, so we can tell if it's dirty
 - [x] save to local storage or indexdb. only objects that have been changed are persisted.
 - [x] function to nuke local storage and reset to defaults
 - [x] loads prefab database
@@ -169,4 +169,6 @@ than and less than, etc.
 - [x] prefab data is loaded, then real data is loaded. hash by id. loaded ids override existing ids.
 - [x] on load, objects are validated against the schema
 - [x] objects are upgraded using schema defaults. so adding a new schema field can apply to previously edited objects.
-- [ ] schema can also delete properties using some special syntax, to upgrade old objects by deleting, or renaming.  
+- [ ] schema can also delete properties using some special syntax, to upgrade old objects by deleting, or renaming.
+- [ ] JSON storage encodes types into the keynames using the schemas
+- [ ] properly store non-JSON safe properties using custom converters 
