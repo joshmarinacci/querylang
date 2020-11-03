@@ -296,7 +296,11 @@ class DB {
         if(localStorage.getItem(ROOT)) {
             let localJSON = localStorage.getItem(ROOT)
             console.log("local is",localJSON)
-            let local = JSON.parse(localJSON)
+            let local = JSON.parse(localJSON,function(key,value) {
+                if(key === 'props') return decode_props_with_types(value);
+                return value
+            })
+
             console.log("local data is",local)
             local.forEach(item => {
                 this.data.push(item)
@@ -325,7 +329,10 @@ class DB {
         this.log(`total item count ${this.data.length}`)
         this.log("local items")
         local.forEach(item => this.log("    ",item))
-        localStorage.setItem(ROOT,JSON.stringify(local))
+        localStorage.setItem(ROOT,JSON.stringify(local,function(key,value){
+            if(key === 'props') return encode_props_with_types(value)
+            return value
+        }))
     }
     reload() {
         this.object_cache = {}
@@ -352,6 +359,35 @@ class DB {
 export function makeDB() {
     return new DB(DATA)
 }
+
+// TODO: extend this to use the real schemas
+function encode_props_with_types(value) {
+    let props = {}
+    Object.keys(value).forEach(k => {
+        let prefix = ''
+        let val = value[k]
+        if(value[k] instanceof Date) {
+            prefix = '_date_'
+            val = val.toISOString()
+        }
+        props[prefix+k] = val
+    })
+    return props
+}
+
+function decode_props_with_types(value) {
+    let props = {}
+    Object.keys(value).forEach(k => {
+        if(k.startsWith('_date_')) {
+            let k2 = k.replace('_date_','')
+            props[k2] = new Date(value[k])
+        } else {
+            props[k] = value[k]
+        }
+    })
+    return props
+}
+
 
 
 export const DBContext = React.createContext('db')
