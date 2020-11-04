@@ -184,6 +184,7 @@ than and less than, etc.
 # important things 
 
 - [x] use contexts for app and db.
+
 * text field and text area with popups
 * standardize a bunch of query util functions.  isCategory, isType, isPropEqual, isPropTrue, isPropFalse, etc.
 * start the command bar with tab completion. requires hacked text field

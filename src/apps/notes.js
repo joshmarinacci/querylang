@@ -6,8 +6,8 @@ import {
     propAsBoolean,
     propAsIcon,
     propAsString, useDBChanged
-} from './db.js'
-import {CATEGORIES} from './schema.js'
+} from '../db.js'
+import {CATEGORIES} from '../schema.js'
 import {
     AddButton,
     DataList,
@@ -18,9 +18,9 @@ import {
     Toolbar,
     VBox,
     Window
-} from './ui.js'
+} from '../ui.js'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import {AND, OR, query2 as QUERY} from './query2.js'
+import {AND, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 
 

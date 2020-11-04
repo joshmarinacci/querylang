@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react'
-import {DBContext, hasProp, propAsBoolean, propAsString, setProp, useDBChanged} from './db.js'
-import {CATEGORIES} from './schema.js'
+import {DBContext, hasProp, propAsBoolean, propAsString, setProp, useDBChanged} from '../db.js'
+import {CATEGORIES} from '../schema.js'
 import {
     CheckboxPropEditor,
     DataList,
@@ -11,8 +11,8 @@ import {
     Toolbar,
     VBox,
     Window
-} from './ui.js'
-import {AND, query2 as QUERY} from './query2.js'
+} from '../ui.js'
+import {AND, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 
 const isProject = () => ({ TYPE:CATEGORIES.TASKS.TYPES.PROJECT })

@@ -1,8 +1,8 @@
 import React, {useContext} from 'react'
-import {DataList, EnumPropEditor, HBox, Spacer, TextPropEditor, Toolbar, VBox, Window} from './ui.js'
-import {DBContext, propAsBoolean, useDBChanged} from './db.js'
-import {AND} from './query2.js'
-import {CATEGORIES} from './schema.js'
+import {DataList, EnumPropEditor, HBox, Spacer, TextPropEditor, Toolbar, VBox, Window} from '../ui.js'
+import {DBContext, propAsBoolean, useDBChanged} from '../db.js'
+import {AND} from '../query2.js'
+import {CATEGORIES} from '../schema.js'
 import {Icon} from '@material-ui/core'
 
 import {format} from 'date-fns'

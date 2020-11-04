@@ -1,14 +1,14 @@
-import {CATEGORIES} from './schema.js'
-import {HBox, Window} from './ui.js'
+import {CATEGORIES} from '../schema.js'
+import {HBox, Window} from '../ui.js'
 import React, {useContext, useState} from 'react'
 import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, isAfter,
     subDays, addDays,
     startOfDay, endOfDay,
 } from 'date-fns'
-import {AND} from './query2.js'
+import {AND} from '../query2.js'
 
 import "./calendar.css"
-import {DBContext} from './db.js'
+import {DBContext} from '../db.js'
 
 const isCalendarCategory = () => ({ CATEGORY:CATEGORIES.CALENDAR.ID })
 const isEvent = () => ({ TYPE:CATEGORIES.CALENDAR.TYPES.EVENT })

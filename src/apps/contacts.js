@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react'
-import {DBContext, deepClone, propAsBoolean, propAsString, setProp, sort, useDBChanged} from './db.js'
-import {CATEGORIES, SORTS} from './schema.js'
+import {DBContext, deepClone, propAsBoolean, propAsString, setProp, sort, useDBChanged} from '../db.js'
+import {CATEGORIES, SORTS} from '../schema.js'
 import {
     AddButton,
     DataList,
@@ -13,10 +13,10 @@ import {
     Toolbar,
     VBox,
     Window
-} from './ui.js'
-import {AND, OR, query2 as QUERY} from './query2.js'
+} from '../ui.js'
+import {AND, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
-import {AppLauncherContext} from './services/AppLauncherService.js'
+import {AppLauncherContext} from '../services/AppLauncherService.js'
 
 const isPerson = () => ({ TYPE:CATEGORIES.CONTACT.TYPES.PERSON })
 const isContactCategory = () => ({ CATEGORY:CATEGORIES.CONTACT.ID })
