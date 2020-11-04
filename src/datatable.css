@@ -10,6 +10,15 @@ table tr td, table tr th {
     max-width: 20em;
     overflow: hidden;
 }
+table tr:first-child th {
+    border-top-width: 0;
+}
+td:first-child, th:first-child {
+    border-left-width: 0;
+}
+td:last-child, th:last-child {
+    border-right-width: 0;
+}
 
 table th {
     background-color: #ccc;

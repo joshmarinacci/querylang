@@ -9,10 +9,11 @@
 }
 
 .toolbar {
-    border: 0 solid red;
+    border: 0 solid var(--standard-border-color);
     display: flex;
     flex-direction: row;
     align-items: center;
+    border-width: 0 0 1px 0;
 }
 
 .spacer {

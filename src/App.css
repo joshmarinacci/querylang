@@ -8,6 +8,7 @@ body {
   --selected-text-color: white;
   --add-color: #0d990d;
   --remove-color: red;
+  --standard-border-color: #333;
 }
 
 .list-wrapper {
