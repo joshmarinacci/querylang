@@ -17,6 +17,7 @@ import {NotificationPanel} from './NotificationPanel.js'
 import {AND} from './query2.js'
 import {AlarmContext, AlarmService} from './services/AlarmService.js'
 import {DebugPanel} from './debug.js'
+import {CommandBar} from './apps/commmandbar.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
@@ -53,6 +54,7 @@ function App() {
     if(appid === 'Music') return <Music key={appid} app={app} />
     if(appid === 'NotificationPanel') return <NotificationPanel key={appid} app={app} />
     if(appid === 'DebugPanel') return <DebugPanel key={appid} app={app} />
+    if(appid === 'CommandBar') return <CommandBar key={appid} app={app} />
     return <div>missing app</div>
   })
 

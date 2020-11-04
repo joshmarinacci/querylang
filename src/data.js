@@ -3,7 +3,7 @@ import {CATEGORIES, validateData} from './schema.js'
 import {Window} from './window.js'
 import React from 'react'
 
-export const DATA = [
+const data = [
     {
         id:1,
         category:CATEGORIES.CONTACT.ID,
@@ -935,21 +935,28 @@ export const DATA = [
         }
     },
 
-    {
-        id:1223,
-        category: CATEGORIES.APP.ID,
-        type: CATEGORIES.APP.TYPES.APP,
-        props: {
-            title:'debug',
-            appid:'DebugPanel',
-            icon:'bug_report',
-            window: {
-                default_width: 200,
-                default_height: 200,
-                anchor: 'bottom-left',
-            }
-        }
-    },
-
 ]
-// validateData(DATA)
+
+
+function genid(prefix) {
+    return prefix+"_"+Math.floor(Math.random()*1000*1000)
+}
+
+function loadApp(props) {
+    data.push({
+            id: genid('app'),
+            category: CATEGORIES.APP.ID,
+            type: CATEGORIES.APP.TYPES.APP,
+            props: props,
+        }
+    )
+}
+
+loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report',
+    window: { default_width: 200, default_height: 200, anchor: 'bottom-left' }})
+
+loadApp({ title:'cmd.bar', appid:'CommandBar', icon:'code',
+    preload:false, launchbar:true,
+    window: { default_width: 400,  default_height: 100 }})
+
+export const DATA = data
