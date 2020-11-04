@@ -13,8 +13,6 @@ export function CommandBar({app}) {
     const pm = useContext(PopupManagerContext)
 
     let [text,setText] = useState("")
-    let [showing, setShowing] = useState(false)
-    let [apps, setApps] = useState([])
     let textfield = useRef()
     const update = (e,txt) => {
         setText(txt)
@@ -31,30 +29,25 @@ export function CommandBar({app}) {
             let app = apps[0]
             appservice.launch(app)
         }
-        setShowing(false)
-        setApps([])
         setText("")
         pm.hide()
     }
 
     function complete() {
-        setShowing(true)
         let apps = db.QUERY(AND(
             IS_CATEGORY(CATEGORIES.APP.ID),
             IS_TYPE(CATEGORIES.APP.TYPES.APP),
         ))
         apps = apps.filter(a => a.props.appid.toLowerCase().indexOf(text.toLowerCase())===0)
+        pm.show(<DataList data={apps} stringify={o => o.props.appid}/>, textfield.current)
         console.log("found",apps.map(a => a.props.appid))
-        setApps(apps)
+        // setApps(apps)
         if(apps.length === 1) {
             console.log("finish completing")
             setText(apps[0].props.appid)
         }
     }
 
-    if(showing) {
-        pm.show(<DataList data={apps} stringify={o => o.props.appid}/>, textfield.current)
-    }
 
     return <Window app={app}>
         <input ref={textfield}

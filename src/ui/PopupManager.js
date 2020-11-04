@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 
 import "./PopupManager.css"
+import {flatten} from '../util.js'
 export class PopupManager {
     constructor() {
         this.listeners = []
@@ -29,12 +30,17 @@ export function PopupContainer ({}) {
     let [position, setPosition] = useState(new DOMRect(0,0,10,10))
     useEffect(()=>{
         let handler = (payload,relative) => {
-            console.log("show popup!",payload,relative)
-            let rect = relative.getBoundingClientRect()
-            console.log(rect)
-            setVisible(true)
-            setPopup(payload)
-            if(relative) setPosition(rect)
+            if(payload) {
+                setVisible(true)
+                setPopup(payload)
+                if (relative) {
+                    let rect = relative.getBoundingClientRect()
+                    setPosition(new DOMRect(rect.x, rect.bottom, 10, 10))
+                }
+            } else {
+                setVisible(false)
+                setPopup(null)
+            }
         }
         pm.addEventListener("show",handler)
         return () => {
@@ -42,13 +48,16 @@ export function PopupContainer ({}) {
         }
     })
 
-    return <div className={'popup-container'}
-                style={{
-                    left:position.x+"px",
-                    top:position.y+"px",
-                    visibility:visible,
-                }}
-    >popup container
+    // console.log("rendering popup container", visible)
+    let cls = {
+        'popup-container':true,
+        visible:visible
+    }
+    let style = {
+        left:position.x+"px",
+        top:position.y+"px",
+    }
+    return <div className={flatten(cls)} style={style}>
         {popup}
     </div>
 }
