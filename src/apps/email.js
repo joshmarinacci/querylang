@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {DataList, HBox, Panel, Spacer, StandardListItem, Toolbar, VBox, Window} from '../ui.js'
+import {DataList, HBox, Panel, Spacer, StandardListItem, Toolbar, VBox, Window} from '../ui/ui.js'
 import {CATEGORIES, SORTS} from '../schema.js'
 import {DBContext, propAsArray, propAsBoolean, propAsString, sort, useDBChanged} from '../db.js'
 import {AND} from '../query2.js'

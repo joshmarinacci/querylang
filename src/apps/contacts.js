@@ -13,7 +13,7 @@ import {
     Toolbar,
     VBox,
     Window
-} from '../ui.js'
+} from '../ui/ui.js'
 import {AND, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {AppLauncherContext} from '../services/AppLauncherService.js'

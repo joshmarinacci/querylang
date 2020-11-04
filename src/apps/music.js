@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
-import {DataList, HBox, Spacer, StandardListItem, Toolbar, VBox, Window} from '../ui.js'
+import {DataList, HBox, Spacer, StandardListItem, Toolbar, VBox, Window} from '../ui/ui.js'
 import {DBContext, project, propAsBoolean, propAsIcon, propAsString, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {AND} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
-import {DataTable} from '../datatable.js'
+import {DataTable} from '../ui/datatable.js'
 
 const isGroup = () => ({ TYPE:CATEGORIES.MUSIC.TYPES.GROUP })
 const isSong = () => ({ TYPE:CATEGORIES.MUSIC.TYPES.SONG })

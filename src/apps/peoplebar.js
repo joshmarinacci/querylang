@@ -1,8 +1,8 @@
-import {DBContext, propAsString} from './db.js'
-import {CATEGORIES} from './schema.js'
-import {Window} from './ui.js'
+import {DBContext, propAsString} from '../db.js'
+import {CATEGORIES} from '../schema.js'
+import {Window} from '../ui/ui.js'
 import React, {useContext} from 'react'
-import {AND} from './query2.js'
+import {AND} from '../query2.js'
 import "./peoplebar.css"
 import {format} from 'date-fns'
 import {utcToZonedTime} from 'date-fns-tz'

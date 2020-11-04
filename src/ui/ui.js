@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react'
-import {propAsArray, propAsBoolean, propAsString, setProp} from './db.js'
-import {getEnumPropValues} from './schema.js'
+import {propAsArray, propAsBoolean, propAsString, setProp} from '../db.js'
+import {getEnumPropValues} from '../schema.js'
 import {HiMinusCircle, HiPlusCircle} from 'react-icons/hi'
 import {MdClose} from 'react-icons/md'
 
 import "./window.css"
 import "./ui.css"
 import Icon from '@material-ui/core/Icon'
-import {flatten} from './util.js'
+import {flatten} from '../util.js'
 
 import {Window} from "./window.js"
 

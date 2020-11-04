@@ -1,11 +1,11 @@
 import React, {useContext, useRef, useState} from 'react'
-import {Window} from '../window.js'
+import {Window} from '../ui/window.js'
 import {DBContext} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import {AppLauncherContext} from '../services/AppLauncherService.js'
-import {DataList} from '../ui.js'
-import {PopupManagerContext} from '../PopupManager.js'
+import {DataList} from '../ui/ui.js'
+import {PopupManagerContext} from '../ui/PopupManager.js'
 
 export function CommandBar({app}) {
     const db = useContext(DBContext)

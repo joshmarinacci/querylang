@@ -1,11 +1,11 @@
-import {AND} from './query2.js'
-import {Window} from './ui.js'
+import {AND} from '../query2.js'
+import {Window} from '../ui/ui.js'
 import React, {useContext} from 'react'
-import {CATEGORIES} from './schema.js'
-import {DBContext, propAsString} from './db.js'
+import {CATEGORIES} from '../schema.js'
+import {DBContext, propAsString} from '../db.js'
 import "./appbar.css"
 import Icon from '@material-ui/core/Icon'
-import {AppLauncherContext} from './services/AppLauncherService.js'
+import {AppLauncherContext} from '../services/AppLauncherService.js'
 
 const isAppCategory = () => ({ CATEGORY:CATEGORIES.APP.ID })
 const isApp = () => ({ TYPE:CATEGORIES.APP.TYPES.APP })

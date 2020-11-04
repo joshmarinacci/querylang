@@ -1,6 +1,6 @@
 import sub from "date-fns/sub"
 import {CATEGORIES, validateData} from './schema.js'
-import {Window} from './window.js'
+import {Window} from './ui/window.js'
 import React from 'react'
 
 const data = [

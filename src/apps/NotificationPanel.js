@@ -1,11 +1,11 @@
-import {AND} from './query2.js'
-import {CATEGORIES} from './schema.js'
-import {Window} from './window.js'
+import {AND} from '../query2.js'
+import {CATEGORIES} from '../schema.js'
+import {Window} from '../ui/window.js'
 import React, {useContext} from 'react'
-import {DBContext, propAsString, useDBChanged} from './db.js'
+import {DBContext, propAsString, useDBChanged} from '../db.js'
 
-import "./notifications.css"
-import {StandardListItem} from './ui.js'
+import "../notifications.css"
+import {StandardListItem} from '../ui/ui.js'
 
 const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 

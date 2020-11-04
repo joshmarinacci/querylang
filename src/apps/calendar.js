@@ -1,5 +1,5 @@
 import {CATEGORIES} from '../schema.js'
-import {HBox, Window} from '../ui.js'
+import {HBox, Window} from '../ui/ui.js'
 import React, {useContext, useState} from 'react'
 import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, isAfter,
     subDays, addDays,

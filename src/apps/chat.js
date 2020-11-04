@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import {attach, DBContext, propAsString, setProp, sort} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {DataList, HBox, StandardListItem, VBox, Window} from '../ui.js'
+import {DataList, HBox, StandardListItem, VBox, Window} from '../ui/ui.js'
 import {AND} from '../query2.js'
 import "./chat.css"
 

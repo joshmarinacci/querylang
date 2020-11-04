@@ -1,6 +1,6 @@
-import {Window} from './window.js'
+import {Window} from '../ui/window.js'
 import React, {useContext} from 'react'
-import {DBContext} from './db.js'
+import {DBContext} from '../db.js'
 
 export function DebugPanel({db, app, appService}) {
     let ddb = useContext(DBContext)

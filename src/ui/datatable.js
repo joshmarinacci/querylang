@@ -1,5 +1,5 @@
 import React from 'react'
-import {flatten} from './util.js'
+import {flatten} from '../util.js'
 import "./datatable.css"
 
 export function DataTable({data, selected, setSelected, className, style, stringifyDataColumn, prepend, append, headers}) {
