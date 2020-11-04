@@ -18,10 +18,12 @@ import {AND} from './query2.js'
 import {AlarmContext, AlarmService} from './services/AlarmService.js'
 import {DebugPanel} from './debug.js'
 import {CommandBar} from './apps/commmandbar.js'
+import {PopupContainer, PopupManager, PopupManagerContext} from './PopupManager.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
 let alarm_service = new AlarmService(db_service)
+let pm = new PopupManager()
 
 function App() {
   useEffect(()=>{
@@ -62,8 +64,11 @@ function App() {
     <DBContext.Provider value={db_service}>
       <AppLauncherContext.Provider value={app_launcher_service}>
         <AlarmContext.Provider value={alarm_service}>
+          <PopupManagerContext.Provider value={pm}>
           <AppBar/>
           {ins}
+          <PopupContainer/>
+          </PopupManagerContext.Provider>
         </AlarmContext.Provider>
       </AppLauncherContext.Provider>
     </DBContext.Provider>

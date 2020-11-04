@@ -77,3 +77,6 @@ export function query2(data,opts) {
 
 export const AND = (...args) => ({ and: args})
 export const OR = (...args) => ({ or: args})
+export const IS_CATEGORY = (CATEGORY) => ({CATEGORY})
+export const IS_TYPE = (TYPE) => ({TYPE})
+export const IS_PROP_EQUAL = (prop,value) => ({ equal: {prop, value}})

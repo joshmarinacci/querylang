@@ -648,6 +648,8 @@ const data = [
     },
 
 
+    /// ============== SONGS =============
+
     {
         id:38,
         category: CATEGORIES.MUSIC.ID,
@@ -659,7 +661,6 @@ const data = [
             url:"https://apps.josh.earth/music/01%20Heat%20of%20the%20Moment.m4a"
         }
     },
-
 
     {
         id:39,
@@ -673,8 +674,6 @@ const data = [
         }
     },
 
-
-
     {
         id:40,
         category: CATEGORIES.MUSIC.ID,
@@ -686,8 +685,6 @@ const data = [
             url:"https://apps.josh.earth/music/02%20Beethoven_%20Piano%20Sonata%20%238%20In%20C%20Minor,%20Op.%2013,%20_Path%c3%a9tique_%20-%202.%20Adagio%20Cantabile.mp3"
         }
     },
-
-
 
     {
         id:41,
@@ -701,8 +698,6 @@ const data = [
         }
     },
 
-
-
     {
         id:42,
         category: CATEGORIES.MUSIC.ID,
@@ -714,9 +709,6 @@ const data = [
             url:"https://apps.josh.earth/music/10%20Beethoven_%20Piano%20Sonata%20%2326%20In%20E%20Flat,%20Op.%2081A,%20_Les%20Adieux_%20-%201.%20Adagio%20-%20Allegro.mp3"
         }
     },
-
-
-
 
     {
         id:43,
@@ -778,7 +770,7 @@ const data = [
         }
     },
 
-
+    //////// ======================= Music Queries
 
     {
         id:201,
@@ -906,23 +898,6 @@ const data = [
         }
     },
 
-    {
-        id:1222,
-        category: CATEGORIES.APP.ID,
-        type: CATEGORIES.APP.TYPES.APP,
-        props: {
-            title:'Notifications',
-            appid:'NotificationPanel',
-            icon:'perm_contact_calendar',
-            preload:true,
-            launchbar:false,
-            window: {
-                default_width: 200,
-                default_height: 326,
-                anchor:'bottom-right',
-            }
-        }
-    },
 
     {
         id:300,
@@ -951,6 +926,10 @@ function loadApp(props) {
         }
     )
 }
+
+loadApp({ title: 'Notifications', appid: 'NotificationPanel', icon: 'perm_contact_calendar',
+    preload: true, launchbar: false,
+    window: { default_width: 200, default_height: 326, anchor: 'bottom-right', }})
 
 loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report',
     window: { default_width: 200, default_height: 200, anchor: 'bottom-left' }})

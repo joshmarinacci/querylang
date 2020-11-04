@@ -1,0 +1,14 @@
+
+.popup-container {
+    display: none;
+    border: 5px solid red;
+    position: absolute;
+    top: 200px;
+    left: 200px;
+    z-index: 1000;
+    background-color: #0d990d;
+}
+
+.popup-container.visible {
+    display: block;
+}
