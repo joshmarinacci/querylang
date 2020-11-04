@@ -183,9 +183,14 @@ than and less than, etc.
 
 # important things 
 
-* use contexts for app and db.
+- [x] use contexts for app and db.
 * move app inside of window and fix z-index
 * text field and text area with popups
 * standardize a bunch of query util functions.  isCategory, isType, isPropEqual, isPropTrue, isPropFalse, etc.
-
 * dialogs and popups?
+
+infobar:
+    * time and date
+    * trigger search
+    * wifi?
+    * sound?

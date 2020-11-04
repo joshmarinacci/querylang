@@ -183,11 +183,9 @@ export function Music({app}) {
             <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
         </Toolbar>
         <HBox grow>
-            <VBox scroll>
                 <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
                       stringify={(o,i) => <StandardListItem key={i} title={propAsString(o,'title')} icon={propAsString(o,'icon')}/>}
                 />
-            </VBox>
             {panel}
         </HBox>
     </Window>

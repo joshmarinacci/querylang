@@ -48,7 +48,7 @@ export function DataList({data, selected, setSelected, className, style, stringi
     if(!setSelected) setSelected = ()=>{}
     className = className || ""
     style = style || {}
-    return <VBox grow scroll className={'list-wrapper'}>
+    return <VBox scroll className={'list-wrapper'}>
     <ul className={'list ' + className} style={style}>{data.map(o=> {
         return <li key={o.id}
                  onClick={()=>setSelected(o)}
