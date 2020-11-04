@@ -17,7 +17,7 @@ import {NotificationPanel} from './apps/NotificationPanel.js'
 import {AND} from './query2.js'
 import {AlarmContext, AlarmService} from './services/AlarmService.js'
 import {DebugPanel} from './apps/debug.js'
-import {CommandBar} from './apps/commmandbar.js'
+import {CommandBar} from './apps/CommandBar.js'
 import {PopupContainer, PopupManager, PopupManagerContext} from './ui/PopupManager.js'
 
 let db_service = makeDB()
