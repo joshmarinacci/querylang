@@ -555,8 +555,8 @@ const data = [
             appid:'Calendar',
             icon:'today',
             window: {
-                default_width: 500,
-                default_height: 530,
+                default_width: 600,
+                default_height: 700,
             }
         }
     },

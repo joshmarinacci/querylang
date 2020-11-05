@@ -20,3 +20,52 @@
     grid-column: 2 / span 1;
     padding: 0.25rem;
 }
+
+.week-wrapper {
+    display: flex;
+    flex-direction: column;
+    border: 5px solid red;
+    overflow: scroll;
+    position: relative;
+}
+
+.week-header {
+    border: 5px solid blue;
+    display: grid;
+    grid-template-columns:  repeat(8,1fr);
+    grid-auto-rows: 1rem;
+}
+
+.day-header {
+    border: 0px solid black;
+    text-align: center;
+    background-color: #eee;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+
+.week-view {
+    border: 5px solid black;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-auto-rows: 1rem;
+    overflow: scroll;
+    /*max-height: 300px;*/
+    flex: 1;
+    position: relative;
+}
+
+.week-view .hour {
+    border: 1px solid green;
+    border-width: 1px 0 0 0;
+    grid-column: 1 / span 8;
+    padding-left: 0.5rem;
+    padding-top: 0.25rem;
+}
+
+.week-view .week-event {
+    border: 1px solid blue;
+    background-color: lightblue;
+    padding: 0.25rem;
+}
