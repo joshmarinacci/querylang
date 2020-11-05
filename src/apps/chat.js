@@ -3,6 +3,11 @@ import {attach, DBContext, propAsString, setProp, sort} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {DataList, HBox, StandardListItem, VBox, Window} from '../ui/ui.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
+import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, isAfter,
+    subDays, addDays,
+    startOfDay, endOfDay,
+} from 'date-fns'
+
 import "./chat.css"
 
 export function Chat({app}) {
@@ -50,17 +55,25 @@ export function Chat({app}) {
             />
             <VBox grow>
                 <DataList style={{flex:1}} data={messages} className={'thread'} stringify={(o) => {
-                    return <div className={(o.props.sender.id===1?"self":"")}>
-                        <b>{propAsString(o, 'timestamp')}</b>
-                        <i>{propAsString(o.props.sender, 'first')}</i>
-                        <p>{propAsString(o, 'contents')}</p>
-                    </div>
+                    return <VBox className={(o.props.sender.id===1?"self":"")}>
+                        <HBox>
+                            <img src={propAsString(o.props.sender,'icon')} alt={'user-icon'}/>
+                            <i>{propAsString(o.props.sender, 'first')}</i>
+                            <b>{format(o.props.timestamp,'hh:mm:ss')}</b>
+                        </HBox>
+                        <em>{propAsString(o, 'contents')}</em>
+                    </VBox>
                 }}/>
-                <input type={'text'} value={text} onChange={(e)=>setText(e.target.value)} onKeyDown={e=>{
-                    if(e.key === 'Enter')
-                        sendText()
-                    }
-                }/>
+                <HBox>
+                    <input style={{
+                        flex:'1.0',
+                    }} type={'text'} value={text} onChange={(e)=>setText(e.target.value)} onKeyDown={e=>{
+                        if(e.key === 'Enter')
+                            sendText()
+                        }
+                    }/>
+                    <button>send</button>
+                </HBox>
             </VBox>
         </HBox>
     </Window>

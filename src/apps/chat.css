@@ -1,12 +1,41 @@
-.Chat .thread .self {
-    background-color: azure;
-    text-align: right;
+.Chat .thread .vbox {
+    border: 0px solid red;
+    margin: 1rem;
 }
-.Chat .thread p {
+.Chat .thread .vbox.self {
+    align-items: flex-end;
+    justify-items: stretch;
+}
+
+.Chat .thread .hbox {
+    border: 0px solid blue;
+    align-items: center;
+}
+.Chat .thread .vbox.self .hbox {
+     flex-direction: row-reverse;
+}
+
+
+.Chat .thread em {
     border-radius: 1.0em;
     padding: 0.25em 1.0em;
     background-color: lightblue;
+    max-width: 66%;
+    font-style: normal;
+    font-weight: 700;
 }
-.Chat .thread .self p {
+.Chat .thread .self em {
     background-color: greenyellow;
+    text-align: right;
+}
+
+
+.Chat img {
+    max-height: 2rem;
+    border: 1px solid white;
+    border-radius: 100%;
+}
+
+.Chat .thread b {
+    padding: 0.25em;
 }
