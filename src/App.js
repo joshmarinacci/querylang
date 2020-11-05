@@ -19,6 +19,9 @@ import {AlarmContext, AlarmService} from './services/AlarmService.js'
 import {DebugPanel} from './apps/debug.js'
 import {CommandBar} from './apps/CommandBar.js'
 import {PopupContainer, PopupManager, PopupManagerContext} from './ui/PopupManager.js'
+import {MapViewer} from './apps/maps.js'
+import {SettingsApp} from './apps/settings.js'
+import {WriterApp} from './apps/writing.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
@@ -57,6 +60,10 @@ function App() {
     if(appid === 'NotificationPanel') return <NotificationPanel key={appid} app={app} />
     if(appid === 'DebugPanel') return <DebugPanel key={appid} app={app} />
     if(appid === 'CommandBar') return <CommandBar key={appid} app={app} />
+    if(appid === 'MapViewer') return <MapViewer key={appid} app={app}/>
+    if(appid === 'SettingsApp') return <SettingsApp key={appid} app={app}/>
+    if(appid === 'WriterApp') return <WriterApp key={appid} app={app}/>
+    console.error("no such app", appid)
     return <div>missing app</div>
   })
 

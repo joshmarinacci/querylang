@@ -937,5 +937,8 @@ loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report',
 loadApp({ title:'cmd.bar', appid:'CommandBar', icon:'code',
     preload:false, launchbar:true,
     window: { default_width: 400,  default_height: 100 }})
+loadApp({title:"Maps", appid:"MapViewer", icon:'map'})
+loadApp({title:"Settings", appid:"SettingsApp", icon:'settings'})
+loadApp({title:"Writer", appid:"WriterApp", icon:'create'})
 
 export const DATA = data

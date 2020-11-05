@@ -30,9 +30,7 @@ export function AppBar({}) {
         category: CATEGORIES.APP.ID,
         type: CATEGORIES.APP.TYPES.APP,
         props: {
-            title: 'Apps',
             appid: 'AppBar',
-            icon: 'perm_contact_calendar',
             preload: true,
             launchbar: false,
             window: {
@@ -43,7 +41,6 @@ export function AppBar({}) {
         }
     }
 
-    console.log("making appbar window")
     return <Window resize={false} hide_titlebar={true} app={app}>
         <ul className={'list'}>{items.map(o => <AppView key={o.id} app={o}/>)}</ul>
     </Window>
