@@ -185,7 +185,7 @@ than and less than, etc.
 
 - [x] use contexts for app and db.
 
-- [ ] standardize a bunch of query util functions.  isCategory, isType, isPropEqual, isPropTrue, isPropFalse, etc.
+- [x] standardize a bunch of query util functions.  isCategory, isType, isPropEqual, isPropTrue, isPropFalse, etc.
 - [ ] arrow keys for popup nav
 - [ ] enter key to choose item in popup nav
 - [ ] click popup buttons to choose it
