@@ -5,13 +5,10 @@ import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, is
     subDays, addDays,
     startOfDay, endOfDay,
 } from 'date-fns'
-import {AND} from '../query2.js'
+import {AND, IS_CATEGORY, IS_TYPE} from '../query2.js'
 
 import "./calendar.css"
 import {DBContext} from '../db.js'
-
-const isCalendarCategory = () => ({ CATEGORY:CATEGORIES.CALENDAR.ID })
-const isEvent = () => ({ TYPE:CATEGORIES.CALENDAR.TYPES.EVENT })
 
 function toTodayTime (d) {
     let A = Date.now()
@@ -44,7 +41,7 @@ export function Calendar({app}) {
     let current_day = {start:startOfDay(today), end:endOfDay(today)}
     let db = useContext(DBContext)
 
-    let events = db.QUERY(AND(isCalendarCategory(),isEvent()))
+    let events = db.QUERY(AND(IS_CATEGORY(CATEGORIES.CALENDAR.ID), IS_TYPE(CATEGORIES.CALENDAR.TYPES.EVENT)))
 
     // only have events that are within the current week
     events = events.filter(e => isWithinInterval(e.props.start,current_day) || is_event_repeating_daily(e))

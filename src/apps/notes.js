@@ -9,7 +9,6 @@ import {
 } from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {
-    AddButton,
     DataList,
     HBox, StandardListItem,
     TagsetEditor,
@@ -20,14 +19,13 @@ import {
     Window
 } from '../ui/ui.js'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import {AND, OR, query2 as QUERY} from '../query2.js'
+import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 
 
-const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
-const isNotesCategory = () => ({ CATEGORY:CATEGORIES.NOTES.ID })
-const isNote = () => ({ TYPE:CATEGORIES.NOTES.TYPES.NOTE })
-const isGroup = () => ({ TYPE:CATEGORIES.NOTES.TYPES.GROUP })
+const isNotesCategory = () => IS_CATEGORY(CATEGORIES.NOTES.ID)
+const isNote = () => IS_TYPE(CATEGORIES.NOTES.TYPES.NOTE)
+const isGroup = () => IS_TYPE(CATEGORIES.NOTES.TYPES.GROUP)
 
 export function Notes({app}) {
     let db = useContext(DBContext)
@@ -62,7 +60,7 @@ export function Notes({app}) {
 
     const calcFilter = () => {
         if(searchTerms.length >= 2) {
-            return QUERY(notes,OR(isPropSubstring('title',searchTerms), isPropSubstring('contents',searchTerms)))
+            return QUERY(notes,OR(IS_PROP_SUBSTRING('title',searchTerms), IS_PROP_SUBSTRING('contents',searchTerms)))
         }
         if(propAsBoolean(selectedGroup,'tag')) {
             return filterPropArrayContains(notes,{tags:propAsString(selectedGroup,'title')})

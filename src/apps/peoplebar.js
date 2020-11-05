@@ -2,7 +2,7 @@ import {DBContext, propAsString} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {Window} from '../ui/ui.js'
 import React, {useContext} from 'react'
-import {AND} from '../query2.js'
+import {AND, IS_CATEGORY, IS_PROP_TRUE, IS_TYPE} from '../query2.js'
 import "./peoplebar.css"
 import {format} from 'date-fns'
 import {utcToZonedTime} from 'date-fns-tz'
@@ -24,9 +24,9 @@ const PersonView = ({person}) => {
 export function PeopleBar({app}) {
     const db = useContext(DBContext)
     let items = db.QUERY(AND(
-    {CATEGORY:CATEGORIES.CONTACT.ID},
-        {TYPE:CATEGORIES.CONTACT.TYPES.PERSON},
-        isPropTrue('favorite')
+        IS_CATEGORY(CATEGORIES.CONTACT.ID),
+        IS_TYPE(CATEGORIES.CONTACT.TYPES.PERSON),
+        IS_PROP_TRUE('favorite'),
     ))
 
     return <Window resize={false} hide_titlebar={true} app={app}>

@@ -2,32 +2,25 @@ import React, {useContext, useState} from 'react'
 import {attach, DBContext, propAsString, setProp, sort} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {DataList, HBox, StandardListItem, VBox, Window} from '../ui/ui.js'
-import {AND} from '../query2.js'
+import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import "./chat.css"
-
-const isConversation = () => ({ TYPE:CATEGORIES.CHAT.TYPES.CONVERSATION })
-const isMessage = () => ({ TYPE:CATEGORIES.CHAT.TYPES.MESSAGE })
-const isChatCategory = () => ({ CATEGORY:CATEGORIES.CHAT.ID })
-const isPropEqual = (prop,value) => ({ equal: {prop, value}})
-const isPerson = () => ({ TYPE:CATEGORIES.CONTACT.TYPES.PERSON })
-const isContactCategory = () => ({ CATEGORY:CATEGORIES.CONTACT.ID })
 
 export function Chat({app}) {
     const [selected, setSelected] = useState(null)
     const [text, setText] = useState("")
     let db = useContext(DBContext)
-    let conversations = db.QUERY(AND(isChatCategory(),isConversation()))
+    let conversations = db.QUERY(AND(IS_CATEGORY(CATEGORIES.CHAT.ID),IS_TYPE(CATEGORIES.CHAT.TYPES.CONVERSATION)))
 
     let messages = []
 
     if (selected) {
         messages = db.QUERY(AND(
-            isChatCategory(),
-            isMessage(),
-            isPropEqual('receivers',selected.props.people)))
+            IS_CATEGORY(CATEGORIES.CHAT.ID),
+            IS_TYPE(CATEGORIES.CHAT.TYPES.MESSAGE),
+            IS_PROP_EQUAL("receivers",selected.props.people)))
     }
 
-    let people = db.QUERY(isContactCategory(), isPerson())
+    let people = db.QUERY(AND(IS_CATEGORY(CATEGORIES.CONTACT.ID), IS_TYPE(CATEGORIES.CONTACT.TYPES.PERSON)))
     messages = attach(messages, people, 'sender', 'id')
     messages = sort(messages, ['timestamp'])
 

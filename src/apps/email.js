@@ -2,23 +2,10 @@ import React, {useContext, useState} from 'react'
 import {DataList, HBox, Panel, Spacer, StandardListItem, Toolbar, VBox, Window} from '../ui/ui.js'
 import {CATEGORIES, SORTS} from '../schema.js'
 import {DBContext, propAsArray, propAsBoolean, propAsString, sort, useDBChanged} from '../db.js'
-import {AND} from '../query2.js'
+import {AND, IS_CATEGORY, IS_PROP_CONTAINS, IS_TYPE} from '../query2.js'
 import {format, formatDistanceToNow} from "date-fns"
 
 import "./email.css"
-
-const isMessage = () => ({ TYPE:CATEGORIES.EMAIL.TYPES.MESSAGE })
-const isTask = () => ({ TYPE:CATEGORIES.TASKS.TYPES.TASK })
-const isEmailCategory = () => ({ CATEGORY:CATEGORIES.EMAIL.ID })
-const isPropTrue = (prop) => ({ equal: {prop, value:true}})
-const isPropFalse = (prop) => ({ equal: {prop, value:false}})
-const isPropEqual = (prop,value) => ({ equal: {prop, value}})
-const isPropEqualId = (prop,obj) => ({ equal: {prop, value:obj?obj.id:null}})
-const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
-const isPropContainsTag = (prop, tag) => ({contains: { prop, value:tag}})
-
-
-
 
 function calculateFoldersFromTags(folders) {
     let tagset = new Set()
@@ -43,7 +30,9 @@ export function Email({app }) {
     const [selectedFolder, setSelectedFolder] = useState(null)
     const [selectedMessage, setSelectedMessage] = useState(null)
 
-    let messages = db.QUERY(AND(isMessage(), isEmailCategory()))
+    let messages = db.QUERY(AND(
+        IS_CATEGORY(CATEGORIES.EMAIL.ID),
+        IS_TYPE(CATEGORIES.EMAIL.TYPES.MESSAGE)))
     let folders = calculateFoldersFromTags(messages)
 
     let panel = <Panel grow>no message selected</Panel>
@@ -65,7 +54,10 @@ export function Email({app }) {
     if(selectedFolder) {
         if(propAsBoolean(selectedFolder,'query')) {
             let tag = propAsString(selectedFolder,'title')
-            folder_results = db.QUERY(AND(isMessage(), isEmailCategory(), isPropContainsTag("tags",tag)))
+            folder_results = db.QUERY(AND(
+                IS_CATEGORY(CATEGORIES.EMAIL.ID),
+                IS_TYPE(CATEGORIES.EMAIL.TYPES.MESSAGE),
+                IS_PROP_CONTAINS("tags",tag)))
         }
     }
 

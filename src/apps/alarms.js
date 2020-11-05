@@ -1,20 +1,17 @@
 import React, {useContext} from 'react'
 import {DataList, EnumPropEditor, HBox, Spacer, TextPropEditor, Toolbar, VBox, Window} from '../ui/ui.js'
 import {DBContext, propAsBoolean, useDBChanged} from '../db.js'
-import {AND} from '../query2.js'
+import {AND, IS_CATEGORY, IS_TYPE} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
 import {Icon} from '@material-ui/core'
 
 import {format} from 'date-fns'
 
-const isAlarm = () => ({ TYPE:CATEGORIES.ALARM.TYPES.ALARM })
-const isAlarmCategory = () => ({ CATEGORY:CATEGORIES.ALARM.ID })
-
 export function Alarms({app}) {
     let db = useContext(DBContext)
     useDBChanged(db,CATEGORIES.ALARM.ID)
 
-    let alarms = db.QUERY(AND(isAlarm(), isAlarmCategory()))
+    let alarms = db.QUERY(AND(IS_CATEGORY(CATEGORIES.ALARM.ID),IS_TYPE(CATEGORIES.ALARM.TYPES.ALARM)))
     const addAlarm = () => db.add(db.make(CATEGORIES.ALARM.ID, CATEGORIES.ALARM.TYPES.ALARM))
     return <Window app={app}>
         <VBox grow>

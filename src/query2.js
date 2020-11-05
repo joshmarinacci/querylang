@@ -80,3 +80,7 @@ export const OR = (...args) => ({ or: args})
 export const IS_CATEGORY = (CATEGORY) => ({CATEGORY})
 export const IS_TYPE = (TYPE) => ({TYPE})
 export const IS_PROP_EQUAL = (prop,value) => ({ equal: {prop, value}})
+export const IS_PROP_SUBSTRING = (prop, value) => ({substring:{prop,value}})
+export const IS_PROP_CONTAINS = (prop, value) => ({contains:{prop,value:value}})
+export const IS_PROP_TRUE = (prop) => ({ equal: {prop, value:true}})
+

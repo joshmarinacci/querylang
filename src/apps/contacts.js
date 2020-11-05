@@ -14,14 +14,8 @@ import {
     VBox,
     Window
 } from '../ui/ui.js'
-import {AND, OR, query2 as QUERY} from '../query2.js'
+import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
-import {AppLauncherContext} from '../services/AppLauncherService.js'
-
-const isPerson = () => ({ TYPE:CATEGORIES.CONTACT.TYPES.PERSON })
-const isContactCategory = () => ({ CATEGORY:CATEGORIES.CONTACT.ID })
-const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
-
 
 export function ContactViewPanel ({selected, onEdit}) {
     let favorite = <Icon>star_outline</Icon>
@@ -179,18 +173,21 @@ export function ContactEditPanel({db, onDone, selected}) {
 
 export function ContactList({app}) {
     const db = useContext(DBContext)
-    const appService = useContext(AppLauncherContext)
     useDBChanged(db,CATEGORIES.CONTACT.ID)
 
     const [selected, setSelected] = useState(null)
     const [editing, setEditing] = useState(false)
     let [searchTerms, setSearchTerms] = useState("")
 
-
-    let items = db.QUERY(AND(isContactCategory(),isPerson()))
+    let items = db.QUERY(AND(
+        IS_CATEGORY(CATEGORIES.CONTACT.ID),
+        IS_TYPE(CATEGORIES.CONTACT.TYPES.PERSON)))
     items = sort(items, ["first", "last"], SORTS.ASCENDING)
 
-    if(searchTerms.length >= 2) items = QUERY(items,OR(isPropSubstring('last',searchTerms),isPropSubstring('first',searchTerms)))
+    if(searchTerms.length >= 2) items = QUERY(items,
+        OR(IS_PROP_SUBSTRING('last',searchTerms),
+            IS_PROP_SUBSTRING('first',searchTerms)
+        ))
 
     const addNewContact = () => {
         let person = db.make(CATEGORIES.CONTACT.ID, CATEGORIES.CONTACT.TYPES.PERSON)
@@ -207,7 +204,7 @@ export function ContactList({app}) {
         panel = <ContactEditPanel selected={selected} onDone={()=>setEditing(false)} db={db}/>
     }
 
-    return <Window x={120} width={500} height={320} title={'contacts'} className={'contacts'} appService={appService} app={app} resize>
+    return <Window app={app}>
         <HBox grow>
             <VBox>
                 <Toolbar>

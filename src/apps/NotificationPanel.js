@@ -1,4 +1,4 @@
-import {AND} from '../query2.js'
+import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
 import {Window} from '../ui/window.js'
 import React, {useContext} from 'react'
@@ -7,15 +7,13 @@ import {DBContext, propAsString, useDBChanged} from '../db.js'
 import "../notifications.css"
 import {StandardListItem} from '../ui/ui.js'
 
-const isPropEqual = (prop,value) => ({ equal: {prop, value}})
-
 export function NotificationPanel({app}) {
     let db = useContext(DBContext)
     useDBChanged(db,CATEGORIES.NOTIFICATION.ID)
     let items = db.QUERY(AND(
-        {CATEGORY:CATEGORIES.NOTIFICATION.ID},
-        {TYPE:CATEGORIES.NOTIFICATION.TYPES.ALERT},
-        isPropEqual('read',false),
+        IS_CATEGORY(CATEGORIES.NOTIFICATION.ID),
+        IS_TYPE(CATEGORIES.NOTIFICATION.TYPES.ALERT),
+        IS_PROP_EQUAL('read',false),
     ))
 
     return <Window resize={false} hide_titlebar={true} app={app}>

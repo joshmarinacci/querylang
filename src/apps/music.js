@@ -2,14 +2,14 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import {DataList, HBox, Spacer, StandardListItem, Toolbar, VBox, Window} from '../ui/ui.js'
 import {DBContext, project, propAsBoolean, propAsIcon, propAsString, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {AND} from '../query2.js'
+import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_TRUE, IS_TYPE} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {DataTable} from '../ui/datatable.js'
 
-const isGroup = () => ({ TYPE:CATEGORIES.MUSIC.TYPES.GROUP })
-const isSong = () => ({ TYPE:CATEGORIES.MUSIC.TYPES.SONG })
-const isMusicCategory = () => ({ CATEGORY:CATEGORIES.MUSIC.ID })
-const isPropTrue = (prop) => ({ equal: {prop, value:true}})
+// const isGroup = () => ({ TYPE:CATEGORIES.MUSIC.TYPES.GROUP })
+// const isSong = () => ({ TYPE:CATEGORIES.MUSIC.TYPES.SONG })
+// const isMusicCategory = () => ({ CATEGORY:CATEGORIES.MUSIC.ID })
+// const isPropTrue = (prop) => ({ equal: {prop, value:true}})
 const uniqueBy = (list,propname) => {
     let map = new Map()
     list.forEach(o=>{
@@ -17,7 +17,7 @@ const uniqueBy = (list,propname) => {
     })
     return Array.from(map.values())
 }
-const isPropEqual = (prop,value) => ({ equal: {prop, value}})
+// const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 
 export function SongsPanel({songs, playSong, db}) {
     const [selectedSong, setSelectedSong] = useState(null)
@@ -40,9 +40,9 @@ export function ArtistsPanel({artists, db, playSong}) {
     const choose = (artist) => {
         setSelectedArtist(artist)
         setSongs(db.QUERY(AND(
-            isMusicCategory(),
-            isSong(),
-            isPropEqual('artist', propAsString(artist,'artist'))
+            IS_CATEGORY(CATEGORIES.MUSIC.ID),
+            IS_TYPE(CATEGORIES.MUSIC.TYPES.SONG),
+            IS_PROP_EQUAL('artist', propAsString(artist,'artist'))
         )))
     }
 
@@ -61,9 +61,9 @@ export function AlbumsPanel({albums, db, playSong}) {
     const choose = (album) => {
         setSelectedAlbum(album)
         setSongs(db.QUERY(AND(
-            isMusicCategory(),
-            isSong(),
-            isPropEqual('album', propAsString(album,'album'))
+            IS_CATEGORY(CATEGORIES.MUSIC.ID),
+            IS_TYPE(CATEGORIES.MUSIC.TYPES.SONG),
+            IS_PROP_EQUAL('album', propAsString(album,'album'))
         )))
     }
     return <HBox grow>
@@ -154,22 +154,25 @@ export function Music({app}) {
     const [searchTerms, setSearchTerms] = useState("")
     const [selectedSong, setSelectedSong] = useState(null)
 
-    let groups = db.QUERY(AND(isGroup(), isMusicCategory(), isPropTrue('active')))
+    let groups = db.QUERY(AND(
+        IS_CATEGORY(CATEGORIES.MUSIC.ID),
+        IS_TYPE(CATEGORIES.MUSIC.TYPES.GROUP),
+        IS_PROP_TRUE('active')))
 
     let panel = <div>nothing</div>
     if(selectedGroup) {
         if(propAsString(selectedGroup,'title') === 'Songs') {
-            let songs = db.QUERY(AND(isMusicCategory(), isSong()))
+            let songs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.MUSIC.ID), IS_TYPE(CATEGORIES.MUSIC.TYPES.SONG)))
             panel = <SongsPanel songs={songs} playSong={setSelectedSong} db={db}/>
         }
         if(propAsString(selectedGroup,'title') === 'Artists') {
-            let songs = db.QUERY(AND(isMusicCategory(), isSong()))
+            let songs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.MUSIC.ID), IS_TYPE(CATEGORIES.MUSIC.TYPES.SONG)))
             let artists = project(songs,['artist'])
             artists = uniqueBy(artists,'artist')
             panel = <ArtistsPanel artists={artists} playSong={setSelectedSong}  db={db}/>
         }
         if(propAsString(selectedGroup,'title') === 'Albums') {
-            let songs = db.QUERY(AND(isMusicCategory(), isSong()))
+            let songs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.MUSIC.ID), IS_TYPE(CATEGORIES.MUSIC.TYPES.SONG)))
             let albums = project(songs,['album'])
             albums = uniqueBy(albums,'album')
             panel = <AlbumsPanel albums={albums} playSong={setSelectedSong} db={db}/>

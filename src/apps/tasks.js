@@ -12,17 +12,17 @@ import {
     VBox,
     Window
 } from '../ui/ui.js'
-import {AND, query2 as QUERY} from '../query2.js'
+import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_SUBSTRING, IS_PROP_TRUE, IS_TYPE, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 
-const isProject = () => ({ TYPE:CATEGORIES.TASKS.TYPES.PROJECT })
-const isTask = () => ({ TYPE:CATEGORIES.TASKS.TYPES.TASK })
-const isTaskCategory = () => ({ CATEGORY:CATEGORIES.TASKS.ID })
-const isPropTrue = (prop) => ({ equal: {prop, value:true}})
-const isPropFalse = (prop) => ({ equal: {prop, value:false}})
+const isProject = () => IS_TYPE(CATEGORIES.TASKS.TYPES.PROJECT)
+const isTask = () => IS_TYPE(CATEGORIES.TASKS.TYPES.TASK)
+const isTaskCategory = () => IS_CATEGORY(CATEGORIES.TASKS.ID)
+// const isPropTrue = (prop) => ({ equal: {prop, value:true}})
+const isPropFalse = (prop) => IS_PROP_EQUAL(prop,false)
 // const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 const isPropEqualId = (prop,obj) => ({ equal: {prop, value:obj?obj.id:null}})
-const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
+// const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 
 
 
@@ -34,7 +34,7 @@ export function TaskLists({app}) {
     const [selectedTask, setSelectedTask] = useState(null)
 
 
-    let projects = db.QUERY(AND(isProject(), isTaskCategory(), isPropTrue('active')))
+    let projects = db.QUERY(AND(isProject(), isTaskCategory(), IS_PROP_TRUE('active')))
     let tasks = db.QUERY(AND(isTaskCategory(), isTask()))
 
     let [searchTerms, setSearchTerms] = useState("")
@@ -52,7 +52,7 @@ export function TaskLists({app}) {
     }
 
     if(searchTerms.length > 1) {
-        tasks = QUERY(tasks,AND(isPropSubstring('title',searchTerms)))
+        tasks = QUERY(tasks,AND(IS_PROP_SUBSTRING('title',searchTerms)))
     }
 
     let panel = <Panel grow={true}>nothing selected</Panel>
