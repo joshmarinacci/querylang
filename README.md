@@ -18,33 +18,33 @@
 
 ## PopupMenu
 
-* A single column menu.
-* inside a popup container
-* properly handles modality within the app or whole screen?
-* give it menu items which are buttons with actions and hover effects.
-* click elsewhere to close the menu.
-* can put custom components inside of a popup container too
+- [x] A single column menu.
+- [x] inside a popup container
+- [ ] properly handles modality within the app or whole screen?
+- [ ] give it menu items which are buttons with actions and hover effects.
+- [ ] click elsewhere to close the menu.
+- [ ] can put custom components inside of a popup container too
 
 ## TextBox
 
-* single line single font texty editor
-* hooks for keystroke filtering and popups with arrows
+- [ ] single line single font text editor
+- [ ] hooks for keystroke filtering and popups with arrows
 
 ## TextArea
 
-* single font text editor
-* hooks to filter keystrokes
-* position popup at the cursor
-* capture arrow keys to select something within the popup
+- [ ] single font text editor
+- [ ] hooks to filter keystrokes
+- [ ] position popup at the cursor
+- [ ] capture arrow keys to select something within the popup
 
 ## Toolbar
 
-* improved toolbar style box
-* icon buttons
-* labels
-* text buttons
-* search fields
-* spacers
+- [ ] improved toolbar style box
+- [ ] icon buttons
+- [ ] labels
+- [ ] text buttons
+- [ ] search fields
+- [ ] spacers
 
 ## Dialogs
 
@@ -185,9 +185,11 @@ than and less than, etc.
 
 - [x] use contexts for app and db.
 
-* text field and text area with popups
-* standardize a bunch of query util functions.  isCategory, isType, isPropEqual, isPropTrue, isPropFalse, etc.
-* start the command bar with tab completion. requires hacked text field
+- [ ] standardize a bunch of query util functions.  isCategory, isType, isPropEqual, isPropTrue, isPropFalse, etc.
+- [ ] arrow keys for popup nav
+- [ ] enter key to choose item in popup nav
+- [ ] click popup buttons to choose it
+
 
 * move app inside of window and fix z-index
 * dialogs and popups?

@@ -4,9 +4,16 @@ import {DBContext} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import {AppLauncherContext} from '../services/AppLauncherService.js'
-import {DataList} from '../ui/ui.js'
+import {VBox} from '../ui/ui.js'
 import {PopupManagerContext} from '../ui/PopupManager.js'
 
+function ItemMenu({data, onChoose}) {
+    return <VBox>
+        {data.map((it,i) => {
+            return <button onClick={()=>onChoose(it)}>{it.props.title}</button>
+        })}
+    </VBox>
+}
 export function CommandBar({app}) {
     const db = useContext(DBContext)
     const appservice = useContext(AppLauncherContext)
@@ -39,11 +46,12 @@ export function CommandBar({app}) {
             IS_TYPE(CATEGORIES.APP.TYPES.APP),
         ))
         apps = apps.filter(a => a.props.appid.toLowerCase().indexOf(text.toLowerCase())===0)
-        pm.show(<DataList data={apps} stringify={o => o.props.appid}/>, textfield.current)
-        console.log("found",apps.map(a => a.props.appid))
-        // setApps(apps)
+        pm.show(<ItemMenu data={apps} onChoose={(ap)=>{
+            setText(ap.props.appid)
+            pm.hide()
+        }
+        }/>, textfield.current)
         if(apps.length === 1) {
-            console.log("finish completing")
             setText(apps[0].props.appid)
         }
     }
