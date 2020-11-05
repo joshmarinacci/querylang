@@ -6,11 +6,14 @@ import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import {AppLauncherContext} from '../services/AppLauncherService.js'
 import {VBox} from '../ui/ui.js'
 import {PopupManagerContext} from '../ui/PopupManager.js'
+import "./CommandBar.css"
 
 function ItemMenu({data, onChoose}) {
-    return <VBox>
+    return <VBox className={"command-popup"}>
         {data.map((it,i) => {
-            return <button onClick={()=>onChoose(it)}>{it.props.title}</button>
+            return <li onClick={(e)=>{
+                onChoose(it)
+            }}>{it.props.appid}</li>
         })}
     </VBox>
 }
