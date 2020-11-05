@@ -4,17 +4,17 @@
 
 ## DataTable
 
-* can detect columns from a specified type
-* can detect columns from the first data row
-* can insert extra synthetic columns
-* put in a renderer to customize anything
-* add classname and styles to any row or column
-* header is generated from keynames
-* right click header to get list of headers to toggle
-* rearrange headers by drag and drop?
-* click header to change sort
-* booleans to enable / disable features
-* scrolls properly on it's own. just drop it in and give it a size
+- [ ] can detect columns from a specified type
+- [ ] can detect columns from the first data row
+- [ ] can insert extra synthetic columns
+- [ ] put in a renderer to customize anything
+- [ ] add classname and styles to any row or column
+- [ ] header is generated from keynames
+- [ ] right click header to get list of headers to toggle
+- [ ] rearrange headers by drag and drop?
+- [ ] click header to change sort
+- [ ] booleans to enable / disable features
+- [ ] scrolls properly on it's own. just drop it in and give it a size
 
 ## PopupMenu
 
@@ -115,7 +115,7 @@ than and less than, etc.
 - [ ] icons in the queries list
 
 ### Command Bar
-- [ ] command bar. just say name of app to launch it w/ tab completion
+- [x] command bar. just say name of app to launch it w/ tab completion
 
 ### Chat
 - [ ] input field with ‘send’ button and return to add to conversation
@@ -184,11 +184,10 @@ than and less than, etc.
 # important things 
 
 - [x] use contexts for app and db.
-
 - [x] standardize a bunch of query util functions.  isCategory, isType, isPropEqual, isPropTrue, isPropFalse, etc.
+- [x] click popup buttons to choose it
 - [ ] arrow keys for popup nav
 - [ ] enter key to choose item in popup nav
-- [ ] click popup buttons to choose it
 
 
 * move app inside of window and fix z-index
