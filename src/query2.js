@@ -3,11 +3,13 @@ const isAnd = (opts) => opts.hasOwnProperty('and')
 const isOr = (opts) => opts.hasOwnProperty('or')
 
 function processEqual(equal, o) {
+    console.log("process equal",equal,o)
     if(!o) return false
     if(!o.props) return false
     if(!o.props.hasOwnProperty(equal.prop)) return false
     let ov = o.props[equal.prop]
     let fv = equal.value
+    console.log("ov ",ov, "fv",fv)
     if(Array.isArray(ov)) {
         if (ov.length !== fv.length) return false
         for (let i = 0; i < ov.length; i++) {

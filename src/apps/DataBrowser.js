@@ -78,22 +78,6 @@ function findPropByKey(props, key) {
     return props.find(p => p.key === key)
 }
 
-function find_conditions_for_prop(prop) {
-    console.log('finding conditions for',prop)
-    if(prop.type === 'STRING') {
-        return [
-            "equal",
-            "not equal",
-            "substring contains"
-        ]
-    }
-    if(prop.type === 'BOOLEAN') {
-        return [
-            "is"
-        ]
-    }
-    return ["unknown"]
-}
 
 function QueryEditorDialog() {
     let db = useContext(DBContext)
@@ -168,14 +152,30 @@ function TypeQueryView({selectedCat, selectedType, choose}) {
     </HBox>
 }
 
+const QUERY_TYPES = {
+    'STRING':[
+            'equal',
+            'not equal',
+            'substring'
+    ],
+    'BOOLEAN':[
+        'is'
+    ],
+    'ENUM':[
+        'is'
+    ],
+    UNKNOWN:[]
+}
+
+function find_conditions_for_prop(prop) {
+    if(QUERY_TYPES[prop.type]) return QUERY_TYPES[prop.type]
+    return QUERY_TYPES.UNKNOWN
+}
+
 function PropertyQueryView ({type, onChanged}) {
     let [selectedProp, setSelectedProp] = useState({})
     let [selectedCondition, setSelectedCondition] = useState("equal")
-    let [conditions, setConditions] = useState([
-        "equal",
-        "not equal",
-        "substring",
-    ])
+    let [conditions, setConditions] = useState(QUERY_TYPES.STRING)
     let [value, setValue] = useState("")
     let props = fetch_props_for_type(type)
 
@@ -185,6 +185,9 @@ function PropertyQueryView ({type, onChanged}) {
         }
         if(selectedCondition === 'substring') {
             return IS_PROP_SUBSTRING(selectedProp.key,value)
+        }
+        if(selectedCondition === 'is') {
+            return IS_PROP_EQUAL(selectedProp.key,value)
         }
         if(selectedCondition === 'is') {
             return IS_PROP_EQUAL(selectedProp.key,value)
@@ -199,25 +202,22 @@ function PropertyQueryView ({type, onChanged}) {
         if(prop.hasOwnProperty('default')) setValue(prop.default)
     }
 
-    const chooseCondition = (cond)=>{
-        setSelectedCondition(cond)
-    }
-
-    const chooseValue = (val) => {
-        setValue(val)
-    }
-
     useEffect(()=>{
         onChanged(genQuery())
     },[value,selectedProp,selectedCondition])
 
     let condField = ""
     if(selectedProp && selectedProp.type === 'STRING') {
-        condField = <input type={"text"} value={value} onChange={(e) => chooseValue(e.target.value)}/>
+        condField = <input type={"text"} value={value} onChange={(e) => setValue(e.target.value)}/>
     }
     if(selectedProp && selectedProp.type === 'BOOLEAN') {
         condField = <input type={"checkbox"} checked={value}
-                           onChange={e => chooseValue(e.target.checked)}/>
+                           onChange={e => setValue(e.target.checked)}/>
+    }
+    if(selectedProp && selectedProp.type === 'ENUM') {
+        condField = <select value={value} onChange={e => setValue(e.target.value)}>
+            {selectedProp.values.map(o => <option key={o} value={o}>{o}</option>)}
+        </select>
     }
 
     return <HBox>
@@ -227,7 +227,7 @@ function PropertyQueryView ({type, onChanged}) {
             {props.map(prop => <option key={prop.key}>{prop.key}</option>)}
         </select>
         <select value={selectedCondition}
-                onChange={e => chooseCondition(e.target.value)}>
+                onChange={e => setSelectedCondition(e.target.value)}>
             {conditions.map(cond => <option key={cond}>{cond}</option>)}
         </select>
         {condField}
