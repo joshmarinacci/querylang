@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import {DBContext, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {Window} from '../ui/window.js'
-import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE} from '../query2.js'
+import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_SUBSTRING, IS_TYPE} from '../query2.js'
 import {DataList, HBox, Panel, StandardListItem, Toolbar, VBox} from '../ui/ui.js'
 import "./DataBrowser.css"
 import Icon from '@material-ui/core/Icon'
@@ -66,6 +66,35 @@ function findTypesForCategory(cat) {
     return arr
 }
 
+function fetch_props_for_type(type) {
+    let arr = Object.values(type.props)
+    arr.unshift({key:"NONE"})
+    return arr
+}
+
+function findPropByKey(props, key) {
+    console.log(props)
+    return props.find(p => p.key === key)
+    // return props[0]
+}
+
+function find_conditions_for_prop(prop) {
+    console.log('finding conditions for',prop)
+    if(prop.type === 'STRING') {
+        return [
+            "equal",
+            "not equal",
+            "substring contains"
+        ]
+    }
+    if(prop.type === 'BOOLEAN') {
+        return [
+            "is"
+        ]
+    }
+    return ["unknown"]
+}
+
 function QueryEditorDialog() {
     let db = useContext(DBContext)
     let cats = fetch_categories()
@@ -83,6 +112,7 @@ function QueryEditorDialog() {
         "substring",
     ])
     let [value, setValue] = useState("")
+    let [debug_text, set_debug_text] = useState("")
 
     const chooseCat = (cat_key) => {
         let cat = fetch_categories().filter(c => c.ID === cat_key)[0]
@@ -91,8 +121,7 @@ function QueryEditorDialog() {
             setTypes([])
             return
         }
-        let arr = findTypesForCategory(cat)
-        setTypes(arr)
+        setTypes(findTypesForCategory(cat))
     }
     const chooseType = (key) => {
         let type = findTypeByKey(selectedCat,key)
@@ -103,19 +132,29 @@ function QueryEditorDialog() {
             setProps([])
         } else {
             setIsTypeError(false)
-            let arr = Object.values(type.props)
-            arr.unshift({key:"NONE"})
-            setProps(arr)
+            setProps(fetch_props_for_type(type))
         }
     }
 
-    const chooseProp = (prop) => {
+    const chooseProp = (key) => {
+        let prop = findPropByKey(props,key)
         setSelectedProp(prop)
+        console.log('chose prop',prop)
+        setConditions(find_conditions_for_prop(prop))
+        if(prop.hasOwnProperty('default')) {
+            setValue(prop.default)
+        }
     }
 
     const chooseCondition = (cond)=>{
         setSelectedCondition(cond)
     }
+    console.log("=========")
+    console.log("selected cat",selectedCat)
+    console.log("selected type", selectedType)
+    console.log("selected prop", selectedProp)
+    console.log("selected prop", selectedCondition)
+    console.log("value is",value)
 
     const run_query = () => {
         let query = {
@@ -124,23 +163,39 @@ function QueryEditorDialog() {
                     CATEGORY:selectedCat.ID,
                 },
                 {
-                    TYPE:selectedType.ID,
+                    TYPE:selectedType.key,
                 },
             ]
         }
         if(selectedCondition === 'equal') {
-            query.and.push({
-                equal:{prop:selectedProp,value:value}
-            })
+            query.and.push(IS_PROP_EQUAL(selectedProp.key,value))
         }
         if(selectedCondition === 'substring') {
-            query.and.push(IS_PROP_SUBSTRING(selectedProp,value))
+            query.and.push(IS_PROP_SUBSTRING(selectedProp.key,value))
+        }
+        if(selectedCondition === 'is') {
+            query.and.push(IS_PROP_EQUAL(selectedProp.key,value))
         }
         console.log("selected prop is",selectedProp)
         console.log("running query",query)
         let items = db.QUERY(query)
         console.log("returend items",items)
+        set_debug_text(""
+            +JSON.stringify(query,null,'  ')
+            +"\n"
+            +JSON.stringify(items,null,'  '))
     }
+
+    let condField = ""
+    if(selectedProp && selectedProp.type === 'STRING') {
+        condField = <input type={"text"} value={value} onChange={(e) => setValue(e.target.value)}/>
+    }
+    if(selectedProp && selectedProp.type === 'BOOLEAN') {
+        condField = <input type={"checkbox"} checked={value}
+                           onChange={e => setValue(e.target.checked)}/>
+
+    }
+
 
     return <div className={'dialog'}>
         <HBox>
@@ -159,15 +214,21 @@ function QueryEditorDialog() {
 
         <HBox>
             <label>property</label>
-            <select value={selectedProp} onChange={e => chooseProp(e.target.value)}>{props.map(prop => <option key={prop.key}>{prop.key}</option>)}</select>
-            <select value={selectedCondition} onChange={e => chooseCondition(e.target.value)}>
+            <select value={selectedProp.key}
+                    onChange={e => chooseProp(e.target.value)}>
+                {props.map(prop => <option key={prop.key}>{prop.key}</option>)}
+            </select>
+            <select value={selectedCondition}
+                    onChange={e => chooseCondition(e.target.value)}>
                 {conditions.map(cond => <option key={cond}>{cond}</option>)}
             </select>
-            <input type={"text"} value={value} onChange={(e)=>setValue(e.target.value)}/>
+            {condField}
         </HBox>
 
         <HBox>
             <button onClick={run_query}>run</button>
         </HBox>
+
+        <textarea value={debug_text} className={"debug"}></textarea>
     </div>
 }

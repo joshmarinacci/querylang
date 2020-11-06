@@ -1,15 +1,24 @@
 
 .dialog {
-    border: 5px solid red;
-    width: 400px;
-    height: 300px;
+    border: 1px solid black;
+    width: 500px;
+    height: 700px;
     position: absolute;
     top:0;
     left:0;
     background-color: white;
     z-index: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
 
 .window {
     overflow: visible;
+}
+
+.dialog .debug {
+    flex: 1;
+    font-family: monospace;
+    font-size: 7pt;
 }
