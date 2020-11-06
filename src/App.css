@@ -13,6 +13,10 @@ html {
   --gray3: #dee2e6;
   --gray6: #868e96;
   --gray8: #343a40;
+
+  --red9: #c92a2a;
+  --red4: #ff8787;
+  --red6: #fa5252;
 }
 body {
   font-size: 8pt;
@@ -51,7 +55,8 @@ body {
 
 
 .panel {
-  border: 1px solid gray;
+  /*border: 1px solid gray;*/
+  padding: 0.5rem;
 }
 .grow {
   flex: 1;

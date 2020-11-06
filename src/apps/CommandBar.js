@@ -4,7 +4,7 @@ import {DBContext} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import {AppLauncherContext} from '../services/AppLauncherService.js'
-import {VBox} from '../ui/ui.js'
+import {Panel, VBox} from '../ui/ui.js'
 import {PopupManagerContext} from '../ui/PopupManager.js'
 import "./CommandBar.css"
 
@@ -61,24 +61,26 @@ export function CommandBar({app}) {
 
 
     return <Window app={app}>
-        <input ref={textfield}
-            type={'text'} value={text} onChange={e => update(e,e.target.value)}
-               onKeyDownCapture={e => {
-                   if(e.key === 'Tab') {
-                       complete()
-                       e.preventDefault()
-                   }
-                   if(e.key === 'ArrowDown') {
-                       console.log("down")
-                   }
-               }}
-               onKeyPress={e => {
-                   if(e.key === 'Enter') {
-                       console.log("pressed enter")
-                       execute()
-                   }
-               }}
-        />
+        <VBox className={'content-panel'}>
+            <input ref={textfield}
+                type={'text'} value={text} onChange={e => update(e,e.target.value)}
+                   onKeyDownCapture={e => {
+                       if(e.key === 'Tab') {
+                           complete()
+                           e.preventDefault()
+                       }
+                       if(e.key === 'ArrowDown') {
+                           console.log("down")
+                       }
+                   }}
+                   onKeyPress={e => {
+                       if(e.key === 'Enter') {
+                           console.log("pressed enter")
+                           execute()
+                       }
+                   }}
+            />
+        </VBox>
     </Window>
 
 }

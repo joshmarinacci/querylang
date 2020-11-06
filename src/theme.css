@@ -1,3 +1,30 @@
+/* buttons */
+button {
+    border: 1px solid #333;
+    background-color: #ccc;
+    color: black;
+}
+button:hover {
+    background-color: #888888;
+    color: white;
+}
+button.primary {
+    background-color: var(--selected-color);
+    color: black;
+}
+button.primary:hover {
+    background-color: var(--selected-color-dark);
+    color: white;
+}
+button.danger {
+    background-color: var(--red6);
+    color: black;
+}
+button.danger:hover {
+    background-color: var(--red9);
+    color: white;
+}
+
 /* toolbars  */
 
 .toolbar {
@@ -31,4 +58,15 @@
 
 .sidebar {
     background-color: var(--standard-sidepanel-color);
+}
+
+
+
+/* =========== windows ========== */
+
+.window {
+    background-color: var(--standard-panel-color);
+}
+.content-panel {
+    background-color: var(--standard-panel-color);
 }

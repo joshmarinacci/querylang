@@ -10,7 +10,7 @@ import {
 import {CATEGORIES} from '../schema.js'
 import {
     DataList,
-    HBox, StandardListItem,
+    HBox, Panel, StandardListItem,
     TagsetEditor,
     TextareaPropEditor,
     TextPropEditor,
@@ -76,18 +76,20 @@ export function Notes({app}) {
 
     return <Window app={app}>
         <HBox grow>
-            <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup} stringify={renderProject}/>
-            <VBox>
+            <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup} stringify={renderProject} className={'sidebar'}/>
+            <VBox scroll>
                 <Toolbar>
                     <input type={'search'} value={searchTerms} onChange={e=>setSearchTerms(e.target.value)}/>
                     <Icon onClick={addNewNote}>add_circle</Icon>
                 </Toolbar>
-                <DataList data={notes} selected={selectedNote} setSelected={setSelectedNote} stringify={renderNoteSummary}/>
+                <DataList data={notes} selected={selectedNote} setSelected={setSelectedNote} stringify={renderNoteSummary} className={'sidebar'}/>
             </VBox>
-            <VBox grow>
-                <TextPropEditor buffer={selectedNote} prop={'title'} db={db}/>
-                <TagsetEditor buffer={selectedNote} prop={'tags'} db={db}/>
-                <TextareaPropEditor buffer={selectedNote} prop={'contents'} db={db}/>
+            <VBox grow className={'content-panel'}>
+                <Panel>
+                    <TextPropEditor buffer={selectedNote} prop={'title'} db={db}/>
+                    <TagsetEditor buffer={selectedNote} prop={'tags'} db={db}/>
+                    <TextareaPropEditor buffer={selectedNote} prop={'contents'} db={db}/>
+                </Panel>
             </VBox>
         </HBox>
     </Window>

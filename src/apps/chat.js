@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import {attach, DBContext, propAsString, setProp, sort} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {DataList, HBox, StandardListItem, VBox, Window} from '../ui/ui.js'
+import {DataList, HBox, StandardListItem, Toolbar, VBox, Window} from '../ui/ui.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, isAfter,
     subDays, addDays,
@@ -48,12 +48,14 @@ export function Chat({app}) {
     return <Window app={app}>
         <HBox grow>
             <DataList
+                className={'sidebar'}
                 data={conversations}
                 selected={selected}
                 setSelected={setSelected}
                 stringify={(o) => <StandardListItem title={propAsString(o, 'title')} icon={'chat'}/>}
             />
-            <VBox grow>
+            <VBox grow className={'content-panel'}>
+                <VBox grow scroll>
                 <DataList style={{flex:1}} data={messages} className={'thread'} stringify={(o) => {
                     return <VBox className={(o.props.sender.id===1?"self":"")}>
                         <HBox>
@@ -64,7 +66,9 @@ export function Chat({app}) {
                         <em>{propAsString(o, 'contents')}</em>
                     </VBox>
                 }}/>
-                <HBox>
+
+                </VBox>
+                <Toolbar>
                     <input style={{
                         flex:'1.0',
                     }} type={'text'} value={text} onChange={(e)=>setText(e.target.value)} onKeyDown={e=>{
@@ -73,7 +77,7 @@ export function Chat({app}) {
                         }
                     }/>
                     <button>send</button>
-                </HBox>
+                </Toolbar>
             </VBox>
         </HBox>
     </Window>

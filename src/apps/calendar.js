@@ -150,7 +150,7 @@ function WeekView({events}) {
         start = addDays(start,1)
     }
 
-    return <div className={'week-view'}>
+    return <div className={'week-view content-panel'}>
         {days_gutter}
         {hours_gutter}
         {events}

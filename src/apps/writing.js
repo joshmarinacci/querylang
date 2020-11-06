@@ -10,10 +10,17 @@ export function WriterApp({app}) {
 
     let [value, setValue] = useState("some words I'm writing")
     return <Window app={app}>
+        <VBox grow>
         <Toolbar>
             <button>new?</button>
             <button>save?</button>
         </Toolbar>
-        <textarea value={value}/>
+        <textarea value={value} style={{
+            flex:1,
+            borderWidth:0,
+        }}
+                  onChange={e=> setValue(e.target.value)}
+        />
+        </VBox>
     </Window>
 }

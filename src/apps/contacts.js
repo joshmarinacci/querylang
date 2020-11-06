@@ -14,6 +14,7 @@ import {
     VBox,
     Window
 } from '../ui/ui.js'
+import "./contacts.css"
 import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 
@@ -22,7 +23,7 @@ export function ContactViewPanel ({selected, onEdit}) {
     if(propAsBoolean(selected,'favorite')) {
         favorite = <Icon>star</Icon>
     }
-    return <Panel grow>
+    return <VBox grow>
         <Toolbar>
             <button
                 disabled={!selected}
@@ -30,6 +31,7 @@ export function ContactViewPanel ({selected, onEdit}) {
             </button>
             <button>more</button>
         </Toolbar>
+        <Panel>
         <img src={selected.props.icon}/>
         <p>
             {propAsString(selected, 'first')}
@@ -78,7 +80,8 @@ export function ContactViewPanel ({selected, onEdit}) {
                 })
             }
         </ul>
-    </Panel>
+        </Panel>
+    </VBox>
 }
 
 export function ContactEditPanel({db, onDone, selected}) {
@@ -120,7 +123,7 @@ export function ContactEditPanel({db, onDone, selected}) {
     const cancelEditing = () => onDone()
 
 
-    return (<Panel grow>
+    return (<VBox>
         <Toolbar>
             <button onClick={saveEditing}>save</button>
             <button onClick={cancelEditing}>cancel</button>
@@ -169,7 +172,7 @@ export function ContactEditPanel({db, onDone, selected}) {
             <AddButton onClick={addAddress}/>
         </VBox>
 
-    </Panel>)
+    </VBox>)
 }
 
 export function ContactList({app}) {
@@ -217,9 +220,6 @@ export function ContactList({app}) {
             </VBox>
             <VBox grow className={"content-panel"}>
                 {panel}
-                <Toolbar>
-                    <Spacer/>
-                </Toolbar>
             </VBox>
         </HBox>
     </Window>

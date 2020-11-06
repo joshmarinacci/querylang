@@ -1,15 +1,11 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
-import {DataList, HBox, Spacer, StandardListItem, Toolbar, VBox, Window} from '../ui/ui.js'
+import {DataList, HBox, Panel, Spacer, StandardListItem, Toolbar, VBox, Window} from '../ui/ui.js'
 import {DBContext, project, propAsBoolean, propAsIcon, propAsString, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_TRUE, IS_TYPE} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {DataTable} from '../ui/datatable.js'
 
-// const isGroup = () => ({ TYPE:CATEGORIES.MUSIC.TYPES.GROUP })
-// const isSong = () => ({ TYPE:CATEGORIES.MUSIC.TYPES.SONG })
-// const isMusicCategory = () => ({ CATEGORY:CATEGORIES.MUSIC.ID })
-// const isPropTrue = (prop) => ({ equal: {prop, value:true}})
 const uniqueBy = (list,propname) => {
     let map = new Map()
     list.forEach(o=>{
@@ -17,11 +13,10 @@ const uniqueBy = (list,propname) => {
     })
     return Array.from(map.values())
 }
-// const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 
 export function SongsPanel({songs, playSong, db}) {
     const [selectedSong, setSelectedSong] = useState(null)
-    return <VBox grow scroll>
+    return <VBox grow scroll className={'content-panel'}>
         <DataTable data={songs} selected={selectedSong} setSelected={setSelectedSong}
                    headers={["","Title","Artist","Album"]}
                    prepend={["play"]}
@@ -48,6 +43,7 @@ export function ArtistsPanel({artists, db, playSong}) {
 
     return <HBox grow>
         <DataList data={artists}
+                  className={'sidebar'}
                   selected={selectedArtist} setSelected={choose}
                   stringify={o => <StandardListItem  title={propAsString(o, 'artist')}/>}
         />
@@ -68,6 +64,7 @@ export function AlbumsPanel({albums, db, playSong}) {
     }
     return <HBox grow>
         <DataList data={albums}
+                  className={'sidebar'}
                   selected={selectedAlbum} setSelected={choose}
                   stringify={o => <StandardListItem  title={propAsString(o, 'album')}/>}
         />
@@ -159,7 +156,7 @@ export function Music({app}) {
         IS_TYPE(CATEGORIES.MUSIC.TYPES.GROUP),
         IS_PROP_TRUE('active')))
 
-    let panel = <div>nothing</div>
+    let panel = <Panel grow className={'content-panel'}>nothing</Panel>
     if(selectedGroup) {
         if(propAsString(selectedGroup,'title') === 'Songs') {
             let songs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.MUSIC.ID), IS_TYPE(CATEGORIES.MUSIC.TYPES.SONG)))
@@ -187,6 +184,7 @@ export function Music({app}) {
         </Toolbar>
         <HBox grow>
                 <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
+                          className={'sidebar'}
                       stringify={(o,i) => <StandardListItem key={i} title={propAsString(o,'title')} icon={propAsString(o,'icon')}/>}
                 />
             {panel}

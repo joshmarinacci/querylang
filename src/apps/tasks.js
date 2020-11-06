@@ -55,9 +55,9 @@ export function TaskLists({app}) {
         tasks = QUERY(tasks,AND(IS_PROP_SUBSTRING('title',searchTerms)))
     }
 
-    let panel = <Panel grow={true}>nothing selected</Panel>
+    let panel = <Panel grow={true} className={"content-panel"}>nothing selected</Panel>
     if (selectedTask) {
-        panel = <Panel grow={true}>
+        panel = <Panel grow={true} className={"content-panel"}>
             <TextPropEditor buffer={selectedTask} prop={'title'} db={db}/>
             <CheckboxPropEditor buffer={selectedTask} prop={'completed'} db={db}/>
             <TextareaPropEditor buffer={selectedTask} prop={'notes'} db={db}/>
@@ -76,11 +76,12 @@ export function TaskLists({app}) {
     return <Window app={app}>
         <HBox grow>
             <DataList data={projects} selected={selectedProject} setSelected={setSelectedProject}
+                      className={"sidebar"}
                       stringify={((o,i) => <StandardListItem key={i}
                                                              icon={propAsString(o,'icon')}
                                                              title={propAsString(o,'title')}/>)}
             />
-            <VBox>
+            <VBox className={'sidebar'}>
                 <Toolbar>
                     <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
                     <Icon disabled={selectedProject===null} onClick={addNewTask} className={'no-border'}>add_circle</Icon>
@@ -93,12 +94,12 @@ export function TaskLists({app}) {
 
             </VBox>
             <VBox style={{flex:1}}>
-                {panel}
                 <Toolbar>
                     <Spacer/>
                     <Icon onClick={archiveTask}>archive</Icon>
                     <Icon onClick={trashTask}>delete</Icon>
                 </Toolbar>
+                {panel}
             </VBox>
         </HBox>
     </Window>

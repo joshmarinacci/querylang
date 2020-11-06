@@ -35,9 +35,9 @@ export function Email({app }) {
         IS_TYPE(CATEGORIES.EMAIL.TYPES.MESSAGE)))
     let folders = calculateFoldersFromTags(messages)
 
-    let panel = <Panel grow>no message selected</Panel>
+    let panel = <Panel grow className={'content-panel'}>no message selected</Panel>
     if(selectedMessage) {
-        panel = <Panel grow className="message-view">
+        panel = <Panel grow className="message-view content-panel">
             <HBox><i>From: </i><b>{propAsString(selectedMessage,'sender')}</b>
                 <Spacer/>
                 <b>{format(selectedMessage.props.timestamp,"PPp")}</b>
@@ -73,6 +73,7 @@ export function Email({app }) {
             </Toolbar>
             <HBox grow>
                 <DataList data={folders}
+                          className={'sidebar'}
                           selected={selectedFolder}
                           setSelected={setSelectedFolder}
                           stringify={o => {
@@ -83,6 +84,7 @@ export function Email({app }) {
                           }}
                 />
                 <DataList data={folder_results}
+                          className={'sidebar'}
                           selected={selectedMessage}
                           setSelected={setSelectedMessage}
                           stringify={o => {

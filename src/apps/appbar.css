@@ -1,5 +1,5 @@
 .AppBar .list  li {
-    border: 5px solid black;
+    border: 5px solid var(--gray8);
     min-height: 3rem;
     max-width: 3rem;
     display: flex;
@@ -7,6 +7,8 @@
     border-radius: 1rem;
     margin: 0.25rem;
     padding: 0.25em 0.5em;
+    color: var(--gray8);
+    background-color: var(--selected-color);
 }
 .AppBar .list li:hover {
     background-color: #ccc;
