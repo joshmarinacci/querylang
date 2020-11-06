@@ -183,7 +183,7 @@ export const CATEGORIES = {
                         default:false,
                     }
                 }
-            }
+            },
         }
     },
     CHAT: {
@@ -471,6 +471,12 @@ export const CATEGORIES = {
                     }
                 }
             }
+        }
+    },
+    DATABROWSER:{
+        ID:'DATABROWSER',
+        TYPES:{
+            QUERY:'QUERY',
         }
     }
 }

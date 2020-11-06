@@ -940,5 +940,51 @@ loadApp({ title:'cmd.bar', appid:'CommandBar', icon:'code',
 loadApp({title:"Maps", appid:"MapViewer", icon:'map'})
 loadApp({title:"Settings", appid:"SettingsApp", icon:'settings'})
 loadApp({title:"Writer", appid:"WriterApp", icon:'create'})
+loadApp({title:'Data Browser', appid:"DataBrowser",icon:'create'})
+
+
+data.push({
+    id:50000,
+    category: CATEGORIES.DATABROWSER.ID,
+    type: CATEGORIES.DATABROWSER.TYPES.QUERY,
+    props: {
+        title:'all songs',
+        active:true,
+        query:true,
+        icon:'person',
+        query_impl: {
+            and:[
+                {
+                    CATEGORY:CATEGORIES.MUSIC.ID,
+                },
+                {
+                    TYPE:CATEGORIES.MUSIC.TYPES.SONG,
+                },
+            ]
+        }
+    }
+})
+
+data.push({
+    id:50000,
+    category: CATEGORIES.DATABROWSER.ID,
+    type: CATEGORIES.DATABROWSER.TYPES.QUERY,
+    props: {
+        title:'all contacts',
+        active:true,
+        query:true,
+        icon:'person',
+        query_impl: {
+            and:[
+                {
+                    CATEGORY:CATEGORIES.CONTACT.ID,
+                },
+                {
+                    TYPE:CATEGORIES.CONTACT.TYPES.PERSON,
+                },
+            ]
+        }
+    }
+})
 
 export const DATA = data

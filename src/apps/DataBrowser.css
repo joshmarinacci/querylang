@@ -1,0 +1,15 @@
+
+.dialog {
+    border: 5px solid red;
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    top:0;
+    left:0;
+    background-color: white;
+    z-index: 300;
+}
+
+.window {
+    overflow: visible;
+}
