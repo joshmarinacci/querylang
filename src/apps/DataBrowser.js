@@ -74,7 +74,7 @@ function fetch_props_for_type(type) {
 }
 
 function findPropByKey(props, key) {
-    console.log(props)
+    // console.log(props)
     return props.find(p => p.key === key)
 }
 
@@ -84,7 +84,8 @@ function QueryEditorDialog() {
 
     let [selectedCat, setSelectedCat] = useState({})
     let [selectedType, setSelectedType] = useState({})
-    let [propQuery, setPropQuery] = useState({})
+    // let [propQuery, setPropQuery] = useState({})
+    let [predicates, setPredicates] = useState([])
     let [debug_text, set_debug_text] = useState("")
 
     const chooseCat = (cat) => {
@@ -107,7 +108,10 @@ function QueryEditorDialog() {
                 },
             ]
         }
-        query.and.push(propQuery)
+        predicates.forEach(p => {
+            query.and.push(predicate_to_query(p))
+        })
+        console.log("made query",query)
         let items = db.QUERY(query)
         set_debug_text(""
             +JSON.stringify(query,null,'  ')
@@ -115,11 +119,40 @@ function QueryEditorDialog() {
             +JSON.stringify(items,null,'  '))
     }
 
+    const add_predicate = () => {
+        let pred = {
+            id:'someid'+Math.floor(Math.random()*100000),
+            prop:'none',
+            cond:'equal',
+            value:'',
+        }
+        setPredicates(predicates.concat([pred]))
+    }
+    const update_predicate = (p) => {
+        console.log("predicate updated",p)
+        setPredicates(predicates.map(pp=>{
+            if(pp.id === p.id) {
+                return p
+            } else {
+                return pp
+            }
+        }))
+    }
+
+    const remove_predicate = (p) => {
+        setPredicates(predicates.filter(pp => pp.id !== p.id))
+    }
+
     return <div className={'dialog'}>
         <CategoryQueryView selectedCat={selectedCat} choose={chooseCat}/>
         <TypeQueryView selectedCat={selectedCat} selectedType={selectedType} choose={chooseType}/>
-        <PropertyQueryView type={selectedType} onChanged={setPropQuery}/>
-        <HBox><button>+</button></HBox>
+        {
+            predicates.map(p => <PropertyQueryView predicate={p} key={p.id} type={selectedType}
+                                                   onChanged={update_predicate}
+                                                   onRemove={remove_predicate}
+            />)
+        }
+        <HBox><button onClick={add_predicate}>+</button></HBox>
         <HBox>
             <button onClick={run_query}>run</button>
         </HBox>
@@ -167,43 +200,55 @@ const QUERY_TYPES = {
     UNKNOWN:[]
 }
 
+const COND_TYPES = {
+    'equal':{
+        gen:(p) => IS_PROP_EQUAL(p.prop,p.value)
+    },
+    'substring': {
+        gen:(p) => IS_PROP_SUBSTRING(p.prop,p.value)
+    },
+    'is': {
+        gen:(p) => IS_PROP_EQUAL(p.prop,p.value)
+    }
+}
+
+function predicate_to_query(p) {
+    if(COND_TYPES[p.cond]) return COND_TYPES[p.cond].gen(p)
+    console.log("cant convert predicate",p)
+    throw new Error("cant convert predicate")
+}
+
 function find_conditions_for_prop(prop) {
     if(QUERY_TYPES[prop.type]) return QUERY_TYPES[prop.type]
     return QUERY_TYPES.UNKNOWN
 }
 
-function PropertyQueryView ({type, onChanged}) {
+function PropertyQueryView ({type, predicate, onChanged, onRemove}) {
     let [selectedProp, setSelectedProp] = useState({})
     let [selectedCondition, setSelectedCondition] = useState("equal")
     let [conditions, setConditions] = useState(QUERY_TYPES.STRING)
     let [value, setValue] = useState("")
     let props = fetch_props_for_type(type)
 
-    const genQuery = () => {
-        if(selectedCondition === 'equal') {
-            return IS_PROP_EQUAL(selectedProp.key,value)
-        }
-        if(selectedCondition === 'substring') {
-            return IS_PROP_SUBSTRING(selectedProp.key,value)
-        }
-        if(selectedCondition === 'is') {
-            return IS_PROP_EQUAL(selectedProp.key,value)
-        }
-        if(selectedCondition === 'is') {
-            return IS_PROP_EQUAL(selectedProp.key,value)
-        }
-        return {}
+    const updatePredicate = () => {
+        predicate.cond = selectedCondition
+        predicate.prop = selectedProp.key
+        predicate.value = value
+        predicate.type = selectedProp.type
+        return predicate
     }
 
     const chooseProp = (key) => {
         let prop = findPropByKey(props,key)
         setSelectedProp(prop)
         setConditions(find_conditions_for_prop(prop))
+        setSelectedCondition(find_conditions_for_prop(prop)[0])
         if(prop.hasOwnProperty('default')) setValue(prop.default)
     }
 
     useEffect(()=>{
-        onChanged(genQuery())
+        console.log("updating")
+        onChanged(updatePredicate())
     },[value,selectedProp,selectedCondition])
 
     let condField = ""
@@ -221,6 +266,7 @@ function PropertyQueryView ({type, onChanged}) {
     }
 
     return <HBox>
+        <label>AND</label>
         <label>property</label>
         <select value={selectedProp.key}
                 onChange={e => chooseProp(e.target.value)}>
@@ -231,5 +277,6 @@ function PropertyQueryView ({type, onChanged}) {
             {conditions.map(cond => <option key={cond}>{cond}</option>)}
         </select>
         {condField}
+        <button onClick={()=>onRemove(predicate)}>x</button>
     </HBox>
 }
