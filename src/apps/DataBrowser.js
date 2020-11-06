@@ -37,17 +37,44 @@ export function DataBrowser({app}) {
     </Window>
 }
 
+function fetch_categories() {
+    return [{ID:'NONE'}].concat(Object.values(CATEGORIES))
+}
+
+function findTypeByKey(selectedCat, key) {
+    return CATEGORIES[selectedCat.ID].SCHEMAS[key]
+}
+
+function findTypesForCategory(cat) {
+    let tt = CATEGORIES[cat.ID].SCHEMAS
+    if(!CATEGORIES[cat.ID].SCHEMAS) return [
+        {
+            key:'NONE',
+            title:'none',
+            props:{}
+        }
+    ]
+    let arr = Object.keys(tt).map(key => {
+        tt[key].key = key
+        return tt[key]
+    })
+    arr.unshift({
+        key:'NONE',
+        title:'none',
+        props:{}
+    })
+    return arr
+}
 
 function QueryEditorDialog() {
     let db = useContext(DBContext)
-    let cats = Object.keys(CATEGORIES)
-    cats.unshift("")
+    let cats = fetch_categories()
     let [types, setTypes] = useState([])
     let [props, setProps] = useState([])
 
-    let [selectedCat, setSelectedCat] = useState("")
-    let [selectedType, setSelectedType] = useState("")
-    let [selectedProp, setSelectedProp] = useState("")
+    let [selectedCat, setSelectedCat] = useState({})
+    let [selectedType, setSelectedType] = useState({})
+    let [selectedProp, setSelectedProp] = useState({})
     let [selectedCondition, setSelectedCondition] = useState("equal")
     let [isTypeError, setIsTypeError] = useState(false)
     let [conditions, setConditions] = useState([
@@ -57,26 +84,27 @@ function QueryEditorDialog() {
     ])
     let [value, setValue] = useState("")
 
-    const chooseCat = (cat) => {
+    const chooseCat = (cat_key) => {
+        let cat = fetch_categories().filter(c => c.ID === cat_key)[0]
         setSelectedCat(cat)
-        let tt = CATEGORIES[cat].TYPES
-        let arr = Object.keys(tt)
-        arr.unshift("")
+        if(!CATEGORIES[cat.ID]) {
+            setTypes([])
+            return
+        }
+        let arr = findTypesForCategory(cat)
         setTypes(arr)
     }
-    const chooseType = (type) => {
+    const chooseType = (key) => {
+        let type = findTypeByKey(selectedCat,key)
         setSelectedType(type)
-        let sch = CATEGORIES[selectedCat].SCHEMAS[type]
-        console.log("sch = ",sch)
-        if(!sch) {
+        if(!type) {
             console.warn(`missing schema for ${selectedCat}:${selectedType}`)
             setIsTypeError(true)
             setProps([])
-            return
         } else {
             setIsTypeError(false)
-            let arr = Object.values(sch.props)
-            arr.unshift("")
+            let arr = Object.values(type.props)
+            arr.unshift({key:"NONE"})
             setProps(arr)
         }
     }
@@ -93,10 +121,10 @@ function QueryEditorDialog() {
         let query = {
             and:[
                 {
-                    CATEGORY:selectedCat,
+                    CATEGORY:selectedCat.ID,
                 },
                 {
-                    TYPE:selectedType,
+                    TYPE:selectedType.ID,
                 },
             ]
         }
@@ -117,11 +145,15 @@ function QueryEditorDialog() {
     return <div className={'dialog'}>
         <HBox>
             <label>category</label>
-            <select value={selectedCat} onChange={e => chooseCat(e.target.value)}>{cats.map((cat)=><option key={cat}>{cat}</option>)}</select>
+            <select value={selectedCat.ID} onChange={e => chooseCat(e.target.value)}>
+                {cats.map((cat)=><option key={cat.ID} value={cat.ID}>{cat.ID}</option>)}
+            </select>
         </HBox>
         <HBox>
             <label>type</label>
-            <select value={selectedType} onChange={e => chooseType(e.target.value)}>{types.map((type)=><option key={type}>{type}</option>)}</select>
+            <select value={selectedType.ID} onChange={e => chooseType(e.target.value)}>
+                {types.map(type=><option key={type.key} value={type.key}>{type.title}</option>)}
+            </select>
             <Icon className={isTypeError}>{isTypeError?"error":"check_circle"}</Icon>
         </HBox>
 
