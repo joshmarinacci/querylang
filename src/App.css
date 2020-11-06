@@ -1,43 +1,52 @@
+/*
+  https://yeun.github.io/open-color/ingredients.html
+ */
+html {
+  --yellow0: rgb(255,249,219);
+  --yellow2: rgb(255,236,153);
+  --yellow4: rgb(255,212,59);
+  --yellow7: #f59f00;
+  --yellow8: #f08c00;
+  --yellow9: #e67700;
+  --orange9: #d9480f;
+  --gray0: #f8f9fa;
+  --gray3: #dee2e6;
+  --gray6: #868e96;
+  --gray8: #343a40;
+}
 body {
   font-size: 8pt;
   line-height: 130%;
-  background-color: whitesmoke;
+  background-color: #e3e3e3;
 
-  --selected-color: #4393ec;
-  --selected-icon-color: blue;
-  --selected-text-color: white;
+  --selected-color: var(--yellow4);
+  --selected-color-light: var(--yellow0);
+  --selected-color-dark: var(--yellow9);
+
+  --selected-icon-color: var(--yellow4);
+  --selected-text-color: var(--gray8);
+
+  --selected-hover-bg-color: var(--yellow4);
+
   --add-color: #0d990d;
   --remove-color: red;
   --standard-border-color: #333;
+  --standard-panel-color: var(--yellow0);
+  --standard-sidepanel-color: var(--yellow2);
+  --black: #333;
+  --white: #eee;
+
+  --window-border: var(--standard-border-color);
+  --standard-toolbar-background-color: var(--yellow7);
+  --window-titlebar-background-color: var(--orange9);
+  --window-titlebar-text-color: var(--gray0);
+
+  --standard-toolbar-button-background-color: var(--yellow7);
+  --standard-toolbar-button-text-color: var(--gray8);
+  --standard-toolbar-button-text-color: var(--gray8);
+  --standard-toolbar-button-border-width: 1px;
 }
 
-.list-wrapper {
-  min-width: 4em;
-}
-ul.list {
-  border: 1px solid black;
-  border-width: 0px 1px 0 0;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  flex: 1;
-  min-width: 4em;
-}
-
-ul.list li {
-  /*padding: 0.25em 0.5em;*/
-  padding:0;
-  margin: 0;
-  align-items: center;
-}
-
-
-
-
-ul.list li.selected {
-  background-color: var(--selected-color);
-  color: var(--selected-text-color);
-}
 
 
 

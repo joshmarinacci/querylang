@@ -23,6 +23,8 @@ import {MapViewer} from './apps/maps.js'
 import {SettingsApp} from './apps/settings.js'
 import {WriterApp} from './apps/writing.js'
 
+import "./theme.css"
+
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
 let alarm_service = new AlarmService(db_service)

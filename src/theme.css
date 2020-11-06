@@ -1,0 +1,34 @@
+/* toolbars  */
+
+.toolbar {
+    background-color: var(--selected-color);
+    border-color: var(--gray8);
+    color: var(--selected-color-dark);
+    margin: 0;
+    padding: 0;
+    border-style: solid;
+}
+
+
+.toolbar button {
+    border: 1px solid var(--selected-color);
+    background-color: var(--selected-color);
+    color: var(--gray8);
+}
+.toolbar button:hover {
+    background-color: var(--selected-color-dark);
+}
+.toolbar .MuiIcon-root {
+    color: var(--gray8);
+}
+.toolbar .MuiIcon-root:hover {
+    color: var(--selected-color-dark);
+}
+
+.list-item {
+    border-color: var(--selected-color-dark);
+}
+
+.sidebar {
+    background-color: var(--standard-sidepanel-color);
+}

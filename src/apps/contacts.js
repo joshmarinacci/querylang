@@ -28,6 +28,7 @@ export function ContactViewPanel ({selected, onEdit}) {
                 disabled={!selected}
                 onClick={onEdit}>edit
             </button>
+            <button>more</button>
         </Toolbar>
         <img src={selected.props.icon}/>
         <p>
@@ -206,7 +207,7 @@ export function ContactList({app}) {
 
     return <Window app={app}>
         <HBox grow>
-            <VBox>
+            <VBox className={"sidebar"}>
                 <Toolbar>
                     <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
                     <Icon onClick={addNewContact}>add_circle</Icon>
@@ -214,7 +215,7 @@ export function ContactList({app}) {
                 <DataList data={items} selected={selected} setSelected={setSelected}
                           stringify={(o,i) => <StandardListItem icon={'person'} title={`${propAsString(o,'first')} ${propAsString(o,'last')}`}/>}/>
             </VBox>
-            <VBox grow>
+            <VBox grow className={"content-panel"}>
                 {panel}
                 <Toolbar>
                     <Spacer/>
