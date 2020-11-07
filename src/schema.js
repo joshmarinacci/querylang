@@ -8,6 +8,7 @@ const TIMESTAMP = 'TIMESTAMP'
 export const CATEGORIES = {
     CONTACT:{
         ID:'CONTACT',
+        TITLE:'Contacts',
         TYPES:{
             PERSON:'PERSON',
             EMAIL:'EMAIL',

@@ -189,7 +189,7 @@ function CategoryTypeQueryView({selectedCat, selectedType, chooseCat, chooseType
         <label>WHERE </label>
         <label>category is</label>
         <select value={selectedCat.ID} onChange={e => chooseo(e.target.value)}>
-            {cats.map((cat)=><option key={cat.ID} value={cat.ID}>{cat.ID}</option>)}
+            {cats.map((cat)=><option key={cat.ID} value={cat.ID}>{cat.TITLE?cat.TITLE:cat.ID}</option>)}
         </select>
         <label>and type is</label>
         <select value={selectedType.ID} onChange={e => chooseType(e.target.value)}>
