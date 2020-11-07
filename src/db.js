@@ -256,9 +256,12 @@ class DB {
     add(obj) {
         this.data.push(obj)
         obj.local = true
+        obj.createdtime = new Date()
+        obj.modifiedtime = new Date()
         this._fireUpdate(obj)
     }
     remove(obj) {
+        obj.removedtime = new Date()
         this.data = this.data.filter(d => d.id !== obj.id)
         this._fireUpdate(obj)
     }
@@ -276,6 +279,7 @@ class DB {
         }
         obj.props[key] = value
         obj.local = true
+        obj.modifiedtime = new Date()
         this._fireUpdate(obj)
     }
 
@@ -287,6 +291,8 @@ class DB {
         this.data = this._original_data.slice()
         this.data.forEach(item => {
             item.local = false
+            item.createdtime = new Date()
+            item.modifiedtime = new Date()
             this.object_cache[item.id] = item
         })
     }

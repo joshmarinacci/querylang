@@ -54,9 +54,21 @@ function processAfter(args,o) {
     return isAfter(val,args.value)
 }
 
+function processCategory(pred,o) {
+    if(pred.CATEGORY === 'ANY') return true
+    if(o.category !== pred.CATEGORY) return false
+    return true
+}
+
+function processType(pred,o) {
+    if(pred.TYPE === 'ANY') return true
+    if(o.type !== pred.TYPE) return false
+    return true
+}
+
 function passPredicate(pred,o) {
-    if(pred.hasOwnProperty('TYPE') && o.type !== pred.TYPE) return false
-    if(pred.hasOwnProperty('CATEGORY') && o.category !== pred.CATEGORY) return false
+    if(pred.hasOwnProperty('CATEGORY') && !processCategory(pred,o)) return false
+    if(pred.hasOwnProperty('TYPE') && !processType(pred,o)) return false
     if(isOr(pred) && !processOr(pred,o)) return false;
     if(isAnd(pred) && !processAnd(pred,o)) return false;
     if(pred.hasOwnProperty('equal') && !processEqual(pred.equal,o)) return false

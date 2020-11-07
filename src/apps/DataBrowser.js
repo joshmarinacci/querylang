@@ -56,47 +56,57 @@ export function DataBrowser({app}) {
     </Window>
 }
 
+const ANY_PROP = {
+    key:'any',
+    title:'any',
+    type:'STRING',
+}
+const ANY_TYPE = {
+    title:'any',
+    foo:'bar',
+    key:'ANY',
+    props:{
+        any: ANY_PROP,
+    }
+}
+const ANY_CATEGORY = {
+    ID:'ANY',
+    TITLE:'any',
+    SCHEMAS:{
+        ANY:ANY_TYPE,
+    }
+}
 function fetch_categories() {
-    return [{ID:'NONE'}].concat(Object.values(CATEGORIES))
+    return [ANY_CATEGORY].concat(Object.values(CATEGORIES))
 }
 
 function findTypeByKey(selectedCat, key) {
+    if(key === ANY_TYPE.key) return ANY_TYPE
     return CATEGORIES[selectedCat.ID].SCHEMAS[key]
 }
 
 function fetch_types_by_category(cat) {
     if(!cat || !CATEGORIES[cat.ID] || !CATEGORIES[cat.ID].SCHEMAS) {
         console.warn(`CATEGORY ${cat.ID} might be missing schemas`)
-        return [
-            {
-                key:'NONE',
-                title:'none',
-                props:{}
-            }
-        ]
+        return [ANY_TYPE]
     }
     let tt = CATEGORIES[cat.ID].SCHEMAS
     let arr = Object.keys(tt).map(key => {
         tt[key].key = key
         return tt[key]
     })
-    arr.unshift({
-        key:'NONE',
-        title:'none',
-        props:{}
-    })
+    arr.unshift(ANY_TYPE)
     return arr
 }
 
 function fetch_props_for_type(type) {
     if(!type || !type.props) return []
     let arr = Object.values(type.props)
-    arr.unshift({key:"NONE"})
+    arr.unshift(ANY_PROP)
     return arr
 }
 
 function findPropByKey(props, key) {
-    // console.log(props)
     return props.find(p => p.key === key)
 }
 
@@ -133,7 +143,6 @@ function QueryEditorDialog() {
         predicates.forEach(p => {
             query.and.push(predicate_to_query(p))
         })
-        console.log("made query",query)
         let items = db.QUERY(query)
         set_debug_text(""
             +JSON.stringify(query,null,'  ')
@@ -151,7 +160,6 @@ function QueryEditorDialog() {
         setPredicates(predicates.concat([pred]))
     }
     const update_predicate = (p) => {
-        console.log("predicate updated",p)
         setPredicates(predicates.map(pp=>{
             if(pp.id === p.id) {
                 return p
@@ -260,7 +268,6 @@ const COND_TYPES = {
 
 function predicate_to_query(p) {
     if(COND_TYPES[p.cond]) return COND_TYPES[p.cond].gen(p)
-    console.log("cant convert predicate",p)
     throw new Error("cant convert predicate")
 }
 
@@ -281,7 +288,6 @@ function PropertyQueryView ({type, predicate, onChanged, onRemove}) {
         predicate.prop = selectedProp.key
         predicate.value = value
         if(selectedProp.type === 'TIMESTAMP') {
-            console.log("parsing value",value)
             predicate.value = parseISO(value)
         }
         predicate.type = selectedProp.type
@@ -297,7 +303,6 @@ function PropertyQueryView ({type, predicate, onChanged, onRemove}) {
     }
 
     useEffect(()=>{
-        console.log("updating")
         onChanged(updatePredicate())
     },[value,selectedProp,selectedCondition])
 
