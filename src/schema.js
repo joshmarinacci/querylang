@@ -8,7 +8,7 @@ const TIMESTAMP = 'TIMESTAMP'
 export const CATEGORIES = {
     CONTACT:{
         ID:'CONTACT',
-        TITLE:'Contacts',
+        TITLE:'contacts',
         TYPES:{
             PERSON:'PERSON',
             EMAIL:'EMAIL',
@@ -49,7 +49,7 @@ export const CATEGORIES = {
                 }
             },
             PERSON: {
-                title:'Person',
+                title:'person',
                 props: {
                     first: {
                         key: 'first',
@@ -97,7 +97,7 @@ export const CATEGORIES = {
                 }
             },
             MAILING_ADDRESS: {
-                title:'Mailing address',
+                title:'mailing address',
                 props: {
                     type: {
                         key: 'type',
@@ -147,7 +147,7 @@ export const CATEGORIES = {
     },
     TASKS: {
         ID:'TASKS',
-        TITLE:'Tasks',
+        TITLE:'tasks',
         TYPES:{
             PROJECT: "PROJECT",
             TASK:"TASK",
@@ -186,10 +186,31 @@ export const CATEGORIES = {
                     }
                 }
             },
+            PROJECT: {
+                title:'task project',
+                props: {
+                    title:{
+                        key:'title',
+                        type:STRING,
+                        default:'untitled'
+                    },
+                    active:{
+                        key:'active',
+                        type:BOOLEAN,
+                        default:false,
+                    },
+                    icon:{
+                        key:'icon',
+                        type:STRING,
+                        default:'blank',
+                    }
+                }
+            }
         }
     },
     CHAT: {
         ID:'CHAT',
+        TITLE:'chat',
         TYPES:{
             MESSAGE: 'MESSAGE',
             CONVERSATION:'CONVERSATION',
@@ -218,6 +239,16 @@ export const CATEGORIES = {
                         type:TIMESTAMP
                     }
                 }
+            },
+            CONVERSATION: {
+                title:'chat conversation',
+                props: {
+                    title: {
+                        key:'title',
+                        type:STRING,
+                        default:'chats'
+                    }
+                }
             }
         }
     },
@@ -229,13 +260,13 @@ export const CATEGORIES = {
     },
     CALENDAR: {
         ID:'CALENDAR',
-        TITLE: 'Calendar',
+        TITLE: 'calendar',
         TYPES: {
             EVENT:'EVENT'
         },
         SCHEMAS: {
             EVENT: {
-                title:'Event',
+                title:'event',
                 props: {
                     title: {
                         key:'title',
@@ -258,6 +289,7 @@ export const CATEGORIES = {
     },
     NOTES:{
         ID:'NOTES',
+        TITLE:'notes',
         TYPES:{
             NOTE:'NOTE',
             GROUP:'GROUP',
@@ -300,11 +332,27 @@ export const CATEGORIES = {
                         default:()=>Date.now(),
                     }
                 }
+            },
+            GROUP: {
+                title:"note group",
+                props: {
+                    title: {
+                        key:'title',
+                        type:STRING,
+                        default:'untitled',
+                    },
+                    icon: {
+                        key:'icon',
+                        type:STRING,
+                        default:'blank'
+                    }
+                }
             }
         }
     },
     APP:{
         ID:'APP',
+        TITLE:'apps',
         TYPES:{
             APP:'APP'
         },
@@ -343,6 +391,7 @@ export const CATEGORIES = {
     },
     ALARM:{
         ID:'ALARM',
+        TITLE:'alarms',
         TYPES:{
             ALARM:'ALARM',
         },
@@ -382,7 +431,7 @@ export const CATEGORIES = {
     },
     MUSIC: {
         ID:'MUSIC',
-        TITLE:'Music',
+        TITLE:'music',
         TYPES:{
             SONG:'SONG',
             GROUP:'GROUP',
@@ -412,11 +461,32 @@ export const CATEGORIES = {
                         default: ''
                     }
                 }
+            },
+            GROUP: {
+                title:'music group',
+                props: {
+                    title: {
+                        key: 'title',
+                        type: STRING,
+                        default: ''
+                    },
+                    active: {
+                        key: 'active',
+                        type: BOOLEAN,
+                        default: true,
+                    },
+                    icon:{
+                        key:'icon',
+                        type:STRING,
+                        default:'blank',
+                    }
+                }
             }
         }
     },
     EMAIL:{
         ID:'EMAIL',
+        TITLE:'email',
         TYPES:{
             MESSAGE:'MESSAGE'
         },
@@ -473,12 +543,13 @@ export const CATEGORIES = {
     },
     NOTIFICATION:{
         ID:'NOTIFICATION',
+        TITLE:'notifications',
         TYPES:{
             ALERT:'ALERT'
         },
         SCHEMAS:{
             ALERT:{
-                title:'ALERT',
+                title:'alert',
                 props: {
                     title:{
                         key:'title',
