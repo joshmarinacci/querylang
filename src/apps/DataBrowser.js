@@ -2,28 +2,19 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import {DBContext, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {Window} from '../ui/window.js'
-import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_SUBSTRING, IS_TYPE} from '../query2.js'
+import {
+    AND,
+    IS_CATEGORY,
+    IS_PROP_EQUAL,
+    IS_PROP_NOTEQUAL,
+    IS_PROP_NOTSUBSTRING,
+    IS_PROP_SUBSTRING,
+    IS_TYPE
+} from '../query2.js'
 import {DataList, HBox, Panel, StandardListItem, Toolbar, VBox} from '../ui/ui.js'
 import "./DataBrowser.css"
 import Icon from '@material-ui/core/Icon'
 import {format, parse, parseISO} from 'date-fns'
-
-/*
-
-next for query builder.
-choose category and type in same row
-pretty names (title) for categories
-make not equal prop work.  new processing type?
-search for before and after with times
-add last TIMESTAMP to all objects
-add created TIMESTAMP to all objects
-queries on tags.  if array of string contains the string (exact match?)
-
-add a sorting section
-show the constantly generated query
-debug to show CATEGORIES which are missing SCHEMAS
-
- */
 
 export function DataBrowser({app}) {
     let db = useContext(DBContext)
@@ -214,7 +205,8 @@ const QUERY_TYPES = {
     'STRING':[
             'equal',
             'not equal',
-            'substring'
+            'substring',
+            'not substring',
     ],
     'BOOLEAN':[
         'is'
@@ -252,8 +244,14 @@ const COND_TYPES = {
     'equal':{
         gen:(p) => IS_PROP_EQUAL(p.prop,p.value)
     },
+    'not equal':{
+        gen:(p) => IS_PROP_NOTEQUAL(p.prop,p.value)
+    },
     'substring': {
         gen:(p) => IS_PROP_SUBSTRING(p.prop,p.value)
+    },
+    'not substring': {
+        gen:(p) => IS_PROP_NOTSUBSTRING(p.prop,p.value)
     },
     'is': {
         gen:(p) => IS_PROP_EQUAL(p.prop,p.value)

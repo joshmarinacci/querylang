@@ -17,7 +17,11 @@ function processEqual(equal, o) {
         }
         return true
     }
-    if(o.props[equal.prop] !== equal.value) return false
+    if(equal.negate) {
+        if(o.props[equal.prop] === equal.value) return false
+    } else {
+        if (o.props[equal.prop] !== equal.value) return false
+    }
     return true
 }
 
@@ -25,7 +29,13 @@ function processSubstring(substring, o) {
     if(!o) return false
     if(!o.props) return false
     if(!o.props.hasOwnProperty(substring.prop)) return false
-    if(!o.props[substring.prop].toLowerCase().includes(substring.value.toLowerCase())) return false
+    let a = o.props[substring.prop].toLowerCase()
+    let b = substring.value.toLowerCase()
+    if(substring.negate) {
+        if(a.includes(b)) return false
+    } else {
+        if(!a.includes(b)) return false
+    }
     return true
 }
 
@@ -110,8 +120,10 @@ export const AND = (...args) => ({ and: args})
 export const OR = (...args) => ({ or: args})
 export const IS_CATEGORY = (CATEGORY) => ({CATEGORY})
 export const IS_TYPE = (TYPE) => ({TYPE})
-export const IS_PROP_EQUAL = (prop,value) => ({ equal: {prop, value}})
-export const IS_PROP_SUBSTRING = (prop, value) => ({substring:{prop,value}})
+export const IS_PROP_EQUAL = (prop,value) => ({ equal: {prop, value, negate:false}})
+export const IS_PROP_NOTEQUAL = (prop,value) => ({ equal: {prop, value, negate:true}})
+export const IS_PROP_SUBSTRING = (prop, value) => ({substring:{prop,value, negate:false}})
+export const IS_PROP_NOTSUBSTRING = (prop, value) => ({substring:{prop,value, negate:true}})
 export const IS_PROP_CONTAINS = (prop, value) => ({contains:{prop,value:value}})
 export const IS_PROP_TRUE = (prop) => ({ equal: {prop, value:true}})
 
