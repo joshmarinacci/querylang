@@ -6,6 +6,7 @@ import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_SUBSTRING, IS_TYPE} from '../qu
 import {DataList, HBox, Panel, StandardListItem, Toolbar, VBox} from '../ui/ui.js'
 import "./DataBrowser.css"
 import Icon from '@material-ui/core/Icon'
+import {format, parse} from 'date-fns'
 
 /*
 
@@ -64,13 +65,16 @@ function findTypeByKey(selectedCat, key) {
 }
 
 function fetch_types_by_category(cat) {
-    if(!cat || !CATEGORIES[cat.ID] || !CATEGORIES[cat.ID].SCHEMAS) return [
-        {
-            key:'NONE',
-            title:'none',
-            props:{}
-        }
-    ]
+    if(!cat || !CATEGORIES[cat.ID] || !CATEGORIES[cat.ID].SCHEMAS) {
+        console.warn(`CATEGORY ${cat.ID} might be missing schemas`)
+        return [
+            {
+                key:'NONE',
+                title:'none',
+                props:{}
+            }
+        ]
+    }
     let tt = CATEGORIES[cat.ID].SCHEMAS
     let arr = Object.keys(tt).map(key => {
         tt[key].key = key
@@ -210,7 +214,21 @@ const QUERY_TYPES = {
     'ENUM':[
         'is'
     ],
+    'TIMESTAMP':[
+        'before',
+        'after',
+        'equal'
+    ],
     UNKNOWN:[]
+}
+
+function IS_PROP_BEFORE(prop, value) {
+    return {
+        before: {
+            prop:prop,
+            value:value,
+        }
+    }
 }
 
 const COND_TYPES = {
@@ -222,6 +240,9 @@ const COND_TYPES = {
     },
     'is': {
         gen:(p) => IS_PROP_EQUAL(p.prop,p.value)
+    },
+    'before': {
+        gen:(p) => IS_PROP_BEFORE(p.prop,p.value)
     }
 }
 
@@ -276,6 +297,15 @@ function PropertyQueryView ({type, predicate, onChanged, onRemove}) {
         condField = <select value={value} onChange={e => setValue(e.target.value)}>
             {selectedProp.values.map(o => <option key={o} value={o}>{o}</option>)}
         </select>
+    }
+    if(selectedProp && selectedProp.type === 'TIMESTAMP') {
+        condField = <input type={"date"} value={format(value,'yyyy-M-dd')} onChange={(e) => {
+            let v = e.target.value
+            console.log('new value is',v)
+            let date = parse(v,'yyyy-M-dd', new Date())
+            console.log("new date is",date)
+            setValue(date)
+        }}/>
     }
 
     return <HBox className={'prop-row'}>

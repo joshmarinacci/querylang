@@ -228,8 +228,31 @@ export const CATEGORIES = {
     },
     CALENDAR: {
         ID:'CALENDAR',
+        TITLE: 'Calendar',
         TYPES: {
             EVENT:'EVENT'
+        },
+        SCHEMAS: {
+            EVENT: {
+                title:'Event',
+                props: {
+                    title: {
+                        key:'title',
+                        type:STRING,
+                        default:'',
+                    },
+                    repeats:{
+                        key:'repeats',
+                        type: ENUM,
+                        values:['never','daily']
+                    },
+                    start:{
+                        key:'start',
+                        type: TIMESTAMP,
+                        default: ()=>Date.now()
+                    },
+                }
+            }
         }
     },
     NOTES:{
