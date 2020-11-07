@@ -162,8 +162,7 @@ function QueryEditorDialog() {
     }
 
     return <div className={'dialog'}>
-        <CategoryQueryView selectedCat={selectedCat} choose={chooseCat}/>
-        <TypeQueryView selectedCat={selectedCat} selectedType={selectedType} choose={chooseType}/>
+        <CategoryTypeQueryView selectedCat={selectedCat} selectedType={selectedType} chooseCat={chooseCat} chooseType={chooseType}/>
         {
             predicates.map(p => <PropertyQueryView predicate={p} key={p.id} type={selectedType}
                                                    onChanged={update_predicate}
@@ -179,25 +178,21 @@ function QueryEditorDialog() {
     </div>
 }
 
-function CategoryQueryView({selectedCat, choose}) {
-    const chooseCat = (cat_key) => {
+function CategoryTypeQueryView({selectedCat, selectedType, chooseCat, chooseType}) {
+    const chooseo = (cat_key) => {
         let cat = fetch_categories().filter(c => c.ID === cat_key)[0]
-        choose(cat)
+        chooseCat(cat)
     }
     let cats = fetch_categories()
-    return <HBox>
-        <label>category</label>
-        <select value={selectedCat.ID} onChange={e => chooseCat(e.target.value)}>
+    let types = fetch_types_by_category(selectedCat)
+    return <HBox className={'cattype-row'}>
+        <label>WHERE </label>
+        <label>category is</label>
+        <select value={selectedCat.ID} onChange={e => chooseo(e.target.value)}>
             {cats.map((cat)=><option key={cat.ID} value={cat.ID}>{cat.ID}</option>)}
         </select>
-    </HBox>
-}
-
-function TypeQueryView({selectedCat, selectedType, choose}) {
-    let types = fetch_types_by_category(selectedCat)
-    return <HBox>
-        <label>type</label>
-        <select value={selectedType.ID} onChange={e => choose(e.target.value)}>
+        <label>and type is</label>
+        <select value={selectedType.ID} onChange={e => chooseType(e.target.value)}>
             {types.map(type=><option key={type.key} value={type.key}>{type.title}</option>)}
         </select>
     </HBox>
@@ -283,7 +278,7 @@ function PropertyQueryView ({type, predicate, onChanged, onRemove}) {
         </select>
     }
 
-    return <HBox>
+    return <HBox className={'prop-row'}>
         <label>AND</label>
         <label>property</label>
         <select value={selectedProp.key}
@@ -295,6 +290,6 @@ function PropertyQueryView ({type, predicate, onChanged, onRemove}) {
             {conditions.map(cond => <option key={cond}>{cond}</option>)}
         </select>
         {condField}
-        <button onClick={()=>onRemove(predicate)}>x</button>
+        <Icon onClick={()=>onRemove(predicate)}>close</Icon>
     </HBox>
 }

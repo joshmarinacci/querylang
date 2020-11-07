@@ -22,3 +22,31 @@
     font-family: monospace;
     font-size: 7pt;
 }
+
+
+.cattype-row {
+    border: 1px solid var(--gray6);
+    background-color: var(--standard-panel-color);
+    align-items: baseline;
+}
+.cattype-row > * {
+    margin: 0.25rem 0.5rem;
+ }
+
+.prop-row {
+    border: 1px solid var(--gray6);
+    background-color: var(--standard-panel-color);
+    align-items: center;
+}
+.prop-row > * {
+    margin: 0.25rem 0.5rem;
+    /*padding: 0.25rem 0.5rem;*/
+}
+
+.prop-row .MuiIcon-root {
+    font-size: 1rem;
+}
+.prop-row .MuiIcon-root:hover {
+    background-color: var(--gray6);
+    border-radius: 1rem;
+}

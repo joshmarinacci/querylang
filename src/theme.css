@@ -52,6 +52,10 @@ button.danger:hover {
     color: var(--selected-color-dark);
 }
 
+.toolbar label {
+    color: var(--gray8);
+}
+
 .list-item {
     border-color: var(--selected-color-dark);
 }
