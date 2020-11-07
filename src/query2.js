@@ -1,3 +1,5 @@
+import {format, parse, parseISO, isBefore, isAfter} from 'date-fns'
+
 const isAnd = (opts) => opts.hasOwnProperty('and')
 
 const isOr = (opts) => opts.hasOwnProperty('or')
@@ -36,6 +38,22 @@ function processContains(args, o) {
     return false
 }
 
+function processBefore(args,o) {
+    if(!o) return false
+    if(!o.props) return false
+    if(!o.props.hasOwnProperty(args.prop)) return false
+    let val = o.props[args.prop]
+    return isBefore(val,args.value)
+}
+
+function processAfter(args,o) {
+    if(!o) return false
+    if(!o.props) return false
+    if(!o.props.hasOwnProperty(args.prop)) return false
+    let val = o.props[args.prop]
+    return isAfter(val,args.value)
+}
+
 function passPredicate(pred,o) {
     if(pred.hasOwnProperty('TYPE') && o.type !== pred.TYPE) return false
     if(pred.hasOwnProperty('CATEGORY') && o.category !== pred.CATEGORY) return false
@@ -44,6 +62,7 @@ function passPredicate(pred,o) {
     if(pred.hasOwnProperty('equal') && !processEqual(pred.equal,o)) return false
     if(pred.hasOwnProperty('substring') && !processSubstring(pred.substring,o)) return false
     if(pred.hasOwnProperty('contains') && !processContains(pred.contains,o)) return false
+    if(pred.hasOwnProperty('after') && !processAfter(pred.after,o)) return false
     return true
 }
 

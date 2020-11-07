@@ -147,6 +147,7 @@ export const CATEGORIES = {
     },
     TASKS: {
         ID:'TASKS',
+        TITLE:'Tasks',
         TYPES:{
             PROJECT: "PROJECT",
             TASK:"TASK",
@@ -249,7 +250,7 @@ export const CATEGORIES = {
                     start:{
                         key:'start',
                         type: TIMESTAMP,
-                        default: ()=>Date.now()
+                        default: ()=>new Date()
                     },
                 }
             }
@@ -381,6 +382,7 @@ export const CATEGORIES = {
     },
     MUSIC: {
         ID:'MUSIC',
+        TITLE:'Music',
         TYPES:{
             SONG:'SONG',
             GROUP:'GROUP',

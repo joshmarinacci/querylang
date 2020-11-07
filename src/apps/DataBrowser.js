@@ -6,7 +6,7 @@ import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_SUBSTRING, IS_TYPE} from '../qu
 import {DataList, HBox, Panel, StandardListItem, Toolbar, VBox} from '../ui/ui.js'
 import "./DataBrowser.css"
 import Icon from '@material-ui/core/Icon'
-import {format, parse} from 'date-fns'
+import {format, parse, parseISO} from 'date-fns'
 
 /*
 
@@ -231,6 +231,15 @@ function IS_PROP_BEFORE(prop, value) {
     }
 }
 
+function IS_PROP_AFTER(prop, value) {
+    return {
+        after: {
+            prop:prop,
+            value:value,
+        }
+    }
+}
+
 const COND_TYPES = {
     'equal':{
         gen:(p) => IS_PROP_EQUAL(p.prop,p.value)
@@ -243,6 +252,9 @@ const COND_TYPES = {
     },
     'before': {
         gen:(p) => IS_PROP_BEFORE(p.prop,p.value)
+    },
+    'after': {
+        gen:(p) => IS_PROP_AFTER(p.prop,p.value)
     }
 }
 
@@ -268,6 +280,10 @@ function PropertyQueryView ({type, predicate, onChanged, onRemove}) {
         predicate.cond = selectedCondition
         predicate.prop = selectedProp.key
         predicate.value = value
+        if(selectedProp.type === 'TIMESTAMP') {
+            console.log("parsing value",value)
+            predicate.value = parseISO(value)
+        }
         predicate.type = selectedProp.type
         return predicate
     }
@@ -299,13 +315,8 @@ function PropertyQueryView ({type, predicate, onChanged, onRemove}) {
         </select>
     }
     if(selectedProp && selectedProp.type === 'TIMESTAMP') {
-        condField = <input type={"date"} value={format(value,'yyyy-M-dd')} onChange={(e) => {
-            let v = e.target.value
-            console.log('new value is',v)
-            let date = parse(v,'yyyy-M-dd', new Date())
-            console.log("new date is",date)
-            setValue(date)
-        }}/>
+        if(value instanceof Date) value = format(value,'yyyy-M-dd')
+        condField = <input type={"date"} value={value} onChange={(e) => setValue(e.target.value)}/>
     }
 
     return <HBox className={'prop-row'}>
