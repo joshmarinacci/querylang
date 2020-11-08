@@ -4,7 +4,7 @@ import {CATEGORIES} from '../schema.js'
 import {Window} from '../ui/window.js'
 import {
     AND,
-    IS_CATEGORY,
+    IS_CATEGORY, IS_PROP_CONTAINS,
     IS_PROP_EQUAL,
     IS_PROP_NOTEQUAL,
     IS_PROP_NOTSUBSTRING,
@@ -229,6 +229,9 @@ const QUERY_TYPES = {
         'after',
         'equal'
     ],
+    'ARRAY':[
+        'contains',
+    ],
     UNKNOWN:[]
 }
 
@@ -271,6 +274,9 @@ const COND_TYPES = {
     },
     'after': {
         gen:(p) => IS_PROP_AFTER(p.prop,p.value)
+    },
+    'contains':{
+        gen:(p) => IS_PROP_CONTAINS(p.prop, p.value)
     }
 }
 
@@ -330,6 +336,9 @@ function PropertyQueryView ({type, predicate, onChanged, onRemove}) {
     if(selectedProp && selectedProp.type === 'TIMESTAMP') {
         if(value instanceof Date) value = format(value,'yyyy-M-dd')
         condField = <input type={"date"} value={value} onChange={(e) => setValue(e.target.value)}/>
+    }
+    if(selectedProp && selectedProp.type === 'ARRAY') {
+        condField = <input type={"text"} value={value} onChange={(e) => setValue(e.target.value)}/>
     }
 
     return <HBox className={'prop-row'}>
