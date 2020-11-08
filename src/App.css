@@ -24,8 +24,18 @@ html {
 
   --cyan1: #c5f6fa;
   --cyan2: #99e9f2;
+  --cyan4: #3bc9db;
+  --cyan8: #0c8599;
 
   --grape6: #be4bdb;
+
+  --green0: #ebfbee;
+  --green2: #b2f2bb;
+  --green4: #69db7c;
+  --green8: #2f9e44;
+
+  --teal2: #96f2d7;
+  --teal4: #38d9a9;
 }
 body {
   font-size: 8pt;

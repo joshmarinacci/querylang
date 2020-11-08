@@ -68,7 +68,7 @@ export function Chat({app}) {
                 }}/>
 
                 </VBox>
-                <Toolbar>
+                <Toolbar className={'bottom'}>
                     <input style={{
                         flex:'1.0',
                     }} type={'text'} value={text} onChange={(e)=>setText(e.target.value)} onKeyDown={e=>{
