@@ -20,9 +20,12 @@ html {
 
   --pink5: #f06595;
   --pink7: #d6336c;
+  --pink3: #faa2c1;
 
   --cyan1: #c5f6fa;
   --cyan2: #99e9f2;
+
+  --grape6: #be4bdb;
 }
 body {
   font-size: 8pt;
