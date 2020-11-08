@@ -85,11 +85,9 @@ export function Notes({app}) {
                 <DataList data={notes} selected={selectedNote} setSelected={setSelectedNote} stringify={renderNoteSummary} className={'sidebar'}/>
             </VBox>
             <VBox grow className={'content-panel'}>
-                <Panel>
-                    <TextPropEditor buffer={selectedNote} prop={'title'} db={db}/>
-                    <TagsetEditor buffer={selectedNote} prop={'tags'} db={db}/>
-                    <TextareaPropEditor buffer={selectedNote} prop={'contents'} db={db}/>
-                </Panel>
+                <TextPropEditor buffer={selectedNote} prop={'title'} db={db}/>
+                <TagsetEditor buffer={selectedNote} prop={'tags'} db={db}/>
+                <TextareaPropEditor buffer={selectedNote} prop={'contents'} db={db} grow/>
             </VBox>
         </HBox>
     </Window>

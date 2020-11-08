@@ -83,7 +83,7 @@ export function StandardListItem({
 }
 
 export function TextPropEditor({buffer, prop, onChange, db}) {
-    return <HBox>
+    return <HBox className={'textprop-editor'}>
         <label>{prop}</label>
         <input type="text"
                value={propAsString(buffer, prop)}
@@ -109,10 +109,12 @@ export function CheckboxPropEditor({buffer, prop, onChange, db}) {
     </HBox>
 }
 
-export function TextareaPropEditor({buffer, prop, onChange, db}) {
-    return <VBox>
+export function TextareaPropEditor({buffer, prop, onChange, db, grow}) {
+    return <VBox grow>
         <label>{prop}</label>
-        <textarea value={propAsString(buffer, prop)} onChange={(ev) => {
+        <textarea
+            style={{flex:1.0}}
+            value={propAsString(buffer, prop)} onChange={(ev) => {
             db.setProp(buffer, prop, ev.target.value)
             if(onChange) onChange(buffer, prop)
         }}/>

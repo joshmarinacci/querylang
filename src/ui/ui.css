@@ -131,3 +131,72 @@ button.danger:hover {
     border-width: 0 1px 0 0;
 }
 
+
+
+
+.content-panel {
+    padding: 0.5rem;
+}
+
+
+
+
+
+/* ================ TAG SET EDITOR ================= */
+
+
+
+
+.tagset-editor {
+    border:0 solid red;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0.25em;
+}
+
+.tagset-editor > label{
+    padding: 0.25em;
+}
+
+.tagset-editor input {
+    border: 1px solid black;
+    flex: 1.0;
+    border-radius: 1.0rem;
+}
+
+.tag-view {
+    border: 0 solid black;
+    background-color: green;
+    color: white;
+    padding:0.25rem;
+    margin:0.25rem;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tag-view label {
+    border: 0 solid black;
+    white-space: nowrap;
+    padding: 0.25em;
+}
+
+.tag-view .MuiIcon-root {
+    font-size: 150%;
+    color: var(--gray0);
+}
+.tag-view .MuiIcon-root:hover {
+    color: var(--gray6);
+}
+
+
+/* ================== editors ============ */
+.textprop-editor > label {
+    padding: 0.25em;
+}
+.textprop-editor > input {
+    width: 100%;
+}
