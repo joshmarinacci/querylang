@@ -68,7 +68,6 @@ export function Calendar({app}) {
     // only have events that are within the current week
     events = events.filter(e => isWithinInterval(e.date,current_week))// || is_event_repeating_daily(e))
     // events.sort((a,b) => day_time_comparator(a.date,b.date))
-    console.log("final events",events)
 
     let panel = <div>foo</div>;
     if(view === 'day') panel = <DayView events={events}/>
@@ -80,12 +79,19 @@ export function Calendar({app}) {
         <HBox>
             <Icon onClick={nav_prev_day}>arrow_left</Icon>
             <Icon onClick={nav_next_day}>arrow_right</Icon>
-            <button onClick={()=>setView('day')}>day</button>
-            <button onClick={()=>setView('week')}>week</button>
+            <ExclusiveToggleBar>
+                <button className={view==="list"?"selected":""} onClick={()=>setView('list')}>list</button>
+                <button className={view==="day"?"selected":""}  onClick={()=>setView('day')}>day</button>
+                <button className={view==="week"?"selected":""}  onClick={()=>setView('week')}>week</button>
+            </ExclusiveToggleBar>
         </HBox>
         {panel}
         </VBox>
     </Window>
+}
+
+function ExclusiveToggleBar({children}) {
+    return <div className={'exclusive-toggle-bar'}>{children}</div>
 }
 
 const time_to_row = (date) => {

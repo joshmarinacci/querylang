@@ -69,3 +69,28 @@
     background-color: lightblue;
     padding: 0.25rem;
 }
+
+
+.exclusive-toggle-bar {
+    border: 1px solid var(--gray8);
+    margin:0.25rem;
+}
+
+.exclusive-toggle-bar button {
+    border:1px solid var(--gray8);
+    border-width: 0 1px 0px 0;
+    padding:0.25rem 0.5rem;
+    margin:0;
+    border-radius: 0;
+    background-color: var(--gray3);
+}
+.exclusive-toggle-bar button.selected {
+    background-color: var(--gray6);
+    color: var(--gray0)
+}
+.exclusive-toggle-bar button:first-child {
+    border-left-width: 0;
+}
+.exclusive-toggle-bar button:last-child {
+    border-right-width: 0;
+}
