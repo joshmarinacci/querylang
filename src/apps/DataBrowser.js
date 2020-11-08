@@ -120,7 +120,7 @@ function QueryEditorDialog() {
     }
 
 
-    const run_query = () => {
+    const gen_query = () => {
         let query = {
             and:[
                 {
@@ -134,6 +134,10 @@ function QueryEditorDialog() {
         predicates.forEach(p => {
             query.and.push(predicate_to_query(p))
         })
+        return query
+    }
+    const run_query = () => {
+        let query = gen_query()
         let items = db.QUERY(query)
         set_debug_text(""
             +JSON.stringify(query,null,'  ')
@@ -159,6 +163,12 @@ function QueryEditorDialog() {
             }
         }))
     }
+
+    useEffect(()=>{
+        let query = gen_query()
+        set_debug_text(""
+            +JSON.stringify(query,null,'  '))
+    },[selectedCat, selectedType, predicates])
 
     const remove_predicate = (p) => {
         setPredicates(predicates.filter(pp => pp.id !== p.id))
