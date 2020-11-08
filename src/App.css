@@ -17,6 +17,12 @@ html {
   --red9: #c92a2a;
   --red4: #ff8787;
   --red6: #fa5252;
+
+  --pink5: #f06595;
+  --pink7: #d6336c;
+
+  --cyan1: #c5f6fa;
+  --cyan2: #99e9f2;
 }
 body {
   font-size: 8pt;

@@ -13,7 +13,7 @@ const isApp = () => ({ TYPE:CATEGORIES.APP.TYPES.APP })
 const AppView = ({app}) => {
     let appService = useContext(AppLauncherContext)
     const launchApp = () => appService.launch(app)
-    return <li onClick={launchApp}>
+    return <li onClick={launchApp} datatype={propAsString(app,'appid')}>
         <Icon>{propAsString(app,'icon')}</Icon>
         <b>{propAsString(app,'title')}</b>
     </li>
