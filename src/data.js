@@ -938,7 +938,8 @@ loadApp({ title:'cmd.bar', appid:'CommandBar', icon:'code',
     preload:false, launchbar:true,
     window: { default_width: 400,  default_height: 100 }})
 loadApp({title:"Maps", appid:"MapViewer", icon:'map'})
-loadApp({title:"Settings", appid:"SettingsApp", icon:'settings'})
+loadApp({title:"Settings", appid:"SettingsApp", icon:'settings',
+    window:{default_width:400, default_height:400}})
 loadApp({title:"Writer", appid:"WriterApp", icon:'create'})
 loadApp({title:'Data Browser', appid:"DataBrowser",icon:'create'})
 
