@@ -7,7 +7,7 @@ import {
     HBox,
     Panel,
     Spacer,
-    TagsetEditor,
+    TagsetEditor, TextareaPropEditor,
     TextPropEditor,
     Toolbar,
     VBox,
@@ -31,7 +31,8 @@ export function BookmarksManager({app}) {
     const [selected, setSelected] = useState(null)
 
     const show_add_dialog = () => {
-        let obj =db.make(CATEGORIES.BOOKMARKS.ID, CATEGORIES.BOOKMARKS.SCHEMAS.BOOKMARK.TYPE)
+        let obj = db.make(CATEGORIES.BOOKMARKS.ID, CATEGORIES.BOOKMARKS.SCHEMAS.BOOKMARK.TYPE)
+        console.log("draft object is",obj)
         setDraft(obj)
         set_add_visible(true)
     }
@@ -67,14 +68,30 @@ export function BookmarksManager({app}) {
 }
 
 function AddDialog({visible, onAdd, draft, db}) {
+    const [update, setUpdate] = useState(false)
     if(!visible) return <div style={{display:'none'}}/>
-    return <div className={'dialog add'} style={{
-        display:visible?"flex":'none'
-    }}>
+    const analyze = () => {
+        let url = `http://localhost:30011/?url=${propAsString(draft,'url')}`
+        fetch(url)
+            .then(res => res.json())
+            .then(res => {
+                console.log('readability result is', res)
+                if(res.success) {
+                    db.setProp(draft,'title',res.summary.title)
+                    db.setProp(draft, 'excerpt', res.summary.excerpt)
+                }
+                setUpdate(!update)
+        })
+    }
+    return <div className={'dialog add'} style={{ display:visible?"flex":'none' }}>
         <VBox grow>
             <Panel>
+                <HBox center>
+                    <TextPropEditor buffer={draft} prop={'url'} grow/>
+                    <button onClick={analyze}>analyze</button>
+                </HBox>
                 <TextPropEditor buffer={draft} prop={'title'}/>
-                <TextPropEditor buffer={draft} prop={'url'}/>
+                <TextareaPropEditor buffer={draft} prop={'excerpt'}/>
                 <TagsetEditor buffer={draft} prop={'tags'}/>
             </Panel>
         </VBox>
@@ -106,13 +123,18 @@ function BookmarkDetailsView({bookmark, onOpen}) {
         <HBox><button onClick={()=>onOpen(bookmark)}>open</button></HBox>
         <HBox><button onClick={open_translated}>translated</button> </HBox>
         <HBox>
-            <i>title</i><b>{propAsString(bookmark,'title')}</b>
-        </HBox>
-        <HBox>
             <i>url</i><b>{propAsString(bookmark,'url')}</b>
         </HBox>
         <HBox>
+            <i>title</i><b>{propAsString(bookmark,'title')}</b>
+        </HBox>
+        <HBox>
             <i>tags</i><b>{propAsArray(bookmark,'tags').join(", ")}</b>
+        </HBox>
+        <HBox>
+            <p><b>excerpt</b>
+                {propAsString(bookmark,'excerpt')}
+            </p>
         </HBox>
     </Panel>
 }

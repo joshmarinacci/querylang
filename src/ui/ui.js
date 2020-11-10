@@ -82,9 +82,9 @@ export function StandardListItem({
     </HBox>
 }
 
-export function TextPropEditor({buffer, prop, onChange}) {
+export function TextPropEditor({buffer, prop, onChange, ...rest}) {
     let db = useContext(DBContext)
-    return <HBox className={'textprop-editor'}>
+    return <HBox className={'textprop-editor'} {...rest}>
         <label>{prop}</label>
         <input type="text"
                value={propAsString(buffer, prop)}

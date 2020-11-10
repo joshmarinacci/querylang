@@ -5,8 +5,8 @@
 }
 
 .BookmarksManager .dialog.add {
-    width: 300px;
-    height: 300px;
+    width: 40em;
+    height: 30em;
 
     border: 1px solid var(--gray8);
     top: 10px;
@@ -19,4 +19,13 @@
 
 .BookmarksManager .bookmark i {
     padding-left: 1rem;
+}
+
+.BookmarksManager .dialog.add textarea {
+    border: 1px solid var(--gray3);
+    min-height: 6rem;
+}
+
+.BookmarksManager .dialog.add input {
+    flex:1.0;
 }

@@ -593,14 +593,19 @@ export const CATEGORIES = {
                         type: STRING,
                         default:""
                     },
-                },
-                tags: {
-                    key:'tags',
-                    type: ARRAY,
-                    content: {
-                        type:STRING
+                    tags: {
+                        key:'tags',
+                        type: ARRAY,
+                        content: {
+                            type:STRING
+                        },
+                        default:[],
                     },
-                    default:[],
+                    excerpt: {
+                        key:'excerpt',
+                        type: STRING,
+                        default:""
+                    }
                 },
             }
         }

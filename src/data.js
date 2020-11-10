@@ -954,6 +954,7 @@ function load_bookmarks() {
             url:'https://vr.josh.earth/',
             tags:['mine'],
             archived:false,
+            excerpt:"nothing",
         }
     })
 }
