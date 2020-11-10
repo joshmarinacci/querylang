@@ -32,8 +32,8 @@ const SCALE = 32
 const ZOOM = 1
 const W = 8
 const H = 8
-const fg = [255,0,0,255]
-const bg = [255,255,255,255]
+const bg = [50,150,150,255]
+const fg = [240,240,240,255]
 const color_to_rgba = (arr) => `rgb(${arr[0]},${arr[1]},${arr[2]})`
 
 const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));
