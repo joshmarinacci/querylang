@@ -96,8 +96,15 @@ function BookmarkView({bookmark, db, onOpen}) {
 
 function BookmarkDetailsView({bookmark, onOpen}) {
     if(!bookmark) return <Panel></Panel>
+
+    const open_translated = () => {
+        let src = propAsString(bookmark,'url')
+        let url = `https://translate.google.com/translate?hl=en&sl=auto&tl=en&u=${src}`
+        window.open(url,"_blank")
+    }
     return <Panel>
         <HBox><button onClick={()=>onOpen(bookmark)}>open</button></HBox>
+        <HBox><button onClick={open_translated}>translated</button> </HBox>
         <HBox>
             <i>title</i><b>{propAsString(bookmark,'title')}</b>
         </HBox>
