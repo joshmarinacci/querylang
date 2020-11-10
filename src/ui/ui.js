@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react'
-import {propAsArray, propAsBoolean, propAsString, setProp} from '../db.js'
+import React, {useContext, useEffect, useState} from 'react'
+import {DBContext, propAsArray, propAsBoolean, propAsString, setProp} from '../db.js'
 import {getEnumPropValues} from '../schema.js'
 import {HiMinusCircle, HiPlusCircle} from 'react-icons/hi'
 import {MdClose} from 'react-icons/md'
@@ -82,7 +82,8 @@ export function StandardListItem({
     </HBox>
 }
 
-export function TextPropEditor({buffer, prop, onChange, db}) {
+export function TextPropEditor({buffer, prop, onChange}) {
+    let db = useContext(DBContext)
     return <HBox className={'textprop-editor'}>
         <label>{prop}</label>
         <input type="text"
@@ -181,7 +182,6 @@ export function TagsetEditor({buffer, prop, onChange}) {
                    setPartial(ev.target.value)
                }}
                onKeyDown={(e)=>{
-                   console.log(e.key)
                    if(e.key === 'Enter') {
                        addTag(partial)
                        setPartial("")

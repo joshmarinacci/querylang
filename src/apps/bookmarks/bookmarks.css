@@ -1,0 +1,22 @@
+.BookmarksManager .bookmark {
+    border: 1px solid var(--gray3);
+    padding: 0.25rem;
+    flex-wrap: wrap;
+}
+
+.BookmarksManager .dialog.add {
+    width: 300px;
+    height: 300px;
+
+    border: 1px solid var(--gray8);
+    top: 10px;
+    left: 10px;
+    box-shadow: 2px 4px 10px 6px rgba(0,0,0,0.76);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.BookmarksManager .bookmark i {
+    padding-left: 1rem;
+}

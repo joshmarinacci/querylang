@@ -926,6 +926,7 @@ function loadApp(props) {
         }
     )
 }
+loadApp({title:'Bookmarks', appid:"BookmarksManager",icon:'create'})
 
 loadApp({ title: 'Notifications', appid: 'NotificationPanel', icon: 'perm_contact_calendar',
     preload: true, launchbar: false,
@@ -942,6 +943,21 @@ loadApp({title:"Settings", appid:"SettingsApp", icon:'settings',
     window:{default_width:400, default_height:400}})
 loadApp({title:"Writer", appid:"WriterApp", icon:'create'})
 loadApp({title:'Data Browser', appid:"DataBrowser",icon:'create'})
+
+function load_bookmarks() {
+    data.push({
+        id:genid("bookmark"),
+        category: CATEGORIES.BOOKMARKS.ID,
+        type: CATEGORIES.BOOKMARKS.SCHEMAS.BOOKMARK.TYPE,
+        props: {
+            title:"My VR Projects",
+            url:'https://vr.josh.earth/',
+            tags:['mine'],
+            archived:false,
+        }
+    })
+}
+load_bookmarks()
 
 
 data.push({

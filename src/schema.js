@@ -575,6 +575,35 @@ export const CATEGORIES = {
         TYPES:{
             QUERY:'QUERY',
         }
+    },
+    BOOKMARKS:{
+        ID:"BOOKMARKS",
+        SCHEMAS: {
+            BOOKMARK:{
+                TYPE:'BOOKMARK',
+                title:"bookmark",
+                props: {
+                    title:{
+                        key:'title',
+                        type: STRING,
+                        default:""
+                    },
+                    url:{
+                        key:'url',
+                        type: STRING,
+                        default:""
+                    },
+                },
+                tags: {
+                    key:'tags',
+                    type: ARRAY,
+                    content: {
+                        type:STRING
+                    },
+                    default:[],
+                },
+            }
+        }
     }
 }
 
@@ -648,30 +677,35 @@ function findSchema(type) {
 }
 
 export function makeNewObject(type, category) {
-        let obj = {
-            id:Math.floor(Math.random()*1000*1000),
-            type,
-            category,
-            props:{}
+    if(!type) throw new Error("makeNewObject missing type")
+    if(!category) throw new Error("makeNewObject missing category")
+    let schema = findSchema(type)
+    if(!schema) throw new Error(`no schema found for type ${category}:${type}`)
+    if(!schema.props) throw new Error(`no schema props found for type ${category}:${type}`)
+
+
+    let obj = {
+        id:Math.floor(Math.random()*1000*1000),
+        type,
+        category,
+        props:{}
+    }
+    Object.keys(schema.props).forEach(key => {
+        let sc = schema.props[key]
+        if(!sc.hasOwnProperty('default')) {
+            console.error("schema missing default",category,type,sc)
         }
-        let schema = findSchema(type)
-        Object.keys(schema.props).forEach(key => {
-            // console.log("key ",key)
-            let sc = schema.props[key]
-            if(!sc.hasOwnProperty('default')) {
-                console.error("schema missing default",category,type,sc)
-            }
-            // console.log('setting key',key,sc)
-            if(sc.type === TIMESTAMP && sc.default === 'NOW') {
-                obj.props[sc.key] = Date.now()
-                return
-            }
-            if(typeof sc.default === 'function') {
-                obj.props[sc.key] = sc.default()
-            } else {
-                obj.props[sc.key] = sc.default
-            }
-        })
-        // console.log("made new object of type",type,obj)
-        return obj
+        // console.log('setting key',key,sc)
+        if(sc.type === TIMESTAMP && sc.default === 'NOW') {
+            obj.props[sc.key] = Date.now()
+            return
+        }
+        if(typeof sc.default === 'function') {
+            obj.props[sc.key] = sc.default()
+        } else {
+            obj.props[sc.key] = sc.default
+        }
+    })
+    // console.log("made new object of type",type,obj)
+    return obj
 }
