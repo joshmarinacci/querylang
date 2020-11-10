@@ -28,6 +28,7 @@ export function BookmarksManager({app}) {
 
     const [add_visible, set_add_visible] = useState(false)
     const [draft, setDraft] = useState({})
+    const [selected, setSelected] = useState(null)
 
     const show_add_dialog = () => {
         let obj =db.make(CATEGORIES.BOOKMARKS.ID, CATEGORIES.BOOKMARKS.SCHEMAS.BOOKMARK.TYPE)
@@ -40,15 +41,27 @@ export function BookmarksManager({app}) {
         if(bk) db.add(bk)
         console.log(bk)
     }
+    const open_tab = (bookmark) => {
+        window.open(propAsString(bookmark,'url'),"_blank")
+    }
 
     let bookmarks = db.QUERY(AND(IS_CATEGORY(CATEGORIES.BOOKMARKS.ID),IS_TYPE(CATEGORIES.BOOKMARKS.SCHEMAS.BOOKMARK.TYPE)))
     return <Window app={app}>
-        <VBox grow className={'content-panel'}>
-            <Toolbar>
-                <Icon onClick={show_add_dialog}>add</Icon>
-            </Toolbar>
-            <DataList data={bookmarks} stringify={(o)=> <BookmarkView key={o.id} bookmark={o} db={db}/>}/>
-        </VBox>
+        <HBox grow>
+            <VBox className={'sidebar'}>
+                some sidebar
+            </VBox>
+            <VBox>
+                <Toolbar>
+                    <Icon onClick={show_add_dialog}>add</Icon>
+                </Toolbar>
+                <DataList data={bookmarks}
+                selected={selected}
+                setSelected={setSelected}
+                          stringify={(o)=> <BookmarkView key={o.id} bookmark={o} db={db} onOpen={open_tab}/>}/>
+            </VBox>
+            <BookmarkDetailsView bookmark={selected} onOpen={open_tab}/>
+        </HBox>
         <AddDialog visible={add_visible} onAdd={add_bookmark} draft={draft} db={db}/>
     </Window>
 }
@@ -74,12 +87,25 @@ function AddDialog({visible, onAdd, draft, db}) {
 }
 
 
-function BookmarkView({bookmark, db}) {
-    const open_tab = () => {
-        window.open(propAsString(bookmark,'url'),"_blank")
-    }
+function BookmarkView({bookmark, db, onOpen}) {
     return <HBox grow className={"bookmark"}>
-        <b onClick={open_tab}>{propAsString(bookmark,'title')}</b>
+        <b onDoubleClick={()=>onOpen(bookmark)}>{propAsString(bookmark,'title')}</b>
         <i>{propAsArray(bookmark,'tags').join(", ")}</i>
     </HBox>
+}
+
+function BookmarkDetailsView({bookmark, onOpen}) {
+    if(!bookmark) return <Panel></Panel>
+    return <Panel>
+        <HBox><button onClick={()=>onOpen(bookmark)}>open</button></HBox>
+        <HBox>
+            <i>title</i><b>{propAsString(bookmark,'title')}</b>
+        </HBox>
+        <HBox>
+            <i>url</i><b>{propAsString(bookmark,'url')}</b>
+        </HBox>
+        <HBox>
+            <i>tags</i><b>{propAsArray(bookmark,'tags').join(", ")}</b>
+        </HBox>
+    </Panel>
 }
