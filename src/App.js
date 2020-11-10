@@ -71,7 +71,7 @@ function App() {
     return <div>missing app</div>
   })
 
-  return <div>
+  return <div className={'os-background'}>
     <DBContext.Provider value={db_service}>
       <AppLauncherContext.Provider value={app_launcher_service}>
         <AlarmContext.Provider value={alarm_service}>
