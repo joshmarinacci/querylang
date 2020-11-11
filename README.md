@@ -29,6 +29,7 @@
 
 - [ ] single line single font text editor
 - [ ] hooks for keystroke filtering and popups with arrows
+- [ ] customize with required formats
 
 ## TextArea
 

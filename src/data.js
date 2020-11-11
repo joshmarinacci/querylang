@@ -911,7 +911,7 @@ function loadApp(props) {
 }
 loadApp({ title:'Peoplebar', appid:'PeopleBar', launchbar:false, preload:true,
         window: { default_width:100, default_height:326, anchor:'top-right', }})
-loadApp({title:'Bookmarks', appid:"BookmarksManager",icon:'create'})
+loadApp({title:'Bookmarks', appid:"BookmarksManager",icon:'bookmarks'})
 loadApp({ title: 'Notifications', appid: 'NotificationPanel', preload: true, launchbar: false,
     window: { default_width: 200, default_height: 326, anchor: 'bottom-right', }})
 loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report', launchbar: false,
