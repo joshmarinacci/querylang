@@ -5,7 +5,7 @@ import React, {useContext} from 'react'
 import {DBContext, propAsString, useDBChanged} from '../db.js'
 
 import "../notifications.css"
-import {StandardListItem} from '../ui/ui.js'
+import {StandardListItem, VBox} from '../ui/ui.js'
 
 export function NotificationPanel({app}) {
     let db = useContext(DBContext)
@@ -17,7 +17,7 @@ export function NotificationPanel({app}) {
     ))
 
     return <Window resize={false} hide_titlebar={true} app={app}>
-        <ul className={'list'}>{items.map((o,i) => <NotificationView key={i} alert={o}/>)}</ul>
+        <VBox className={'list'}>{items.map((o,i) => <NotificationView key={i} alert={o}/>)}</VBox>
     </Window>
 }
 

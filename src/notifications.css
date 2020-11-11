@@ -1,11 +1,13 @@
-.NotificationPanel {
+.window.NotificationPanel {
     border: 0px solid red;
     display: flex;
-    justify-content: flex-end;
-    background-color: transparent;
+    background-color: transparent !important;
+    width: auto !important;
+    height: auto !important;
 }
 .NotificationPanel .list {
-    border: 0px solid blue;
+    justify-content: flex-end;
+    background-color: transparent;
 }
 .NotificationPanel .list .list-item {
     border: 1px solid var(--gray3);
