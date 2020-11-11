@@ -1,19 +1,19 @@
-.notification-panel {
+.NotificationPanel {
     border: 0px solid red;
     display: flex;
     justify-content: flex-end;
     background-color: transparent;
 }
-.notification-panel .list {
+.NotificationPanel .list {
     border: 0px solid blue;
 }
-.notification-panel .list .hbox {
-    border: 1px solid #ccc;
-    border-radius: 0.25rem;
+.NotificationPanel .list .list-item {
+    border: 1px solid var(--gray3);
+    border-radius: 0.5rem;
     padding: 0.25rem;
     margin: 0.25rem;
     background-color: white;
 }
-.notification-panel .list .hbox .MuiIcon-root {
+.NotificationPanel .list .hbox .MuiIcon-root {
     padding-right: 0.25rem;
 }

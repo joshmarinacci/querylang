@@ -1,34 +1,59 @@
+.window.AppBar {
+    border: 1px solid red;
+    border-width: 0;
+    background-color: transparent;
+}
+.AppBar .list {
+    width: 5rem !important;
+    border: 1px solid var(--gray8);
+    border-radius: 1.0rem;
+    padding: 0.25rem;
+    background-color: rgba(150,150,150,0.5);
+    background-color: hsla(0,0%,25%,0.5);
+    margin: 0.5rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .AppBar .list  li {
-    border: 0px solid var(--gray8);
-    min-height: 3rem;
-    max-width: 3rem;
+    border: 1px solid var(--gray8);
+    width: 2.5rem;
+    height: 2.5rem;
     display: flex;
     flex-direction: column;
     border-radius: 1rem;
     margin: 0.25rem;
-    padding: 0.25em 0.5em;
     padding: 0.5rem;
     color: var(--gray8);
     background-color: var(--selected-color);
+    font-size: 0.5rem;
+    box-shadow:         0px 5px 14px 0px rgba(50, 50, 50, 0.55);
 }
 .AppBar .list li:hover {
-    background-color: #ccc;
+    color:black;
 }
 .AppBar .list li .material-icons {
-    font-size: 2rem;
+    font-size: 2.0rem;
 }
 
 .AppBar li[datatype="ContactList"]{
     color: var(--gray0);
     background-color: var(--red9);
+    background-color: #FBAB7E;
+    background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
 }
 .AppBar li[datatype="TaskLists"]{
     color: var(--gray0);
     background-color: var(--pink7);
+    background-color: #8BC6EC;
+    background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
 }
 .AppBar li[datatype="Chat"]{
     color: var(--gray0);
     background-color: var(--cyan8);
+    background-color: #0093E9;
+    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
 }
 .AppBar li[datatype="Calendar"]{
     color: var(--gray0);
@@ -37,6 +62,9 @@
 .AppBar li[datatype="Notes"]{
     color: var(--gray0);
     background-color: var(--teal4);
+    background: #f12711;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f5af19, #f12711);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f5af19, #f12711); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .AppBar li[datatype="Alarms"]{
     color: var(--gray0);
@@ -45,8 +73,13 @@
 .AppBar li[datatype="Email"]{
     color: var(--gray0);
     background-color: var(--gray8);
+    background: #0F2027;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .AppBar li[datatype="Music"]{
-    color: var(--gray8);
+    color: var(--gray0);
     background-color: var(--pink3);
+    background-color: #0093E9;
+    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
 }

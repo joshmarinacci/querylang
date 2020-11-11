@@ -5,7 +5,7 @@
     flex: 1.0;
     align-items: stretch;
     justify-content: stretch;
-    background-color: white;
+    border-radius: 0.5rem 0.5rem 0 0;
     overflow: auto;
     position: absolute;
 }
@@ -14,9 +14,10 @@
     display: block;
     background-color: var(--window-titlebar-background-color);
     color: var(--window-titlebar-text-color);
-    padding: 0.25em;
     user-select: none;
     cursor: move;
+    border-radius: 0.5rem 0.5rem 0 0;
+    padding: 0.25em 0.5em;
 }
 
 
@@ -26,7 +27,7 @@
 }
 
 .window title {
-    padding:0;
+    /*padding:0;*/
 }
 .window title b {
     padding: 0.25em;
