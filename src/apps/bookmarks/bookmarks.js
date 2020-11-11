@@ -102,8 +102,8 @@ export function BookmarksManager({app}) {
     const showSortPopup = () => {
         let menu = <PopupMenu>
             <MenuItem title={"most recent"}
-                      onClick={()=>setSortField("accessDate")}
-                      checked={sortField==='accessDate'}
+                      onClick={()=>setSortField("lastAccessed")}
+                      checked={sortField==='lastAccessed'}
             />
             <MenuItem title={"title"}
                       onClick={()=>setSortField("title")}
