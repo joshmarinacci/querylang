@@ -13,11 +13,11 @@ import {Window} from "./window.js"
 
 export {Window}
 
-export function HBox ({children, grow, className, style, scroll, center}) {
+export function HBox ({children, grow, className, style, scroll, center, ...rest}) {
     const cls = { hbox:true, grow, center, scroll }
     if(className) cls[className] = true
     style = style || {}
-    return <div style={style} className={flatten(cls)}>{children}</div>
+    return <div style={style} className={flatten(cls)} {...rest}>{children}</div>
 }
 export function VBox ({children, grow, className, style, scroll, center}) {
     const cls = { vbox:true, grow, center, scroll }
@@ -67,9 +67,10 @@ export function StandardListItem({
                                      trailing_title,
                                      subtitle,
                                      trailingIcon,
-                                    onClickTrailingIcon
+                                    onClickTrailingIcon,
+    onDoubleClick,
                                  }) {
-    return <HBox className={"list-item"}>
+    return <HBox className={"list-item"} onDoubleClick={onDoubleClick}>
         {icon?<Icon onClick={onClickIcon}>{icon}</Icon>:""}
         <VBox>
             {title?<b className={"title"}>{title}</b>:""}
