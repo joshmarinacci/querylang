@@ -36,7 +36,7 @@ export function SystemBar({app}) {
     })
     return <Window app={app} hide_titlebar={true} resize={false}>
         <Toolbar grow center>
-            <label className={'clock'}>{format(time,"eee MMM  dd hh:mm aa")}</label>
+            <label className={'clock'}>{format(time,"eee MMM  dd, hh:mm aa")}</label>
             <Spacer/>
             <Icon onClick={()=>launch("CommandBar")}>code</Icon>
             <Icon onClick={()=>launch("SettingsApp")}>settings</Icon>
