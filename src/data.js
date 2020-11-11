@@ -914,8 +914,7 @@ loadApp({ title:'Peoplebar', appid:'PeopleBar', launchbar:false, preload:true,
 loadApp({title:'Bookmarks', appid:"BookmarksManager",icon:'bookmarks'})
 loadApp({ title: 'Notifications', appid: 'NotificationPanel', preload: true, launchbar: false,
     window: { default_width: 200, default_height: 326, anchor: 'bottom-right', }})
-loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report', launchbar: false,
-    window: { default_width: 200, default_height: 200, anchor: 'bottom-left' }})
+loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report', launchbar: false})
 loadApp({ title:'cmd.bar', appid:'CommandBar', icon:'code',  preload:false, launchbar:false,
     window: { default_width: 400,  default_height: 100 }})
 loadApp({title:"Maps", appid:"MapViewer", icon:'map'})
