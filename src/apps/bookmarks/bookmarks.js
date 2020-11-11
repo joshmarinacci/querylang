@@ -222,9 +222,15 @@ function BookmarkDetailsView({bookmark, onOpen}) {
         let url = `https://translate.google.com/translate?hl=en&sl=auto&tl=en&u=${src}`
         window.open(url,"_blank")
     }
+    const open_archived = () => {
+        let src = propAsString(bookmark,'url')
+        let url = `https://web.archive.org/web/${src}`
+        window.open(url,"_blank")
+    }
     return <Panel>
         <HBox><button onClick={()=>onOpen(bookmark)}>open</button></HBox>
         <HBox><button onClick={open_translated}>translated</button> </HBox>
+        <HBox><button onClick={open_archived}>archived</button> </HBox>
         <HBox>
             <i>url</i><b>{propAsString(bookmark,'url')}</b>
         </HBox>
