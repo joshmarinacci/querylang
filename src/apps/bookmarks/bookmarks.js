@@ -12,7 +12,8 @@ import {
     VBox,
     Window
 } from '../../ui/ui.js'
-import {DBContext, filterPropArrayContains, propAsBoolean, sort, useDBChanged} from '../../db.js'
+import {format, formatDistanceToNow} from "date-fns"
+import {DBContext, filterPropArrayContains, hasProp, propAsBoolean, sort, useDBChanged} from '../../db.js'
 import {AND, IS_CATEGORY, IS_TYPE} from '../../query2.js'
 import {CATEGORIES, SORTS} from '../../schema.js'
 import {Icon} from '@material-ui/core'
@@ -95,6 +96,7 @@ export function BookmarksManager({app}) {
         console.log(bk)
     }
     const open_tab = (bookmark) => {
+        db.setProp(bookmark,'lastAccessed',new Date())
         window.open(propAsString(bookmark,'url'),"_blank")
     }
     const showSortPopup = () => {
@@ -206,10 +208,13 @@ function AddDialog({visible, onAdd, draft, db}) {
 
 
 function BookmarkView({bookmark, onOpen}) {
+    let la = "never"
+    if(hasProp(bookmark,'lastAccessed'))
+        la = formatDistanceToNow(bookmark.props.lastAccessed) + " ago"
     return <StandardListItem
         icon={'bookmark'}
         title={propAsString(bookmark,'title')}
-        subtitle={propAsArray(bookmark,'tags').join(", ")}
+        subtitle={propAsArray(bookmark,'tags').join(", ") + " " +la}
         onDoubleClick={()=>onOpen(bookmark)}
     />
 }

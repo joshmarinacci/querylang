@@ -605,6 +605,11 @@ export const CATEGORIES = {
                         key:'excerpt',
                         type: STRING,
                         default:""
+                    },
+                    lastAccessed: {
+                        key:'lastAccessed',
+                        type: TIMESTAMP,
+                        default: () => new Date()
                     }
                 },
             }

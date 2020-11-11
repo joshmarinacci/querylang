@@ -935,8 +935,8 @@ function load_bookmarks() {
             title:"My VR Projects",
             url:'https://vr.josh.earth/',
             tags:['mine'],
-            archived:false,
             excerpt:"nothing",
+            lastAccessed:new Date(),
         }
     })
 }
