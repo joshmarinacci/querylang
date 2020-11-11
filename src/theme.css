@@ -70,7 +70,13 @@ button.danger:hover {
 
 .window {
     background-color: var(--standard-panel-color);
+    border-color: var(--gray8);
 }
+.window > title {
+    background: linear-gradient(to bottom, var(--yellow2) 0%, var(--yellow4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    color: var(--gray8);
+}
+
 .content-panel {
     background-color: var(--standard-panel-color);
 }
