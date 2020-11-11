@@ -26,7 +26,7 @@ export function Window({children, resize=true, hide_titlebar, app, anchor="none"
 
     let [dragging, setDragging] = useState(false)
     let [left,setLeft] = useState((title==="apps")?0:100)
-    let [top,setTop] = useState(0)
+    let [top,setTop] = useState(40)
     let [offx, setOffx] = useState(0)
     let [offy, setOffy] = useState(0)
 

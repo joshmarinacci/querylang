@@ -498,23 +498,6 @@ const data = [
         }
     },
 
-    {
-        id:28,
-        category: CATEGORIES.APP.ID,
-        type: CATEGORIES.APP.TYPES.APP,
-        props: {
-            title:'Peoplebar',
-            appid:'PeopleBar',
-            icon:'emoji_people',
-            launchbar:false,
-            preload:true,
-            window: {
-                default_width:100,
-                default_height:326,
-                anchor:'top-right',
-            }
-        }
-    },
 
     {
         id:29,
@@ -926,23 +909,22 @@ function loadApp(props) {
         }
     )
 }
+loadApp({ title:'Peoplebar', appid:'PeopleBar', launchbar:false, preload:true,
+        window: { default_width:100, default_height:326, anchor:'top-right', }})
 loadApp({title:'Bookmarks', appid:"BookmarksManager",icon:'create'})
-
-loadApp({ title: 'Notifications', appid: 'NotificationPanel', icon: 'perm_contact_calendar',
-    preload: true, launchbar: false,
+loadApp({ title: 'Notifications', appid: 'NotificationPanel', preload: true, launchbar: false,
     window: { default_width: 200, default_height: 326, anchor: 'bottom-right', }})
-
-loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report',
+loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report', launchbar: false,
     window: { default_width: 200, default_height: 200, anchor: 'bottom-left' }})
-
-loadApp({ title:'cmd.bar', appid:'CommandBar', icon:'code',
-    preload:false, launchbar:true,
+loadApp({ title:'cmd.bar', appid:'CommandBar', icon:'code',  preload:false, launchbar:false,
     window: { default_width: 400,  default_height: 100 }})
 loadApp({title:"Maps", appid:"MapViewer", icon:'map'})
-loadApp({title:"Settings", appid:"SettingsApp", icon:'settings',
+loadApp({title:"Settings", appid:"SettingsApp", icon:'settings', launchbar:false,
     window:{default_width:400, default_height:400}})
 loadApp({title:"Writer", appid:"WriterApp", icon:'create'})
-loadApp({title:'Data Browser', appid:"DataBrowser",icon:'create'})
+loadApp({title:'Data Browser', appid:"DataBrowser",icon:'create', launchbar:false})
+loadApp( {title:"SystemBar", appid:'SystemBar',preload:true,launchbar:false,
+    window:{ default_width:500,  default_height:'auto',  anchor:'top-right', }})
 
 function load_bookmarks() {
     data.push({

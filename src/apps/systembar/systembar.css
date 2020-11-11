@@ -1,0 +1,25 @@
+.SystemBar .toolbar {
+    border: 0px solid var(--gray3);
+    /*min-height: 1.5rem;*/
+    padding:0;
+    margin:0;
+}
+.SystemBar .toolbar .clock {
+    font-weight: bold;
+    padding: 0.25em 1.0em;
+}
+
+.window.SystemBar {
+    border-width: 0px;
+    position: absolute;
+    left:0;
+    right:0;
+    width: auto !important;
+}
+
+.window.AppBar {
+    top: 2rem !important;
+}
+.window.PeopleBar {
+    top: 2rem !important;
+}

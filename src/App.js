@@ -26,6 +26,7 @@ import {WriterApp} from './apps/writing.js'
 import "./theme.css"
 import {DataBrowser} from './apps/DataBrowser.js'
 import {BookmarksManager} from './apps/bookmarks/bookmarks.js'
+import {SystemBar} from './apps/systembar/systembar.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
@@ -69,6 +70,7 @@ function App() {
     if(appid === 'WriterApp') return <WriterApp key={appid} app={app}/>
     if(appid === 'DataBrowser') return <DataBrowser key={appid} app={app}/>
     if(appid === 'BookmarksManager') return <BookmarksManager key={appid} app={app}/>
+    if(appid === 'SystemBar') return <SystemBar key={appid} app={app}/>
     console.error("no such app", appid)
     return <div>missing app</div>
   })
