@@ -21,9 +21,9 @@
 - [x] A single column menu.
 - [x] inside a popup container
 - [ ] properly handles modality within the app or whole screen?
-- [ ] give it menu items which are buttons with actions and hover effects.
+- [x] give it menu items which are buttons with actions and hover effects.
 - [ ] click elsewhere to close the menu.
-- [ ] can put custom components inside of a popup container too
+- [x] can put custom components inside of a popup container too
 
 ## TextBox
 
@@ -193,9 +193,3 @@ than and less than, etc.
 
 * move app inside of window and fix z-index
 * dialogs and popups?
-
-infobar:
-    * time and date
-    * trigger search
-    * wifi?
-    * sound?
