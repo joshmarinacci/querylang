@@ -1,27 +1,12 @@
 import React, {useContext, useState} from 'react'
 import {DataList, HBox, Panel, Spacer, StandardListItem, Toolbar, VBox, Window} from '../ui/ui.js'
 import {CATEGORIES, SORTS} from '../schema.js'
-import {DBContext, propAsArray, propAsBoolean, propAsString, sort, useDBChanged} from '../db.js'
+import {DBContext, propAsBoolean, propAsString, sort, useDBChanged} from '../db.js'
 import {AND, IS_CATEGORY, IS_PROP_CONTAINS, IS_TYPE} from '../query2.js'
 import {format, formatDistanceToNow} from "date-fns"
 
 import "./email.css"
-
-function calculateFoldersFromTags(folders) {
-    let tagset = new Set()
-    folders.forEach(n => propAsArray(n,'tags').forEach(t => tagset.add(t)))
-    return Array.from(tagset.values()).map((t,i)=>{
-        return {
-            id:3000+i,
-            props: {
-                title:t,
-                icon:'hash',
-                query:true,
-                tag:true,
-            }
-        }
-    })
-}
+import {calculateFoldersFromTags} from '../util.js'
 
 export function Email({app }) {
     let db = useContext(DBContext)

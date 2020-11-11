@@ -2,15 +2,13 @@ import React, {useContext, useState} from 'react'
 import {
     DBContext,
     filterPropArrayContains, hasProp,
-    propAsArray,
     propAsBoolean,
-    propAsIcon,
     propAsString, useDBChanged
 } from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {
     DataList,
-    HBox, Panel, StandardListItem,
+    HBox, StandardListItem,
     TagsetEditor,
     TextareaPropEditor,
     TextPropEditor,
@@ -21,6 +19,7 @@ import {
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
+import {calculateFoldersFromTags} from '../util.js'
 
 
 const isNotesCategory = () => IS_CATEGORY(CATEGORIES.NOTES.ID)
@@ -37,20 +36,8 @@ export function Notes({app}) {
 
     let notes = db.QUERY(AND(isNotesCategory(),isNote()))
     let groups = db.QUERY(AND(isNotesCategory(),isGroup()))
-    let tagset = new Set()
-    notes.forEach(n => propAsArray(n,'tags').forEach(t => tagset.add(t)))
 
-    Array.from(tagset.values()).forEach((t,i)=>{
-        groups.push({
-            id:3000+i,
-            props: {
-                title:t,
-                icon:'label',
-                query:true,
-                tag:true,
-            }
-        })
-    })
+    groups = groups.concat(calculateFoldersFromTags(notes))
 
     const addNewNote = () => {
         let note = db.make(CATEGORIES.NOTES.ID,CATEGORIES.NOTES.TYPES.NOTE)

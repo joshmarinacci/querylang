@@ -20,6 +20,7 @@ import {Icon} from '@material-ui/core'
 
 import {propAsArray, propAsString} from '../../db.js'
 import {PopupManagerContext} from '../../ui/PopupManager.js'
+import {calculateFoldersFromTags} from '../../util.js'
 
 function PopupMenu ({children}) {
     let pm = useContext(PopupManagerContext)
@@ -50,28 +51,6 @@ function PopupTriggerButton({makePopup, title}) {
         {title}
         <Icon>arrow_drop_down</Icon>
     </button>
-}
-
-function calculateQueries(tagset) {
-    let queries = [{
-        id:"ids000",
-        props: {
-            icon:'bookmarks',
-            title:'all'
-        }
-    }]
-    Array.from(tagset.values()).forEach((t,i)=>{
-        queries.push({
-            id:3000+i,
-            props: {
-                title:t,
-                icon:'label',
-                query:true,
-                tag:true,
-            }
-        })
-    })
-    return queries
 }
 
 export function BookmarksManager({app}) {
@@ -124,10 +103,15 @@ export function BookmarksManager({app}) {
 
     let bookmarks = db.QUERY(AND(IS_CATEGORY(CATEGORIES.BOOKMARKS.ID),IS_TYPE(CATEGORIES.BOOKMARKS.SCHEMAS.BOOKMARK.TYPE)))
 
-    let tagset = new Set()
-    bookmarks.forEach(n => propAsArray(n,'tags').forEach(t => tagset.add(t)))
+    let queries = calculateFoldersFromTags(bookmarks)
+    queries.unshift({
+        id:"ids000",
+        props: {
+            icon:'bookmarks',
+            title:'all'
+        }
+    })
 
-    let queries = calculateQueries(tagset)
 
     if(propAsBoolean(selectedQuery,'tag')) {
         bookmarks = filterPropArrayContains(bookmarks,
