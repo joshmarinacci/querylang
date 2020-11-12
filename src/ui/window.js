@@ -3,8 +3,9 @@ import Icon from '@material-ui/core/Icon'
 import {propAsString} from '../db.js'
 import {AppLauncherContext} from '../services/AppLauncherService.js'
 
-export function Window({children, resize=true, hide_titlebar, app, anchor="none"}) {
+export function Window({children, resize=true, hide_titlebar, app, anchor="none",}) {
     let appService = useContext(AppLauncherContext)
+    let wm = useContext(WindowManagerContext)
     let title = propAsString(app,'title')
     // console.log("making window for app",app)
     let width = 300
@@ -80,7 +81,8 @@ export function Window({children, resize=true, hide_titlebar, app, anchor="none"
         setTop(top-offy)
         setOffy(0)
         setDragging(false)
-        setZ(z+1)
+        let newz = wm.raise(z)
+        setZ(newz)
     }
     useEffect(()=>{
         if(dragging) {
@@ -153,4 +155,18 @@ export function Window({children, resize=true, hide_titlebar, app, anchor="none"
         {resize_handle}
     </div>
 }
+
+
+
+export class WindowManager {
+    constructor() {
+        this.max = 10
+    }
+    raise() {
+        this.max++
+        return this.max
+    }
+}
+
+export const WindowManagerContext = React.createContext('wm')
 

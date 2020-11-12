@@ -27,11 +27,13 @@ import "./theme.css"
 import {DataBrowser} from './apps/DataBrowser.js'
 import {BookmarksManager} from './apps/bookmarks/bookmarks.js'
 import {SystemBar} from './apps/systembar/systembar.js'
+import {WindowManager, WindowManagerContext} from './ui/window.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
 let alarm_service = new AlarmService(db_service)
 let pm = new PopupManager()
+let wm = new WindowManager()
 
 function App() {
   useEffect(()=>{
@@ -49,6 +51,18 @@ function App() {
     apps.forEach(app => app_launcher_service.launch(app))
     return apps
   })
+  /*
+
+  Window wraps app
+  <Window onRaise=callback app=app key=appid>
+    <PeopleBar/>
+  </Window>
+
+
+start with a window context that wraps an increasing number
+click raises the Z above the top one, and sets a new top one
+
+   */
 
   let ins = apps.map((app,i) => {
     let appid = app.props.appid
@@ -76,6 +90,7 @@ function App() {
   })
 
   return <div className={'os-background'}>
+    <WindowManagerContext.Provider value={wm}>
     <DBContext.Provider value={db_service}>
       <AppLauncherContext.Provider value={app_launcher_service}>
         <AlarmContext.Provider value={alarm_service}>
@@ -87,6 +102,7 @@ function App() {
         </AlarmContext.Provider>
       </AppLauncherContext.Provider>
     </DBContext.Provider>
+    </WindowManagerContext.Provider>
   </div>
 }
 export default App;
