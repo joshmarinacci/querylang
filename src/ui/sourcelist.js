@@ -5,7 +5,7 @@ import {flatten} from './grid3layout.js'
 
 import "./sourcelist.css"
 
-export function SourceList({data, column, secondary, selected, renderItem}) {
+export function SourceList({data, column, secondary, selected, renderItem, setSelected}) {
     if(!data) {
         data = []
         for (let i = 0; i < 20; i++) {
@@ -13,17 +13,19 @@ export function SourceList({data, column, secondary, selected, renderItem}) {
         }
     }
     if(!renderItem) {
-        renderItem = (item) => item
+        renderItem = (item) => item.toString()
     }
     let cls = `source-list col${column}`
     if(secondary) cls += ' secondary'
-    return <ul className={cls}>{data.map((o,i)=><SourceListItem key={i} selected={selected===o} item={o} renderItem={renderItem}/>)}</ul>
+    return <ul className={cls}>{data.map((o,i)=><SourceListItem key={i} selected={selected} item={o} renderItem={renderItem} setSelected={setSelected}/>)}</ul>
 }
 
-export function SourceListItem({item, selected, renderItem}) {
+export function SourceListItem({item, selected, renderItem, setSelected}) {
     let cls = flatten({
-        selected:selected,
+        selected:(selected && selected.id === item.id),
     })
-    return <li className={cls}>{renderItem(item)}</li>
+    return <li className={cls} onClick={()=>{
+        if(setSelected) setSelected(item)
+    }}>{renderItem(item)}</li>
 }
 

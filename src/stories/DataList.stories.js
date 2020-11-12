@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react'
 
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {SourceList} from '../ui/sourcelist.js'
@@ -26,16 +26,19 @@ export const DefaultSourceList = () => {
 
 
 export const EmailItemSourceList = () => {
-    let emails = gen_emails()
-    return <SourceList data={emails} selected={emails[1]}
+    let [emails] = useState(()=>gen_emails())
+    const [selected,setSelected] = useState({})
+    return <SourceList data={emails} selected={selected} setSelected={setSelected}
                        renderItem={(obj)=> <EmailItem item={obj}/>}/>
 }
 
 
 export const EmailFolderSourceList = () => {
-    let folders = gen_folders()
+    let [folders] = useState(()=>gen_folders())
+    const [selected,setSelected] = useState({})
     return <SourceList data={folders}
-                       selected={folders[1]}
+                       selected={selected}
+                       setSelected={setSelected}
                        renderItem={obj => <EmailFolder item={obj}/>}
     />
 }

@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {DataList, HBox, Panel, Spacer, StandardListItem, Toolbar, VBox, Window} from '../ui/ui.js'
+import {HBox, Panel, Spacer, TopToolbar, VBox} from '../ui/ui.js'
 import {CATEGORIES, SORTS} from '../schema.js'
 import {DBContext, propAsBoolean, propAsString, sort, useDBChanged} from '../db.js'
 import {AND, IS_CATEGORY, IS_PROP_CONTAINS, IS_TYPE} from '../query2.js'
@@ -7,6 +7,10 @@ import {format, formatDistanceToNow} from "date-fns"
 
 import "./email.css"
 import {calculateFoldersFromTags} from '../util.js'
+import {Grid3Layout} from '../ui/grid3layout.js'
+import {TitleBar} from '../stories/email_example.js'
+import {SourceList} from '../ui/sourcelist.js'
+import Icon from '@material-ui/core/Icon'
 
 export function Email({app }) {
     let db = useContext(DBContext)
@@ -48,38 +52,68 @@ export function Email({app }) {
 
     folder_results = sort(folder_results,["timestamp"], SORTS.DESCENDING)
 
-    return <VBox grow>
-        <Toolbar>
+    return <Grid3Layout>
+        <TitleBar title={'Email'}/>
+        <SourceList column={1} secondary data={folders} selected={selectedFolder} setSelected={setSelectedFolder}
+                    renderItem={(obj,i) => <EmailFolder key={i} item={obj}/>}
+        />
+
+        <TopToolbar column={2}>
+            <label>rad</label>
+        </TopToolbar>
+
+        <SourceList column={2} data={folder_results} selected={selectedMessage} setSelected={setSelectedMessage}
+                    renderItem={(obj,i) => <EmailMessage key={i} message={obj}/>}
+        />
+
+        <TopToolbar column={3}>
             <button>new</button>
             <button>delete</button>
             <button>inbox</button>
             <input type="search"/>
-        </Toolbar>
-        <HBox grow>
-            <DataList data={folders}
-                      className={'sidebar'}
-                      selected={selectedFolder}
-                      setSelected={setSelectedFolder}
-                      stringify={o => {
-                          let icon = "folder"
-                          let title = propAsString(o,'title')
-                          if(title === 'inbox') icon = 'inbox'
-                          return <StandardListItem title={title} icon={icon}/>
-                      }}
-            />
-            <DataList data={folder_results}
-                      className={'sidebar'}
-                      selected={selectedMessage}
-                      setSelected={setSelectedMessage}
-                      stringify={o => {
-                          return <StandardListItem
-                              title={propAsString(o,'sender')}
-                              trailing_title={formatDistanceToNow(o.props.timestamp)}
-                              subtitle={propAsString(o,'subject')}
-                              />}}
-                              />
+        </TopToolbar>
+        {panel}
+    </Grid3Layout>
+}
 
-            {panel}
+function EmailFolder({item}){
+    if(propAsBoolean(item,'header')) {
+        return <HBox className="folder header">
+            {propAsString(item,'title')}
+        </HBox>
+    }
+
+    let badge = ""
+    if(item.props.count) {
+        badge = <span className={'badge'}>{item.props.count}</span>
+    }
+
+    let icon = 'folder'
+    if(propAsString(item,'title') === 'inbox') icon = 'inbox'
+    return <HBox className="folder" center>
+        <Icon className={'icon'}>{icon}</Icon>
+        <span className={'title'}>{propAsString(item,'title')}</span>
+        <Spacer/>
+        {badge}
+    </HBox>
+}
+
+function EmailMessage({message}) {
+    let item = message
+    return <VBox className={'email-item'}>
+        <HBox>
+            {/*<Icon className="small">{propAsBoolean(item,'read')?"brightness_1":""}</Icon>*/}
+            <b className={'from'}>{propAsString(item,'sender')}</b>
+            <Spacer/>
+            <label className={'time'}>{formatDistanceToNow(item.props.timestamp)}</label>
+        </HBox>
+        <HBox>
+            <i className={'subject'}>{propAsString(item,'subject')}</i>
+            <Spacer/>
+            {/*<Icon className="small">attachment</Icon>*/}
+        </HBox>
+        <HBox>
+            <p className={'excerpt'}>{propAsString(item,'excerpt')}</p>
         </HBox>
     </VBox>
 }
