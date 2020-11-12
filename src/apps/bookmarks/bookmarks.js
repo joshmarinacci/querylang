@@ -8,7 +8,7 @@ import {
     Spacer, StandardListItem,
     TagsetEditor, TextareaPropEditor,
     TextPropEditor,
-    Toolbar,
+    Toolbar, TopToolbar,
     VBox,
     Window
 } from '../../ui/ui.js'
@@ -21,6 +21,8 @@ import {Icon} from '@material-ui/core'
 import {propAsArray, propAsString} from '../../db.js'
 import {PopupManagerContext} from '../../ui/PopupManager.js'
 import {calculateFoldersFromTags} from '../../util.js'
+import {Grid3Layout} from '../../ui/grid3layout.js'
+import {SourceList} from '../../ui/sourcelist.js'
 
 function PopupMenu ({children}) {
     let pm = useContext(PopupManagerContext)
@@ -121,35 +123,32 @@ export function BookmarksManager({app}) {
     bookmarks = sort(bookmarks, [sortField], sortOrder )
 
 
-    return  <VBox grow>
-        <Toolbar>
+    return  <Grid3Layout>
+
+        <SourceList data={queries} selected={selectedQuery} setSelected={setSelectedQuery}
+                    renderItem={(o,i)=> <StandardListItem key={i}
+                                                       icon={propAsString(o,'icon')}
+                                                       title={propAsString(o,'title')}/>}/>
+        <TopToolbar column={2}>
+            <Spacer/>
+            <PopupTriggerButton onClick={showSortPopup} makePopup={showSortPopup} title={"Sort"}/>
+        </TopToolbar>
+
+        <SourceList column={2} data={bookmarks}  selected={selected} setSelected={setSelected}
+                  renderItem={(o)=> <BookmarkView key={o.id} bookmark={o} onOpen={open_tab}/>}/>
+
+
+        <TopToolbar column={3}>
             <Icon onClick={show_add_dialog}>add</Icon>
-        </Toolbar>
-        <HBox grow>
-            <VBox className={'sidebar'}>
-                <Toolbar><label>label</label></Toolbar>
-                <DataList data={queries}
-                          selected={selectedQuery}
-                          setSelected={setSelectedQuery}
-                          stringify={(o,i)=> <StandardListItem key={i}
-                                                               icon={propAsString(o,'icon')}
-                                                               title={propAsString(o,'title')}/>}/>
-            </VBox>
-            <VBox className={'sidebar'}>
-                <Toolbar>
-                    <Spacer/>
-                    <PopupTriggerButton onClick={showSortPopup} makePopup={showSortPopup} title={"Sort"}/>
-                </Toolbar>
-                <DataList data={bookmarks}
-                          selected={selected}
-                          setSelected={setSelected}
-                          stringify={(o)=> <BookmarkView key={o.id} bookmark={o} onOpen={open_tab}/>}/>
-            </VBox>
-            <BookmarkDetailsView bookmark={selected} onOpen={open_tab}/>
-        </HBox>
+            <Icon>edit</Icon>
+            <Spacer/>
+            <Icon>delete</Icon>
+        </TopToolbar>
+
+        <BookmarkDetailsView bookmark={selected} onOpen={open_tab} className={"col3 row2"}/>
 
         <AddDialog visible={add_visible} onAdd={add_bookmark} draft={draft} db={db}/>
-    </VBox>
+    </Grid3Layout>
 }
 
 function AddDialog({visible, onAdd, draft, db}) {
@@ -201,7 +200,7 @@ function BookmarkView({bookmark, onOpen}) {
     />
 }
 
-function BookmarkDetailsView({bookmark, onOpen}) {
+function BookmarkDetailsView({bookmark, onOpen, ...rest}) {
     if(!bookmark) return <Panel></Panel>
 
     const open_translated = () => {
@@ -214,7 +213,7 @@ function BookmarkDetailsView({bookmark, onOpen}) {
         let url = `https://web.archive.org/web/${src}`
         window.open(url,"_blank")
     }
-    return <Panel>
+    return <Panel {...rest}>
         <HBox><button onClick={()=>onOpen(bookmark)}>open</button></HBox>
         <HBox><button onClick={open_translated}>translated</button> </HBox>
         <HBox><button onClick={open_archived}>archived</button> </HBox>
