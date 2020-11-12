@@ -1,4 +1,5 @@
 import React from 'react';
+import Icon from '@material-ui/core/Icon'
 
 /*
  - draggable title bar
@@ -13,15 +14,28 @@ import React from 'react';
 
  */
 import "./grid3layout.css"
+import {Spacer} from './ui.js'
 export function Grid3Layout({}) {
     return <div className={'grid3layout'}>
-        <TitleBar/>
+        <TitleBar title={'some title'}/>
         <SourceList column={1} secondary/>
 
-        <TopToolbar column={2}/>
+        <TopToolbar column={2}>
+            <label>Inbox</label>
+            <Spacer/>
+            <Icon>filter_list</Icon>
+        </TopToolbar>
         <SourceList column={2}/>
 
-        <TopToolbar column={3}/>
+        <TopToolbar column={3}>
+            <Icon>email</Icon>
+            <Icon>create</Icon>
+            <Spacer/>
+            <Icon>archive</Icon>
+            <Icon>delete</Icon>
+            <Spacer/>
+            <Icon>search</Icon>
+        </TopToolbar>
         <ContentArea column={3}/>
     </div>
 }
@@ -33,8 +47,8 @@ export const flatten = (obj) => {
 }
 
 
-function TitleBar() {
-    return <div className={'titlebar'}>title</div>
+function TitleBar({title}) {
+    return <div className={'titlebar'}>{title}</div>
 }
 function SourceList({column, secondary}) {
     let data = []
@@ -45,12 +59,10 @@ function SourceList({column, secondary}) {
     if(secondary) cls += ' secondary'
     return <ul className={cls}>{data.map((o,i)=><li key={i} className={flatten({selected:i===2})}>{o}</li>)}</ul>
 }
-function TopToolbar({column}) {
+function TopToolbar({column, children}) {
     let cls = `toolbar col${column}`
     return <div className={cls}>
-        <button>do</button>
-        <button>cool</button>
-        <button>things</button>
+        {children}
     </div>
 }
 function ContentArea({column}) {

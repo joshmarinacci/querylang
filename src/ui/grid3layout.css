@@ -1,3 +1,5 @@
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+
 .grid3layout {
     /*width: 600px;*/
     height: 300px;
@@ -81,11 +83,12 @@
 .toolbar {
     padding: 0.5rem;
 }
-.toolbar button {
+.toolbar button, .toolbar .MuiIcon-root {
     padding: 0.5rem;
     border-width: 0;
     background-color: white;
     border-radius: 0.5rem;
+    font-size: 100%;
 }
 
 /* ========== colors =============== */
@@ -101,12 +104,12 @@
 .toolbar {
     background-color: white;
 }
-.toolbar button {
+.toolbar button, .toolbar .MuiIcon-root {
     background-color: white;
     border-width: 0;
     border-radius: 0.5rem;
 }
-.toolbar button:hover {
+.toolbar button:hover, .toolbar .MuiIcon-root:hover {
     background-color: grey;
     color: white;
 }
