@@ -51,18 +51,6 @@ function App() {
     apps.forEach(app => app_launcher_service.launch(app))
     return apps
   })
-  /*
-
-  Window wraps app
-  <Window onRaise=callback app=app key=appid>
-    <PeopleBar/>
-  </Window>
-
-
-start with a window context that wraps an increasing number
-click raises the Z above the top one, and sets a new top one
-
-   */
 
   function makeApp(app) {
     let appid = app.props.appid

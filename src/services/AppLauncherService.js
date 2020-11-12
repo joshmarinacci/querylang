@@ -7,6 +7,11 @@ export class AppLauncherService {
     }
     launch(app) {
         this.running.push(app)
+        // remove dupes
+        let group = new Map()
+        this.running.forEach(a => group.set(a.id, a))
+        this.running = Array.from(group.values())
+        // notify everyone
         this.listeners.forEach(l => l())
     }
     addEventListener(handler) {
