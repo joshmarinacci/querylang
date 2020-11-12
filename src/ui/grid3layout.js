@@ -29,7 +29,41 @@ let emails = range(0,20,1).map((n)=>({
     }
 }))
 
-console.log("made emails",emails)
+let folders = [
+    {
+        id:'header1',
+        props: {
+            title:'Favorites',
+            header:true,
+        }
+    },
+    {
+        id:'inbox',
+        props: {
+            title:'inbox',
+            icon:'inbox',
+            count:17,
+        }
+    },
+    {
+        id:'sent',
+        props: {
+            title:'sent',
+            icon:'send',
+            count:0,
+        }
+    },
+    {
+        id:'flagged',
+        props: {
+            title:'flag',
+            icon:'flagged',
+            count:0,
+        }
+    }
+]
+
+
 function EmailItem({item}) {
     return <VBox className={'email-item'}>
         <HBox>
@@ -48,19 +82,41 @@ function EmailItem({item}) {
         </HBox>
     </VBox>
 }
+
+function EmailFolder({item}){
+    if(propAsBoolean(item,'header')) {
+        return <HBox className="folder header">
+            {propAsString(item,'title')}
+        </HBox>
+    }
+
+    let badge = ""
+    if(item.props.count) {
+        badge = <span className={'badge'}>{item.props.count}</span>
+    }
+
+    return <HBox className="folder">
+        <Icon className={'icon'}>{propAsString(item,'icon')}</Icon>
+        <span className={'title'}>{propAsString(item,'title')}</span>
+        <Spacer/>
+        {badge}
+    </HBox>
+}
 export function Grid3Layout({}) {
     return <div className={'grid3layout'}>
-        <TitleBar title={'some title'}/>
-        <SourceList column={1} secondary/>
+        <TitleBar title={'Cool App'}/>
+        <SourceList column={1} secondary data={folders}
+                    selected={folders[1]}
+                    renderItem={obj => <EmailFolder item={obj}/>}
+        />
 
         <TopToolbar column={2}>
             <label>Inbox</label>
             <Spacer/>
             <Icon>filter_list</Icon>
         </TopToolbar>
-        <SourceList column={2} data={emails} renderItem={(obj)=>{
-            return <EmailItem item={obj}/>
-        }}/>
+        <SourceList column={2} data={emails} selected={emails[1]}
+                    renderItem={(obj)=> <EmailItem item={obj}/>}/>
 
         <TopToolbar column={3}>
             <Icon>email</Icon>
@@ -83,7 +139,11 @@ export const flatten = (obj) => {
 
 
 function TitleBar({title}) {
-    return <div className={'titlebar'}>{title}</div>
+    return <div className={'titlebar'}>
+        <Icon>settings</Icon>
+        <Spacer/>
+        {title}
+    </div>
 }
 function SourceList({data, column, secondary, selected, renderItem}) {
     if(!data) {

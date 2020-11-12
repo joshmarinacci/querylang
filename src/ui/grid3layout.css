@@ -99,7 +99,7 @@
     border: 1px solid #888888;
 }
 .titlebar {
-    background-color: teal;
+    background-color: green;
 }
 .toolbar {
     background-color: white;
@@ -117,11 +117,11 @@
     background-color: white;
 }
 .source-list.secondary {
-    background-color: #eee;
+    background-color: #f0f0f0;
 }
 
 .source-list li.selected {
-    background-color: #cccccc;
+    background-color: #ddd;
 }
 
 .MuiIcon-root.small {
@@ -156,4 +156,32 @@
     font-size: 0.9em;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+
+.hbox.folder {
+    align-items: center;
+}
+
+.folder.header {
+    text-transform: uppercase;
+    font-size: 90%;
+    color: #888;
+}
+
+.folder .icon {
+    font-size: 100%;
+    padding-left: 0.25em;
+    padding-right: 0.5em;
+}
+.folder .title {
+    text-transform: capitalize;
+}
+
+.folder .badge {
+    font-size: 0.75em;
+    border-radius: 1.0em;
+    background-color: #888;
+    color: white;
+    padding: 0.25em 0.5em;
 }
