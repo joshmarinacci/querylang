@@ -3,8 +3,8 @@
 .grid3layout {
     flex: 1.0;
     display: grid;
-    grid-template-columns: [one] 10em [gap1] 1px [two]20em [gap2] 1px [three] 1fr [end];
-    grid-template-rows: [toolbar]3em [content]1fr;
+    grid-template-columns: [one] 10rem [gap1] 1px [two]20rem [gap2] 1px [three] 1fr [end];
+    grid-template-rows: [toolbar]3rem [content]1fr;
     background-color: black;
     overflow: auto;
 }
@@ -32,6 +32,10 @@
 
 .row1 {
     grid-row: toolbar;
+}
+
+.span3 {
+    grid-column-end: end;
 }
 
 .source-list {

@@ -192,9 +192,7 @@ export function TagsetEditor({buffer, prop, onChange}) {
     </div>
 }
 
-export function TopToolbar({column, children}) {
-    let cls = `top-toolbar col${column}`
-    return <div className={cls}>
-        {children}
-    </div>
+export function TopToolbar({column=1, children, span=1, ...rest}) {
+    let cls = `top-toolbar col${column} span${span}`
+    return <div className={cls} {...rest}>{children}</div>
 }

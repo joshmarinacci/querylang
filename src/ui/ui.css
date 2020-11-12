@@ -209,6 +209,9 @@ button.danger:hover {
 /* =========== top toolbar */
 .top-toolbar {
     grid-row: toolbar;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 .top-toolbar {
     padding: 0.5rem;
