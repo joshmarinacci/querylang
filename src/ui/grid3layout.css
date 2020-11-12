@@ -1,10 +1,10 @@
 .grid3layout {
-    width: 600px;
+    /*width: 600px;*/
     height: 300px;
 
     display: grid;
 
-    grid-template-columns: [one] 1fr [gap1] 1px [two]1fr [gap2] 1px [three] 2fr [end];
+    grid-template-columns: [one] 10em [gap1] 1px [two]10em [gap2] 1px [three] 1fr [end];
     grid-template-rows: [toolbar]3em [content]1fr;
 
     font-family: sans-serif;
