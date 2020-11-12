@@ -14,7 +14,40 @@ import Icon from '@material-ui/core/Icon'
 
  */
 import "./grid3layout.css"
-import {Spacer} from './ui.js'
+import {HBox, Spacer, VBox} from './ui.js'
+
+import faker from 'faker'
+import {range} from '../util.js'
+import {propAsBoolean, propAsString} from '../db.js'
+let emails = range(0,20,1).map((n)=>({
+    id:n,
+    props: {
+        from: faker.name.findName(),
+        subject: faker.lorem.sentence(),
+        read:Math.random()<0.5,
+        excerpt: faker.lorem.sentences(4).substring(0,100),
+    }
+}))
+
+console.log("made emails",emails)
+function EmailItem({item}) {
+    return <VBox className={'email-item'}>
+        <HBox>
+            {/*<Icon className="small">{propAsBoolean(item,'read')?"brightness_1":""}</Icon>*/}
+            <b className={'from'}>{propAsString(item,'from')}</b>
+            <Spacer/>
+            <label className={'time'}>2:00AM</label>
+        </HBox>
+        <HBox>
+            <i className={'subject'}>{propAsString(item,'subject')}</i>
+            <Spacer/>
+            <Icon className="small">attachment</Icon>
+        </HBox>
+        <HBox>
+            <p className={'excerpt'}>{propAsString(item,'excerpt')}</p>
+        </HBox>
+    </VBox>
+}
 export function Grid3Layout({}) {
     return <div className={'grid3layout'}>
         <TitleBar title={'some title'}/>
@@ -25,7 +58,9 @@ export function Grid3Layout({}) {
             <Spacer/>
             <Icon>filter_list</Icon>
         </TopToolbar>
-        <SourceList column={2}/>
+        <SourceList column={2} data={emails} renderItem={(obj)=>{
+            return <EmailItem item={obj}/>
+        }}/>
 
         <TopToolbar column={3}>
             <Icon>email</Icon>
@@ -50,14 +85,25 @@ export const flatten = (obj) => {
 function TitleBar({title}) {
     return <div className={'titlebar'}>{title}</div>
 }
-function SourceList({column, secondary}) {
-    let data = []
-    for(let i=0; i<20; i++) {
-        data.push(`line ${i}`)
+function SourceList({data, column, secondary, selected, renderItem}) {
+    if(!data) {
+        data = []
+        for (let i = 0; i < 20; i++) {
+            data.push(`line ${i}`)
+        }
+    }
+    if(!renderItem) {
+        renderItem = () => "item"
     }
     let cls = `source-list col${column}`
     if(secondary) cls += ' secondary'
-    return <ul className={cls}>{data.map((o,i)=><li key={i} className={flatten({selected:i===2})}>{o}</li>)}</ul>
+    return <ul className={cls}>{data.map((o,i)=><SourceListItem key={i} selected={selected===o} item={o} renderItem={renderItem}/>)}</ul>
+}
+function SourceListItem({item, selected, renderItem}) {
+    let cls = flatten({
+        selected:selected,
+    })
+    return <li className={cls}>{renderItem(item)}</li>
 }
 function TopToolbar({column, children}) {
     let cls = `toolbar col${column}`
