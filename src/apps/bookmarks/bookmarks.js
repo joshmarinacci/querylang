@@ -201,7 +201,7 @@ function BookmarkView({bookmark, onOpen}) {
 }
 
 function BookmarkDetailsView({bookmark, onOpen, ...rest}) {
-    if(!bookmark) return <Panel></Panel>
+    if(!bookmark) return <Panel {...rest}/>
 
     const open_translated = () => {
         let src = propAsString(bookmark,'url')

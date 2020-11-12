@@ -922,10 +922,10 @@ loadApp({title:'Bookmarks', appid:"BookmarksManager",icon:'bookmarks'})
 loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report', launchbar: false})
 loadApp({ title:'cmd.bar', appid:'CommandBar', icon:'code',  preload:false, launchbar:false,
     window: { default_width: 400,  default_height: 100 }})
-loadApp({title:"Maps", appid:"MapViewer", icon:'map'})
+loadApp({title:"Maps", appid:"MapViewer", icon:'map', launchbar:false})
 loadApp({title:"Settings", appid:"SettingsApp", icon:'settings', launchbar:false,
     window:{default_width:400, default_height:400}})
-loadApp({title:"Writer", appid:"WriterApp", icon:'create'})
+loadApp({title:"Writer", appid:"WriterApp", icon:'create', launchbar:false})
 loadApp({title:'Data Browser', appid:"DataBrowser",icon:'create', launchbar:false})
 
 function load_bookmarks() {
