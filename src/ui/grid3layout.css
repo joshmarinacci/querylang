@@ -17,12 +17,6 @@
 .grid3layout > * {
     background-color: white;
 }
-.source-list {
-    list-style: none;
-    padding:0;
-    margin:0;
-    overflow: scroll;
-}
 
 .col1 {
     grid-column-start: one;
@@ -37,15 +31,18 @@
     grid-column-end: end;
 }
 
-.source-list li {
+.row2 {
+    grid-row: content;
 }
+
+.row1 {
+    grid-row: toolbar;
+}
+
 .source-list {
     grid-row: content;
 }
 
-.toolbar {
-    grid-row: toolbar;
-}
 
 .content-area {
     grid-row: content;
@@ -65,30 +62,12 @@
 
 /* ============= padding ========== */
 
-.source-list {
-    padding: 0.5rem;
-}
-.source-list li {
-    padding: 0.5rem 0.5rem;
-    margin:0;
-    border-radius: 0.5rem;
-}
 .titlebar {
     padding: 0.5rem;
     color: white;
 }
 .content-area {
     padding: 1rem;
-}
-.toolbar {
-    padding: 0.5rem;
-}
-.toolbar button, .toolbar .MuiIcon-root {
-    padding: 0.5rem;
-    border-width: 0;
-    background-color: white;
-    border-radius: 0.5rem;
-    font-size: 100%;
 }
 
 /* ========== colors =============== */
@@ -113,75 +92,9 @@
     background-color: grey;
     color: white;
 }
-.source-list, .content-area {
-    background-color: white;
-}
-.source-list.secondary {
-    background-color: #f0f0f0;
-}
-
-.source-list li.selected {
-    background-color: #ddd;
-}
 
 .MuiIcon-root.small {
     font-size: 75%;
 }
 
 
-/* ===================== demo ============= */
-.email-item {
-    /*border: 1px solid red;*/
-    border: 1px solid #eee;
-    border-width: 0 0 1px 0;
-}
-
-.email-item .from {
-    font-size: 1.2em;
-    color: #000;
-}
-.email-item .time {
-    color: #666;
-}
-.email-item .subject {
-    color: #333;
-    font-style: normal;
-    padding-top: 0.5rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.email-item .excerpt {
-    color: #666;
-    font-size: 0.9em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-
-.hbox.folder {
-    align-items: center;
-}
-
-.folder.header {
-    text-transform: uppercase;
-    font-size: 90%;
-    color: #888;
-}
-
-.folder .icon {
-    font-size: 100%;
-    padding-left: 0.25em;
-    padding-right: 0.5em;
-}
-.folder .title {
-    text-transform: capitalize;
-}
-
-.folder .badge {
-    font-size: 0.75em;
-    border-radius: 1.0em;
-    background-color: #888;
-    color: white;
-    padding: 0.25em 0.5em;
-}

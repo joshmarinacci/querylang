@@ -204,3 +204,20 @@ button.danger:hover {
 .textprop-editor > input {
     width: 100%;
 }
+
+
+/* =========== top toolbar */
+.top-toolbar {
+    grid-row: toolbar;
+}
+.top-toolbar {
+    padding: 0.5rem;
+}
+.top-toolbar button, .top-toolbar .MuiIcon-root {
+    padding: 0.5rem;
+    border-width: 0;
+    background-color: white;
+    border-radius: 0.5rem;
+    font-size: 100%;
+}
+

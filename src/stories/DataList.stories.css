@@ -1,0 +1,61 @@
+.source-list {
+    font-family: sans-serif;
+    font-size: 10pt;
+}
+
+/* ===================== demo ============= */
+.email-item {
+    /*border: 1px solid red;*/
+    border: 1px solid #eee;
+    border-width: 0 0 1px 0;
+}
+
+.email-item .from {
+    font-size: 1.2em;
+    color: #000;
+}
+.email-item .time {
+    color: #666;
+}
+.email-item .subject {
+    color: #333;
+    font-style: normal;
+    padding-top: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.email-item .excerpt {
+    color: #666;
+    font-size: 0.9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.hbox.folder {
+    align-items: center;
+}
+
+.folder.header {
+    text-transform: uppercase;
+    font-size: 90%;
+    color: #888;
+}
+
+.folder .icon {
+    font-size: 100%;
+    padding-left: 0.25em;
+    padding-right: 0.5em;
+}
+.folder .title {
+    text-transform: capitalize;
+}
+
+.folder .badge {
+    font-size: 0.75em;
+    border-radius: 1.0em;
+    background-color: #888;
+    color: white;
+    padding: 0.25em 0.5em;
+}
