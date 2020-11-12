@@ -176,7 +176,7 @@ export function Music({app}) {
         }
     }
 
-    return <Window app={app}>
+    return <VBox>
         <Toolbar>
             <PlayPanel selectedSong={selectedSong}/>
             <Spacer/>
@@ -189,5 +189,5 @@ export function Music({app}) {
                 />
             {panel}
         </HBox>
-    </Window>
+    </VBox>
 }

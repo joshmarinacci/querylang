@@ -208,8 +208,8 @@ export function ContactList({app}) {
         panel = <ContactEditPanel selected={selected} onDone={()=>setEditing(false)} db={db}/>
     }
 
-    return <Window app={app}>
-        <HBox grow>
+
+    return <HBox grow>
             <VBox className={"sidebar"}>
                 <Toolbar>
                     <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
@@ -222,5 +222,5 @@ export function ContactList({app}) {
                 {panel}
             </VBox>
         </HBox>
-    </Window>
+
 }

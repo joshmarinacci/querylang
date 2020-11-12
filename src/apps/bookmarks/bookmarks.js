@@ -121,11 +121,10 @@ export function BookmarksManager({app}) {
     bookmarks = sort(bookmarks, [sortField], sortOrder )
 
 
-    return <Window app={app}>
-        <VBox grow>
-            <Toolbar>
-                <Icon onClick={show_add_dialog}>add</Icon>
-            </Toolbar>
+    return  <VBox grow>
+        <Toolbar>
+            <Icon onClick={show_add_dialog}>add</Icon>
+        </Toolbar>
         <HBox grow>
             <VBox className={'sidebar'}>
                 <Toolbar><label>label</label></Toolbar>
@@ -142,16 +141,15 @@ export function BookmarksManager({app}) {
                     <PopupTriggerButton onClick={showSortPopup} makePopup={showSortPopup} title={"Sort"}/>
                 </Toolbar>
                 <DataList data={bookmarks}
-                selected={selected}
-                setSelected={setSelected}
+                          selected={selected}
+                          setSelected={setSelected}
                           stringify={(o)=> <BookmarkView key={o.id} bookmark={o} onOpen={open_tab}/>}/>
             </VBox>
             <BookmarkDetailsView bookmark={selected} onOpen={open_tab}/>
         </HBox>
 
-        </VBox>
         <AddDialog visible={add_visible} onAdd={add_bookmark} draft={draft} db={db}/>
-    </Window>
+    </VBox>
 }
 
 function AddDialog({visible, onAdd, draft, db}) {

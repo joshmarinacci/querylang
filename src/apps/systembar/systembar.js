@@ -34,13 +34,11 @@ export function SystemBar({app}) {
             clearTimeout(t)
         }
     })
-    return <Window app={app} hide_titlebar={true} resize={false}>
-        <Toolbar grow center>
-            <label className={'clock'}>{format(time,"eee MMM  dd, hh:mm aa")}</label>
-            <Spacer/>
-            <Icon onClick={()=>launch("CommandBar")}>code</Icon>
-            <Icon onClick={()=>launch("SettingsApp")}>settings</Icon>
-            <Icon onClick={()=>launch("DebugPanel")}>bug_report</Icon>
-        </Toolbar>
-    </Window>
+    return <Toolbar grow center>
+        <label className={'clock'}>{format(time,"eee MMM  dd, hh:mm aa")}</label>
+        <Spacer/>
+        <Icon onClick={()=>launch("CommandBar")}>code</Icon>
+        <Icon onClick={()=>launch("SettingsApp")}>settings</Icon>
+        <Icon onClick={()=>launch("DebugPanel")}>bug_report</Icon>
+    </Toolbar>
 }

@@ -60,27 +60,25 @@ export function CommandBar({app}) {
     }
 
 
-    return <Window app={app}>
-        <VBox className={'content-panel'}>
-            <input ref={textfield}
-                type={'text'} value={text} onChange={e => update(e,e.target.value)}
-                   onKeyDownCapture={e => {
-                       if(e.key === 'Tab') {
-                           complete()
-                           e.preventDefault()
-                       }
-                       if(e.key === 'ArrowDown') {
-                           console.log("down")
-                       }
-                   }}
-                   onKeyPress={e => {
-                       if(e.key === 'Enter') {
-                           console.log("pressed enter")
-                           execute()
-                       }
-                   }}
-            />
-        </VBox>
-    </Window>
+    return <VBox className={'content-panel'}>
+        <input ref={textfield}
+               type={'text'} value={text} onChange={e => update(e,e.target.value)}
+               onKeyDownCapture={e => {
+                   if(e.key === 'Tab') {
+                       complete()
+                       e.preventDefault()
+                   }
+                   if(e.key === 'ArrowDown') {
+                       console.log("down")
+                   }
+               }}
+               onKeyPress={e => {
+                   if(e.key === 'Enter') {
+                       console.log("pressed enter")
+                       execute()
+                   }
+               }}
+        />
+    </VBox>
 
 }

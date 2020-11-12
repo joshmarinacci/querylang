@@ -909,11 +909,16 @@ function loadApp(props) {
         }
     )
 }
+
 loadApp({ title:'Peoplebar', appid:'PeopleBar', launchbar:false, preload:true,
-        window: { default_width:100, default_height:326, anchor:'top-right', }})
-loadApp({title:'Bookmarks', appid:"BookmarksManager",icon:'bookmarks'})
+        window: { default_width:100, default_height:326, anchor:'top-right', hide_titlebar:true, resize:false }})
 loadApp({ title: 'Notifications', appid: 'NotificationPanel', preload: true, launchbar: false,
-    window: { default_width: 200, default_height: 326, anchor: 'bottom-right', }})
+    window: { default_width: 200, default_height: 326, anchor: 'bottom-right', hide_titlebar: true, resize:false }})
+loadApp( {title:"SystemBar", appid:'SystemBar',preload:true,launchbar:false,
+    window:{ default_width:500,  default_height:'auto',  anchor:'top-right', hide_titlebar:true, resize:false }})
+
+
+loadApp({title:'Bookmarks', appid:"BookmarksManager",icon:'bookmarks'})
 loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report', launchbar: false})
 loadApp({ title:'cmd.bar', appid:'CommandBar', icon:'code',  preload:false, launchbar:false,
     window: { default_width: 400,  default_height: 100 }})
@@ -922,8 +927,6 @@ loadApp({title:"Settings", appid:"SettingsApp", icon:'settings', launchbar:false
     window:{default_width:400, default_height:400}})
 loadApp({title:"Writer", appid:"WriterApp", icon:'create'})
 loadApp({title:'Data Browser', appid:"DataBrowser",icon:'create', launchbar:false})
-loadApp( {title:"SystemBar", appid:'SystemBar',preload:true,launchbar:false,
-    window:{ default_width:500,  default_height:'auto',  anchor:'top-right', }})
 
 function load_bookmarks() {
     data.push({

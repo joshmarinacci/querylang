@@ -48,40 +48,38 @@ export function Email({app }) {
 
     folder_results = sort(folder_results,["timestamp"], SORTS.DESCENDING)
 
-    return <Window app={app}>
-        <VBox grow>
-            <Toolbar>
-                <button>new</button>
-                <button>delete</button>
-                <button>inbox</button>
-                <input type="search"/>
-            </Toolbar>
-            <HBox grow>
-                <DataList data={folders}
-                          className={'sidebar'}
-                          selected={selectedFolder}
-                          setSelected={setSelectedFolder}
-                          stringify={o => {
-                              let icon = "folder"
-                              let title = propAsString(o,'title')
-                              if(title === 'inbox') icon = 'inbox'
-                              return <StandardListItem title={title} icon={icon}/>
-                          }}
-                />
-                <DataList data={folder_results}
-                          className={'sidebar'}
-                          selected={selectedMessage}
-                          setSelected={setSelectedMessage}
-                          stringify={o => {
-                              return <StandardListItem
-                                  title={propAsString(o,'sender')}
-                                  trailing_title={formatDistanceToNow(o.props.timestamp)}
-                                  subtitle={propAsString(o,'subject')}
-                                  />}}
-                                  />
+    return <VBox grow>
+        <Toolbar>
+            <button>new</button>
+            <button>delete</button>
+            <button>inbox</button>
+            <input type="search"/>
+        </Toolbar>
+        <HBox grow>
+            <DataList data={folders}
+                      className={'sidebar'}
+                      selected={selectedFolder}
+                      setSelected={setSelectedFolder}
+                      stringify={o => {
+                          let icon = "folder"
+                          let title = propAsString(o,'title')
+                          if(title === 'inbox') icon = 'inbox'
+                          return <StandardListItem title={title} icon={icon}/>
+                      }}
+            />
+            <DataList data={folder_results}
+                      className={'sidebar'}
+                      selected={selectedMessage}
+                      setSelected={setSelectedMessage}
+                      stringify={o => {
+                          return <StandardListItem
+                              title={propAsString(o,'sender')}
+                              trailing_title={formatDistanceToNow(o.props.timestamp)}
+                              subtitle={propAsString(o,'subject')}
+                              />}}
+                              />
 
-                {panel}
-            </HBox>
-            </VBox>
-    </Window>
+            {panel}
+        </HBox>
+    </VBox>
 }

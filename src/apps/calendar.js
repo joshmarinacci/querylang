@@ -73,8 +73,7 @@ export function Calendar({app}) {
     if(view === 'day') panel = <DayView events={events}/>
     if(view === 'week') panel = <WeekView events={events}/>
 
-    return <Window app={app}>
-        <VBox grow>
+    return <VBox grow>
         <h1>{format(today,'E MMM d')}</h1>
         <HBox>
             <Icon onClick={nav_prev_day}>arrow_left</Icon>
@@ -86,8 +85,7 @@ export function Calendar({app}) {
             </ExclusiveToggleBar>
         </HBox>
         {panel}
-        </VBox>
-    </Window>
+    </VBox>
 }
 
 function ExclusiveToggleBar({children}) {

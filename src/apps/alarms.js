@@ -13,15 +13,13 @@ export function Alarms({app}) {
 
     let alarms = db.QUERY(AND(IS_CATEGORY(CATEGORIES.ALARM.ID),IS_TYPE(CATEGORIES.ALARM.TYPES.ALARM)))
     const addAlarm = () => db.add(db.make(CATEGORIES.ALARM.ID, CATEGORIES.ALARM.TYPES.ALARM))
-    return <Window app={app}>
-        <VBox grow className={'content-panel'}>
-            <Toolbar>
-                <button onClick={addAlarm}><Icon>alarm_add</Icon></button>
-                <Spacer/>
-            </Toolbar>
-            <DataList data={alarms} stringify={(o)=> <AlarmItem key={o.id} alarm={o} db={db}/>}/>
-        </VBox>
-    </Window>
+    return <VBox grow className={'content-panel'}>
+        <Toolbar>
+            <button onClick={addAlarm}><Icon>alarm_add</Icon></button>
+            <Spacer/>
+        </Toolbar>
+        <DataList data={alarms} stringify={(o)=> <AlarmItem key={o.id} alarm={o} db={db}/>}/>
+    </VBox>
 }
 
 

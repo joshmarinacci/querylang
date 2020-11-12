@@ -16,9 +16,7 @@ export function NotificationPanel({app}) {
         IS_PROP_EQUAL('read',false),
     ))
 
-    return <Window resize={false} hide_titlebar={true} app={app}>
-        <VBox className={'list'}>{items.map((o,i) => <NotificationView key={i} alert={o}/>)}</VBox>
-    </Window>
+    return <VBox className={'list'}>{items.map((o,i) => <NotificationView key={i} alert={o}/>)}</VBox>
 }
 
 function NotificationView({alert}) {

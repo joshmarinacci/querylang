@@ -9,14 +9,14 @@ export function SettingsApp({app}) {
     let db = useContext(DBContext)
     useDBChanged(db, CATEGORIES.TASKS.ID)
     let [panel,setPanel] = useState("background")
-    return <Window app={app}>
-        <VBox scroll>
-            <Toolbar>
-                <button onClick={()=>setPanel("background")}>background</button>
-            </Toolbar>
-            {renderPanel(panel)}
-        </VBox>
-    </Window>
+
+
+    return <VBox scroll>
+        <Toolbar>
+            <button onClick={()=>setPanel("background")}>background</button>
+        </Toolbar>
+        {renderPanel(panel)}
+    </VBox>
 }
 
 

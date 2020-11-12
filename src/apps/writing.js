@@ -9,8 +9,7 @@ export function WriterApp({app}) {
     useDBChanged(db, CATEGORIES.TASKS.ID)
 
     let [value, setValue] = useState("some words I'm writing")
-    return <Window app={app}>
-        <VBox grow>
+    return <VBox grow>
         <Toolbar>
             <button>new?</button>
             <button>save?</button>
@@ -21,6 +20,5 @@ export function WriterApp({app}) {
         }}
                   onChange={e=> setValue(e.target.value)}
         />
-        </VBox>
-    </Window>
+    </VBox>
 }

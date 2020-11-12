@@ -27,7 +27,7 @@ import "./theme.css"
 import {DataBrowser} from './apps/DataBrowser.js'
 import {BookmarksManager} from './apps/bookmarks/bookmarks.js'
 import {SystemBar} from './apps/systembar/systembar.js'
-import {WindowManager, WindowManagerContext} from './ui/window.js'
+import {Window, WindowManager, WindowManagerContext} from './ui/window.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
@@ -64,29 +64,34 @@ click raises the Z above the top one, and sets a new top one
 
    */
 
-  let ins = apps.map((app,i) => {
+  function makeApp(app) {
     let appid = app.props.appid
-    // console.log("appid is",appid)
-    if(appid === 'PeopleBar') return <PeopleBar app={app} key={appid}/>
-    if(appid === 'ContactList') return <ContactList app={app} key={appid}/>
-    if(appid === 'TaskLists') return <TaskLists key={appid} app={app} />
-    if(appid === 'Chat') return <Chat key={appid} app={app} />
-    if(appid === 'Calendar') return <Calendar key={appid} app={app} />
-    if(appid === 'Notes') return <Notes key={appid} app={app} />
-    if(appid === 'Alarms') return <Alarms key={appid} app={app} />
-    if(appid === 'Email') return <Email key={appid} app={app} />
-    if(appid === 'Music') return <Music key={appid} app={app} />
-    if(appid === 'NotificationPanel') return <NotificationPanel key={appid} app={app} />
-    if(appid === 'DebugPanel') return <DebugPanel key={appid} app={app} />
-    if(appid === 'CommandBar') return <CommandBar key={appid} app={app} />
-    if(appid === 'MapViewer') return <MapViewer key={appid} app={app}/>
-    if(appid === 'SettingsApp') return <SettingsApp key={appid} app={app}/>
-    if(appid === 'WriterApp') return <WriterApp key={appid} app={app}/>
-    if(appid === 'DataBrowser') return <DataBrowser key={appid} app={app}/>
-    if(appid === 'BookmarksManager') return <BookmarksManager key={appid} app={app}/>
-    if(appid === 'SystemBar') return <SystemBar key={appid} app={app}/>
-    console.error("no such app", appid)
-    return <div>missing app</div>
+    if(appid === 'PeopleBar') return <PeopleBar app={app}/>
+    if(appid === 'NotificationPanel') return <NotificationPanel app={app} />
+    if(appid === 'SystemBar') return <SystemBar app={app}/>
+
+    if(appid === 'ContactList') return <ContactList app={app}/>
+    if(appid === 'TaskLists') return <TaskLists app={app}/>
+    if(appid === 'Chat') return <Chat app={app} />
+    if(appid === 'Calendar') return <Calendar app={app} />
+    if(appid === 'Notes') return <Notes app={app} />
+    if(appid === 'Alarms') return <Alarms app={app} />
+    if(appid === 'Email') return <Email app={app} />
+    if(appid === 'Music') return <Music app={app} />
+    if(appid === 'MapViewer') return <MapViewer app={app}/>
+    if(appid === 'WriterApp') return <WriterApp app={app}/>
+    if(appid === 'BookmarksManager') return <BookmarksManager app={app}/>
+    if(appid === 'DebugPanel') return <DebugPanel app={app} />
+
+    if(appid === 'CommandBar') return <CommandBar app={app} />
+    if(appid === 'SettingsApp') return <SettingsApp app={app}/>
+    if(appid === 'DataBrowser') return <DataBrowser app={app}/>
+
+    return <div>app not found <b>{appid}</b></div>
+  }
+
+  let ins = apps.map((app,i) => {
+    return <Window key={app.props.appid} app={app}>{makeApp(app)}</Window>
   })
 
   return <div className={'os-background'}>

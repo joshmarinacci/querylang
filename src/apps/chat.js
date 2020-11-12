@@ -45,8 +45,7 @@ export function Chat({app}) {
         db.add(alert)
     }
 
-    return <Window app={app}>
-        <HBox grow>
+    return <HBox grow>
             <DataList
                 className={'sidebar'}
                 data={conversations}
@@ -80,5 +79,4 @@ export function Chat({app}) {
                 </Toolbar>
             </VBox>
         </HBox>
-    </Window>
 }

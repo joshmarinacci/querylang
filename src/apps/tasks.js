@@ -73,8 +73,7 @@ export function TaskLists({app}) {
     const trashTask = () => db.setProp(selectedTask,'deleted',true)
     const archiveTask = () => db.setProp(selectedTask, 'archived',true)
 
-    return <Window app={app}>
-        <HBox grow>
+    return         <HBox grow>
             <DataList data={projects} selected={selectedProject} setSelected={setSelectedProject}
                       className={"sidebar"}
                       stringify={((o,i) => <StandardListItem key={i}
@@ -102,5 +101,4 @@ export function TaskLists({app}) {
                 {panel}
             </VBox>
         </HBox>
-    </Window>
 }

@@ -3,7 +3,7 @@ import Icon from '@material-ui/core/Icon'
 import {propAsString} from '../db.js'
 import {AppLauncherContext} from '../services/AppLauncherService.js'
 
-export function Window({children, resize=true, hide_titlebar, app, anchor="none",}) {
+export function Window({children, resize=true, hide_titlebar=false, app, anchor="none",}) {
     let appService = useContext(AppLauncherContext)
     let wm = useContext(WindowManagerContext)
     let title = propAsString(app,'title')
@@ -18,6 +18,12 @@ export function Window({children, resize=true, hide_titlebar, app, anchor="none"
     }
     if(app && app.props.window && app.props.window.anchor) {
         anchor = app.props.window.anchor
+    }
+    if(app && app.props.window && app.props.window.hide_titlebar) {
+        hide_titlebar = app.props.window.hide_titlebar
+    }
+    if(app && app.props.window && 'resize' in app.props.window) {
+        resize = app.props.window.resize
     }
 
     let className = ""

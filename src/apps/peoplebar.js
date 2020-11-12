@@ -29,9 +29,7 @@ export function PeopleBar({app}) {
         IS_PROP_TRUE('favorite'),
     ))
 
-    return <Window resize={false} hide_titlebar={true} app={app}>
-        <ul className={'list'}>{items.map(o => {
+    return <ul className={'list'}>{items.map(o => {
             return <PersonView key={o.id} person={o}/>
         })}</ul>
-    </Window>
 }

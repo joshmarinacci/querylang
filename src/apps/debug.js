@@ -19,21 +19,16 @@ export function DebugPanel({app}) {
         appService.launch(apps[0])
     }
 
-    return <Window app={app}>
-        <VBox className={'content-panel'} grow>
-            <button className={'primary'} onClick={()=>{
-
-                db.persist()
-
-                let alert = db.make(CATEGORIES.NOTIFICATION.ID, CATEGORIES.NOTIFICATION.TYPES.ALERT)
-                setProp(alert,'title','saved to local storage')
-                db.add(alert)
-            }}>persist</button>
-            <button className={'primary'} onClick={()=>db.reload()}>reload</button>
-            <button className={'primary'} onClick={()=>launch("DataBrowser")}>data browser</button>
-            <Spacer/>
-            <button className={'danger'} onClick={()=>db.nukeAndReload()}>nuke and reload storage</button>
-        </VBox>
-    </Window>
-
+    return <VBox className={'content-panel'} grow>
+        <button className={'primary'} onClick={()=>{
+            db.persist()
+            let alert = db.make(CATEGORIES.NOTIFICATION.ID, CATEGORIES.NOTIFICATION.TYPES.ALERT)
+            setProp(alert,'title','saved to local storage')
+            db.add(alert)
+        }}>persist</button>
+        <button className={'primary'} onClick={()=>db.reload()}>reload</button>
+        <button className={'primary'} onClick={()=>launch("DataBrowser")}>data browser</button>
+        <Spacer/>
+        <button className={'danger'} onClick={()=>db.nukeAndReload()}>nuke and reload storage</button>
+    </VBox>
 }

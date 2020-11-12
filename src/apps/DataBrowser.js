@@ -29,12 +29,11 @@ export function DataBrowser({app}) {
         setShowDialog(true)
     }
 
-    return <Window app={app}>
-        <VBox>
-            <Toolbar>
-                <button onClick={makeQuery}>make query</button>
-                <input type={'search'}/>
-            </Toolbar>
+    return <VBox>
+        <Toolbar>
+            <button onClick={makeQuery}>make query</button>
+            <input type={'search'}/>
+        </Toolbar>
         <HBox>
             <DataList data={queries}
                       stringify={o=><StandardListItem title={o.props.title}/>}
@@ -43,8 +42,7 @@ export function DataBrowser({app}) {
             {showDialog?<QueryEditorDialog/>:""}
 
         </HBox>
-        </VBox>
-    </Window>
+    </VBox>
 }
 
 const ANY_PROP = {
