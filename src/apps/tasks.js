@@ -15,17 +15,14 @@ import {
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_SUBSTRING, IS_PROP_TRUE, IS_TYPE, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {Grid3Layout} from '../ui/grid3layout.js'
-import {SourceList} from '../ui/sourcelist.js'
+import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 import {TitleBar} from '../stories/email_example.js'
 
 const isProject = () => IS_TYPE(CATEGORIES.TASKS.TYPES.PROJECT)
 const isTask = () => IS_TYPE(CATEGORIES.TASKS.TYPES.TASK)
 const isTaskCategory = () => IS_CATEGORY(CATEGORIES.TASKS.ID)
-// const isPropTrue = (prop) => ({ equal: {prop, value:true}})
 const isPropFalse = (prop) => IS_PROP_EQUAL(prop,false)
-// const isPropEqual = (prop,value) => ({ equal: {prop, value}})
 const isPropEqualId = (prop,obj) => ({ equal: {prop, value:obj?obj.id:null}})
-// const isPropSubstring = (prop,value) => ({ substring: {prop, value}})
 
 
 
@@ -35,12 +32,11 @@ export function TaskLists({app}) {
 
     const [selectedProject, setSelectedProject] = useState(null)
     const [selectedTask, setSelectedTask] = useState(null)
-
+    const [searchTerms, setSearchTerms] = useState("")
 
     let projects = db.QUERY(AND(isProject(), isTaskCategory(), IS_PROP_TRUE('active')))
     let tasks = db.QUERY(AND(isTaskCategory(), isTask()))
 
-    let [searchTerms, setSearchTerms] = useState("")
 
     if(selectedProject) {
         if(propAsBoolean(selectedProject,'query')  && hasProp(selectedProject,'query_impl')) {
@@ -58,7 +54,7 @@ export function TaskLists({app}) {
         tasks = QUERY(tasks,AND(IS_PROP_SUBSTRING('title',searchTerms)))
     }
 
-    let panel = <Panel grow={true} className={"content-panel"}>nothing selected</Panel>
+    let panel = <Panel grow={true} className={"content-panel col3 row2"}>nothing selected</Panel>
     if (selectedTask) {
         panel = <Panel grow={true} className={"content-panel col3 row2"}>
             <TextPropEditor buffer={selectedTask} prop={'title'} db={db}/>
@@ -80,11 +76,10 @@ export function TaskLists({app}) {
         <TitleBar title={'Tasks'}/>
 
         <SourceList column={1} data={projects} selected={selectedProject} setSelected={setSelectedProject}
-                    renderItem={(o)=>{
-                        return <StandardListItem
+                    renderItem={(o)=><StandardSourceItem
                             icon={propAsString(o,'icon')}
                             title={propAsString(o,'title')}/>
-                    }}/>
+                    }/>
 
         <TopToolbar column={2}>
             <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
@@ -97,12 +92,10 @@ export function TaskLists({app}) {
         </TopToolbar>
 
         <SourceList column={2} data={tasks} selected={selectedTask} setSelected={setSelectedTask}
-                    renderItem={(o)=>{
-                        return <StandardListItem
+                    renderItem={(o)=><StandardSourceItem
                             icon={(propAsBoolean(o,'completed')?"check_box":"check_box_outline_blank")}
                             title={propAsString(o,'title')}/>
-
-                    }}/>
+                    }/>
             {panel}
     </Grid3Layout>
 }

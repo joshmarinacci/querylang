@@ -8,11 +8,11 @@ export function Window({children, resize=true, hide_titlebar=false, app, anchor=
     let wm = useContext(WindowManagerContext)
     let title = propAsString(app,'title')
     // console.log("making window for app",app)
-    let width = 300
+    let width = 800
     if(app && app.props.window && app.props.window.default_width) {
         width = app.props.window.default_width
     }
-    let height = 300
+    let height = 400
     if(app && app.props.window && app.props.window.default_height) {
         height = app.props.window.default_height
     }
@@ -87,8 +87,6 @@ export function Window({children, resize=true, hide_titlebar=false, app, anchor=
         setTop(top-offy)
         setOffy(0)
         setDragging(false)
-        let newz = wm.raise(z)
-        setZ(newz)
     }
     useEffect(()=>{
         if(dragging) {
@@ -106,6 +104,7 @@ export function Window({children, resize=true, hide_titlebar=false, app, anchor=
         setOffy(e.screenY - top)
         setTop(e.screenY)
         setDragging(true)
+        setZ(wm.raise(z))
     }
 
     const resize_mouse_down = (e) => {

@@ -7,8 +7,8 @@ import faker from 'faker'
 
 export function TitleBar({title}) {
     return <div className={'titlebar'}>
-        <Icon>settings</Icon>
-        <Spacer/>
+        {/*<Icon>settings</Icon>*/}
+        {/*<Spacer/>*/}
         {title}
     </div>
 }

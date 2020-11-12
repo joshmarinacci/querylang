@@ -63,7 +63,6 @@
 
 .titlebar {
     padding: 0.5rem;
-    color: white;
 }
 .content-area {
     padding: 1rem;
@@ -77,7 +76,8 @@
     border: 1px solid #888888;
 }
 .titlebar {
-    background-color: green;
+    background-color: white;
+    color: #888888;
 }
 .toolbar {
     background-color: white;

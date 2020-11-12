@@ -22,7 +22,8 @@ import {propAsArray, propAsString} from '../../db.js'
 import {PopupManagerContext} from '../../ui/PopupManager.js'
 import {calculateFoldersFromTags} from '../../util.js'
 import {Grid3Layout} from '../../ui/grid3layout.js'
-import {SourceList} from '../../ui/sourcelist.js'
+import {SourceList, StandardSourceItem} from '../../ui/sourcelist.js'
+import {TitleBar} from '../../stories/email_example.js'
 
 function PopupMenu ({children}) {
     let pm = useContext(PopupManagerContext)
@@ -124,9 +125,10 @@ export function BookmarksManager({app}) {
 
 
     return  <Grid3Layout>
+        <TitleBar title={"Bookmarks"}/>
 
         <SourceList data={queries} selected={selectedQuery} setSelected={setSelectedQuery}
-                    renderItem={(o,i)=> <StandardListItem key={i}
+                    renderItem={(o,i)=> <StandardSourceItem key={i}
                                                        icon={propAsString(o,'icon')}
                                                        title={propAsString(o,'title')}/>}/>
         <TopToolbar column={2}>
@@ -192,7 +194,7 @@ function BookmarkView({bookmark, onOpen}) {
     let la = "never"
     if(hasProp(bookmark,'lastAccessed'))
         la = formatDistanceToNow(bookmark.props.lastAccessed) + " ago"
-    return <StandardListItem
+    return <StandardSourceItem
         icon={'bookmark'}
         title={propAsString(bookmark,'title')}
         subtitle={propAsArray(bookmark,'tags').join(", ") + " " +la}

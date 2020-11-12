@@ -221,6 +221,6 @@ button.danger:hover {
     border-width: 0;
     background-color: white;
     border-radius: 0.5rem;
-    font-size: 100%;
+    /*font-size: 150%;*/
 }
 

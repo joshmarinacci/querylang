@@ -7,6 +7,7 @@ import Icon from '@material-ui/core/Icon'
 import {DataTable} from '../ui/datatable.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {SourceList} from '../ui/sourcelist.js'
+import {TitleBar} from '../stories/email_example.js'
 
 const uniqueBy = (list,propname) => {
     let map = new Map()
@@ -92,10 +93,12 @@ export function PlayPanel({selectedSong}) {
             audioRef.current.addEventListener("timeupdate",handler)
         }
         return ()=>{
-            audioRef.current.removeEventListener("play",handler)
-            audioRef.current.removeEventListener("loadeddata",handler)
-            audioRef.current.removeEventListener("durationchange",handler)
-            audioRef.current.addEventListener("timeupdate",handler)
+            if(audioRef && audioRef.current) {
+                audioRef.current.removeEventListener("play", handler)
+                audioRef.current.removeEventListener("loadeddata", handler)
+                audioRef.current.removeEventListener("durationchange", handler)
+                audioRef.current.addEventListener("timeupdate", handler)
+            }
         }
     },[selectedSong])
 
@@ -175,12 +178,14 @@ export function Music({app}) {
     }
 
     return <Grid3Layout>
+        <TitleBar title={'music'}/>
         <TopToolbar column={2} span={3}>
             <PlayPanel selectedSong={selectedSong}/>
             <Spacer/>
             <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
         </TopToolbar>
         <SourceList column={1} data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
+                    secondary
                     renderItem={(o,i) => <HBox>
                         <Icon>{propAsString(o,'icon')}</Icon>
                         <b>{propAsString(o,'title')}</b>

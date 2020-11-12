@@ -21,7 +21,7 @@ import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from 
 import Icon from '@material-ui/core/Icon'
 import {calculateFoldersFromTags} from '../util.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
-import {SourceList} from '../ui/sourcelist.js'
+import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 import {TitleBar} from '../stories/email_example.js'
 
 
@@ -87,13 +87,13 @@ export function Notes({app}) {
 
 
 const renderProject = (o) => {
-    return <StandardListItem
+    return <StandardSourceItem
         title={propAsString(o,'title')}
         icon={propAsString(o,'icon')}/>
 }
 
 const renderNoteSummary = (o) => {
-    return <StandardListItem
+    return <StandardSourceItem
         icon={'note'}
         title={propAsString(o,'title')}
         subtitle={formatDistanceToNow(o.props.lastedited)}/>

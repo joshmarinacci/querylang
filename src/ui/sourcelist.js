@@ -4,6 +4,7 @@ import {HBox, Spacer, VBox} from './ui.js'
 import {flatten} from './grid3layout.js'
 
 import "./sourcelist.css"
+import {propAsString} from '../db.js'
 
 export function SourceList({data, column, secondary, selected, renderItem, setSelected}) {
     if(!data) {
@@ -29,3 +30,13 @@ export function SourceListItem({item, selected, renderItem, setSelected}) {
     }}>{renderItem(item)}</li>
 }
 
+export function StandardSourceItem({title, subtitle, icon, onDoubleClick}) {
+    return <HBox className="folder" center onDoubleClick={onDoubleClick}>
+        <Icon className={'icon'}>{icon}</Icon>
+        <VBox>
+            {title?<span className={'title'}>{title}</span>:""}
+            {subtitle?<span className={'subtitle'}>{subtitle}</span>:""}
+        </VBox>
+    </HBox>
+
+}

@@ -508,8 +508,8 @@ const data = [
             appid:'TaskLists',
             icon:'add_task',
             window: {
-                default_width: 620,
-                default_height: 200,
+                default_width: 800,
+                default_height: 300,
             }
         }
     },
@@ -553,8 +553,8 @@ const data = [
             appid:'Notes',
             icon:'note',
             window: {
-                default_width: 600,
-                default_height: 300,
+                default_width: 800,
+                default_height: 400,
             }
         }
     },
@@ -583,7 +583,7 @@ const data = [
             appid:'Email',
             icon:'email',
             window: {
-                default_width: 600,
+                default_width: 800,
                 default_height: 400,
             }
         }
@@ -597,8 +597,8 @@ const data = [
             appid:'Music',
             icon:'library_music',
             window: {
-                default_width: 600,
-                default_height: 300,
+                default_width: 800,
+                default_height: 400,
             }
         }
     },
