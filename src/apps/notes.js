@@ -12,7 +12,7 @@ import {
     TagsetEditor,
     TextareaPropEditor,
     TextPropEditor,
-    Toolbar,
+    Toolbar, TopToolbar,
     VBox,
     Window
 } from '../ui/ui.js'
@@ -20,6 +20,9 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {calculateFoldersFromTags} from '../util.js'
+import {Grid3Layout} from '../ui/grid3layout.js'
+import {SourceList} from '../ui/sourcelist.js'
+import {TitleBar} from '../stories/email_example.js'
 
 
 const isNotesCategory = () => IS_CATEGORY(CATEGORIES.NOTES.ID)
@@ -60,21 +63,26 @@ export function Notes({app}) {
 
     notes = calcFilter()
 
-    return <HBox grow>
-        <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup} stringify={renderProject} className={'sidebar'}/>
-        <VBox scroll>
-            <Toolbar>
-                <input type={'search'} value={searchTerms} onChange={e=>setSearchTerms(e.target.value)}/>
-                <Icon onClick={addNewNote}>add_circle</Icon>
-            </Toolbar>
-            <DataList data={notes} selected={selectedNote} setSelected={setSelectedNote} stringify={renderNoteSummary} className={'sidebar'}/>
-        </VBox>
-        <VBox grow className={'content-panel'}>
+    return <Grid3Layout>
+        <TitleBar title={'notes'}/>
+        <SourceList data={groups} selected={selectedGroup} setSelected={setSelectedGroup} column={1} secondary renderItem={renderProject}/>
+
+        <TopToolbar column={2}>
+            <input type={'search'} value={searchTerms} onChange={e=>setSearchTerms(e.target.value)}/>
+            <Icon onClick={addNewNote}>add_circle</Icon>
+        </TopToolbar>
+
+        <SourceList column={2} data={notes} selected={selectedNote} setSelected={setSelectedNote} renderItem={renderNoteSummary}/>
+
+        <TopToolbar column={3}>
+
+        </TopToolbar>
+        <VBox grow className={'content-panel col3 row2'}>
             <TextPropEditor buffer={selectedNote} prop={'title'} db={db}/>
             <TagsetEditor buffer={selectedNote} prop={'tags'} db={db}/>
             <TextareaPropEditor buffer={selectedNote} prop={'contents'} db={db} grow/>
         </VBox>
-    </HBox>
+    </Grid3Layout>
 }
 
 

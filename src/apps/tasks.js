@@ -16,6 +16,7 @@ import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_SUBSTRING, IS_PROP_TRUE, IS_TYP
 import Icon from '@material-ui/core/Icon'
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {SourceList} from '../ui/sourcelist.js'
+import {TitleBar} from '../stories/email_example.js'
 
 const isProject = () => IS_TYPE(CATEGORIES.TASKS.TYPES.PROJECT)
 const isTask = () => IS_TYPE(CATEGORIES.TASKS.TYPES.TASK)
@@ -76,6 +77,8 @@ export function TaskLists({app}) {
     const archiveTask = () => db.setProp(selectedTask, 'archived',true)
 
     return <Grid3Layout>
+        <TitleBar title={'Tasks'}/>
+
         <SourceList column={1} data={projects} selected={selectedProject} setSelected={setSelectedProject}
                     renderItem={(o)=>{
                         return <StandardListItem
