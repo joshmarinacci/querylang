@@ -36,6 +36,19 @@ let pm = new PopupManager()
 let wm = new WindowManager()
 
 function App() {
+
+  useEffect(()=>{
+    let handle = (e)=>{
+      if(e.key === ' ' && e.ctrlKey===true) {
+        app_launcher_service.launchById('CommandBar',db_service)
+      }
+    }
+    document.addEventListener('keypress',handle)
+    return () => {
+      document.removeEventListener('keypress',handle)
+    }
+  })
+
   useEffect(()=>{
     let handler = () => setApps(app_launcher_service.running.slice())
     app_launcher_service.addEventListener(handler)
