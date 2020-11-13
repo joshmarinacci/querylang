@@ -1,7 +1,7 @@
-const STRING = 'STRING'
-const INTEGER = 'INTEGER'
+export const STRING = 'STRING'
+export const INTEGER = 'INTEGER'
 const ENUM = 'ENUM'
-const BOOLEAN = 'BOOLEAN'
+export const BOOLEAN = 'BOOLEAN'
 const ARRAY = 'ARRAY'
 const TIMESTAMP = 'TIMESTAMP'
 
