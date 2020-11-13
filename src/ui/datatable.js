@@ -1,24 +1,37 @@
 import React from 'react'
 import {flatten} from '../util.js'
 import "./datatable.css"
+import {hasProp, propAsString, sort} from '../db.js'
+import {SORTS} from '../schema.js'
+import Icon from '@material-ui/core/Icon'
 
-export function DataTable({data, selected, setSelected, className, style, stringifyDataColumn, prepend, append, headers}) {
+export function DataTable({data, selected, setSelected, className, style, stringifyDataColumn, prepend, append, headers, sortField, sortDirection,
+                              onSortChange,
+                              onDoubleClick
+                          }) {
 
     let cls = {
         'table':true,
     }
     if(className) cls[className] = true
-    // if(!stringify) stringify = (s)=>"no stringify"
+    if(!stringifyDataColumn) stringifyDataColumn = (o,k) => {
+        if(hasProp(o,k)) return propAsString(o,k)
+        return `missing prop ${k}`
+    }
     if(!setSelected) setSelected = ()=>{}
     style = style || {}
 
     prepend = prepend || []
     append  = append  || []
+    if(!headers && data && data.length > 0) {
+        let props = data[0].props
+        headers = Object.keys(props)
+    }
     headers = headers || []
 
     return <table className={flatten(cls)} style={style}>
         <thead>
-        <tr>{ headers.map(h => <th key={h}>{h}</th>) }</tr>
+        <tr>{ headers.map(h => <DataTableHeader key={h} onSortChange={onSortChange} prop={h} sortField={sortField} sortDirection={sortDirection}/>) }</tr>
         </thead>
         <tbody>
         {data.map(o=> {
@@ -31,10 +44,36 @@ export function DataTable({data, selected, setSelected, className, style, string
                 let val = stringifyDataColumn(o,k)
                 if(val) values.push(<td key={k}>{val}</td>)
             })
-            return <tr key={o.id} onClick={()=>setSelected(o)} className={flatten(cls)}>
+            return <tr
+                key={o.id}
+                onClick={()=>setSelected(o)}
+                onDoubleClick={()=>onDoubleClick?onDoubleClick(o):""}
+                className={flatten(cls)}>
                 {values}
             </tr>
         })}</tbody>
     </table>
 
+}
+
+
+function DataTableHeader({prop, onSortChange, sortField, sortDirection}) {
+    let sorted = prop===sortField
+    let cls = {
+        ['sort-column']:sorted,
+    }
+    let icon = ""
+    if(sorted) {
+        if(sortDirection === SORTS.ASCENDING) {
+            icon = "expand_less"
+        } else {
+            icon = "expand_more"
+        }
+    }
+    return <th
+        className={flatten(cls)}
+        onClick={()=>{
+            if(onSortChange) onSortChange(prop)
+        }}
+    >{prop} <Icon>{icon}</Icon></th>
 }

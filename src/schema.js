@@ -648,7 +648,7 @@ export function validateData(data) {
             let sch = schema.props[key]
             // console.log(key,sch)
             if(propMissing(o,key)) {
-                console.log("missing prop",key, 'setting', sch.default, o)
+                console.warn("missing prop",key, 'setting', sch.default, o)
                 o.props[key] = sch.default
             }
         })

@@ -20,15 +20,24 @@ td:last-child, th:last-child {
     border-right-width: 0;
 }
 
-table th {
-    background-color: #ccc;
-}
-
 table tr.selected {
     background-color: var(--selected-color);
     color: var(--selected-text-color);
 }
 
+
+table th {
+    background-color: var(--gray3);
+    font-weight: normal;
+    user-select: none;
+    vertical-align: baseline;
+}
+
+table th.sort-column {
+    background-color: var(--gray6);
+    color: var(--gray0);
+    font-weight: bold;
+}
 
 table tr td .MuiIcon-root {
     font-size: 100%;

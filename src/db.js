@@ -25,9 +25,15 @@ export function sort(items,sortby,sortorder) {
             }
         }
 
-        if(A.props[key] === B.props[key]) return 0
-        if(A.props[key]>B.props[key]) return 1
-        return -1
+        if(sortorder === SORTS.DESCENDING) {
+            if (A.props[key] === B.props[key]) return 0
+            if (A.props[key] < B.props[key]) return 1
+            return -1
+        } else {
+            if (A.props[key] === B.props[key]) return 0
+            if (A.props[key] > B.props[key]) return 1
+            return -1
+        }
     })
     return items
 }

@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import {DataList, HBox, Panel, Spacer, StandardListItem, Toolbar, TopToolbar, VBox, Window} from '../ui/ui.js'
-import {DBContext, project, propAsBoolean, propAsIcon, propAsString, useDBChanged} from '../db.js'
-import {CATEGORIES} from '../schema.js'
+import {DBContext, project, propAsBoolean, propAsIcon, propAsString, sort, useDBChanged} from '../db.js'
+import {CATEGORIES, SORTS} from '../schema.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_TRUE, IS_TYPE} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {DataTable} from '../ui/datatable.js'
@@ -19,10 +19,36 @@ const uniqueBy = (list,propname) => {
 
 export function SongsPanel({songs, playSong, db, ...rest}) {
     const [selectedSong, setSelectedSong] = useState(null)
+    let [sortField, setSortField] = useState(null)
+    let [sortDir, setSortDir] = useState(SORTS.ASCENDING)
+
+    let [data, setData] = useState(songs)
+
+    useEffect(() => {
+        let d2 = sort(songs,[sortField], sortDir)
+        setData(d2)
+    },[songs, sortField, sortDir])
+
     return <VBox grow scroll {...rest}>
-        <DataTable data={songs} selected={selectedSong} setSelected={setSelectedSong}
-                   headers={["","Title","Artist","Album"]}
-                   prepend={["play"]}
+        <DataTable data={data} selected={selectedSong} setSelected={setSelectedSong}
+                   sortDirection={sortDir}
+                   sortField={sortField}
+                   onDoubleClick={(o,k)=>{
+                       console.log("double clicked on",o,k)
+                       playSong(o)
+                   }}
+                   onSortChange={(a)=>{
+                       let sd = sortDir
+                       if(sortField === a) {
+                           if(sd === SORTS.ASCENDING) {
+                               sd = SORTS.DESCENDING
+                           }else {
+                               sd = SORTS.ASCENDING
+                           }
+                       }
+                       setSortDir(sd)
+                       setSortField(a)
+                   }}
                    stringifyDataColumn={(o,k) => {
                        if(k === 'play') return <Icon onClick={()=>playSong(o)}>play_arrow</Icon>
                        if(k === 'url') return null
