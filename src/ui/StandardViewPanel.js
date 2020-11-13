@@ -37,11 +37,17 @@ function ViewLine({name,object,schema,hint}) {
     console.log(hint,schema)
     let value = object.props[name]
     if(hint && hint==='checkmark' && schema.type === BOOLEAN) {
-        console.log("doing a checkmark")
         return <Icon key={'value_'+name}>{value?'check_box_outline':'check_box_outline_blank'}</Icon>
+    }
+    if(hint && hint==='star' && schema.type === BOOLEAN) {
+        return <Icon key={'value_'+name}>{value?'star':'star_outline'}</Icon>
     }
     if(hint && hint === 'paragraph' && schema.type === STRING) {
         return <p key={'value_'+name}>{propAsString(object,name)}</p>
+    }
+    let val = object.props[name]
+    if(Array.isArray(val)) {
+        return <b key={'value_'+name}>an array</b>
     }
     return <b key={'value_'+name}>{propAsString(object,name)}</b>
 }

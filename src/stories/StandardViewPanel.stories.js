@@ -110,5 +110,9 @@ export const CustomizeProps = () => {
 
 export const Contact = () => {
     let [obj] = useState(() => make_contact())
-    return <StandardViewPanel object={obj}/>
+    return <StandardViewPanel object={obj}
+                              custom={{
+                                  'favorite':'star'
+                              }}
+    />
 }
