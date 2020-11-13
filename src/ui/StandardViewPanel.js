@@ -34,8 +34,8 @@ export function StandardViewPanel({object, hide=[], order=[], custom={}}) {
 }
 
 function ViewLine({name,object,schema,hint}) {
-    console.log(hint,schema)
     let value = object.props[name]
+    console.log('name',name,'hint=',hint,'schema',schema,'value',value)
     if(hint && hint==='checkmark' && schema.type === BOOLEAN) {
         return <Icon key={'value_'+name}>{value?'check_box_outline':'check_box_outline_blank'}</Icon>
     }
