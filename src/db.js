@@ -67,6 +67,7 @@ export function propAsString(s, key) {
     } else {
         return ""
     }
+    if(s.props[key] instanceof Date) return s.props[key].toISOString()
     return s.props[key]
 }
 

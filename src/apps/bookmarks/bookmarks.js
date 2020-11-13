@@ -24,6 +24,7 @@ import {calculateFoldersFromTags} from '../../util.js'
 import {Grid3Layout} from '../../ui/grid3layout.js'
 import {SourceList, StandardSourceItem} from '../../ui/sourcelist.js'
 import {TitleBar} from '../../stories/email_example.js'
+import {StandardViewPanel} from '../../ui/StandardViewPanel.js'
 
 function PopupMenu ({children}) {
     let pm = useContext(PopupManagerContext)
@@ -216,22 +217,14 @@ function BookmarkDetailsView({bookmark, onOpen, ...rest}) {
         window.open(url,"_blank")
     }
     return <Panel {...rest}>
-        <HBox><button onClick={()=>onOpen(bookmark)}>open</button></HBox>
-        <HBox><button onClick={open_translated}>translated</button> </HBox>
-        <HBox><button onClick={open_archived}>archived</button> </HBox>
-        <HBox>
-            <i>url</i><b>{propAsString(bookmark,'url')}</b>
-        </HBox>
-        <HBox>
-            <i>title</i><b>{propAsString(bookmark,'title')}</b>
-        </HBox>
-        <HBox>
-            <i>tags</i><b>{propAsArray(bookmark,'tags').join(", ")}</b>
-        </HBox>
-        <HBox>
-            <p><b>excerpt</b>
-                {propAsString(bookmark,'excerpt')}
-            </p>
-        </HBox>
+        <Toolbar>
+            <button onClick={()=>onOpen(bookmark)}>open</button>
+            <button onClick={open_translated}>translated</button>
+            <button onClick={open_archived}>archived</button>
+        </Toolbar>
+        {/*<HBox>*/}
+        {/*    <i>tags</i><b>{propAsArray(bookmark,'tags').join(", ")}</b>*/}
+        {/*</HBox>*/}
+        <StandardViewPanel object={bookmark}/>
     </Panel>
 }

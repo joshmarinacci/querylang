@@ -108,7 +108,7 @@ export const CustomizeProps = () => {
 }
 
 
-export const Contact = () => {
+export const CustomizedContact = () => {
     let [obj] = useState(() => make_contact())
     return <StandardViewPanel object={obj}
                               dividers={{
@@ -154,4 +154,21 @@ export const Contact = () => {
 
                               }}
     />
+}
+
+
+export const CustomizedBookmark = () => {
+    let bk = db.make(CATEGORIES.BOOKMARKS.ID,CATEGORIES.BOOKMARKS.SCHEMAS.BOOKMARK.TYPE)
+    setProp(bk,'title','My VR Projects')
+    setProp(bk,'url','https://vr.josh.earth/')
+    setProp(bk,'tags',['mine','all mine'])
+    setProp(bk,'excerpt','nothing cool to look at here')
+    return <StandardViewPanel object={bk}
+          custom={{
+              tags:{
+                  expand:true,
+              }
+          }}
+    />
+
 }
