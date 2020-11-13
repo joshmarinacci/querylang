@@ -74,7 +74,6 @@ function make_contact() {
     return person
 }
 
-
 export const Default = () => {
     let [obj] = useState(() => make_task())
     return <StandardViewPanel object={obj}/>
@@ -95,9 +94,18 @@ export const OrderProps = () => {
     />
 }
 
+export const GroupFields = () => {
+    let [obj] = useState(() => make_contact())
+    return <StandardViewPanel object={obj} order={[{
+        group:true,
+        names:['first','last'],
+    }]}/>
+}
+
 export const CustomizeProps = () => {
     let [obj] = useState(() => make_task())
     return <StandardViewPanel object={obj}
+                              order={[{group:true, names:['first','last']}]}
                               hide={["project"]}
                               custom={{
                                   'deleted':'checkmark',
@@ -107,37 +115,16 @@ export const CustomizeProps = () => {
     />
 }
 
-
 export const CustomizedContact = () => {
     let [obj] = useState(() => make_contact())
     return <StandardViewPanel object={obj}
-                              dividers={{
-                                  'emails':true,
-                                  'addresses':true,
-                                  'phones':true,
-                              }}
+                              order={[
+                                  { group:true, names:['first','last']}
+                              ]}
                               custom={{
                                   'favorite':'star',
-                                  'addresses':{
-                                      expand:true,
-                                      order:[
-                                          {
-                                              name:'type',
-                                              value_label:true,
-                                          },
-                                          {
-                                              name:'street1',
-                                          },
-                                          {
-                                              name:'street2',
-                                          },
-                                          {
-                                              group:true,
-                                              names:['city','state','zipcode','country']
-                                          }
-                                      ],
-                                  },
                                   'emails': {
+                                      divider:true,
                                       expand:true,
                                       order:[
                                           { name:'type', value_label:true},
@@ -146,6 +133,7 @@ export const CustomizedContact = () => {
                                   },
                                   'phones':{
                                       expand:true,
+                                      divider:false,
                                       order:[
                                           { name:'type', value_label:true},
                                           { name:'value'}
@@ -156,6 +144,43 @@ export const CustomizedContact = () => {
     />
 }
 
+export const EmptyArrayProps = () => {
+    let [obj] = useState(() => make_contact())
+    setProp(obj,'emails',[])
+    return <StandardViewPanel object={obj} custom={{
+        emails: {
+            hide_empty:true,
+        },
+        'addresses':{
+            expand:true,
+            divider:true,
+            order:[
+                {
+                    name:'type',
+                    value_label:true,
+                },
+                {
+                    name:'street1',
+                },
+                {
+                    name:'street2',
+                },
+                {
+                    group:true,
+                    names:['city','state','zipcode','country']
+                }
+            ],
+        },
+        'phones':{
+            divider:true,
+            expand:true,
+            order:[
+                { name:'type', value_label:true},
+                { name:'value'}
+            ],
+        }
+    }}/>
+}
 
 export const CustomizedBookmark = () => {
     let bk = db.make(CATEGORIES.BOOKMARKS.ID,CATEGORIES.BOOKMARKS.SCHEMAS.BOOKMARK.TYPE)
@@ -171,4 +196,16 @@ export const CustomizedBookmark = () => {
           }}
     />
 
+}
+
+export const EmptyStringProps = () =>{
+    let [obj] = useState(() => make_contact())
+    setProp(obj,'timezone',"")
+    return <StandardViewPanel object={obj}
+                              custom={{
+                                  timezone: {
+                                      hide_empty:true
+                                  }
+                              }}
+    />
 }

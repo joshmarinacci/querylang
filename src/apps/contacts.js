@@ -17,6 +17,53 @@ import {
 import "./contacts.css"
 import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
+import {StandardViewPanel} from '../ui/StandardViewPanel.js'
+
+let CONTACTS_VIEW_CUSTOMIZATIONS = {
+    'favorite':'star',
+    'addresses':{
+        divider:true,
+        expand:true,
+        hide_empty: true,
+        order:[
+            {
+                name:'type',
+                value_label:true,
+            },
+            {
+                name:'street1',
+            },
+            {
+                name:'street2',
+            },
+            {
+                group:true,
+                names:['city','state','zipcode','country']
+            }
+        ],
+    },
+    'emails': {
+        expand:true,
+        hide_empty: true,
+        divider:true,
+        order:[
+            { name:'type', value_label:true},
+            { name:'value'}
+        ],
+    },
+    'phones':{
+        divider:true,
+        expand:true,
+        hide_empty: true,
+        order:[
+            { name:'type', value_label:true},
+            { name:'value'}
+        ],
+    },
+    'timezone':{
+        hide_empty:true,
+    }
+}
 
 export function ContactViewPanel ({selected, onEdit}) {
     let favorite = <Icon>star_outline</Icon>
@@ -202,7 +249,12 @@ export function ContactList({app}) {
 
     let panel = <Panel grow>nothing selected</Panel>
     if (selected) {
-        panel = <ContactViewPanel selected={selected} onEdit={()=>setEditing(true)}/>
+        panel = <StandardViewPanel object={selected} custom={CONTACTS_VIEW_CUSTOMIZATIONS}
+                                   order={[
+                                       {group:true, names:['first','last']}
+                                   ]}
+        />
+        // panel = <ContactViewPanel selected={selected} onEdit={()=>setEditing(true)}/>
     }
     if(editing) {
         panel = <ContactEditPanel selected={selected} onDone={()=>setEditing(false)} db={db}/>

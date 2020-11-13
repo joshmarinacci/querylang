@@ -20,34 +20,70 @@ function find_array_contents_schema(object, name) {
     return subsc
 }
 
-export function StandardViewPanel({object, hide = [], order = [], custom = {}, dividers = {}}) {
+export function StandardViewPanel({object, hide = [], order = [], custom = {}}) {
     let schema = find_object_schema(object)
-    let props = Object.keys(schema.props)
-        .filter(name => !(hide.indexOf(name) >= 0))
-        .filter(name => !(order.indexOf(name) >= 0))
-    props = order.concat(props)
-    return <div className={'standard-view-panel'}>
-        {
-            props.map((name, i) => {
-                let sch = schema.props[name]
-                return [
-                    <LineLabel key={'name_' + name} name={name} divider={dividers[name]}/>,
-                    <ViewLine key={'value_' + name} object={object} schema={sch} name={name} hint={custom[name]}/>
-                ]
-            })
+    let elems = []
+    let props = new Set()
+    Object.keys(schema.props).forEach(id => props.add(id))
+    hide.forEach(name => props.delete(name))
+    order.forEach(ord =>{
+        if(typeof ord === 'string') {
+            let name = ord
+            let sch = schema.props[name]
+            elems.push(<LineLabel key={'name_' + name} name={name} object={object} hint={custom[name]} schema={sch}/>)
+            elems.push(<ViewLine key={'value_' + name} object={object} schema={sch} name={name} hint={custom[name]}/>)
+            props.delete(ord)
+            return
         }
-    </div>
+        if(typeof ord === 'object') {
+            if(ord.group) {
+                let str = ord.names.map(name => propAsString(object, name)).join(" ")
+                elems.push(<b>{str}</b>)
+                ord.names.forEach(name => props.delete(name))
+            }
+            return
+        }
+    })
+
+    props.forEach((name, i) => {
+        let sch = schema.props[name]
+        elems.push(<LineLabel key={'name_' + name} name={name} object={object} hint={custom[name]} schema={sch}/>)
+        elems.push(<ViewLine key={'value_' + name} object={object} schema={sch} name={name} hint={custom[name]}/>)
+    })
+
+    return <div className={'standard-view-panel'}>{elems}</div>
 }
 
-function LineLabel({name, divider}) {
-    if (divider) {
-        return <div className={'divider'}/>
+function shouldHide(hint, schema, object, name) {
+    if(!hint) return
+    if(hint.hide) {
+        return true
     }
+    if(hint.hide_empty) {
+        if(schema.type === ARRAY) {
+            let val = object.props[name]
+            if(val.length === 0) return true
+        }
+        if(schema.type === STRING) {
+            if(!(name in object.props)) return true
+            let val = object.props[name]
+            if(val === undefined) return true
+            if(val === "") return true
+        }
+    }
+    return false
+}
+
+function LineLabel({name, divider, object, hint, schema}) {
+    if(shouldHide(hint,schema,object,name)) return ""
+    if (hint && hint.divider === true) return <div className={'divider'}/>
     return <label>{name}</label>
 }
 
 function ViewLine({name, object, schema, hint}) {
     let value = object.props[name]
+    if(shouldHide(hint,schema,object,name)) return ""
+
     if (hint && hint === 'checkmark' && schema.type === BOOLEAN) {
         return <Icon key={'value_' + name}>{value ? 'check_box_outline' : 'check_box_outline_blank'}</Icon>
     }
