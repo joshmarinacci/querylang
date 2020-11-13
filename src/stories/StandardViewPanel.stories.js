@@ -111,8 +111,47 @@ export const CustomizeProps = () => {
 export const Contact = () => {
     let [obj] = useState(() => make_contact())
     return <StandardViewPanel object={obj}
+                              dividers={{
+                                  'emails':true,
+                                  'addresses':true,
+                                  'phones':true,
+                              }}
                               custom={{
-                                  'favorite':'star'
+                                  'favorite':'star',
+                                  'addresses':{
+                                      expand:true,
+                                      order:[
+                                          {
+                                              name:'type',
+                                              value_label:true,
+                                          },
+                                          {
+                                              name:'street1',
+                                          },
+                                          {
+                                              name:'street2',
+                                          },
+                                          {
+                                              group:true,
+                                              names:['city','state','zipcode','country']
+                                          }
+                                      ],
+                                  },
+                                  'emails': {
+                                      expand:true,
+                                      order:[
+                                          { name:'type', value_label:true},
+                                          { name:'value'}
+                                      ],
+                                  },
+                                  'phones':{
+                                      expand:true,
+                                      order:[
+                                          { name:'type', value_label:true},
+                                          { name:'value'}
+                                      ],
+                                  }
+
                               }}
     />
 }

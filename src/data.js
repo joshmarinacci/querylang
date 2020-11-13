@@ -40,6 +40,7 @@ const data = [
             addresses:[
                 {
                     type:CATEGORIES.CONTACT.TYPES.MAILING_ADDRESS,
+                    category: CATEGORIES.CONTACT.TYPES.MAILING_ADDRESS,
                     props: {
                         type: 'home',
                         street1: '4055 Eddystone Place',

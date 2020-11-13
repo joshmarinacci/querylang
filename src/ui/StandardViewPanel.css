@@ -20,9 +20,9 @@ label {
     text-transform: capitalize;
     font-weight: lighter;
     font-size: 80%;
-    background-color: #888888;
-    color: white;
-    border-radius: 0.5rem;
+    /*background-color: #888888;*/
+    /*color: white;*/
+    /*border-radius: 0.5rem;*/
 }
 
 b {
@@ -39,4 +39,11 @@ p {
     padding-top:0.125rem;
     padding-bottom: 0.125rem;
     margin:0;
+}
+
+.divider {
+    border: 1px solid #aaa;
+    height: 0px;
+    border-width: 0 0 1px 0;
+    grid-column: name / span 2;
 }

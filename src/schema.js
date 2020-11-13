@@ -1,9 +1,9 @@
 export const STRING = 'STRING'
 export const INTEGER = 'INTEGER'
-const ENUM = 'ENUM'
+export const ENUM = 'ENUM'
 export const BOOLEAN = 'BOOLEAN'
-const ARRAY = 'ARRAY'
-const TIMESTAMP = 'TIMESTAMP'
+export const ARRAY = 'ARRAY'
+export const TIMESTAMP = 'TIMESTAMP'
 
 export const CATEGORIES = {
     CONTACT:{
