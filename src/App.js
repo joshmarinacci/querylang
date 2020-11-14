@@ -101,6 +101,7 @@ function App() {
       <AppLauncherContext.Provider value={app_launcher_service}>
         <AlarmContext.Provider value={alarm_service}>
           <PopupManagerContext.Provider value={pm}>
+            <BackgroundImage/>
           <AppBar/>
           {ins}
           <PopupContainer/>
@@ -112,3 +113,8 @@ function App() {
   </div>
 }
 export default App;
+
+
+function BackgroundImage({}) {
+  return <div id={'background-image'}/>
+}

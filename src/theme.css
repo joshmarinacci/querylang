@@ -83,3 +83,17 @@ button.danger:hover {
 .content-panel {
     background-color: var(--standard-panel-color);
 }
+
+
+#background-image {
+    border: 1px solid red;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background-image: url("http://apps.josh.earth/images/great-barrier-reef-echinoderms-illustration-public-domain.jpg");
+    background-image: url("http://apps.josh.earth/images/retro_beach.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    /*background-size: contain;*/
+    background-size: cover;
+}
