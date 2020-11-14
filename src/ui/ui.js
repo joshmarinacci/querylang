@@ -98,7 +98,8 @@ export function TextPropEditor({buffer, prop, onChange, ...rest}) {
     </HBox>
 }
 
-export function CheckboxPropEditor({buffer, prop, onChange, db}) {
+export function CheckboxPropEditor({buffer, prop, onChange}) {
+    let db = useContext(DBContext)
     return <HBox>
         <label>{prop}</label>
         <input type="checkbox"

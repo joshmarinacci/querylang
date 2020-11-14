@@ -291,6 +291,10 @@ class DB {
     }
 
     _fireUpdate(obj) {
+        if(!obj.category) {
+            console.warn("object missing category")
+            return
+        }
         this.listeners[obj.category].forEach(l => l())
     }
 

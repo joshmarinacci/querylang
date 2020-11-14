@@ -5,18 +5,20 @@ import {ARRAY, BOOLEAN, CATEGORIES, STRING} from '../schema.js'
 import "./StandardViewPanel.css"
 import Icon from '@material-ui/core/Icon'
 
-function find_object_schema(object) {
+export function find_object_schema(object) {
     let cat = CATEGORIES[object.category]
     let sch = cat.SCHEMAS[object.type]
     return sch
 }
 
-function find_array_contents_schema(object, name) {
+export function find_array_contents_schema(object, name) {
     let cat = CATEGORIES[object.category]
     let sch = cat.SCHEMAS[object.type]
     let prop = sch.props[name]
     let content = prop.content
     let subsc = cat.SCHEMAS[content.type]
+    subsc.category = object.category
+    subsc.type = content.type
     return subsc
 }
 
