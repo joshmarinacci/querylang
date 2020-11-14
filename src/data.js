@@ -76,6 +76,20 @@ const data = [
                     }
                 }
             ],
+            addresses:[
+                {
+                    type:CATEGORIES.CONTACT.TYPES.MAILING_ADDRESS,
+                    category: CATEGORIES.CONTACT.TYPES.MAILING_ADDRESS,
+                    props: {
+                        type: 'home',
+                        street1: '4055 Eddystone Place',
+                        city: 'Eugene',
+                        state: 'OR',
+                        zipcode: '97404',
+                        country: 'USA'
+                    }
+                }
+            ],
             icon:'http://placekeanu.com/64/64/a',
             favorite:true,
         }
