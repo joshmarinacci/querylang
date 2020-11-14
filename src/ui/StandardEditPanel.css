@@ -1,3 +1,40 @@
 .standard-edit-panel {
-    border: 5px solid red;
+    border: 0px solid red;
+    display: grid;
+    grid-template-columns: [label] 1fr [editor] 2fr [end];
+    padding: 1.0rem;
+    align-items: start;
+    justify-items: start;
 }
+.standard-edit-panel > * {
+    margin: 0.25rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.standard-edit-panel label {
+    grid-column: label;
+    justify-self: end;
+    text-transform: capitalize;
+    font-weight: lighter;
+    font-size: 80%;
+}
+
+
+
+.standard-edit-panel .array-editor {
+    display: grid;
+    grid-template-columns: [editor] 1fr [button] 0.3fr;
+    border: 1px solid green;
+    list-style: none;
+    margin:0;
+    align-items: start;
+    justify-items: start;
+}
+.standard-edit-panel .array-editor .remove-button {
+    grid-column: button;
+}
+
+.standard-edit-panel .array-editor .add-button {
+
+}
+

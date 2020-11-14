@@ -83,26 +83,22 @@ function PropArrayEditor({prop, object}) {
     let values = object.props[prop]
     let sc = find_array_contents_schema(object,prop)
     const addObject = () => {
-        console.log('adding a new',sc)
         let obj = db.make(sc.category, sc.type)
         object.props[prop].push(obj)
         db.setProp(object,prop,object.props[prop])
-        console.log("really added",obj)
-        console.log(values)
     }
     const removeObject = (o) => {
-        console.log("removing",o)
         object.props[prop] = object.props[prop].filter(t => o!==t)
         db.setProp(object,prop,object.props[prop])
     }
-    return <ul>
-        <li><button onClick={addObject}>add</button></li>
+    return <ul className={'array-editor'}>
         {values.map((v,i)=>{
-            return  <li key={`array_value_${i}`}>
-                <button onClick={()=>removeObject(v)}>rem</button>
-                <ObjectEditor object={v} schema={sc}/>
-            </li>
+            return  [
+                <ObjectEditor object={v} schema={sc}/>,
+                <button className={'remove-button'} onClick={()=>removeObject(v)}>rem</button>
+            ]
         })}
+        <li><button className={'add-button'} onClick={addObject}>add</button></li>
     </ul>
 }
 function ObjectEditor({object, schema}) {
