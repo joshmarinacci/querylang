@@ -56,9 +56,24 @@ export function PopupContainer ({}) {
     let style = {
         left:position.x+"px",
         top:position.y+"px",
+        position:'fixed',
     }
-    return <div className={flatten(cls)} style={style}>
+    return <div className={"popup-wrapper"} style={{
+        zIndex:10000,
+        position:'fixed',
+        width: '100vw',
+        height: '100vh',
+        display:visible?'block':'none',
+        backgroundColor:'rgba(255,255,255,0.0)',
+    }}
+        onClick={()=>{
+            setVisible(false)
+            setPopup(null)
+        }}
+    >
+    <div className={flatten(cls)} style={style}>
         {popup}
+    </div>
     </div>
 }
 
