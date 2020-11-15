@@ -72,35 +72,42 @@ let WEATHER_API_DOMAIN = {
 
         }
     },
-    invoke:(q)=>{
+    invoke:(query)=>{
+        if(!query.equal) return Promise.reject("bad query")
+        if(query.equal.prop !== 'location') return Promise.reject("can only query for location")
+        let q = query.equal.value
         let api_key = 'fe5dd0b0a21045f0bdd235656201411'
         let url = `http://api.weatherapi.com/v1/current.json?key=${api_key}&q=${q}`
-        return fetch(url).then(res => res.json())
+        return fetch(url)
+            .then(res => res.json())
+            .then(d => d.current)
     }
 }
 
 function REMOTE_QUERY(domain, query, project) {
     console.log("invoking query",query,'on domain',domain)
-    if(!query.equal) return Promise.reject("bad query")
-    if(query.equal.prop !== 'location') return Promise.reject("can only query for location")
-    let q = query.equal.value
-    return domain.invoke(q).then(data => {
+    return domain.invoke(query).then(data => {
         console.log('data is',data)
         let obj = {
             id:genid(domain.name),
             category:domain.CATEGORY,
             type:domain.TYPE,
-            props:data.current
+            props:data
         }
-        // apply projection
-        let {props,...rest} = obj
-        let obj2 = {...rest, props:{}}
-        project.project.forEach(p => {
-            obj2.props[p] = obj.props[p]
-        })
 
-        //return as an array
-        return [obj2]
+        if(project) {
+            // apply projection
+            let {props, ...rest} = obj
+            let obj2 = {...rest, props: {}}
+            project.project.forEach(p => {
+                obj2.props[p] = obj.props[p]
+            })
+
+            //return as an array
+            return [obj2]
+        } else {
+            return [obj]
+        }
     })
 }
 
@@ -118,5 +125,42 @@ test('find eugene weather',() => {
     )
     .then(items => {
         console.log("items are",items)
+    })
+})
+
+let DADJOKE_DOMAIN = {
+    name:'icanhazdadjoke',
+    CATEGORY: "DADJOKE",
+    TYPE:"JOKE",
+    SCHEMA:{
+        JOKE:{
+
+        }
+    },
+    invoke:(q)=>{
+        console.log("fetching dad joke with the query",q)
+        return fetch("https://icanhazdadjoke.com/",{
+            method: 'GET', // *GET, POST, PUT, DELETE, etc.
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        })
+            .then(r => r.json())
+    }
+}
+
+function RANDOM() {
+    return {
+        random:{}
+    }
+}
+
+test('find dad joke',() => {
+    return REMOTE_QUERY(
+        DADJOKE_DOMAIN,
+        RANDOM(),
+    ).then(d => {
+        console.log("got a joke",d)
     })
 })
