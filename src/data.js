@@ -911,7 +911,7 @@ const data = [
 ]
 
 
-function genid(prefix) {
+export function genid(prefix) {
     return prefix+"_"+Math.floor(Math.random()*1000*1000)
 }
 

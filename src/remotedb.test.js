@@ -1,5 +1,5 @@
-import {AND, IS_CATEGORY, IS_TYPE, query2} from './query2.js'
-import {DATA} from './data.js'
+import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE, query2} from './query2.js'
+import {DATA, genid} from './data.js'
 import {CATEGORIES} from './schema.js'
 import {project} from './db.js'
 
@@ -62,3 +62,61 @@ test('find all contacts', () => {
 
     })
 });
+
+let WEATHER_API_DOMAIN = {
+    name:"weatherapi.com",
+    CATEGORY:"WEATHER_API",
+    TYPE:"CURRENT",
+    SCHEMA: {
+        CURRENT:{
+
+        }
+    },
+    invoke:(q)=>{
+        let api_key = 'fe5dd0b0a21045f0bdd235656201411'
+        let url = `http://api.weatherapi.com/v1/current.json?key=${api_key}&q=${q}`
+        return fetch(url).then(res => res.json())
+    }
+}
+
+function REMOTE_QUERY(domain, query, project) {
+    console.log("invoking query",query,'on domain',domain)
+    if(!query.equal) return Promise.reject("bad query")
+    if(query.equal.prop !== 'location') return Promise.reject("can only query for location")
+    let q = query.equal.value
+    return domain.invoke(q).then(data => {
+        console.log('data is',data)
+        let obj = {
+            id:genid(domain.name),
+            category:domain.CATEGORY,
+            type:domain.TYPE,
+            props:data.current
+        }
+        // apply projection
+        let {props,...rest} = obj
+        let obj2 = {...rest, props:{}}
+        project.project.forEach(p => {
+            obj2.props[p] = obj.props[p]
+        })
+
+        //return as an array
+        return [obj2]
+    })
+}
+
+function PROJECT(strings) {
+    return {
+        project:strings,
+    }
+}
+
+test('find eugene weather',() => {
+    return REMOTE_QUERY(
+        WEATHER_API_DOMAIN,
+        IS_PROP_EQUAL("location","97404"),
+        PROJECT(['temp_c','temp_f'])
+    )
+    .then(items => {
+        console.log("items are",items)
+    })
+})
