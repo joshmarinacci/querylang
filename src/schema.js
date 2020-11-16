@@ -686,10 +686,15 @@ function findSchema(type) {
     return SCHEMAS[type]
 }
 
-export function makeNewObject(type, category) {
+export function makeNewObject(type, category, customSchema) {
     if(!type) throw new Error("makeNewObject missing type")
     if(!category) throw new Error("makeNewObject missing category")
-    let schema = findSchema(type)
+    let schema = null
+    if(customSchema) {
+        schema = customSchema.SCHEMAS[type]
+    } else {
+        schema = findSchema(type)
+    }
     if(!schema) throw new Error(`no schema found for type ${category}:${type}`)
     if(!schema.props) throw new Error(`no schema props found for type ${category}:${type}`)
 

@@ -252,6 +252,7 @@ class DB {
     }
     addEventListener(cat,listener) {
         if(!cat) throw new Error("Missing category")
+        if(!this.listeners[cat]) this.listeners[cat] = []
         this.listeners[cat].push(listener)
     }
     removeEventListener(cat,listener) {
@@ -273,8 +274,8 @@ class DB {
         this.data = this.data.filter(d => d.id !== obj.id)
         this._fireUpdate(obj)
     }
-    make(category,type) {
-        return makeNewObject(type,category)
+    make(category,type, customSchema) {
+        return makeNewObject(type,category, customSchema)
     }
     setProp(obj,key,value) {
         if(!obj) return

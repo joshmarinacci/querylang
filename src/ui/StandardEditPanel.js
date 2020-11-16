@@ -8,8 +8,8 @@ import {find_array_contents_schema, find_object_schema} from './StandardViewPane
 import {AddButton, CheckboxPropEditor, EnumPropEditor, HBox, RemoveButton, TextPropEditor, VBox} from './ui.js'
 
 
-export function StandardEditPanel({object, hide=[], order=[], custom=[]}) {
-    let schema = find_object_schema(object)
+export function StandardEditPanel({object, hide=[], order=[], custom=[], customSchema}) {
+    let schema = find_object_schema(object, customSchema)
     let props = new Set()
     Object.keys(schema.props).forEach(id => props.add(id))
     hide.forEach(name => props.delete(name))
@@ -18,7 +18,7 @@ export function StandardEditPanel({object, hide=[], order=[], custom=[]}) {
     props.forEach((name, i) => {
         let sch = schema.props[name]
         elems.push(<PropLabel prop={name}/>)
-        elems.push(<PropEditor object={object} prop={name} propSchema={sch} objectSchema={schema}/>)
+        elems.push(<PropEditor object={object} prop={name} propSchema={sch} objectSchema={schema} customSchema={customSchema}/>)
     })
 
     const dumpObject = () => {
@@ -33,7 +33,7 @@ function PropLabel({prop}) {
     return <label key={`label_${prop}`}>{prop}</label>
 }
 
-function PropEditor({object,prop, propSchema, objectSchema}) {
+function PropEditor({object,prop, propSchema, objectSchema, customSchema}) {
     if(propSchema.type === STRING) {
         return <PropStringEditor key={'editor_'+prop} prop={prop} object={object} propSchema={propSchema} objectSchema={objectSchema}/>
     }
@@ -45,7 +45,9 @@ function PropEditor({object,prop, propSchema, objectSchema}) {
     }
     if(propSchema.type === ENUM) {
         return <PropEnumEditor key={'editor_'+prop} prop={prop} object={object}
-                               propSchema={propSchema} objectSchema={objectSchema}/>
+                               propSchema={propSchema} objectSchema={objectSchema}
+                               customSchema={customSchema}
+        />
     }
     return <div>no editor for {prop} of type {propSchema.type}</div>
 }
@@ -57,14 +59,17 @@ function PropStringEditor({object, prop}) {
     }}/>
 }
 
-function PropEnumEditor({object,prop}) {
+function PropEnumEditor({object,prop, customSchema}) {
     let db = useContext(DBContext)
-    return <select value={propAsString(object,prop)} onChange={ev => {
-        db.setProp(object,prop,ev.target.value)
-    }}>
-        {getEnumPropValues(object,prop).map(v => {
-            return <option key={v} value={v}>{v}</option>
-        })}
+    let values = []
+    if(customSchema) {
+        values = customSchema.SCHEMAS[object.type].props[prop].values
+    } else {
+        values = getEnumPropValues(object,prop)
+    }
+    return <select value={propAsString(object,prop)}
+                   onChange={ev => db.setProp(object,prop,ev.target.value)}>
+        {values.map(v => <option key={v} value={v}>{v}</option>)}
     </select>
 }
 

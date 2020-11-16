@@ -5,7 +5,8 @@ import {ARRAY, BOOLEAN, CATEGORIES, STRING} from '../schema.js'
 import "./StandardViewPanel.css"
 import Icon from '@material-ui/core/Icon'
 
-export function find_object_schema(object) {
+export function find_object_schema(object, customSchema) {
+    if(customSchema) return customSchema.SCHEMAS[object.type]
     let cat = CATEGORIES[object.category]
     let sch = cat.SCHEMAS[object.type]
     return sch
