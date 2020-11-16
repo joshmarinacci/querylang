@@ -85,11 +85,12 @@ function gen_local_files() {
             deleted:false,
         }
     })
+    return data
 }
 
 
 
 export const FileBrowserSimple = () => {
-    let files = useState(()=>gen_local_files())
+    let [files,setFiles] = useState(()=>gen_local_files())
     return <FileBrowser files={files}/>
 }

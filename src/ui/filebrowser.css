@@ -1,15 +1,63 @@
 .file-browser {
+    display: flex;
+    flex-direction: column;
 }
 .file-browser .toggle-bar {
-    background-color: #888888;
+    border: 1px solid #cccccc;
+    /*background-color: #888888;*/
+    border-radius: 1rem;
 }
 .file-browser .toggle-button {
-    background-color: #888888;
+    /*background-color: #888888;*/
 }
 .file-browser .toggle-button:hover {
     color: black;
 }
 .file-browser .toggle-button.selected {
-    border: 1px solid blue;
+    /*border: 1px solid blue;*/
     background-color: #ddd;
+}
+
+
+.file-browser .file-list {
+    /*border: 5px solid red;*/
+    display: flex;
+    flex-direction: column;
+}
+
+.file-browser .file-list .file-list-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-width: 0 0 0px 0;
+    margin: 0.25rem;
+    border-radius: 1rem;
+}
+.file-list-item.selected {
+    background-color: #cccccc;
+}
+.file-browser .file-list .file-list-item > * {
+    padding: 0.25rem 0.5rem;
+}
+
+.file-browser .file-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.file-browser .file-grid .file-grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    min-width: 8rem;
+    min-height: 8rem;
+}
+.file-browser .file-grid .file-grid-item > * {
+    padding: 0.5rem 0.5rem;
+}
+.file-grid-item .icon {
+    border: 0px solid blue;
+    font-size: 4rem;
 }
