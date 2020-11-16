@@ -72,7 +72,6 @@ function FileList({files, selected, setSelected}){
     })}</div>
 }
 function FileGrid({files, selected, setSelected}){
-    // a grid of files. 100px tiles.  just name and mimetype appropriate icon.
     return <div className={'file-grid'}>{files.map((file,i)=> {
         return <div className={flatten({
             'file-grid-item':true,
@@ -88,11 +87,15 @@ function FileDetailsView({file}) {
     // plus an image thumbnail if relevant
     if(!file) return <div className={'file-details'}>nothing selected</div>
     let preview = ""
-    if(propAsString(file,'mimetype_major')) {
-        console.log("preview")
+    if(propAsString(file,'mimetype_major') === 'image') {
+        preview = <img className={'thumbnail'} src={file.props.url}/>
     }
-    return <div>
-        details of file {propAsString(file,'filename')}
+    if(propAsString(file,'mimetype_major')==='text') {
+        preview = <span>text summary</span>
+    }
+    console.log("file is",file)
+    return <div className={'file-details-view'}>
+        {propAsString(file,'filename')}
         {preview}
     </div>
 }
