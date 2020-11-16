@@ -94,6 +94,7 @@ function DebugPanel({column=1, row=1, caption='caption'}) {
         display:'flex',
         alignItems:'center',
         justifyContent:'center',
+        color:'#cccccc',
     }} className={flatten(cls)}>
         {caption}
     </div>
