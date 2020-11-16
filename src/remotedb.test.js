@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE, query2} from './query2.js'
 import {DATA, genid} from './data.js'
 import {CATEGORIES} from './schema.js'
@@ -162,5 +166,34 @@ test('find dad joke',() => {
         RANDOM(),
     ).then(d => {
         console.log("got a joke",d)
+    })
+})
+
+
+let XKCD_DOMAIN = {
+    name:'xkcd',
+    CATEGORY:"XKCD",
+    TYPE:"COMIC",
+    SCHEMA:{
+        COMIC:{
+
+        }
+    },
+    invoke:(query)=>{
+        console.log("doing XKCD query",query)
+        return fetch("https://xkcd.com/info.0.json",{
+            mode:'no-cors',
+            origin:"https://www.google.com/"
+        })
+            .then(r => r.json())
+    }
+}
+
+test('find current xkcd',() => {
+    return REMOTE_QUERY(
+        XKCD_DOMAIN,
+        IS_PROP_EQUAL("type",'current')
+    ).then(d => {
+        console.log("current comic is",d)
     })
 })

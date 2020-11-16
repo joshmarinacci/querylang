@@ -1,0 +1,15 @@
+.file-browser {
+}
+.file-browser .toggle-bar {
+    background-color: #888888;
+}
+.file-browser .toggle-button {
+    background-color: #888888;
+}
+.file-browser .toggle-button:hover {
+    color: black;
+}
+.file-browser .toggle-button.selected {
+    border: 1px solid blue;
+    background-color: #ddd;
+}
