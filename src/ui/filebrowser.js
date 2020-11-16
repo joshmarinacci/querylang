@@ -7,6 +7,7 @@ import {propAsString} from '../db.js'
 import Icon from '@material-ui/core/Icon'
 
 import {format} from "date-fns"
+import {genid} from '../data.js'
 
 export function FileBrowser({files}) {
     let [view,setView] = useState("list")
@@ -22,7 +23,6 @@ export function FileBrowser({files}) {
         console.log("setting the wallpaper to",file)
     }
     return <div className={'file-browser'}>
-        <h3>file browser</h3>
         <Toolbar>
             <ToggleBar value={view} values={['list','grid']} setValue={setView}/>
             <input type={'search'} placeholder={'search name'}/>
@@ -140,3 +140,34 @@ function ToggleButton({onClick, selected, value}) {
 
 export const FILES = 'FILES'
 export const FILE_INFO = 'FILE_INFO'
+
+
+
+export function FileBrowserApp({app}) {
+    let [files, setFiles] = useState(()=>{
+        let data = []
+        data.push({
+            id:genid('file-meta'),
+            category:FILES,
+            type:FILE_INFO,
+            props: {
+                creation_date: new Date(2001),
+                modified_date: new Date(2020,11),
+                tags:['history'],
+                mimetype_major:'text',
+                mimetype_minor:'plain',
+                filename:'const.txt',
+                url:"https://www.usconstitution.net/const.txt",
+                filesize:-1,
+                type_info:{
+                    infotype:'text',
+                },
+                deleted:false,
+            }
+        })
+        return data
+    })
+    return <div>
+        <FileBrowser files={files}/>
+    </div>
+}

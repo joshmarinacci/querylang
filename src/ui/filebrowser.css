@@ -4,32 +4,28 @@
 }
 .file-browser .toggle-bar {
     border: 1px solid #cccccc;
-    /*background-color: #888888;*/
     border-radius: 1rem;
 }
 .file-browser .toggle-button {
-    /*background-color: #888888;*/
 }
 .file-browser .toggle-button:hover {
     color: black;
 }
 .file-browser .toggle-button.selected {
-    /*border: 1px solid blue;*/
     background-color: #ddd;
 }
 
 
 .file-browser .file-list {
-    /*border: 5px solid red;*/
     display: flex;
     flex-direction: column;
+    flex: 1.0;
 }
 
 .file-browser .file-list .file-list-item {
     display: flex;
     flex-direction: row;
     align-items: center;
-    /*margin: 0.25rem;*/
     border-radius: 1rem;
 }
 .file-list-item.selected {

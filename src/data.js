@@ -942,6 +942,7 @@ loadApp({title:"Settings", appid:"SettingsApp", icon:'settings', launchbar:false
     window:{default_width:400, default_height:400}})
 loadApp({title:"Writer", appid:"WriterApp", icon:'create', launchbar:false})
 loadApp({title:'Data Browser', appid:"DataBrowser",icon:'create', launchbar:false})
+loadApp({title:'File Browser', appid:"FileBrowserApp",icon:'image', launchbar:true})
 
 function load_bookmarks() {
     data.push({
