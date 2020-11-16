@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import "./datatable.css"
 import {DBContext, hasProp, propAsBoolean, propAsString, useDBChanged} from '../db.js'
-import {ARRAY, BOOLEAN, CATEGORIES, ENUM, getEnumPropValues, STRING} from '../schema.js'
+import {ARRAY, BOOLEAN, CATEGORIES, ENUM, getEnumPropValues, INTEGER, STRING} from '../schema.js'
 import "./StandardEditPanel.css"
 import Icon from '@material-ui/core/Icon'
 import {find_array_contents_schema, find_object_schema} from './StandardViewPanel.js'
@@ -37,6 +37,9 @@ function PropEditor({object,prop, propSchema, objectSchema, customSchema}) {
     if(propSchema.type === STRING) {
         return <PropStringEditor key={'editor_'+prop} prop={prop} object={object} propSchema={propSchema} objectSchema={objectSchema}/>
     }
+    if(propSchema.type === INTEGER) {
+        return <PropIntegerEditor key={'editor_'+prop} prop={prop} object={object} propSchema={propSchema} objectSchema={objectSchema}/>
+    }
     if(propSchema.type === BOOLEAN) {
         return <PropBooleanEditor key={'editor_'+prop} prop={prop} object={object}/>
     }
@@ -55,6 +58,13 @@ function PropEditor({object,prop, propSchema, objectSchema, customSchema}) {
 function PropStringEditor({object, prop}) {
     let db = useContext(DBContext)
     return <input type='text' value={propAsString(object,prop)} onChange={(ev)=>{
+        db.setProp(object,prop,ev.target.value)
+    }}/>
+}
+
+function PropIntegerEditor({object, prop}) {
+    let db = useContext(DBContext)
+    return <input type='number' value={propAsString(object,prop)} onChange={(ev)=>{
         db.setProp(object,prop,ev.target.value)
     }}/>
 }

@@ -1,0 +1,48 @@
+.theme-tester .preview {
+    border: 5px solid red;
+    padding: 1em;
+    --base-font-size: 10pt;
+    --text-color: black;
+    --base-font-weight: 400;
+    --base-background-color: white;
+    --accent-color: green;
+    --inverted-accent-color: white;
+    --toolbar-padding: 0.5em;
+    --base-border-radius: 0.3em;
+    --background-two: #f0f0f0;
+    --base-margin: 0.3em;
+}
+
+.toolbar {
+    font-size: var(--base-font-size);
+    color: var(--text-color);
+    border-width: 1px;
+    font-weight: var(--base-font-weight);
+    background-color: var(--base-background-color);
+    line-height: 100%;
+    min-height: unset;
+}
+
+.preview label, .preview button, .preview .icon, .preview input {
+    font-size: var(--base-font-size);
+    color: var(--text-color);
+    font-weight: var(--base-font-weight);
+    padding: var(--toolbar-padding);
+    border-radius: var(--base-border-radius);
+    margin: var(--base-margin);
+    line-height: 100%;
+    box-sizing: content-box;
+    border: 0px solid red;
+}
+
+.preview button:hover, .preview .icon:hover {
+    color: var(--inverted-accent-color);
+    background-color: var(--accent-color);
+}
+
+
+.preview input {
+    border-color: var(--accent-color);
+    border-width: 0px;
+    background-color: var(--background-two)
+}

@@ -3,8 +3,8 @@
 .grid3layout {
     flex: 1.0;
     display: grid;
-    grid-template-columns: [one] 10rem [gap1] 1px [two]20rem [gap2] 1px [three] 1fr [end];
-    grid-template-rows: [toolbar]3rem [content]1fr;
+    grid-template-columns: [one] 10em [gap1] 1px [two]20em [gap2] 1px [three] 1fr [end];
+    grid-template-rows: [toolbar]3em [content]1fr;
     background-color: black;
     overflow: auto;
 }
@@ -48,9 +48,9 @@
 }
 
 .toolbar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    /*display: flex;*/
+    /*flex-direction: row;*/
+    /*align-items: center;*/
 }
 .titlebar {
     display: flex;
@@ -62,10 +62,10 @@
 /* ============= padding ========== */
 
 .titlebar {
-    padding: 0.5rem;
+    padding: 0.5em;
 }
 .content-area {
-    padding: 1rem;
+    padding: 1em;
 }
 
 /* ========== colors =============== */
@@ -80,16 +80,16 @@
     color: #888888;
 }
 .toolbar {
-    background-color: white;
+    /*background-color: white;*/
 }
 .toolbar button, .toolbar .MuiIcon-root {
-    background-color: white;
-    border-width: 0;
-    border-radius: 0.5rem;
+    /*background-color: white;*/
+    /*border-width: 0;*/
+    /*border-radius: 0.5em;*/
 }
 .toolbar button:hover, .toolbar .MuiIcon-root:hover {
-    background-color: grey;
-    color: white;
+    /*background-color: grey;*/
+    /*color: white;*/
 }
 
 .MuiIcon-root.small {

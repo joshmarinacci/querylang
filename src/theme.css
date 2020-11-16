@@ -41,12 +41,12 @@ button.danger:hover {
 
 
 .toolbar button {
-    border: 1px solid var(--selected-color);
-    background-color: var(--selected-color);
-    color: var(--gray8);
+    /*border: 1px solid var(--selected-color);*/
+    /*background-color: var(--selected-color);*/
+    /*color: var(--gray8);*/
 }
 .toolbar button:hover {
-    background-color: var(--selected-color-dark);
+    /*background-color: var(--selected-color-dark);*/
 }
 .toolbar .MuiIcon-root {
     color: var(--gray8);
