@@ -12,12 +12,8 @@ export function FileBrowser({files}) {
     let [view,setView] = useState("list")
     let [file,setFile] = useState(null)
     let panel = ""
-    if(view === 'list') {
-        panel = <FileList files={files} selected={file} setSelected={setFile}/>
-    }
-    if(view === 'grid') {
-        panel =  <FileGrid files={files}/>
-    }
+    if(view === 'list') panel = <FileList files={files} selected={file} setSelected={setFile}/>
+    if(view === 'grid') panel =  <FileGrid files={files} selected={file} setSelected={setFile}/>
     let show_add_dialog = () => {
         console.log("you can add a file !")
     }
@@ -75,10 +71,13 @@ function FileList({files, selected, setSelected}){
         </div>
     })}</div>
 }
-function FileGrid({files}){
+function FileGrid({files, selected, setSelected}){
     // a grid of files. 100px tiles.  just name and mimetype appropriate icon.
     return <div className={'file-grid'}>{files.map((file,i)=> {
-        return <div className={'file-grid-item'} key={i}>
+        return <div className={flatten({
+            'file-grid-item':true,
+            selected:file===selected,
+        })} key={i} onClick={()=>setSelected(file)}>
             {calculateGridIcon(file)}
             <span className={'filename'}>{propAsString(file, 'filename')}</span>
         </div>
@@ -88,7 +87,14 @@ function FileDetailsView({file}) {
     // all data in props using a standard object viewer
     // plus an image thumbnail if relevant
     if(!file) return <div className={'file-details'}>nothing selected</div>
-    return <div>details of file {propAsString(file,'filename')}</div>
+    let preview = ""
+    if(propAsString(file,'mimetype_major')) {
+        console.log("preview")
+    }
+    return <div>
+        details of file {propAsString(file,'filename')}
+        {preview}
+    </div>
 }
 function ToggleBar({value, values, setValue}) {
     // a toggle button for each option
