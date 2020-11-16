@@ -5,7 +5,8 @@ import {flatten} from '../util.js'
 import {THEME_SCHEMA, ThemeTester} from "../ui/themetester.js"
 import {DBContext, makeDB, useDBChanged} from '../db.js'
 import {StandardEditPanel} from '../ui/StandardEditPanel.js'
-
+import "../ui/themetester.css"
+import "../ui/grid3layout.css"
 export default {
     title: 'QueryOS/ThemeTester',
     component: ThemeTester,

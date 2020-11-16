@@ -6,6 +6,7 @@ import {Spacer, TopToolbar} from '../ui/ui.js'
 import Icon from '@material-ui/core/Icon'
 import {EmailFolder, EmailItem, gen_emails, gen_folders, TitleBar} from './email_example.js'
 import {SourceList} from '../ui/sourcelist.js'
+import "../ui/grid3layout.css"
 
 export default {
     title: 'QueryOS/Grid3Layout',
