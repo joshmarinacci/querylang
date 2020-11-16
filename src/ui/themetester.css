@@ -52,3 +52,7 @@
 .preview label {
     color: #444;
 }
+
+.preview .grid3layout {
+    font-size: var(--base-font-size);
+}
