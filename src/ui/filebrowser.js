@@ -7,7 +7,7 @@ import {propAsString} from '../db.js'
 import Icon from '@material-ui/core/Icon'
 
 import {format} from "date-fns"
-import {genid} from '../data.js'
+import {DATA, genid} from '../data.js'
 
 export function FileBrowser({files}) {
     let [view,setView] = useState("list")
@@ -83,23 +83,70 @@ function FileGrid({files, selected, setSelected}){
     })}</div>
 }
 
+let DATA_CACHE = {}
+function generate_image_thumb(file, cb) {
+    if(DATA_CACHE[file.props.url]) return cb(DATA_CACHE[file.props.url])
+
+    console.log("loading image thumb",file.props.url)
+    fetch(`http://localhost:30011/proxy?url=${file.props.url}`,{
+        mode:'cors'
+    }).then(r => r.blob())
+        .then(blob => {
+            let blob_url = URL.createObjectURL(blob)
+            // console.log("blob url is",blob_url)
+            let img3 = new Image()
+            img3.crossOrigin = "Anonymous"
+            img3.onload = () => {
+                // console.log("image loaded",img3,img3.width, img3.height)
+                let can = document.createElement('canvas')
+                let sw = img3.width/256
+                let sh = img3.height/256
+                // console.log(sw,sh)
+                let sc = Math.max(sw,sh)
+                // console.log("scaling down by",sc)
+                can.width = img3.width/sc
+                can.height = img3.height/sc
+                let c = can.getContext('2d')
+                c.fillStyle = 'blue'
+                c.fillRect(0,0,256,256)
+                c.save()
+                c.scale(1/sc,1/sc)
+                c.drawImage(img3,0,0)
+                c.restore()
+                let url =  can.toDataURL("image/png")
+                // console.log("final url is",url)
+                console.log("generated thumbnail")
+                DATA_CACHE[file.props.url] = url
+                cb(url)
+            }
+            img3.src = blob_url
+        })
+}
+
+function generate_text_thumb(file, cb) {
+    if(DATA_CACHE[file.props.url]) return cb(DATA_CACHE[file.props.url])
+    console.log("loading the text", file.props.url)
+    fetch(`http://localhost:30011/proxy?url=${file.props.url}`,{
+        mode:"cors"
+    }).then(r => r.text()).then((r)=>{
+        console.log("result",r)
+        let thumb = r.length > 255?r.substring(0,255):r
+        console.log("thumb data",thumb)
+        DATA_CACHE[file.props.url] = thumb
+        cb(thumb)
+    }).catch(e => {
+        console.log("error happened")
+        cb("cannot connect to thumbnail server")
+    })
+}
+
 function useThumbnail(file) {
     let [data,setData] = useState(null)
     let major = propAsString(file,'mimetype_major')
     useEffect(()=>{
-        console.log("doing the effect")
-        if(major === 'text') {
-            console.log("loading the text", file.props.url)
-            fetch(`http://localhost:30011/proxy?url=${file.props.url}`).then(r => r.text()).then((r)=>{
-                console.log("result",r)
-            }).catch(e => {
-                console.log("error happened")
-                setData("cannot connect to thumbnail server")
-            })
-        }
-        if(major === 'image') {
-            setData(file.props.url)
-        }
+        // if(file) console.log("doing the effect", major, file.props.url)
+        if(major === 'text')  return generate_text_thumb(file, (text)=>setData(text))
+        if(major === 'image') return generate_image_thumb(file,(dataurl)=> setData(dataurl))
     })
     return data
 }
@@ -110,13 +157,8 @@ function FileDetailsView({file}) {
     let thumb = useThumbnail(file)
     if(!file) return <div className={'file-details'}>nothing selected</div>
     let preview = ""
-    if(propAsString(file,'mimetype_major') === 'image') {
-        preview = <img className={'thumbnail'} src={thumb}/>
-    }
-    if(propAsString(file,'mimetype_major')==='text') {
-        preview = <span>{thumb}</span>
-    }
-    console.log("file is",file)
+    if(propAsString(file,'mimetype_major') === 'image') preview = <img className={'thumbnail'} src={thumb} alt={"image preview"}/>
+    if(propAsString(file,'mimetype_major' )=== 'text')  preview = <span className={'thumbnail'}><b>preview</b> {thumb}</span>
     return <div className={'file-details-view'}>
         {propAsString(file,'filename')}
         {preview}
