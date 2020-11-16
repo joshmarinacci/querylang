@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {HBox, Toolbar, VBox} from './ui.js'
 import {flatten} from '../util.js'
 
@@ -82,16 +82,39 @@ function FileGrid({files, selected, setSelected}){
         </div>
     })}</div>
 }
+
+function useThumbnail(file) {
+    let [data,setData] = useState(null)
+    let major = propAsString(file,'mimetype_major')
+    useEffect(()=>{
+        console.log("doing the effect")
+        if(major === 'text') {
+            console.log("loading the text", file.props.url)
+            fetch(`http://localhost:30011/proxy?url=${file.props.url}`).then(r => r.text()).then((r)=>{
+                console.log("result",r)
+            }).catch(e => {
+                console.log("error happened")
+                setData("cannot connect to thumbnail server")
+            })
+        }
+        if(major === 'image') {
+            setData(file.props.url)
+        }
+    })
+    return data
+}
+
 function FileDetailsView({file}) {
     // all data in props using a standard object viewer
     // plus an image thumbnail if relevant
+    let thumb = useThumbnail(file)
     if(!file) return <div className={'file-details'}>nothing selected</div>
     let preview = ""
     if(propAsString(file,'mimetype_major') === 'image') {
-        preview = <img className={'thumbnail'} src={file.props.url}/>
+        preview = <img className={'thumbnail'} src={thumb}/>
     }
     if(propAsString(file,'mimetype_major')==='text') {
-        preview = <span>text summary</span>
+        preview = <span>{thumb}</span>
     }
     console.log("file is",file)
     return <div className={'file-details-view'}>
