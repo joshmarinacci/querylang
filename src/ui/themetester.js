@@ -12,6 +12,7 @@ import {DATA, genid} from '../data.js'
 import "./themetester.css"
 import {StandardEditPanel} from './StandardEditPanel.js'
 import {ENUM, INTEGER, STRING} from '../schema.js'
+import {Grid3Layout} from './grid3layout.js'
 export const THEME_SCHEMA = {
     ID:"THEME",
     TITLE:'theming system',
@@ -51,7 +52,7 @@ export const THEME_SCHEMA = {
                 background_2: {
                     key:'background_2',
                     type:STRING,
-                    default:'red',
+                    default:'#f0e0d0',
                 },
                 toolbar_padding: {
                     key:'toolbar_padding',
@@ -83,6 +84,21 @@ export const THEME_SCHEMA = {
     }
 
 }
+
+function DebugPanel({column=1, row=1, caption='caption'}) {
+    let cls = {}
+    cls['col'+column] = true
+    cls['row'+row] = true
+
+    return <div style={{
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center',
+    }} className={flatten(cls)}>
+        {caption}
+    </div>
+}
+
 export function ThemeTester({theme}) {
     let style = {
         '--base-font-size':`${theme.props.base_font_size}pt`,
@@ -99,19 +115,23 @@ export function ThemeTester({theme}) {
     return <HBox className={'theme-tester'}>
         <StandardEditPanel object={theme} customSchema={THEME_SCHEMA}/>
         <VBox style={style} className={'preview'}>
-            <h3>example</h3>
-            <Toolbar>
-                <label>label</label>
-                <Icon className={'icon'}>add</Icon>
-                <Icon className={'icon'}>settings</Icon>
-                <button>button</button>
-                <Icon className={'icon'}>alarm</Icon>
-                <input type={'search'}/>
-                <Icon className={'icon'}>alarm</Icon>
-            </Toolbar>
-            <HBox>
-                list goes here
-            </HBox>
+            <Grid3Layout>
+                <DebugPanel column={1} row={1}caption={"example"}/>
+                <DebugPanel column={1} row={2}caption={"list"}/>
+                <Toolbar className={'col2 row1'}>
+                    <label>label</label>
+                    <Icon className={'icon'}>add</Icon>
+                    <Icon className={'icon'}>settings</Icon>
+                    <button>button</button>
+                </Toolbar>
+                <Toolbar className={"col3 row1"}>
+                    <Icon className={'icon'}>alarm</Icon>
+                    <input type={'search'}/>
+                    <Icon className={'icon'}>alarm</Icon>
+                </Toolbar>
+                <DebugPanel column={2} row={2} caption={'main'}/>
+                <DebugPanel column={3} row={2} caption={'more'}/>
+            </Grid3Layout>
         </VBox>
     </HBox>
 
