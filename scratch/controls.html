@@ -10,9 +10,6 @@
         /*    font-weight: 100 900;*/
         /*}*/
         @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
-        body {
-
-        }
 
         body {
             /*font-family: 'Inter', serif;*/
@@ -33,9 +30,9 @@
             font-family: inherit;
             padding: 0;
             margin: 0;
-            font-size: 1em;
+            font-size: inherit;
             box-sizing: border-box;
-            line-height: 100%;
+            line-height: 1.5;
         }
 
         /*h1 {*/
@@ -123,6 +120,9 @@
             --gray4 : #333;
 
             --panel-bg : var(--gray1);
+            --std-padding: 0.5em;
+            --std-margin: 0em;
+            --std-line-padding: 0.25em 0.5em;
         }
 
 
@@ -136,19 +136,36 @@
         }
 
         .sidebar, .content, .details, .statusbar {
-            padding: 0.5em;
-            margin: 0em;
+            padding: var(--std-padding);
+            margin: var(--std-margin);
         }
+        .toolbar {
+            padding: var(--std-padding);
+        }
+
+        button, input {
+            padding: var(--std-line-padding);
+            margin:var(--std-margin);
+        }
+
 
         /* =========== color ========= */
         .grid {
-            background-color: black;
+            background-color: var(--gray4);
         }
-        .grid > div {
-            background-color: var(--panel-bg);
-        }
-        .sidebar {
+        .sidebar, .statusbar {
             background-color: var(--gray3);
+        }
+        .content, .details {
+            background-color: var(--gray1);
+        }
+        .toolbar {
+            background-color: var(--gray2);
+        }
+
+        /* ======== borders ========== */
+        button, input {
+            border: 1px solid var(--gray3);
         }
 
     </style>
