@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /*@font-face {*/
+        /*    font-family: 'Inter';*/
+        /*    src:  url('./Inter-VariableFont_slnt,wght.ttf') format('ttf');*/
+        /*    font-weight: 100 900;*/
+        /*}*/
+        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
+        body {
+
+        }
+
+        body {
+            /*font-family: 'Inter', serif;*/
+            font-family: 'Source Sans Pro', serif;
+        }
+
+        body {
+            /*font-family: 'Inter', serif;*/
+            font-size: 11pt;
+            background-color: white;
+            border-color: black;
+            border-width: 0px;
+            border-style: solid;
+            padding: 0;
+            margin: 0;
+        }
+        * {
+            font-family: inherit;
+            padding: 0;
+            margin: 0;
+            font-size: 1em;
+            box-sizing: border-box;
+            line-height: 100%;
+        }
+
+        /*h1 {*/
+        /*    font-weight: 100;*/
+        /*    font-variation-settings: 'slnt' -10;*/
+        /*}*/
+        /*
+          slnt
+          wght
+         */
+
+
+
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr 3fr;
+            grid-template-rows: 3em 1fr 2em;
+            grid-gap: 5px;
+            border: 1px solid red;
+            width: 1000px;
+            height: 400px;
+            overflow: hidden;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            justify-items: stretch;
+        }
+
+        .info {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+
+        .toolbar {
+            display: flex;
+            flex-direction: row;
+            grid-row: 1;
+            border: 0px solid green;
+            align-items: center;
+            overflow: auto;
+        }
+
+        .toggle-group {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .sidebar {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .content {
+            grid-column: 2;
+            grid-row: 2;
+        }
+        .details {
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        ul {
+            list-style: none;
+            padding:0;
+            margin:0;
+        }
+        .statusbar {
+            display: flex;
+            flex-direction: row;
+            grid-column: 1 / span 3;
+            align-items: center;
+        }
+        .spacer {
+            flex: 1.0;
+        }
+
+
+        /* ========= variables ========= */
+        html {
+            --gray1 : #eee;
+            --gray2 : #aaa;
+            --gray3 : #888;
+            --gray4 : #333;
+
+            --panel-bg : var(--gray1);
+        }
+
+
+        /* ==== spacing === */
+        div {
+            border: 0px solid red;
+        }
+        .grid {
+            grid-gap: 1px;
+            padding: 0;
+        }
+
+        .sidebar, .content, .details, .statusbar {
+            padding: 0.5em;
+            margin: 0em;
+        }
+
+        /* =========== color ========= */
+        .grid {
+            background-color: black;
+        }
+        .grid > div {
+            background-color: var(--panel-bg);
+        }
+        .sidebar {
+            background-color: var(--gray3);
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="grid">
+    <div class="info">
+
+    </div>
+    <div class="toolbar">
+        <button class="icon">x</button>
+        <input type="search" placeholder="search here"/>
+    </div>
+    <div class="toolbar">
+        <button class="default">default</button>
+        <button class="primary">primary</button>
+        <button disabled>disabled</button>
+        <div class="toggle-group">
+            <button class="">option1</button>
+            <button class="selected">option2</button>
+            <button>option3</button>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <ul class="list">
+            <li class="header">list header</li>
+            <li>all</li>
+            <li>some</li>
+            <li class="divider"></li>
+            <li class="header">list header</li>
+            <li>song 1</li>
+            <li>song 2</li>
+            <li>song 3</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        empty panel
+    </div>
+
+    <div class="details">
+        <form>
+            <label>first name</label>
+            <input type="text">
+
+            <label>age</label>
+            <input type="number" step="1" min="0" max="100"/>
+
+            <label>location</label>
+            <div class="form-group">
+                <input type="string" placeholder="city"/>
+                <input type="string" placeholder="state"/>
+                <input type="string" placeholder="zipcode"/>
+            </div>
+
+            <label>alive?</label>
+            <input type="checkbox" checked/>
+
+            <label>dead?</label>
+            <input type="checkbox"/>
+
+            <label>gender</label>
+            <select>
+                <option>male</option>
+                <option>female</option>
+                <option>other</option>
+            </select>
+        </form>
+    </div>
+
+
+    <div class="statusbar">
+        <label>100 selected</label>
+        <span class="spacer"></span>
+        <label>40x50px</label>
+    </div>
+</div>
+
+<!--
+* Panel
+	* Background
+	* Primary text
+	* Secondary text
+	* Icon different?
+* Side panel
+* Toolbar
+* Status bar
+* List item
+* Controls
+	* Action button
+	* Toggle button
+	* Toggle button group
+	* Radio button
+	* Checkbox
+	* Pop up containers
+	* Select
+	* Menus
+	* List headers
+-->
+
+
+
+
+
+
+</body>
+</html>
