@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
     <style>
         /*@font-face {*/
         /*    font-family: 'Inter';*/
@@ -10,6 +12,7 @@
         /*    font-weight: 100 900;*/
         /*}*/
         @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
+
 
         body {
             /*font-family: 'Inter', serif;*/
@@ -91,6 +94,7 @@
         .info {
             grid-column: 1;
             grid-row: 1;
+            text-align: center;
         }
 
 
@@ -111,6 +115,7 @@
         .sidebar {
             grid-column: 1;
             grid-row: 2;
+            overflow: auto;
         }
 
         .content {
@@ -124,6 +129,10 @@
 
         ul {
             list-style: none;
+            padding:0;
+            margin:0;
+        }
+        li {
             padding:0;
             margin:0;
         }
@@ -168,7 +177,7 @@
             padding: 0;
         }
 
-        .sidebar, .content, .details, .statusbar {
+        .sidebar, .content, .details, .statusbar, .info {
             padding: var(--std-padding);
             margin: var(--std-margin);
         }
@@ -204,19 +213,29 @@
         .toggle-group > * {
             margin:0;
         }
-
-        /* =========== color ========= */
-        .grid {
-            background-color: var(--gray4);
+        li {
+            border: 0px solid blue;
+            padding: var(--std-line-padding);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
         }
-        .sidebar, .statusbar {
+
+        /* =========== colors ========= */
+        .grid {
             background-color: var(--gray3);
+        }
+        .sidebar, .statusbar, .info {
+            background-color: var(--gray1);
         }
         .content, .details {
             background-color: var(--gray1);
         }
         .toolbar {
             background-color: var(--gray2);
+        }
+        .info {
+            color: var(--gray3);
         }
         button {
             color: var(--gray4);
@@ -277,18 +296,38 @@
         }
 
 
+
+        /* ============ lists ============ */
+        li {
+            color: var(--gray4);
+        }
+        li .material-icons {
+            border: 0px solid red;
+            margin-right: 0.25em;
+        }
+        li.selected {
+            background-color: var(--accent-background-color);
+            color: var(--accent-text-color);
+        }
+        li.header {
+            text-transform: uppercase;
+            color: var(--gray3);
+            margin-top: 1.0em;
+        }
+
     </style>
 </head>
 <body>
 
 <div class="grid">
     <div class="info">
-
+        Controls Demo
     </div>
     <div class="toolbar">
         <button class="icon">x</button>
         <input type="search" placeholder="search here"/>
     </div>
+
     <div class="toolbar">
         <button class="default">default</button>
         <button class="primary">primary</button>
@@ -302,14 +341,27 @@
 
     <div class="sidebar">
         <ul class="list">
-            <li class="header">list header</li>
-            <li>all</li>
-            <li class="selected">some</li>
-            <li class="divider"></li>
-            <li class="header">list header</li>
-            <li>song 1</li>
-            <li>song 2</li>
-            <li>song 3</li>
+            <li class="header">library</li>
+            <li><i class="material-icons">library_music</i> all</li>
+            <li class="selected"><i class="material-icons">people</i> artists</li>
+            <li><i class="material-icons">album</i> albums</li>
+            <li><i class="material-icons">music_video</i> songs</li>
+            <li class="header">playlists</li>
+            <li><i class="material-icons">queue_music</i>Best of 1985</li>
+            <li><i class="material-icons">queue_music</i>Funo</li>
+            <li><i class="material-icons">queue_music</i>Late Night 80s</li>
+            <li><i class="material-icons">queue_music</i>Best of 1985</li>
+            <li><i class="material-icons">queue_music</i>Funo</li>
+            <li><i class="material-icons">queue_music</i>Late Night 80s</li>
+            <li><i class="material-icons">queue_music</i>Best of 1985</li>
+            <li><i class="material-icons">queue_music</i>Funo</li>
+            <li><i class="material-icons">queue_music</i>Late Night 80s</li>
+            <li><i class="material-icons">queue_music</i>Best of 1985</li>
+            <li><i class="material-icons">queue_music</i>Funo</li>
+            <li><i class="material-icons">queue_music</i>Late Night 80s</li>
+            <li><i class="material-icons">queue_music</i>Best of 1985</li>
+            <li><i class="material-icons">queue_music</i>Funo</li>
+            <li><i class="material-icons">queue_music</i>Late Night 80s</li>
         </ul>
     </div>
 
@@ -339,6 +391,10 @@
 
             <label>alive?</label>
             <input type="checkbox" checked/>
+            <div>
+            <i class="material-icons">check_box</i>
+            <i class="material-icons">check_box_outline_blank</i>
+            </div>
 
             <label>dead?</label>
             <input type="checkbox"/>
