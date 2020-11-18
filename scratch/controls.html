@@ -52,7 +52,7 @@
 
         .grid {
             display: grid;
-            grid-template-columns: 1fr 2fr 3fr;
+            grid-template-columns: 1fr 1.5fr 3fr;
             grid-template-rows: 3em 1fr 2em;
             grid-gap: 5px;
             border: 1px solid red;
@@ -300,10 +300,15 @@
         /* ============ lists ============ */
         li {
             color: var(--gray4);
-        }
-        li .material-icons {
-            border: 0px solid red;
+       }
+        li .material-icons:first-child {
             margin-right: 0.25em;
+        }
+        li .material-icons:last-child {
+            margin-left: 0.25em;
+        }
+        .accent {
+            color: var(--accent-background-color);
         }
         li.selected {
             background-color: var(--accent-background-color);
@@ -313,6 +318,36 @@
             text-transform: uppercase;
             color: var(--gray3);
             margin-top: 1.0em;
+        }
+        li .primary {
+            color: var(--gray4);
+        }
+        li .secondary {
+            color: var(--gray3);
+        }
+
+        ul.source li {
+
+        }
+        ul.standard {
+            border-bottom: 1px solid var(--gray3);
+        }
+
+        .hbox {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+        }
+        .vbox {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .grow {
+            flex: 1.0;
+        }
+        li .primary {
+            flex: 1.0;
         }
 
     </style>
@@ -340,7 +375,7 @@
     </div>
 
     <div class="sidebar">
-        <ul class="list">
+        <ul class="source">
             <li class="header">library</li>
             <li><i class="material-icons">library_music</i> all</li>
             <li class="selected"><i class="material-icons">people</i> artists</li>
@@ -366,10 +401,19 @@
     </div>
 
     <div class="content">
-        <ul class="list">
-            <li>
-                <span>icon</span>
-                <span class="primary">primary text</span>
+        <ul class="standard">
+            <li class="vbox">
+                <div class="hbox">
+                    <i class="material-icons accent">star</i>
+                    <span class="primary grow">primary text</span>
+                    <span class="trailing">trailing text</span>
+                    <i class="material-icons">attachment</i>
+                </div>
+                <div class="hbox">
+                    <i class="material-icons">x</i>
+                    <span class="secondary grow">secondary text</span>
+                    <i class="material-icons">x</i>
+                </div>
             </li>
         </ul>
     </div>
@@ -392,8 +436,8 @@
             <label>alive?</label>
             <input type="checkbox" checked/>
             <div>
-            <i class="material-icons">check_box</i>
-            <i class="material-icons">check_box_outline_blank</i>
+            <i class="material-icons accent">check_box</i>
+            <i class="material-icons accent">check_box_outline_blank</i>
             </div>
 
             <label>dead?</label>
