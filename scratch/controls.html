@@ -154,6 +154,8 @@
             --accent-background-color: #f18585;
             --accent-text-color: var(--gray4);
             --accent-border-color: darkred;
+
+            --radius: 0.25em;
         }
 
 
@@ -250,18 +252,28 @@
             background-color: var(--accent-background-color);
         }
 
-        /* ======== borders ========== */
+        /* ======== borders and radius========== */
         button, input, select {
             border: 1px solid var(--gray3);
         }
+        button, input {
+            border-radius: 0.25rem;
+        }
         .toggle-group {
             border: 1px solid var(--gray3);
+            border-radius: var(--radius);
         }
         .toggle-group > * {
             border-width: 0px 1px 0 0;
+            border-radius: 0;
+        }
+        .toggle-group > *:first-child {
+            border-right-width: 0;
+            border-radius: 0.25em 0 0 0.25em;
         }
         .toggle-group > *:last-child {
             border-right-width: 0;
+            border-radius: 0 0.25em 0.25em 0;
         }
 
 
