@@ -380,7 +380,7 @@ export function makeDB() {
 }
 
 // TODO: extend this to use the real schemas
-function encode_props_with_types(value) {
+export function encode_props_with_types(value) {
     let props = {}
     Object.keys(value).forEach(k => {
         let prefix = ''
@@ -394,7 +394,7 @@ function encode_props_with_types(value) {
     return props
 }
 
-function decode_props_with_types(value) {
+export function decode_props_with_types(value) {
     let props = {}
     Object.keys(value).forEach(k => {
         if(k.startsWith('_date_')) {
