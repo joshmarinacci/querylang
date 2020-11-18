@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import Icon from '@material-ui/core/Icon'
 import {propAsString} from '../db.js'
 import {AppLauncherContext} from '../services/AppLauncherService.js'
+import "./window.css"
 
 export function Window({children, resize=true, hide_titlebar=false, app, anchor="none",}) {
     let appService = useContext(AppLauncherContext)

@@ -2,26 +2,24 @@ import React, {useContext, useEffect, useState} from 'react'
 import {HBox, Toolbar, VBox} from './ui.js'
 import {flatten} from '../util.js'
 
-import "./filebrowser.css"
+// import "./filebrowser.css"
 import {DBContext, decode_props_with_types, encode_props_with_types, propAsString} from '../db.js'
-import Icon from '@material-ui/core/Icon'
-
-import {format} from "date-fns"
-import {DATA, genid} from '../data.js'
 
 import "./themetester.css"
 import {StandardEditPanel} from './StandardEditPanel.js'
 import {ENUM, INTEGER, STRING} from '../schema.js'
-import {Grid3Layout} from './grid3layout.js'
 
 const COLOR = 'COLOR'
 const PADDING = 'PADDING'
 const PROPS = {
     '--std-text-color':COLOR,
     '--std-bg-color': COLOR,
+    '--bg-dark':COLOR,
     '--accent-background-color':COLOR,
-    '--std-line-padding':PADDING,
     '--std-margin':PADDING,
+    '--std-line-margin':PADDING,
+    '--std-padding':PADDING,
+    '--std-line-padding':PADDING,
 
 }
 
@@ -32,67 +30,6 @@ export const THEME_SCHEMA = {
         THEME: {
             title:'theme',
             props: {
-                /*
-                fontfamily:{
-                    key: 'fontfamily',
-                    title:'font family',
-                    type: ENUM,
-                    values: ['sans1', 'sans2'],
-                    default: 'sans1'
-                },
-                base_font_size: {
-                    key:'base_font_size',
-                    title:'base font size',
-                    type:INTEGER,
-                    default:'10'
-                },
-                base_font_weight: {
-                    key:'base_font_weight',
-                    type:ENUM,
-                    values:['100','200','300','400','500','600','700','800'],
-                    default:'400',
-                },
-                text_color: {
-                    key:'text_color',
-                    type:STRING,
-                    default:'#000000',
-                },
-                background_color: {
-                    key:'background_color',
-                    type:STRING,
-                    default:'#ffffff',
-                },
-                background_2: {
-                    key:'background_2',
-                    type:STRING,
-                    default:'#f0e0d0',
-                },
-                toolbar_padding: {
-                    key:'toolbar_padding',
-                    type:INTEGER,
-                    default: 5,
-                },
-                base_margin: {
-                    key:'base_margin',
-                    type:INTEGER,
-                    default: 5,
-                },
-                base_border_radius: {
-                    key:'base_border_radius',
-                    type:INTEGER,
-                    default: 5,
-                },
-                accent_color: {
-                    key:'accent_color',
-                    type:STRING,
-                    default:'orange',
-                },
-                inverse_accent_color: {
-                    key:'inverse_accent_color',
-                    type:STRING,
-                    default:'white',
-                }
-                 */
             }
         }
     }
@@ -166,6 +103,17 @@ export function ThemeTester({theme, setTheme}) {
                 <button>button</button>
                 <button className={'primary'}>primary</button>
             </HBox>
+            <div className="toolbar">
+                <button>default</button>
+                <button className="primary">primary</button>
+                <button disabled>disabled</button>
+                <div className="toggle-group">
+                    <button className="">option1</button>
+                    <button className="selected">option2</button>
+                    <button>option3</button>
+                </div>
+            </div>
+
         </VBox>
     </HBox>
 
