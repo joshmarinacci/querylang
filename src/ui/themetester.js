@@ -20,6 +20,7 @@ const PROPS = {
     '--std-line-margin':PADDING,
     '--std-padding':PADDING,
     '--std-line-padding':PADDING,
+    '--radius': PADDING,
 
 }
 

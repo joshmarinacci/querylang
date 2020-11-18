@@ -12,12 +12,18 @@ html {
     --std-text-color: green;
     --std-bg-color: green;
     --bg-dark: darkgreen;
-    --accent-background-color:red;
+    --text-dark: darkgreen;
+
+    --accent-text-color: darkred;
+    /*--accent-border-color: darkred;*/
+    /*--accent-background-color:red;*/
 
     --std-padding: 0.5em;
     --std-margin: 0em;
     --std-line-padding: 0.25em 0.5em;
     --std-line-margin: 0 0.25em;
+
+    --radius: 0.25em;
 
 
     font-family: "Source Sans Pro", serif;
@@ -29,9 +35,12 @@ html {
 button {
     font-family: inherit;
 }
+.toolbar {
+    border-width: 0;
+}
 /* ============= structure =========== */
 
-.preview .toolbar {
+.toolbar {
     display: flex;
     flex-direction: row;
     grid-row: 1;
@@ -51,7 +60,7 @@ button {
     margin: var(--std-line-margin);
 }
 
-.preview button, .preview input, .preview select {
+button, input, select {
     padding: var(--std-line-padding);
     margin:var(--std-margin);
 }
@@ -63,18 +72,40 @@ button {
     margin:0;
 }
 
+/* ======== borders and radius ========= */
+button, input {
+    border-radius: var(--radius);
+}
+
+
 /* =============== colors ============== */
 
-.preview button {
+button {
     color: var(--std-text-color);
     background-color: var(--std-bg-color);
 }
 
-.preview button.primary {
+button.primary {
     background-color: var(--accent-background-color);
+    color: var(--accent-text-color);
+    border-color: var(--accent-border-color);
 }
 
-.preview .toolbar {
+
+button:hover {
+    background-color: var(--bg-dark);
+    color: var(--std-bg-color);
+}
+button.selected {
+    background-color: var(--gray3);
+    color: var(--gray1);
+}
+
+button:focus, input:focus {
+    outline: solid var(--accent-background-color);
+}
+
+.toolbar {
     background-color: var(--bg-dark);
 }
 
