@@ -21,8 +21,10 @@ const PROPS = {
     '--std-bg-color': COLOR_PICKER,
     '--std-border-color':COLOR_PICKER,
     '--bg-dark':COLOR_PICKER,
+
     '--accent-text-color':COLOR_PICKER,
     '--accent-background-color':COLOR_PICKER,
+    '--accent-border-color':COLOR_PICKER,
 
     '--std-margin':PADDING,
     '--std-line-margin':PADDING,
@@ -105,8 +107,10 @@ export function ThemeTester({theme, setTheme}) {
         let val = PROPS[prop]
         console.log(val)
         if(val === COLOR_PICKER) {
-            editors.push(<label>{prop}</label>)
-            editors.push(<button onClick={()=>showPicker(prop)}>{prop}</button>)
+            let styl = {
+                backgroundColor:theme.props[prop],
+            }
+            editors.push(<button onClick={()=>showPicker(prop)} style={styl}>{prop}</button>)
         }
         if(val === COLOR) {
             editors.push(<label>{prop}</label>)

@@ -16,8 +16,8 @@ html {
     --text-dark: darkgreen;
 
     --accent-text-color: darkred;
-    /*--accent-border-color: darkred;*/
-    /*--accent-background-color:red;*/
+    --accent-border-color: darkred;
+    --accent-background-color:red;
 
     --std-padding: 0.5em;
     --std-margin: 0em;
@@ -222,7 +222,7 @@ button, input {
 
 /* =============== colors ============== */
 form, ul, .info, .statusbar {
-    background-color: white;
+    background-color: var(--std-bg-color);
 }
 li {
     color: var(--std-text-color);
@@ -231,9 +231,10 @@ li.selected {
     background-color: var(--accent-background-color);
     color: var(--accent-text-color);
 }
+
 li.header {
     text-transform: uppercase;
-    color: var(--accent-background-color);
+    color: var(--std-text-color);
 }
 
 button, input, select {
@@ -270,18 +271,24 @@ button:focus, input:focus {
 
 .controls button, .controls input {
     border: 1px solid black;
+    padding: 0.25em 0.5em;
+    margin: 0.25em;
 }
 .controls button {
-    background-color: #83eaea;
-    padding: 0.25em 0.5em;
+    color: white;
+    text-shadow: 0px 0px 4px black;
+    font-family: sans-serif;
+}
+.controls button:hover {
+    background-color: white;
+    outline: 4px solid blue;
 }
 
 
 .primary {
-    color: var(--std-text-color);
 }
 .secondary {
-    color: var(--std-text-color);
+    font-weight: lighter;
 }
 
 
