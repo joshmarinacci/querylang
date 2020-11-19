@@ -120,6 +120,12 @@ export function ThemeTester({theme, setTheme}) {
                 db.setProp(theme,prop,e.target.value)
             }}/>)
         }
+        if(val === 'PADDING') {
+            editors.push(<label>{prop}</label>)
+            editors.push(<input type={'text'} value={theme.props[prop]} onChange={(e)=>{
+                db.setProp(theme,prop,e.target.value)
+            }}/>)
+        }
     })
 
     return <HBox className={'theme-tester'}>
@@ -189,6 +195,32 @@ export function ThemeTester({theme, setTheme}) {
                             <i className="material-icons">x</i>
                         </div>
                     </li>
+                    <li className="vbox selected">
+                        <div className="hbox">
+                            <i className="material-icons accent">star</i>
+                            <span className="primary grow">primary text</span>
+                            <span className="trailing">trailing text</span>
+                            <i className="material-icons">attachment</i>
+                        </div>
+                        <div className="hbox">
+                            <i className="material-icons">x</i>
+                            <span className="secondary grow">secondary text</span>
+                            <i className="material-icons">x</i>
+                        </div>
+                    </li>
+                    <li className="vbox">
+                        <div className="hbox">
+                            <i className="material-icons accent">star</i>
+                            <span className="primary grow">primary text</span>
+                            <span className="trailing">trailing text</span>
+                            <i className="material-icons">attachment</i>
+                        </div>
+                        <div className="hbox">
+                            <i className="material-icons">x</i>
+                            <span className="secondary grow">secondary text</span>
+                            <i className="material-icons">x</i>
+                        </div>
+                    </li>
                 </ul>
 
                 <form>
@@ -232,27 +264,4 @@ export function ThemeTester({theme, setTheme}) {
 
         </VBox>
     </HBox>
-
 }
-
-
-/*
-            <Grid3Layout>
-                <DebugPanel column={1} row={1}caption={"example"}/>
-                <DebugPanel column={1} row={2}caption={"list"}/>
-                <Toolbar className={'col2 row1'}>
-                    <label>label</label>
-                    <Icon className={'icon'}>add</Icon>
-                    <Icon className={'icon'}>settings</Icon>
-                    <button>button</button>
-                </Toolbar>
-                <Toolbar className={"col3 row1"}>
-                    <Icon className={'icon'}>alarm</Icon>
-                    <input type={'search'}/>
-                    <Icon className={'icon'}>alarm</Icon>
-                </Toolbar>
-                <DebugPanel column={2} row={2} caption={'main'}/>
-                <DebugPanel column={3} row={2} caption={'more'}/>
-            </Grid3Layout>
-
- */

@@ -53,7 +53,7 @@ button {
 
 .grid {
     display: grid;
-    grid-template-columns: 1fr 1.5fr 3fr;
+    grid-template-columns: 1fr 2.0fr 3fr;
     grid-template-rows: 3em 1fr 2em;
     grid-gap: 1px;
     width: 900px;
@@ -100,6 +100,10 @@ form {
 .spacer {
     flex: 1.0;
 }
+.grow {
+    flex: 1.0;
+}
+
 
 
 
@@ -134,11 +138,12 @@ li {
 }
 
 
-.preview .toolbar {
+.info, .statusbar, .toolbar {
     padding: var(--std-padding);
+    margin: var(--std-margin);
 }
 
-.preview .toolbar > * {
+.toolbar > * {
     margin: var(--std-line-margin);
 }
 
@@ -168,6 +173,7 @@ form > .form-group input:first-child {
 form > .form-group input:last-child {
     margin-right: 0;
 }
+
 
 li .material-icons:first-child {
     margin-right: 0.25em;
@@ -270,6 +276,13 @@ button:focus, input:focus {
     padding: 0.25em 0.5em;
 }
 
+
+.primary {
+    color: var(--std-text-color);
+}
+.secondary {
+    color: var(--std-text-color);
+}
 
 
 
