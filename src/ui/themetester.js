@@ -478,5 +478,5 @@ function ToggleButton({caption, selected}) {
     return <button className={flatten(cls)}>{caption}</button>
 }
 function ToggleGroup({children}) {
-    return <div>{children}</div>
+    return <div className={'toggle-group'}>{children}</div>
 }

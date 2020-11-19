@@ -272,8 +272,8 @@ button:hover {
     color: var(--std-bg-color);
 }
 button.selected {
-    background-color: var(--gray3);
-    color: var(--gray1);
+    background-color: var(--accent-background-color);
+    color: var(--accent-text-color);
 }
 
 button:focus, input:focus {
