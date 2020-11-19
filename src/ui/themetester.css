@@ -6,7 +6,7 @@
     width: 20em;
 }
 html {
-    font-size: 11pt;
+    font-size: 50pt;
     font-family: serif;
 }
 .theme-tester .preview {
@@ -30,8 +30,9 @@ html {
 
 
     --std-font-family: serif;
-    font-size: 11pt;
+    --std-font-size: 11pt;
     font-family: var(--std-font-family);
+    font-size: var(--std-font-size);
 }
 
 
@@ -275,7 +276,9 @@ button:focus, input:focus {
 }
 
 
-
+.controls {
+    font-size: 11pt;
+}
 .controls button, .controls input {
     border: 1px solid black;
     padding: 0.25em 0.5em;
@@ -312,4 +315,7 @@ button:focus, input:focus {
 /* ========= more to organize ========== */
 .sidebar {
     background-color: var(--bg-dark);
+}
+.preview .MuiIcon-root {
+    font-size: 1.0em;
 }

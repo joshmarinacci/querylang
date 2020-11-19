@@ -4,7 +4,7 @@ import {flatten} from '../util.js'
 import {DBContext, encode_props_with_types} from '../db.js'
 
 import "./themetester.css"
-import {ENUM, STRING} from '../schema.js'
+import {ENUM, INTEGER, STRING} from '../schema.js'
 
 import {HexColorPicker} from "react-colorful"
 import "react-colorful/dist/index.css"
@@ -32,6 +32,12 @@ const PROPS = {
     '--std-line-padding':PADDING,
 
     '--std-font-family':ENUM,
+    '--std-font-size': {
+        type:INTEGER,
+        min:8,
+        max:30,
+        unit:'pt'
+    }
 }
 
 function vals_for_enum(prop) {
@@ -223,6 +229,7 @@ const content_data = [
     },
 ]
 export function ThemeTester({theme, setTheme, doLoad}) {
+    console.log(theme)
     let db = useContext(DBContext)
     let pm = useContext(PopupManagerContext)
 
@@ -231,6 +238,12 @@ export function ThemeTester({theme, setTheme, doLoad}) {
 
     let style = {}
     Object.keys(PROPS).forEach(name => {
+        let info = PROPS[name]
+        if(info.type === INTEGER) {
+            style[name] = `${theme.props[name].value}${info.unit}`
+            console.log("info is",info,style[name])
+            return
+        }
         style[name] = theme.props[name]
     })
 
@@ -266,6 +279,19 @@ export function ThemeTester({theme, setTheme, doLoad}) {
             editors.push(<input type={'text'} value={theme.props[prop]} onChange={(e)=>{
                 db.setProp(theme,prop,e.target.value)
             }}/>)
+        }
+        if(typeof val === 'object') {
+            if(val.type === INTEGER) {
+                editors.push(<label>{prop}</label>)
+                let vv = 10
+                if(theme.props[prop].value) vv = theme.props[prop].value
+                editors.push(<HBox>
+                    <input type={'number'} value={vv} onChange={(e)=>{
+                    db.setProp(theme,prop,{value:e.target.value})
+                }}/>
+                    <label>{val.unit}</label>
+                </HBox>)
+            }
         }
         if(val === 'ENUM') {
             editors.push(<label>{prop}</label>)
