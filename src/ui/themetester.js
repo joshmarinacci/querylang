@@ -45,6 +45,20 @@ const PROPS = {
         min:8,
         max:30,
         unit:'pt'
+    },
+    '--std-font-weight':{
+        type:ENUM,
+        values:[
+            '100',
+            '200',
+            '300',
+            '400',
+            '500',
+            '600',
+            '700',
+            '800',
+            '900',
+        ]
     }
 }
 

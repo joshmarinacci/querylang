@@ -33,8 +33,11 @@ html {
 
     --std-font-family: serif;
     --std-font-size: 11pt;
+    --std-font-weight: 900;
+
     font-family: var(--std-font-family);
     font-size: var(--std-font-size);
+    font-weight: var(--std-font-weight);
 }
 
 
