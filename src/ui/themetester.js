@@ -1,18 +1,30 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {HBox, Toolbar, VBox} from './ui.js'
 import {flatten} from '../util.js'
 
-import "./filebrowser.css"
-import {propAsString} from '../db.js'
-import Icon from '@material-ui/core/Icon'
-
-import {format} from "date-fns"
-import {DATA, genid} from '../data.js'
+// import "./filebrowser.css"
+import {DBContext, decode_props_with_types, encode_props_with_types, propAsString} from '../db.js'
 
 import "./themetester.css"
 import {StandardEditPanel} from './StandardEditPanel.js'
 import {ENUM, INTEGER, STRING} from '../schema.js'
-import {Grid3Layout} from './grid3layout.js'
+
+const COLOR = 'COLOR'
+const PADDING = 'PADDING'
+const PROPS = {
+    '--std-text-color':COLOR,
+    '--std-bg-color': COLOR,
+    '--std-border-color':COLOR,
+    '--bg-dark':COLOR,
+    '--accent-background-color':COLOR,
+    '--std-margin':PADDING,
+    '--std-line-margin':PADDING,
+    '--std-padding':PADDING,
+    '--std-line-padding':PADDING,
+    '--radius': PADDING,
+
+}
+
 export const THEME_SCHEMA = {
     ID:"THEME",
     TITLE:'theming system',
@@ -20,71 +32,25 @@ export const THEME_SCHEMA = {
         THEME: {
             title:'theme',
             props: {
-                fontfamily:{
-                    key: 'fontfamily',
-                    title:'font family',
-                    type: ENUM,
-                    values: ['sans1', 'sans2'],
-                    default: 'sans1'
-                },
-                base_font_size: {
-                    key:'base_font_size',
-                    title:'base font size',
-                    type:INTEGER,
-                    default:'10'
-                },
-                base_font_weight: {
-                    key:'base_font_weight',
-                    type:ENUM,
-                    values:['100','200','300','400','500','600','700','800'],
-                    default:'400',
-                },
-                text_color: {
-                    key:'text_color',
-                    type:STRING,
-                    default:'#000000',
-                },
-                background_color: {
-                    key:'background_color',
-                    type:STRING,
-                    default:'#ffffff',
-                },
-                background_2: {
-                    key:'background_2',
-                    type:STRING,
-                    default:'#f0e0d0',
-                },
-                toolbar_padding: {
-                    key:'toolbar_padding',
-                    type:INTEGER,
-                    default: 5,
-                },
-                base_margin: {
-                    key:'base_margin',
-                    type:INTEGER,
-                    default: 5,
-                },
-                base_border_radius: {
-                    key:'base_border_radius',
-                    type:INTEGER,
-                    default: 5,
-                },
-                accent_color: {
-                    key:'accent_color',
-                    type:STRING,
-                    default:'orange',
-                },
-                inverse_accent_color: {
-                    key:'inverse_accent_color',
-                    type:STRING,
-                    default:'white',
-                }
             }
         }
     }
-
 }
 
+Object.keys(PROPS).forEach(name => {
+    console.log("property name",name)
+    let type = PROPS[name]
+    let def = 'green'
+    if(type === PADDING) {
+        def = '0.5m'
+    }
+
+    THEME_SCHEMA.SCHEMAS.THEME.props[name] = {
+        key:name,
+        type:STRING,
+        default:def
+    }
+})
 function DebugPanel({column=1, row=1, caption='caption'}) {
     let cls = {}
     cls['col'+column] = true
@@ -100,22 +66,95 @@ function DebugPanel({column=1, row=1, caption='caption'}) {
     </div>
 }
 
-export function ThemeTester({theme}) {
-    let style = {
-        '--base-font-size':`${theme.props.base_font_size}pt`,
-        '--text-color': theme.props.text_color,
-        '--base-font-weight':theme.props.base_font_weight,
-        '--base-background-color':theme.props.background_color,
-        '--background-two':theme.props.background_2,
-        '--accent-color':theme.props.accent_color,
-        '--inverted-accent-color':theme.props.inverse_accent_color,
-        '--toolbar-padding':`${theme.props.toolbar_padding/10.0}em`,
-        '--base-border-radius':`${theme.props.base_border_radius/10.0}em`,
-        '--base-margin':`${theme.props.base_margin/10.0}em`,
+export function ThemeTester({theme, setTheme}) {
+    let db = useContext(DBContext)
+    let style = {}
+    Object.keys(PROPS).forEach(name => {
+        style[name] = theme.props[name]
+    })
+
+    const doLoad = () => {
+        let localJSON = localStorage.getItem('theme-tester')
+        console.log("local is",localJSON)
+        let local = JSON.parse(localJSON,function(key,value) {
+            if(key === 'props') return decode_props_with_types(value);
+            return value
+        })
+
+        console.log("local data is",local)
+        // db._fireUpdate(local)
+        setTheme(local)
+    }
+    const doSave = () => {
+        console.log("tehem is",theme)
+        let json = JSON.stringify(theme,function(key,value){
+            if(key === 'props') return encode_props_with_types(value)
+            return value
+        })
+        console.log("encoded",json)
+        localStorage.setItem('theme-tester',json)
     }
     return <HBox className={'theme-tester'}>
-        <StandardEditPanel object={theme} customSchema={THEME_SCHEMA}/>
-        <VBox style={style} className={'preview'}>
+        <VBox className={'controls'}>
+            <StandardEditPanel object={theme} customSchema={THEME_SCHEMA}/>
+            <button onClick={doLoad}>laod</button>
+            <button onClick={doSave}>save</button>
+        </VBox>
+        <VBox style={style} className={'preview'} grow>
+            <HBox>
+                <button>button</button>
+                <button className={'primary'}>primary</button>
+            </HBox>
+            <div className="toolbar">
+                <button>default</button>
+                <button className="primary">primary</button>
+                <button disabled>disabled</button>
+                <div className="toggle-group">
+                    <button className="">option1</button>
+                    <button className="selected">option2</button>
+                    <button>option3</button>
+                </div>
+            </div>
+            <form>
+                <label>first name</label>
+                <input type="text"/>
+
+                <label>age</label>
+                <input type="number" step="1" min="0" max="100"/>
+
+                <label>location</label>
+                <div className="form-group">
+                    <input type="string" placeholder="city" size="10"/>
+                    <input type="string" placeholder="state" size="2"/>
+                    <input type="string" placeholder="zipcode" size="6"/>
+                </div>
+
+                <label>alive?</label>
+                <input type="checkbox" checked/>
+                <div>
+                    <i className="material-icons accent">check_box</i>
+                    <i className="material-icons accent">check_box_outline_blank</i>
+                </div>
+
+                <label>dead?</label>
+                <input type="checkbox"/>
+
+                <label>gender</label>
+                <select>
+                    <option>male</option>
+                    <option>female</option>
+                    <option>other</option>
+                </select>
+            </form>
+
+
+        </VBox>
+    </HBox>
+
+}
+
+
+/*
             <Grid3Layout>
                 <DebugPanel column={1} row={1}caption={"example"}/>
                 <DebugPanel column={1} row={2}caption={"list"}/>
@@ -133,7 +172,5 @@ export function ThemeTester({theme}) {
                 <DebugPanel column={2} row={2} caption={'main'}/>
                 <DebugPanel column={3} row={2} caption={'more'}/>
             </Grid3Layout>
-        </VBox>
-    </HBox>
 
-}
+ */

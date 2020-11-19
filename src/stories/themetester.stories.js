@@ -24,10 +24,10 @@ function gen_local_files() {
 let db = makeDB()
 
 export const ThemeTesterSimple = () => {
-    let [theme] = useState(()=>gen_local_files())
+    let [theme, setTheme] = useState(()=>gen_local_files())
     useDBChanged(db,theme.category)
     return <DBContext.Provider value={db}>
-        <ThemeTester theme={theme}/>
+        <ThemeTester theme={theme} setTheme={setTheme}/>
     </DBContext.Provider>
 
 }
