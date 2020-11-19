@@ -7,6 +7,7 @@ import {DBContext, makeDB, useDBChanged} from '../db.js'
 import {StandardEditPanel} from '../ui/StandardEditPanel.js'
 import "../ui/themetester.css"
 import "../ui/grid3layout.css"
+import {PopupContainer, PopupManager, PopupManagerContext} from '../ui/PopupManager.js'
 export default {
     title: 'QueryOS/ThemeTester',
     component: ThemeTester,
@@ -22,12 +23,16 @@ function gen_local_files() {
 
 
 let db = makeDB()
+let pm = new PopupManager()
 
 export const ThemeTesterSimple = () => {
     let [theme, setTheme] = useState(()=>gen_local_files())
     useDBChanged(db,theme.category)
     return <DBContext.Provider value={db}>
-        <ThemeTester theme={theme} setTheme={setTheme}/>
+        <PopupManagerContext.Provider value={pm}>
+            <ThemeTester theme={theme} setTheme={setTheme}/>
+            <PopupContainer/>
+        </PopupManagerContext.Provider>
     </DBContext.Provider>
 
 }

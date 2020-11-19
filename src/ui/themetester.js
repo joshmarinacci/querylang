@@ -9,10 +9,15 @@ import "./themetester.css"
 import {StandardEditPanel} from './StandardEditPanel.js'
 import {ENUM, INTEGER, STRING} from '../schema.js'
 
+import { HexColorPicker } from "react-colorful";
+import "react-colorful/dist/index.css";
+import {PopupManagerContext} from './PopupManager.js'
+
 const COLOR = 'COLOR'
 const PADDING = 'PADDING'
+const COLOR_PICKER = 'COLOR_PICKER'
 const PROPS = {
-    '--std-text-color':COLOR,
+    '--std-text-color':COLOR_PICKER,
     '--std-bg-color': COLOR,
     '--std-border-color':COLOR,
     '--bg-dark':COLOR,
@@ -41,8 +46,14 @@ Object.keys(PROPS).forEach(name => {
     console.log("property name",name)
     let type = PROPS[name]
     let def = 'green'
+    if(type === COLOR_PICKER) {
+        def = '#00ffff'
+    }
+    if(type === COLOR) {
+        def = 'green'
+    }
     if(type === PADDING) {
-        def = '0.5m'
+        def = '0.5em'
     }
 
     THEME_SCHEMA.SCHEMAS.THEME.props[name] = {
@@ -51,23 +62,10 @@ Object.keys(PROPS).forEach(name => {
         default:def
     }
 })
-function DebugPanel({column=1, row=1, caption='caption'}) {
-    let cls = {}
-    cls['col'+column] = true
-    cls['row'+row] = true
-
-    return <div style={{
-        display:'flex',
-        alignItems:'center',
-        justifyContent:'center',
-        color:'#cccccc',
-    }} className={flatten(cls)}>
-        {caption}
-    </div>
-}
 
 export function ThemeTester({theme, setTheme}) {
     let db = useContext(DBContext)
+    let pm = useContext(PopupManagerContext)
     let style = {}
     Object.keys(PROPS).forEach(name => {
         style[name] = theme.props[name]
@@ -94,10 +92,37 @@ export function ThemeTester({theme, setTheme}) {
         console.log("encoded",json)
         localStorage.setItem('theme-tester',json)
     }
+    const showPicker = (prop) => {
+        let picker = <HexColorPicker color={theme.props[prop]} onChange={(c)=>{
+            db.setProp(theme,prop,c)
+            console.log(theme)
+        }} />;
+        pm.show(picker)
+    }
+
+    let editors = []
+    Object.keys(PROPS).forEach(prop => {
+        let val = PROPS[prop]
+        console.log(val)
+        if(val === COLOR_PICKER) {
+            editors.push(<button onClick={()=>showPicker(prop)}>{prop}</button>)
+        }
+        if(val === COLOR) {
+            console.log("value is", theme.props[prop])
+            editors.push(<label>{prop}</label>)
+            editors.push(<input type={'text'} value={theme.props[prop]} onChange={(v)=>{
+                console.log("new value is",v)
+                db.setProp(theme,prop,v)
+            }}/>)
+        }
+    })
+
     return <HBox className={'theme-tester'}>
         <VBox className={'controls'}>
-            <StandardEditPanel object={theme} customSchema={THEME_SCHEMA}/>
-            <button onClick={doLoad}>laod</button>
+            {/*<StandardEditPanel object={theme} customSchema={THEME_SCHEMA}/>*/}
+            {/*<button onClick={showPicker}>choose</button>*/}
+            {editors}
+            <button onClick={doLoad}>load</button>
             <button onClick={doSave}>save</button>
         </VBox>
         <VBox style={style} className={'preview'} grow>
