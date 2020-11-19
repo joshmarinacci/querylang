@@ -25,7 +25,7 @@ export function StandardEditPanel({object, hide=[], order=[], custom=[], customS
         console.log("object is now",object)
     }
 
-    elems.push(<button onClick={dumpObject}>check</button>)
+    // elems.push(<button onClick={dumpObject}>check</button>)
     return <div className={'standard-edit-panel'}>{elems}</div>
 }
 

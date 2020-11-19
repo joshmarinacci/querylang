@@ -119,6 +119,23 @@ button, input {
     border-radius: var(--radius);
 }
 
+.toggle-group {
+    border: 1px solid var(--std-border-color);
+    border-radius: var(--radius);
+}
+.toggle-group > * {
+    border-width: 0px 1px 0 0;
+    border-radius: 0;
+}
+.toggle-group > *:first-child {
+    border-right-width: 0;
+    border-radius: 0.25em 0 0 0.25em;
+}
+.toggle-group > *:last-child {
+    border-right-width: 0;
+    border-radius: 0 0.25em 0.25em 0;
+}
+
 
 /* =============== colors ============== */
 

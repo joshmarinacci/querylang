@@ -18,16 +18,16 @@ const PADDING = 'PADDING'
 const COLOR_PICKER = 'COLOR_PICKER'
 const PROPS = {
     '--std-text-color':COLOR_PICKER,
-    '--std-bg-color': COLOR,
-    '--std-border-color':COLOR,
-    '--bg-dark':COLOR,
-    '--accent-background-color':COLOR,
+    '--std-bg-color': COLOR_PICKER,
+    '--std-border-color':COLOR_PICKER,
+    '--bg-dark':COLOR_PICKER,
+    '--accent-text-color':COLOR_PICKER,
+    '--accent-background-color':COLOR_PICKER,
+
     '--std-margin':PADDING,
     '--std-line-margin':PADDING,
     '--std-padding':PADDING,
     '--std-line-padding':PADDING,
-    '--radius': PADDING,
-
 }
 
 export const THEME_SCHEMA = {
@@ -105,14 +105,19 @@ export function ThemeTester({theme, setTheme}) {
         let val = PROPS[prop]
         console.log(val)
         if(val === COLOR_PICKER) {
+            editors.push(<label>{prop}</label>)
             editors.push(<button onClick={()=>showPicker(prop)}>{prop}</button>)
         }
         if(val === COLOR) {
-            console.log("value is", theme.props[prop])
             editors.push(<label>{prop}</label>)
-            editors.push(<input type={'text'} value={theme.props[prop]} onChange={(v)=>{
-                console.log("new value is",v)
-                db.setProp(theme,prop,v)
+            editors.push(<input type={'text'} value={theme.props[prop]} onChange={(e)=>{
+                db.setProp(theme,prop,e.target.value)
+            }}/>)
+        }
+        if(val === 'EM1') {
+            editors.push(<label>{prop}</label>)
+            editors.push(<input type={'text'} value={theme.props[prop]} onChange={(e)=>{
+                db.setProp(theme,prop,e.target.value)
             }}/>)
         }
     })
@@ -120,7 +125,6 @@ export function ThemeTester({theme, setTheme}) {
     return <HBox className={'theme-tester'}>
         <VBox className={'controls'}>
             {/*<StandardEditPanel object={theme} customSchema={THEME_SCHEMA}/>*/}
-            {/*<button onClick={showPicker}>choose</button>*/}
             {editors}
             <button onClick={doLoad}>load</button>
             <button onClick={doSave}>save</button>
