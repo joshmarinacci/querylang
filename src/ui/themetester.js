@@ -14,6 +14,7 @@ const PADDING = 'PADDING'
 const PROPS = {
     '--std-text-color':COLOR,
     '--std-bg-color': COLOR,
+    '--std-border-color':COLOR,
     '--bg-dark':COLOR,
     '--accent-background-color':COLOR,
     '--std-margin':PADDING,
@@ -94,7 +95,7 @@ export function ThemeTester({theme, setTheme}) {
         localStorage.setItem('theme-tester',json)
     }
     return <HBox className={'theme-tester'}>
-        <VBox>
+        <VBox className={'controls'}>
             <StandardEditPanel object={theme} customSchema={THEME_SCHEMA}/>
             <button onClick={doLoad}>laod</button>
             <button onClick={doSave}>save</button>
@@ -114,6 +115,38 @@ export function ThemeTester({theme, setTheme}) {
                     <button>option3</button>
                 </div>
             </div>
+            <form>
+                <label>first name</label>
+                <input type="text"/>
+
+                <label>age</label>
+                <input type="number" step="1" min="0" max="100"/>
+
+                <label>location</label>
+                <div className="form-group">
+                    <input type="string" placeholder="city" size="10"/>
+                    <input type="string" placeholder="state" size="2"/>
+                    <input type="string" placeholder="zipcode" size="6"/>
+                </div>
+
+                <label>alive?</label>
+                <input type="checkbox" checked/>
+                <div>
+                    <i className="material-icons accent">check_box</i>
+                    <i className="material-icons accent">check_box_outline_blank</i>
+                </div>
+
+                <label>dead?</label>
+                <input type="checkbox"/>
+
+                <label>gender</label>
+                <select>
+                    <option>male</option>
+                    <option>female</option>
+                    <option>other</option>
+                </select>
+            </form>
+
 
         </VBox>
     </HBox>

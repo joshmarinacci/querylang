@@ -11,6 +11,7 @@ html {
 .theme-tester .preview {
     --std-text-color: green;
     --std-bg-color: green;
+    --std-border-color: green;
     --bg-dark: darkgreen;
     --text-dark: darkgreen;
 
@@ -22,6 +23,7 @@ html {
     --std-margin: 0em;
     --std-line-padding: 0.25em 0.5em;
     --std-line-margin: 0 0.25em;
+    --std-form-margin: 0.25em;
 
     --radius: 0.25em;
 
@@ -49,6 +51,27 @@ button {
 }
 
 
+form {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    justify-items: center; /* horizontal */
+    align-items: center; /* vertical */
+    overflow: hidden;
+}
+form > label {
+    grid-column: 1;
+    justify-self: end;
+}
+form > input, form > select, form > .form-group {
+    grid-column: 2;
+    justify-self: start;
+}
+
+form > .form-group {
+    display: flex;
+    flex-direction: row;
+}
+
 /* ============== spacing ============ */
 
 
@@ -72,7 +95,26 @@ button, input, select {
     margin:0;
 }
 
+
+
+form > * {
+    margin: var(--std-form-margin);
+}
+form > .form-group input {
+    margin: var(--std-line-margin);
+}
+form > .form-group input:first-child {
+    margin-left: 0;
+}
+form > .form-group input:last-child {
+    margin-right: 0;
+}
+
 /* ======== borders and radius ========= */
+button, input, select {
+    border-style: solid;
+    border-width: 1px;
+}
 button, input {
     border-radius: var(--radius);
 }
@@ -80,7 +122,8 @@ button, input {
 
 /* =============== colors ============== */
 
-button {
+button, input, select {
+    border: 1px solid var(--std-border-color);
     color: var(--std-text-color);
     background-color: var(--std-bg-color);
 }
@@ -109,49 +152,12 @@ button:focus, input:focus {
     background-color: var(--bg-dark);
 }
 
-/*
-.toolbar {
-    font-size: var(--base-font-size);
-    font-family: var(--font-family);
-    color: var(--text-color);
-    border-width: 0px;
-    font-weight: var(--base-font-weight);
-    background-color: var(--base-background-color);
-    line-height: 100%;
-    min-height: unset;
-}
-
-.preview label, .preview button, .preview .icon, .preview input {
-    font-size: var(--base-font-size);
-    color: var(--text-color);
-    font-weight: var(--base-font-weight);
-    padding: var(--toolbar-padding);
-    border-radius: var(--base-border-radius);
-    margin: var(--base-margin);
-    line-height: 100%;
-    box-sizing: content-box;
-    border: 0px solid red;
-}
-.preview label, .preview button, .preview input {
-    font-family: inherit;
-}
-
-.preview button:hover, .preview .icon:hover {
-    color: var(--inverted-accent-color);
-    background-color: var(--accent-color);
-}
 
 
-.preview input {
-    border-color: var(--accent-color);
-    border-width: 0px;
-    background-color: var(--background-two)
+.controls button, .controls input {
+    border: 1px solid black;
 }
-.preview label {
-    color: #444;
+.controls button {
+    background-color: #83eaea;
+    padding: 0.25em 0.5em;
 }
-
-.preview .grid3layout {
-    font-size: var(--base-font-size);
-}
-*/
