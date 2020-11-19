@@ -26,26 +26,26 @@ const PROPS = {
     '--accent-background-color':COLOR_PICKER,
     '--accent-border-color':COLOR_PICKER,
 
+    '--std-input-bg-color':COLOR_PICKER,
+
     '--std-margin':PADDING,
     '--std-line-margin':PADDING,
     '--std-padding':PADDING,
     '--std-line-padding':PADDING,
 
-    '--std-font-family':ENUM,
+    '--std-font-family':{
+        type:ENUM,
+        values:[
+            'serif',
+            '"Source Sans Pro", sans-serif'
+        ]
+    },
     '--std-font-size': {
         type:INTEGER,
         min:8,
         max:30,
         unit:'pt'
     }
-}
-
-function vals_for_enum(prop) {
-    console.log("prop is",prop)
-    return [
-        'serif',
-        '"Source Sans Pro", sans-serif'
-    ]
 }
 
 export const THEME_SCHEMA = {
@@ -61,7 +61,6 @@ export const THEME_SCHEMA = {
 }
 
 Object.keys(PROPS).forEach(name => {
-    console.log("property name",name)
     let type = PROPS[name]
     let def = 'green'
     if(type === COLOR_PICKER) {
@@ -75,6 +74,11 @@ Object.keys(PROPS).forEach(name => {
     }
     if(type === ENUM) {
         def = "foo"
+    }
+    if(type === INTEGER) {
+        def = {
+            value:10,
+        }
     }
 
     THEME_SCHEMA.SCHEMAS.THEME.props[name] = {
@@ -130,6 +134,30 @@ const sidebar_data = [
             header:true,
             title:'playlists',
             icon:'songs',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'Best of 1985',
+            icon:'queue_music',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'Funo',
+            icon:'queue_music',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'Late Night 80s',
+            icon:'queue_music',
         }
     },
     {
@@ -260,28 +288,28 @@ export function ThemeTester({theme, setTheme, doLoad}) {
 
     let editors = []
     Object.keys(PROPS).forEach(prop => {
-        let val = PROPS[prop]
-        if(val === COLOR_PICKER) editors.push(<ColorPickerButton prop={prop} theme={theme}/>)
-        if(val === COLOR) {
+        let info = PROPS[prop]
+        if(info === COLOR_PICKER) editors.push(<ColorPickerButton prop={prop} theme={theme}/>)
+        if(info === COLOR) {
             editors.push(<label>{prop}</label>)
             editors.push(<input type={'text'} value={theme.props[prop]} onChange={(e)=>{
                 db.setProp(theme,prop,e.target.value)
             }}/>)
         }
-        if(val === 'EM1') {
+        if(info === 'EM1') {
             editors.push(<label>{prop}</label>)
             editors.push(<input type={'text'} value={theme.props[prop]} onChange={(e)=>{
                 db.setProp(theme,prop,e.target.value)
             }}/>)
         }
-        if(val === 'PADDING') {
+        if(info === 'PADDING') {
             editors.push(<label>{prop}</label>)
             editors.push(<input type={'text'} value={theme.props[prop]} onChange={(e)=>{
                 db.setProp(theme,prop,e.target.value)
             }}/>)
         }
-        if(typeof val === 'object') {
-            if(val.type === INTEGER) {
+        if(typeof info === 'object') {
+            if(info.type === INTEGER) {
                 editors.push(<label>{prop}</label>)
                 let vv = 10
                 if(theme.props[prop].value) vv = theme.props[prop].value
@@ -289,16 +317,16 @@ export function ThemeTester({theme, setTheme, doLoad}) {
                     <input type={'number'} value={vv} onChange={(e)=>{
                     db.setProp(theme,prop,{value:e.target.value})
                 }}/>
-                    <label>{val.unit}</label>
+                    <label>{info.unit}</label>
                 </HBox>)
             }
-        }
-        if(val === 'ENUM') {
-            editors.push(<label>{prop}</label>)
-            let vals = vals_for_enum(prop)
-            editors.push(<select value={theme.props[prop]} onChange={e => {
-                db.setProp(theme,prop,e.target.value)
-            }}>{vals.map(v=><option>{v}</option>)}</select>)
+            if(info.type === ENUM) {
+                editors.push(<label>{prop}</label>)
+                let vals = info.values
+                editors.push(<select value={theme.props[prop]} onChange={e => {
+                    db.setProp(theme,prop,e.target.value)
+                }}>{vals.map(v=><option>{v}</option>)}</select>)
+            }
         }
     })
 
@@ -367,10 +395,10 @@ export function ThemeTester({theme, setTheme, doLoad}) {
 
                 <form>
                     <label>first name</label>
-                    <input type="text"/>
+                    <input type="text" value={"Josh"}/>
 
                     <label>age</label>
-                    <input type="number" step="1" min="0" max="100"/>
+                    <input type="number" step="1" min="0" max="100" value={25}/>
 
                     <label>location</label>
                     <div className="form-group">

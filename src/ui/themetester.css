@@ -20,6 +20,8 @@ html {
     --accent-border-color: darkred;
     --accent-background-color:red;
 
+    --std-input-bg-color: red;
+
     --std-padding: 0.5em;
     --std-margin: 0em;
     --std-line-padding: 0.25em 0.5em;
@@ -83,10 +85,12 @@ button {
     align-items: center;
     overflow: auto;
 }
+ul {
+    overflow: auto;
+}
 .sidebar {
     grid-column: 1;
     grid-row: 2;
-    overflow: auto;
 }
 
 .content {
@@ -248,7 +252,9 @@ li.header {
 button, input, select {
     border: 1px solid var(--std-border-color);
     color: var(--std-text-color);
-    background-color: var(--std-bg-color);
+}
+input, select {
+    background-color: var(--std-input-bg-color);
 }
 
 button.primary {
@@ -313,7 +319,7 @@ button:focus, input:focus {
 
 
 /* ========= more to organize ========== */
-.sidebar {
+.sidebar, .info, .statusbar {
     background-color: var(--bg-dark);
 }
 .preview .MuiIcon-root {
