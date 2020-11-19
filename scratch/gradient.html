@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        button {
+            border: 0px solid black;
+            font-size: 30pt;
+            border-radius: 1em;
+            padding: 1em;
+        }
+
+        .one {
+            background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+        }
+
+        .two {
+            background-image: linear-gradient(to top, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);
+            min-height: 300px;
+            height: 300px;
+            border-radius: 300px;
+        }
+
+        .three {
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+        }
+
+        .ecks {
+            font-size: 300px;
+            font-family: sans-serif;
+            background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        body {
+            --base1: red;
+            --der1: green;
+            --der2: blue;
+        }
+        .gen1 {
+            background-color: var(--base1);
+            background-image: linear-gradient(to bottom, var(--der1) 0%, var(--der2) 100%);
+        }
+    </style>
+</head>
+<body>
+
+
+<div>
+    <button class="one"> a cool button</button>
+    <button class="two"> a cool button</button>
+    <button class="three"> a cool button</button>
+    <span class="ecks">X</span>
+</div>
+<div>
+    <button class="gen1">generated 1</button>
+</div>
+<script>
+    let hue = 60
+    let sat = 100
+    let lit = 40
+    let spread = 10
+    let base = `hsl(${hue},${sat}%,${lit}%)`
+    let der1 = `hsl(${hue},${sat}%,${lit+spread}%)`
+    let der2 = `hsl(${hue},${sat}%,${lit-spread}%)`
+    document.querySelector('body').style.setProperty('--base1',base)
+    document.querySelector('body').style.setProperty('--der1',der1)
+    document.querySelector('body').style.setProperty('--der2',der2)
+</script>
+</body>
+</html>
