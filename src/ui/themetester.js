@@ -187,11 +187,34 @@ const sidebar_data = [
     },
 ]
 
+const content_data = [
+    {
+        id:genid("content"),
+        props: {
+            icon:'star',
+            text:'primary text',
+            trailing_text:'trailing text',
+            trailing_icon:'attachment',
+            secondary_text:'secondary text',
+        }
+    },
+    {
+        id:genid("content"),
+        props: {
+            icon:'star',
+            text:'primary text',
+            trailing_text:'trailing text',
+            trailing_icon:'attachment',
+            secondary_text:'secondary text',
+        }
+    },
+]
 export function ThemeTester({theme, setTheme, doLoad}) {
     let db = useContext(DBContext)
     let pm = useContext(PopupManagerContext)
 
     const [selectedSource, setSelectedSource] = useState(null)
+    const [selectedContent, setSelectedContent] = useState(null)
 
     let style = {}
     Object.keys(PROPS).forEach(name => {
@@ -267,6 +290,7 @@ export function ThemeTester({theme, setTheme, doLoad}) {
                     selected={selectedSource}
                     setSelected={setSelectedSource}
                     data={sidebar_data}
+                    className={'sidebar'}
                     renderItem={({item,...rest})=>{
                         return <StandardSourceItem
                             header={item.props.header}
@@ -278,47 +302,22 @@ export function ThemeTester({theme, setTheme, doLoad}) {
                 />
 
 
-                <ul className="content">
-                    <li className="vbox">
-                        <div className="hbox">
-                            <i className="material-icons accent">star</i>
-                            <span className="primary grow">primary text</span>
-                            <span className="trailing">trailing text</span>
-                            <i className="material-icons">attachment</i>
-                        </div>
-                        <div className="hbox">
-                            <i className="material-icons">x</i>
-                            <span className="secondary grow">secondary text</span>
-                            <i className="material-icons">x</i>
-                        </div>
-                    </li>
-                    <li className="vbox selected">
-                        <div className="hbox">
-                            <i className="material-icons accent">star</i>
-                            <span className="primary grow">primary text</span>
-                            <span className="trailing">trailing text</span>
-                            <i className="material-icons">attachment</i>
-                        </div>
-                        <div className="hbox">
-                            <i className="material-icons">x</i>
-                            <span className="secondary grow">secondary text</span>
-                            <i className="material-icons">x</i>
-                        </div>
-                    </li>
-                    <li className="vbox">
-                        <div className="hbox">
-                            <i className="material-icons accent">star</i>
-                            <span className="primary grow">primary text</span>
-                            <span className="trailing">trailing text</span>
-                            <i className="material-icons">attachment</i>
-                        </div>
-                        <div className="hbox">
-                            <i className="material-icons">x</i>
-                            <span className="secondary grow">secondary text</span>
-                            <i className="material-icons">x</i>
-                        </div>
-                    </li>
-                </ul>
+                <SourceList
+                    column={2}
+                    row={2}
+                    data={content_data}
+                    className={'content'}
+                    selected={selectedContent}
+                    setSelected={setSelectedContent}
+                    renderItem={({item,...rest})=>{
+                        return <StandardSourceItem
+                            icon={item.props.icon}
+                            title={item.props.text}
+                            trailing_icon={item.props.trailing_icon}
+                            subtitle={'subtitle'}
+
+                            {...rest}/>
+                    }}/>
 
                 <form>
                     <label>first name</label>

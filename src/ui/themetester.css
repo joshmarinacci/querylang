@@ -305,3 +305,9 @@ button:focus, input:focus {
     margin: 1em;
     background-color: var(--std-border-color);
 }
+
+
+/* ========= more to organize ========== */
+.sidebar {
+    background-color: var(--bg-dark);
+}

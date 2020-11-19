@@ -3,7 +3,7 @@ import Icon from '@material-ui/core/Icon'
 import {HBox, Spacer, VBox} from './ui.js'
 import {flatten} from './grid3layout.js'
 
-export function SourceList({data, column, row, secondary, selected, renderItem, setSelected}) {
+export function SourceList({data, column=1, row=1, secondary, selected, renderItem, setSelected, className=""}) {
     if(!data) {
         data = []
         for (let i = 0; i < 20; i++) {
@@ -13,7 +13,7 @@ export function SourceList({data, column, row, secondary, selected, renderItem, 
     if(!renderItem) {
         renderItem = (item) => item.toString()
     }
-    let cls = `source-list col${column} row${row}`
+    let cls = `source-list col${column} row${row} ${className}`
     if(secondary) cls += ' secondary'
     return <ul className={cls}>{data.map((o,i)=> {
         let args = {
@@ -25,19 +25,35 @@ export function SourceList({data, column, row, secondary, selected, renderItem, 
         return renderItem(args)
         })}</ul>
 }
-export function StandardSourceItem({title, subtitle, icon, header=false, onDoubleClick, isSelected, onClick}) {
+
+export function StandardSourceItem({title, subtitle, icon, trailing_icon, header=false, onDoubleClick, isSelected, onClick}) {
     let cls = {
         selected:isSelected,
         header:header,
+    }
+
+    const row1 = <HBox center>
+        {(!header&&icon)?<Icon>{icon}</Icon>:""}
+        {title?<span className={'title'}>{title}</span>:""}
+        <Spacer/>
+        {(!header&&trailing_icon)?<Icon>{trailing_icon}</Icon>:""}
+    </HBox>
+
+    let row2 = <HBox/>
+    if(subtitle) {
+        row2 = <HBox>
+                <Icon>x</Icon>
+                {subtitle?<span className={'secondary'}>{subtitle}</span>:""}
+                <Icon>x</Icon>
+            </HBox>
     }
     return <li onDoubleClick={onDoubleClick}
                className={flatten(cls)}
                onClick={onClick}
     >
-        {(!header&&icon)?<Icon>{icon}</Icon>:""}
-        <VBox>
-            {title?<span className={'title'}>{title}</span>:""}
-            {subtitle?<span className={'subtitle'}>{subtitle}</span>:""}
+        <VBox grow>
+            {row1}
+            {row2}
         </VBox>
     </li>
 
