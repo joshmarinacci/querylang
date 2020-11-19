@@ -1,26 +1,26 @@
 .source-list {
-    list-style: none;
-    padding:0;
-    margin:0;
-    overflow: auto;
+    /*list-style: none;*/
+    /*padding:0;*/
+    /*margin:0;*/
+    /*overflow: auto;*/
 }
 .source-list li {
 }
 .source-list {
-    padding: 0.5rem;
+    /*padding: 0.5rem;*/
 }
 .source-list li {
-    padding: 0.5rem 0.5rem;
-    margin:0;
-    border-radius: 0.5rem;
+    /*padding: 0.5rem 0.5rem;*/
+    /*margin:0;*/
+    /*border-radius: 0.5rem;*/
 }
 .source-list, .content-area {
-    background-color: white;
+    /*background-color: white;*/
 }
 .source-list.secondary {
-    background-color: #f0f0f0;
+    /*background-color: #f0f0f0;*/
 }
 
 .source-list li.selected {
-    background-color: #ddd;
+    /*background-color: #ddd;*/
 }

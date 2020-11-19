@@ -4,7 +4,7 @@ import {flatten} from '../util.js'
 import {DBContext, encode_props_with_types} from '../db.js'
 
 import "./themetester.css"
-import {STRING} from '../schema.js'
+import {ENUM, STRING} from '../schema.js'
 
 import {HexColorPicker} from "react-colorful"
 import "react-colorful/dist/index.css"
@@ -30,6 +30,16 @@ const PROPS = {
     '--std-line-margin':PADDING,
     '--std-padding':PADDING,
     '--std-line-padding':PADDING,
+
+    '--std-font-family':ENUM,
+}
+
+function vals_for_enum(prop) {
+    console.log("prop is",prop)
+    return [
+        'serif',
+        '"Source Sans Pro", sans-serif'
+    ]
 }
 
 export const THEME_SCHEMA = {
@@ -56,6 +66,9 @@ Object.keys(PROPS).forEach(name => {
     }
     if(type === PADDING) {
         def = '0.5em'
+    }
+    if(type === ENUM) {
+        def = "foo"
     }
 
     THEME_SCHEMA.SCHEMAS.THEME.props[name] = {
@@ -253,6 +266,13 @@ export function ThemeTester({theme, setTheme, doLoad}) {
             editors.push(<input type={'text'} value={theme.props[prop]} onChange={(e)=>{
                 db.setProp(theme,prop,e.target.value)
             }}/>)
+        }
+        if(val === 'ENUM') {
+            editors.push(<label>{prop}</label>)
+            let vals = vals_for_enum(prop)
+            editors.push(<select value={theme.props[prop]} onChange={e => {
+                db.setProp(theme,prop,e.target.value)
+            }}>{vals.map(v=><option>{v}</option>)}</select>)
         }
     })
 
