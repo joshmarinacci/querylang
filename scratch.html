@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html {
+            --bg-h: 0;
+            --bg-s: 0%;
+            --bg-l: 50%;
+            --base-background: hsl(var(--bg-h),var(--bg-s),var(--bg-l));
+            --base-background-light: hsl(var(--bg-h),var(--bg-s),calc(var(--bg-l) * 1.2));
+            --base-background-dark: hsl(var(--bg-h),var(--bg-s),calc(var(--bg-l) * 0.8));
+            --base-background-dark2: hsl(var(--bg-h),var(--bg-s),calc(var(--bg-l) * 0.5));
+
+            --ac-h: 100;
+            --ac-s: 100%;
+            --ac-l: 80%;
+            --accent-background: hsl(var(--ac-h),var(--ac-s),var(--ac-l));
+            --accent-background-light: hsl(var(--ac-h),var(--ac-s),calc(var(--ac-l) * 1.2));
+            --accent-background-dark: hsl(var(--ac-h),var(--ac-s),calc(var(--ac-l) * 0.8));
+            --accent-background-dark2: hsl(var(--ac-h),var(--ac-s),calc(var(--ac-l) * 0.5));
+
+            background-color: black;
+
+            --accent-background: #666464;
+            --accent-text: #dea6a6;
+            --accent-border: red;
+
+            font-family: sans-serif;
+        }
+
+        .panel {
+            background-color: var(--base-background-dark);
+            color: var(--base-background-light);
+        }
+        button {
+            background-color: var(--base-background);
+            border:1px solid var(--base-background-dark2);
+            color: var(--base-background-light);
+        }
+        button.primary {
+            background-color: var(--accent-background);
+            color: var(--accent-text);
+            border: 1px solid var(--accent-border);
+        }
+
+        .bg-demo {
+            height: 300px;
+            border: 5px solid red;
+            background-color: white;
+            background-image: url(astronauts.jpg);
+            position: relative;
+        }
+        .window {
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border: 1px solid white;
+            border-width: 1px 0 0 0;
+            position: absolute;
+            left: 100px;
+            top: 50px;
+            padding: 1rem;
+            background-image: url("noise.png");
+            border-radius: 0.25em;
+            box-shadow: 0px 3px 5px black;
+        }
+        .window button {
+            border: 0px solid black;
+            background-color: #cccccc;
+            border-radius: 1rem;
+            color:black;
+        }
+
+        .sub-panel {
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            box-shadow: 0px 3px 10px #888;
+        }
+    </style>
+</head>
+<body>
+
+<div class="panel">
+    <button>first</button>
+    <button class="primary">second</button>
+</div>
+
+
+<div class="bg-demo">
+
+    <div class="window">
+        <p>this is a window</p>
+        <div class="sub-panel">
+            <H3>wifi beta one</H3>
+            <button>button</button>
+        </div>
+        <p>more of the window</p>
+    </div>
+
+</div>
+
+
+</body>
+</html>
