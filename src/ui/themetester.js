@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {HBox, Toolbar, VBox} from './ui.js'
+import {DataList, HBox, Toolbar, VBox} from './ui.js'
 import {flatten} from '../util.js'
 
 // import "./filebrowser.css"
@@ -12,6 +12,8 @@ import {ENUM, INTEGER, STRING} from '../schema.js'
 import { HexColorPicker } from "react-colorful";
 import "react-colorful/dist/index.css";
 import {PopupManagerContext} from './PopupManager.js'
+import {SourceList, StandardSourceItem} from './sourcelist.js'
+import {genid} from '../data.js'
 
 const COLOR = 'COLOR'
 const PADDING = 'PADDING'
@@ -65,9 +67,134 @@ Object.keys(PROPS).forEach(name => {
     }
 })
 
+const sidebar_data = [
+    {
+        id:genid('library'),
+        props: {
+            header:true,
+            title:'library',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'all',
+            icon:'library_music',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'artists',
+            icon:'people',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'albums',
+            icon:'album',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'songs',
+            icon:'music_video',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:true,
+            title:'playlists',
+            icon:'songs',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'Best of 1985',
+            icon:'queue_music',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'Funo',
+            icon:'queue_music',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'Late Night 80s',
+            icon:'queue_music',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'Best of 1985',
+            icon:'queue_music',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'Funo',
+            icon:'queue_music',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'Late Night 80s',
+            icon:'queue_music',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'Best of 1985',
+            icon:'queue_music',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'Funo',
+            icon:'queue_music',
+        }
+    },
+    {
+        id:genid('library'),
+        props: {
+            header:false,
+            title:'Late Night 80s',
+            icon:'queue_music',
+        }
+    },
+]
+
 export function ThemeTester({theme, setTheme}) {
     let db = useContext(DBContext)
     let pm = useContext(PopupManagerContext)
+
+    const [selectedSource, setSelectedSource] = useState(null)
+
     let style = {}
     Object.keys(PROPS).forEach(name => {
         style[name] = theme.props[name]
@@ -82,8 +209,7 @@ export function ThemeTester({theme, setTheme}) {
         })
 
         console.log("local data is",local)
-        // db._fireUpdate(local)
-        setTheme(local)
+        if(local) setTheme(local)
     }
     const doSave = () => {
         console.log("tehem is",theme)
@@ -94,24 +220,11 @@ export function ThemeTester({theme, setTheme}) {
         console.log("encoded",json)
         localStorage.setItem('theme-tester',json)
     }
-    const showPicker = (prop) => {
-        let picker = <HexColorPicker color={theme.props[prop]} onChange={(c)=>{
-            db.setProp(theme,prop,c)
-            console.log(theme)
-        }} />;
-        pm.show(picker)
-    }
 
     let editors = []
     Object.keys(PROPS).forEach(prop => {
         let val = PROPS[prop]
-        console.log(val)
-        if(val === COLOR_PICKER) {
-            let styl = {
-                backgroundColor:theme.props[prop],
-            }
-            editors.push(<button onClick={()=>showPicker(prop)} style={styl}>{prop}</button>)
-        }
+        if(val === COLOR_PICKER) editors.push(<ColorPickerButton prop={prop} theme={theme}/>)
         if(val === COLOR) {
             editors.push(<label>{prop}</label>)
             editors.push(<input type={'text'} value={theme.props[prop]} onChange={(e)=>{
@@ -134,7 +247,6 @@ export function ThemeTester({theme, setTheme}) {
 
     return <HBox className={'theme-tester'}>
         <VBox className={'controls'}>
-            {/*<StandardEditPanel object={theme} customSchema={THEME_SCHEMA}/>*/}
             {editors}
             <button onClick={doLoad}>load</button>
             <button onClick={doSave}>save</button>
@@ -146,44 +258,37 @@ export function ThemeTester({theme, setTheme}) {
                     Controls Demo
                 </div>
                 <div className="toolbar">
-                    <button className="icon">x</button>
+                    <i className="icon">library_music</i>
                     <input type="search" placeholder="search here"/>
                 </div>
 
-                <div className="toolbar">
-                    <button className="default">default</button>
-                    <button className="primary">primary</button>
-                    <button disabled>disabled</button>
-                    <div className="toggle-group">
-                        <button className="">option1</button>
-                        <button className="selected">option2</button>
-                        <button>option3</button>
-                    </div>
-                </div>
+                <Toolbar>
+                    <ActionButton caption={'default'}/>
+                    <ActionButton caption={'primary'} primary/>
+                    <ActionButton caption={'disabled'} disabled/>
+                    <ToggleGroup>
+                        <ToggleButton caption={'option 1'}/>
+                        <ToggleButton selected caption={'option 2'}/>
+                        <ToggleButton caption={'option 3'}/>
+                    </ToggleGroup>
+                </Toolbar>
 
-                <ul className="sidebar">
-                    <li className="header">library</li>
-                    <li><i className="material-icons">library_music</i> all</li>
-                    <li className="selected"><i className="material-icons">people</i> artists</li>
-                    <li><i className="material-icons">album</i> albums</li>
-                    <li><i className="material-icons">music_video</i> songs</li>
-                    <li className="header">playlists</li>
-                    <li><i className="material-icons">queue_music</i>Best of 1985</li>
-                    <li><i className="material-icons">queue_music</i>Funo</li>
-                    <li><i className="material-icons">queue_music</i>Late Night 80s</li>
-                    <li><i className="material-icons">queue_music</i>Best of 1985</li>
-                    <li><i className="material-icons">queue_music</i>Funo</li>
-                    <li><i className="material-icons">queue_music</i>Late Night 80s</li>
-                    <li><i className="material-icons">queue_music</i>Best of 1985</li>
-                    <li><i className="material-icons">queue_music</i>Funo</li>
-                    <li><i className="material-icons">queue_music</i>Late Night 80s</li>
-                    <li><i className="material-icons">queue_music</i>Best of 1985</li>
-                    <li><i className="material-icons">queue_music</i>Funo</li>
-                    <li><i className="material-icons">queue_music</i>Late Night 80s</li>
-                    <li><i className="material-icons">queue_music</i>Best of 1985</li>
-                    <li><i className="material-icons">queue_music</i>Funo</li>
-                    <li><i className="material-icons">queue_music</i>Late Night 80s</li>
-                </ul>
+                <SourceList
+                    column={1}
+                    row={2}
+                    selected={selectedSource}
+                    setSelected={setSelectedSource}
+                    data={sidebar_data}
+                    renderItem={({item,...rest})=>{
+                        return <StandardSourceItem
+                            header={item.props.header}
+                            title={item.props.title}
+                            icon={item.props.icon}
+                            {...rest}
+                        />
+                    }}
+                />
+
 
                 <ul className="content">
                     <li className="vbox">
@@ -268,4 +373,35 @@ export function ThemeTester({theme, setTheme}) {
 
         </VBox>
     </HBox>
+}
+
+function ColorPickerButton({theme,prop}) {
+    let db = useContext(DBContext)
+    let pm = useContext(PopupManagerContext)
+
+    const showPicker = (prop) => {
+        let picker = <HexColorPicker color={theme.props[prop]} onChange={(c)=>{
+            db.setProp(theme,prop,c)
+            console.log(theme)
+        }} />;
+        pm.show(picker)
+    }
+
+    let styl = {
+        backgroundColor:theme.props[prop],
+    }
+    return <button onClick={()=>showPicker(prop)} style={styl}>{prop}</button>
+}
+
+function ActionButton({caption}) {
+    return <button>{caption}</button>
+}
+function ToggleButton({caption, selected}) {
+    let cls = {
+        selected:selected
+    }
+    return <button className={flatten(cls)}>{caption}</button>
+}
+function ToggleGroup({children}) {
+    return <div>{children}</div>
 }
