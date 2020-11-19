@@ -1,19 +1,17 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {DataList, HBox, Toolbar, VBox} from './ui.js'
+import React, {useContext, useState} from 'react'
+import {HBox, Toolbar, VBox} from './ui.js'
 import {flatten} from '../util.js'
-
-// import "./filebrowser.css"
-import {DBContext, decode_props_with_types, encode_props_with_types, propAsString} from '../db.js'
+import {DBContext, encode_props_with_types} from '../db.js'
 
 import "./themetester.css"
-import {StandardEditPanel} from './StandardEditPanel.js'
-import {ENUM, INTEGER, STRING} from '../schema.js'
+import {STRING} from '../schema.js'
 
-import { HexColorPicker } from "react-colorful";
-import "react-colorful/dist/index.css";
+import {HexColorPicker} from "react-colorful"
+import "react-colorful/dist/index.css"
 import {PopupManagerContext} from './PopupManager.js'
 import {SourceList, StandardSourceItem} from './sourcelist.js'
 import {genid} from '../data.js'
+import Icon from '@material-ui/core/Icon'
 
 const COLOR = 'COLOR'
 const PADDING = 'PADDING'
@@ -189,7 +187,7 @@ const sidebar_data = [
     },
 ]
 
-export function ThemeTester({theme, setTheme}) {
+export function ThemeTester({theme, setTheme, doLoad}) {
     let db = useContext(DBContext)
     let pm = useContext(PopupManagerContext)
 
@@ -200,17 +198,7 @@ export function ThemeTester({theme, setTheme}) {
         style[name] = theme.props[name]
     })
 
-    const doLoad = () => {
-        let localJSON = localStorage.getItem('theme-tester')
-        console.log("local is",localJSON)
-        let local = JSON.parse(localJSON,function(key,value) {
-            if(key === 'props') return decode_props_with_types(value);
-            return value
-        })
 
-        console.log("local data is",local)
-        if(local) setTheme(local)
-    }
     const doSave = () => {
         console.log("tehem is",theme)
         let json = JSON.stringify(theme,function(key,value){
@@ -258,8 +246,8 @@ export function ThemeTester({theme, setTheme}) {
                     Controls Demo
                 </div>
                 <div className="toolbar">
-                    <i className="icon">library_music</i>
-                    <input type="search" placeholder="search here"/>
+                    <Icon>filter_list</Icon>
+                    <input type="search" placeholder="search here" className={'grow'}/>
                 </div>
 
                 <Toolbar>
