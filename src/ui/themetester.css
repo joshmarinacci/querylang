@@ -34,6 +34,15 @@ html {
 
 
 /* ========== resets ========== */
+ul {
+    margin:0;
+    padding:0;
+    list-style: none;
+}
+li {
+    padding:0;
+    margin:0;
+}
 button {
     font-family: inherit;
 }
@@ -42,6 +51,23 @@ button {
 }
 /* ============= structure =========== */
 
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 3fr;
+    grid-template-rows: 3em 1fr 2em;
+    grid-gap: 1px;
+    width: 900px;
+    height: 500px;
+    overflow: hidden;
+    justify-items: stretch;
+}
+
+.info {
+    grid-column: 1;
+    grid-row: 1;
+    text-align: center;
+}
+
 .toolbar {
     display: flex;
     flex-direction: row;
@@ -49,6 +75,32 @@ button {
     align-items: center;
     overflow: auto;
 }
+.sidebar {
+    grid-column: 1;
+    grid-row: 2;
+    overflow: auto;
+}
+
+.content {
+    grid-column: 2;
+    grid-row: 2;
+    overflow: auto;
+}
+form {
+    grid-column: 3;
+    grid-row: 2;
+}
+.statusbar {
+    display: flex;
+    flex-direction: row;
+    grid-column: 1 / span 3;
+    align-items: center;
+}
+
+.spacer {
+    flex: 1.0;
+}
+
 
 
 form {
@@ -73,6 +125,13 @@ form > .form-group {
 }
 
 /* ============== spacing ============ */
+
+li {
+    padding: var(--std-line-padding);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
 
 .preview .toolbar {
@@ -110,6 +169,19 @@ form > .form-group input:last-child {
     margin-right: 0;
 }
 
+li .material-icons:first-child {
+    margin-right: 0.25em;
+}
+li .material-icons:last-child {
+    margin-left: 0.25em;
+}
+li.header {
+    margin-top: 1.0em;
+}
+
+
+
+
 /* ======== borders and radius ========= */
 button, input, select {
     border-style: solid;
@@ -137,7 +209,26 @@ button, input {
 }
 
 
+
+
+
+
+
 /* =============== colors ============== */
+form, ul, .info, .statusbar {
+    background-color: white;
+}
+li {
+    color: var(--std-text-color);
+}
+li.selected {
+    background-color: var(--accent-background-color);
+    color: var(--accent-text-color);
+}
+li.header {
+    text-transform: uppercase;
+    color: var(--accent-background-color);
+}
 
 button, input, select {
     border: 1px solid var(--std-border-color);
@@ -177,4 +268,15 @@ button:focus, input:focus {
 .controls button {
     background-color: #83eaea;
     padding: 0.25em 0.5em;
+}
+
+
+
+
+
+/* ========= dev stuff ========= */
+.grid {
+    border:1px solid purple;
+    margin: 1em;
+    background-color: var(--std-border-color);
 }

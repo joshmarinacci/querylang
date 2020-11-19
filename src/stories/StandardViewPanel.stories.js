@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-import "../theme.css"
+// import "../theme.css"
 import {StandardViewPanel} from '../ui/StandardViewPanel.js'
 import {makeDB, setProp} from '../db.js'
 import {CATEGORIES} from '../schema.js'

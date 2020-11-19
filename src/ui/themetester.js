@@ -130,51 +130,104 @@ export function ThemeTester({theme, setTheme}) {
             <button onClick={doSave}>save</button>
         </VBox>
         <VBox style={style} className={'preview'} grow>
-            <HBox>
-                <button>button</button>
-                <button className={'primary'}>primary</button>
-            </HBox>
-            <div className="toolbar">
-                <button>default</button>
-                <button className="primary">primary</button>
-                <button disabled>disabled</button>
-                <div className="toggle-group">
-                    <button className="">option1</button>
-                    <button className="selected">option2</button>
-                    <button>option3</button>
+
+            <div className="grid">
+                <div className="info">
+                    Controls Demo
+                </div>
+                <div className="toolbar">
+                    <button className="icon">x</button>
+                    <input type="search" placeholder="search here"/>
+                </div>
+
+                <div className="toolbar">
+                    <button className="default">default</button>
+                    <button className="primary">primary</button>
+                    <button disabled>disabled</button>
+                    <div className="toggle-group">
+                        <button className="">option1</button>
+                        <button className="selected">option2</button>
+                        <button>option3</button>
+                    </div>
+                </div>
+
+                <ul className="sidebar">
+                    <li className="header">library</li>
+                    <li><i className="material-icons">library_music</i> all</li>
+                    <li className="selected"><i className="material-icons">people</i> artists</li>
+                    <li><i className="material-icons">album</i> albums</li>
+                    <li><i className="material-icons">music_video</i> songs</li>
+                    <li className="header">playlists</li>
+                    <li><i className="material-icons">queue_music</i>Best of 1985</li>
+                    <li><i className="material-icons">queue_music</i>Funo</li>
+                    <li><i className="material-icons">queue_music</i>Late Night 80s</li>
+                    <li><i className="material-icons">queue_music</i>Best of 1985</li>
+                    <li><i className="material-icons">queue_music</i>Funo</li>
+                    <li><i className="material-icons">queue_music</i>Late Night 80s</li>
+                    <li><i className="material-icons">queue_music</i>Best of 1985</li>
+                    <li><i className="material-icons">queue_music</i>Funo</li>
+                    <li><i className="material-icons">queue_music</i>Late Night 80s</li>
+                    <li><i className="material-icons">queue_music</i>Best of 1985</li>
+                    <li><i className="material-icons">queue_music</i>Funo</li>
+                    <li><i className="material-icons">queue_music</i>Late Night 80s</li>
+                    <li><i className="material-icons">queue_music</i>Best of 1985</li>
+                    <li><i className="material-icons">queue_music</i>Funo</li>
+                    <li><i className="material-icons">queue_music</i>Late Night 80s</li>
+                </ul>
+
+                <ul className="content">
+                    <li className="vbox">
+                        <div className="hbox">
+                            <i className="material-icons accent">star</i>
+                            <span className="primary grow">primary text</span>
+                            <span className="trailing">trailing text</span>
+                            <i className="material-icons">attachment</i>
+                        </div>
+                        <div className="hbox">
+                            <i className="material-icons">x</i>
+                            <span className="secondary grow">secondary text</span>
+                            <i className="material-icons">x</i>
+                        </div>
+                    </li>
+                </ul>
+
+                <form>
+                    <label>first name</label>
+                    <input type="text"/>
+
+                    <label>age</label>
+                    <input type="number" step="1" min="0" max="100"/>
+
+                    <label>location</label>
+                    <div className="form-group">
+                        <input type="string" placeholder="city" size="10"/>
+                        <input type="string" placeholder="state" size="2"/>
+                        <input type="string" placeholder="zipcode" size="6"/>
+                    </div>
+
+                    <label>alive?</label>
+                    <input type="checkbox" checked/>
+                    <div>
+                        <i className="material-icons accent">check_box</i>
+                        <i className="material-icons accent">check_box_outline_blank</i>
+                    </div>
+
+                    <label>dead?</label>
+                    <input type="checkbox"/>
+
+                    <label>gender</label>
+                    <select>
+                        <option>male</option>
+                        <option>female</option>
+                        <option>other</option>
+                    </select>
+                </form>
+                <div className="statusbar">
+                    <label>100 selected</label>
+                    <span className="spacer"></span>
+                    <label>40x50px</label>
                 </div>
             </div>
-            <form>
-                <label>first name</label>
-                <input type="text"/>
-
-                <label>age</label>
-                <input type="number" step="1" min="0" max="100"/>
-
-                <label>location</label>
-                <div className="form-group">
-                    <input type="string" placeholder="city" size="10"/>
-                    <input type="string" placeholder="state" size="2"/>
-                    <input type="string" placeholder="zipcode" size="6"/>
-                </div>
-
-                <label>alive?</label>
-                <input type="checkbox" checked/>
-                <div>
-                    <i className="material-icons accent">check_box</i>
-                    <i className="material-icons accent">check_box_outline_blank</i>
-                </div>
-
-                <label>dead?</label>
-                <input type="checkbox"/>
-
-                <label>gender</label>
-                <select>
-                    <option>male</option>
-                    <option>female</option>
-                    <option>other</option>
-                </select>
-            </form>
 
 
         </VBox>

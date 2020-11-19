@@ -8,7 +8,7 @@ import {DataTable} from '../ui/datatable.js'
 import {sort} from '../db.js'
 import {SORTS} from '../schema.js'
 
-import "../theme.css"
+// import "../theme.css"
 import "../ui/datatable.css"
 
 export default {

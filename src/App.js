@@ -23,7 +23,7 @@ import {MapViewer} from './apps/maps.js'
 import {SettingsApp} from './apps/settings.js'
 import {WriterApp} from './apps/writing.js'
 
-import "./theme.css"
+// import "./theme.css"
 import {DataBrowser} from './apps/DataBrowser.js'
 import {BookmarksManager} from './apps/bookmarks/bookmarks.js'
 import {SystemBar} from './apps/systembar/systembar.js'
