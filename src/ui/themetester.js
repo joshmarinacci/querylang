@@ -1,6 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {HBox, Toolbar, VBox} from './ui.js'
-import {flatten} from '../util.js'
+import React, {useContext, useState} from 'react'
+import {ActionButton, HBox, ToggleButton, ToggleGroup, Toolbar, VBox} from './ui.js'
 import {DBContext, encode_props_with_types, propAsString} from '../db.js'
 
 import "./themetester.css"
@@ -466,17 +465,4 @@ function ColorPickerButton({theme,prop}) {
         backgroundColor:theme.props[prop],
     }
     return <button onClick={()=>showPicker(prop)} style={styl}>{prop}</button>
-}
-
-function ActionButton({caption}) {
-    return <button>{caption}</button>
-}
-function ToggleButton({caption, selected}) {
-    let cls = {
-        selected:selected
-    }
-    return <button className={flatten(cls)}>{caption}</button>
-}
-function ToggleGroup({children}) {
-    return <div className={'toggle-group'}>{children}</div>
 }

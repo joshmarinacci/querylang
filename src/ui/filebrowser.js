@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {HBox, Toolbar, VBox} from './ui.js'
+import {ActionButton, HBox, ToggleButton, ToggleGroup, Toolbar, VBox} from './ui.js'
 import {flatten} from '../util.js'
 
 import "./filebrowser.css"
@@ -24,10 +24,10 @@ export function FileBrowser({files}) {
     }
     return <div className={'file-browser'}>
         <Toolbar>
-            <ToggleBar value={view} values={['list','grid']} setValue={setView}/>
+            <ToggleBar value={view} values={['list','grid']} icons={['list','view_module']} setValue={setView}/>
             <input type={'search'} placeholder={'search name'}/>
-            <button onClick={show_add_dialog}>add file</button>
-            <button onClick={set_wallpaper}>set wallpaper</button>
+            <ActionButton onClick={show_add_dialog} caption={"add file"}/>
+            <ActionButton onClick={set_wallpaper} caption={"set wallpaper"}/>
         </Toolbar>
         <HBox>
         {panel}
@@ -164,20 +164,12 @@ function FileDetailsView({file}) {
         {preview}
     </div>
 }
+
 function ToggleBar({value, values, setValue}) {
-    // a toggle button for each option
-    return <HBox className={'toggle-bar'}>
-        {values.map(v => <ToggleButton value={v} selected={v === value } onClick={()=>setValue(v)}/>)}
-    </HBox>
+    return <ToggleGroup>
+        {values.map((v,i) => <ToggleButton caption={v} selected={v === value } onClick={()=>setValue(v)}/>)}
+    </ToggleGroup>
 }
-
-function ToggleButton({onClick, selected, value}) {
-    return <button onClick={onClick} className={flatten({
-        selected:selected,
-        'toggle-button':true,
-    })}>{value}</button>
-}
-
 
 
 export const FILES = 'FILES'

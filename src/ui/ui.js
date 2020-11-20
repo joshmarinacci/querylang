@@ -196,3 +196,18 @@ export function TopToolbar({column=1, children, span=1, ...rest}) {
     let cls = `toolbar col${column} span${span}`
     return <div className={cls} {...rest}>{children}</div>
 }
+
+
+
+export function ActionButton({caption}) {
+    return <button>{caption}</button>
+}
+export function ToggleButton({caption, selected, icon, ...rest}) {
+    let cls = {
+        selected:selected
+    }
+    return <button className={flatten(cls)} {...rest}>{icon?<Icon>{icon}</Icon>:""} {caption}</button>
+}
+export function ToggleGroup({children}) {
+    return <div className={'toggle-group'}>{children}</div>
+}
