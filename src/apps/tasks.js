@@ -75,11 +75,12 @@ export function TaskLists({app}) {
     return <Grid3Layout>
         <TitleBar title={'Tasks'}/>
 
-        <SourceList column={1} data={projects} selected={selectedProject} setSelected={setSelectedProject}
-                    renderItem={(o)=><StandardSourceItem
-                            icon={propAsString(o,'icon')}
-                            title={propAsString(o,'title')}/>
-                    }/>
+        <SourceList column={1} row={2} data={projects}
+                    selected={selectedProject} setSelected={setSelectedProject}
+                    renderItem={({item, ...args})=><StandardSourceItem
+                            icon={propAsString(item,'icon')}
+                            title={propAsString(item,'title')}
+                            {...args}/>}/>
 
         <TopToolbar column={2}>
             <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
@@ -91,11 +92,12 @@ export function TaskLists({app}) {
             <Icon onClick={trashTask}>delete</Icon>
         </TopToolbar>
 
-        <SourceList column={2} data={tasks} selected={selectedTask} setSelected={setSelectedTask}
-                    renderItem={(o)=><StandardSourceItem
-                            icon={(propAsBoolean(o,'completed')?"check_box":"check_box_outline_blank")}
-                            title={propAsString(o,'title')}/>
-                    }/>
+        <SourceList column={2} row={2} data={tasks}
+                    selected={selectedTask} setSelected={setSelectedTask}
+                    renderItem={({item, ...args})=><StandardSourceItem
+                            icon={(propAsBoolean(item,'completed')?"check_box":"check_box_outline_blank")}
+                            title={propAsString(item,'title')}
+                            {...args}/>}/>
             {panel}
     </Grid3Layout>
 }

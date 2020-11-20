@@ -236,7 +236,7 @@ button, input {
 
 
 /* =============== colors ============== */
-form, ul, .info, .statusbar {
+form, ul, .info, .statusbar, .panel {
     background-color: var(--std-bg-color);
 }
 li {
