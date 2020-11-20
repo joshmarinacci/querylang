@@ -10,6 +10,7 @@ import {format} from "date-fns"
 import {AND, IS_CATEGORY, IS_TYPE} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
 import {Grid2Layout} from './grid3layout.js'
+import {SourceList, StandardSourceItem} from './sourcelist.js'
 
 export function FileBrowser({files, setFiles}) {
     let db = useContext(DBContext)
@@ -48,16 +49,15 @@ export function FileBrowser({files, setFiles}) {
     </Grid2Layout>
 }
 
+const get_mimetype_major = (str) => str.substring(0,str.indexOf("/"))
+const is_image_mimetype = (str) => (get_mimetype_major(str)==='image')
+const is_plaintext_mimetype = (str) => (str==='text/plain')
 
 function calculateIcon(file) {
-    let major = propAsString(file,'mimetype_major')
-    if(major === 'image') {
-        return <Icon className="icon">image</Icon>
-    }
-    if(major === 'text') {
-        return <Icon className="icon">text_snippet</Icon>
-    }
-    return "file"
+    let mt = propAsString(file,'mimetype')
+    if(is_image_mimetype(mt)) return 'image'
+    if(is_plaintext_mimetype(mt)) return 'text_snippet'
+    return 'file'
 }
 
 function calculateGridIcon(file) {
@@ -72,16 +72,14 @@ function calculateGridIcon(file) {
 }
 
 function FileList({files, selected, setSelected}){
-    return <div className={'panel file-list row2 col1'}>{files.map((file,i)=>{
-        return <div className={flatten({
-            'file-list-item':true,
-            selected:file===selected,
-        })} key={i} onClick={()=>setSelected(file)}>
-            {calculateIcon(file)}
-            <span className={'filename'}>{propAsString(file,'filename')}</span>
-            <span className={'modified'}>{format(file.props.modified_date,'MMM dd, yyyy')}</span>
-        </div>
-    })}</div>
+    return <SourceList data={files} column={1} row={2} selected={selected} setSelected={setSelected}
+                       renderItem={({item,...args})=>{
+                           return <StandardSourceItem
+                               icon={calculateIcon(item)}
+                               title={propAsString(item,'filename')}
+                               trailing_text={format(item.props.modified_date,'MMM dd, yyyy')}
+                               {...args}/>
+                       }}/>
 }
 function FileGrid({files, selected, setSelected}){
     return <div className={'panel file-grid col1 row2'}>{files.map((file,i)=> {

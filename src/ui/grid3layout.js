@@ -8,8 +8,8 @@ export function Grid3Layout({children}) {
 export function Grid2Layout({children, toolbar=true, statusbar=true}) {
     let rows = (toolbar?"3em ":"") + " 1fr " + (statusbar?"2em":"")
     let style = {
-        'grid-template-columns': '1fr 2fr',
-        'grid-template-rows': rows,
+        gridTemplateColumns: '1fr 2fr',
+        gridTemplateRows: rows,
     }
 
     return <div className={'grid2'} style={style}>{children}</div>

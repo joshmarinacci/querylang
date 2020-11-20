@@ -322,7 +322,7 @@ button:focus, input:focus {
 
 
 /* ========= dev stuff ========= */
-.grid {
+.grid, .grid2 {
     background-color: var(--std-border-color);
 }
 
