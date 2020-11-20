@@ -8,6 +8,7 @@
 html {
     font-size: 50pt;
     font-family: serif;
+    min-height: 100vh;
 }
 html {
     --std-text-color: #151717;

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {ActionButton, HBox, Panel, ToggleButton, ToggleGroup, Toolbar, VBox} from './ui.js'
+import {ActionButton, HBox, Panel, TagsetEditor, ToggleButton, ToggleGroup, Toolbar, VBox} from './ui.js'
 import {flatten} from '../util.js'
 
 import "./filebrowser.css"
@@ -9,8 +9,12 @@ import Icon from '@material-ui/core/Icon'
 import {format} from "date-fns"
 import {AND, IS_CATEGORY, IS_TYPE} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
+import {Grid2Layout} from './grid3layout.js'
 
-export function FileBrowser({files}) {
+export function FileBrowser({files, setFiles}) {
+    let db = useContext(DBContext)
+    useDBChanged(db,CATEGORIES.FILES.ID)
+
     let [view,setView] = useState("list")
     let [file,setFile] = useState(null)
     let panel = ""
@@ -21,20 +25,27 @@ export function FileBrowser({files}) {
     }
 
     let set_wallpaper = () => {
-        console.log("setting the wallpaper to",file)
+        let elem = document.querySelector("html")
+        elem.style.backgroundColor = 'white'
+        elem.style.backgroundImage = `url(${file.props.url})`
+        elem.style.backgroundSize = "contain"
+        elem.style.backgroundRepeat = "no-repeat"
+        elem.style.backgroundPosition = 'center'
     }
-    return <div className={'file-browser'}>
-        <Toolbar>
+    return <Grid2Layout>
+        <Toolbar className={'col1 span3'}>
+            <button onClick={()=>list_remote_files(db).then(files=>setFiles(files))}>open</button>
             <ToggleBar value={view} values={['list','grid']} icons={['list','view_module']} setValue={setView}/>
             <input type={'search'} placeholder={'search name'}/>
             <ActionButton onClick={show_add_dialog} caption={"add file"}/>
             <ActionButton onClick={set_wallpaper} caption={"set wallpaper"}/>
         </Toolbar>
-        <HBox>
         {panel}
         <FileDetailsView file={file}/>
-        </HBox>
-    </div>
+        <div className={'statusbar'}>
+            selected = {file?propAsString(file,'filename'):""}
+        </div>
+    </Grid2Layout>
 }
 
 
@@ -61,7 +72,7 @@ function calculateGridIcon(file) {
 }
 
 function FileList({files, selected, setSelected}){
-    return <div className={'file-list'}>{files.map((file,i)=>{
+    return <div className={'panel file-list row2 col1'}>{files.map((file,i)=>{
         return <div className={flatten({
             'file-list-item':true,
             selected:file===selected,
@@ -73,7 +84,7 @@ function FileList({files, selected, setSelected}){
     })}</div>
 }
 function FileGrid({files, selected, setSelected}){
-    return <div className={'file-grid'}>{files.map((file,i)=> {
+    return <div className={'panel file-grid col1 row2'}>{files.map((file,i)=> {
         return <div className={flatten({
             'file-grid-item':true,
             selected:file===selected,
@@ -156,13 +167,14 @@ function FileDetailsView({file}) {
     // all data in props using a standard object viewer
     // plus an image thumbnail if relevant
     let thumb = useThumbnail(file)
-    if(!file) return <div className={'file-details'}>nothing selected</div>
+    if(!file) return <div className={'panel file-details col2 row2'}>nothing selected</div>
     let preview = ""
-    if(propAsString(file,'mimetype_major') === 'image') preview = <img className={'thumbnail'} src={thumb} alt={"image preview"}/>
-    if(propAsString(file,'mimetype_major' )=== 'text')  preview = <span className={'thumbnail'}><b>preview</b> {thumb}</span>
-    return <div className={'file-details-view'}>
+    if(propAsString(file,'mimetype') === 'image/jpeg') preview = <img className={'thumbnail'} src={thumb} alt={"image preview"}/>
+    if(propAsString(file,'mimetype' )=== 'plain/text')  preview = <span className={'thumbnail'}><b>preview</b> {thumb}</span>
+    return <div className={'file-details-view panel col2 row2'}>
         {propAsString(file,'filename')}
         {preview}
+        <TagsetEditor buffer={file} prop={'tags'}/>
     </div>
 }
 
@@ -172,18 +184,6 @@ function ToggleBar({value, values, setValue}) {
     </ToggleGroup>
 }
 
-
-/*
-
-// fetch list of real files
-// search for file info that matches each real file
-//if missing info, generate one, add to database
-//put list of file infos into state
-let you view and edit the metadata, but just the tags. (edit panel should let you make things be readonly)
-make settings app let you choose a background image by searching for all images with the ‘desktop’ tag on it
-list apps that can open the file. ex: txt can open in ‘writer’ image can open in an ‘image viewer’, files can be opened in a new email. requires calculating app / panel  compatibility
-contacts app lets you choose an image from all images as headshot, auto-scales. people bar auto updates.
- */
 
 
 const FILE_SERVER_URL = "http://localhost:30011/files"
@@ -210,11 +210,6 @@ function list_remote_files(db) {
 }
 
 export function FileBrowserApp({app}) {
-    let db = useContext(DBContext)
-    useDBChanged(db,CATEGORIES.FILES.ID)
     let [files, setFiles] = useState([])
-    return <Panel grow>
-        <button onClick={()=>list_remote_files(db).then(files=>setFiles(files))}>open</button>
-        <FileBrowser files={files}/>
-    </Panel>
+    return <FileBrowser files={files} setFiles={setFiles}/>
 }

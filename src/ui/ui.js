@@ -197,8 +197,8 @@ export function TopToolbar({column=1, children, span=1, ...rest}) {
 
 
 
-export function ActionButton({caption}) {
-    return <button>{caption}</button>
+export function ActionButton({caption, ...rest}) {
+    return <button {...rest}>{caption}</button>
 }
 export function ToggleButton({caption, selected, icon, ...rest}) {
     let cls = {
