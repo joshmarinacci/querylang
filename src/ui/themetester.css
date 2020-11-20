@@ -275,6 +275,11 @@ button.primary {
     color: var(--accent-text-color);
     border-color: var(--accent-border-color);
 }
+button.danger {
+    background-color: magenta;
+    color: white;
+    border-color: black;
+}
 
 
 button:hover {
