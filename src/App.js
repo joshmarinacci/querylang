@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import './App.css'
+import "./ui/themetester.css"
 import {ContactList} from './apps/contacts.js'
 import {PeopleBar} from './apps/peoplebar.js'
 import {TaskLists} from './apps/tasks.js'
@@ -28,7 +29,7 @@ import {DataBrowser} from './apps/DataBrowser.js'
 import {BookmarksManager} from './apps/bookmarks/bookmarks.js'
 import {SystemBar} from './apps/systembar/systembar.js'
 import {Window, WindowManager, WindowManagerContext} from './ui/window.js'
-import {FileBrowser, FileBrowserApp} from './ui/filebrowser.js'
+import {FileBrowserApp} from './ui/filebrowser.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()

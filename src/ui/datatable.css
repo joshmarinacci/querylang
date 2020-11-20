@@ -20,10 +20,6 @@ td:last-child, th:last-child {
     border-right-width: 0;
 }
 
-table tr.selected {
-    background-color: var(--selected-color);
-    color: var(--selected-text-color);
-}
 
 
 table th {

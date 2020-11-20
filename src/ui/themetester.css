@@ -64,10 +64,9 @@ button {
     grid-template-columns: 1fr 2.0fr 3fr;
     grid-template-rows: 3em 1fr 2em;
     grid-gap: 1px;
-    width: 900px;
-    height: 500px;
     overflow: hidden;
     justify-items: stretch;
+    flex: 1.0;
 }
 
 .col1 { grid-column: 1; }
@@ -243,7 +242,7 @@ form, ul, .info, .statusbar, .panel, table {
 li {
     color: var(--std-text-color);
 }
-li.selected {
+.selected {
     background-color: var(--accent-background-color);
     color: var(--accent-text-color);
 }
@@ -271,10 +270,6 @@ button.primary {
 button:hover {
     background-color: var(--bg-dark);
     color: var(--std-bg-color);
-}
-button.selected {
-    background-color: var(--accent-background-color);
-    color: var(--accent-text-color);
 }
 
 button:focus, input:focus {
@@ -318,8 +313,6 @@ button:focus, input:focus {
 
 /* ========= dev stuff ========= */
 .grid {
-    border:1px solid purple;
-    margin: 1em;
     background-color: var(--std-border-color);
 }
 
