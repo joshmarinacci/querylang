@@ -614,6 +614,63 @@ export const CATEGORIES = {
                 },
             }
         }
+    },
+
+    FILES:{
+        ID:'FILES',
+        SCHEMAS:{
+            FILE_INFO:{
+                TYPE:'FILE_INFO',
+                title:'file info',
+                props: {
+                    filename:{
+                        key:'filename',
+                        type: STRING,
+                        default:"",
+                    },
+                    mimetype:{
+                        key:'mimetype',
+                        type: STRING,
+                        default:"application/octet-stream",
+                    },
+                    creation_date:{
+                        key:'creation_date',
+                        type:TIMESTAMP,
+                        default: () => new Date()
+                    },
+                    modified_date:{
+                        key:'modified_date',
+                        type:TIMESTAMP,
+                        default: () => new Date()
+                    },
+                    tags: {
+                        key:'tags',
+                        type: ARRAY,
+                        content: {
+                            type:STRING
+                        },
+                        default:[],
+                    },
+
+                    filesize: {
+                        key:"filesize",
+                        type:INTEGER,
+                        default:-1,
+                    },
+
+                    deleted:{
+                        key:'deleted',
+                        type:BOOLEAN,
+                        default:false,
+                    },
+
+                    url: {
+                        key:'url',
+                        type:STRING,
+                    },
+                }
+            }
+        }
     }
 }
 

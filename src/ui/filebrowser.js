@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react'
-import {ActionButton, HBox, ToggleButton, ToggleGroup, Toolbar, VBox} from './ui.js'
+import React, {useContext, useEffect, useState} from 'react'
+import {ActionButton, HBox, Panel, ToggleButton, ToggleGroup, Toolbar, VBox} from './ui.js'
 import {flatten} from '../util.js'
 
 import "./filebrowser.css"
-import {propAsString} from '../db.js'
+import {DBContext, propAsString, useDBChanged} from '../db.js'
 import Icon from '@material-ui/core/Icon'
 
 import {format} from "date-fns"
-import {DATA, genid} from '../data.js'
+import {AND, IS_CATEGORY, IS_TYPE} from '../query2.js'
+import {CATEGORIES} from '../schema.js'
 
 export function FileBrowser({files}) {
     let [view,setView] = useState("list")
@@ -167,41 +168,53 @@ function FileDetailsView({file}) {
 
 function ToggleBar({value, values, setValue}) {
     return <ToggleGroup>
-        {values.map((v,i) => <ToggleButton caption={v} selected={v === value } onClick={()=>setValue(v)}/>)}
+        {values.map((v,i) => <ToggleButton key={i} caption={v} selected={v === value } onClick={()=>setValue(v)}/>)}
     </ToggleGroup>
 }
 
 
-export const FILES = 'FILES'
-export const FILE_INFO = 'FILE_INFO'
+/*
+
+// fetch list of real files
+// search for file info that matches each real file
+//if missing info, generate one, add to database
+//put list of file infos into state
+let you view and edit the metadata, but just the tags. (edit panel should let you make things be readonly)
+make settings app let you choose a background image by searching for all images with the ‘desktop’ tag on it
+list apps that can open the file. ex: txt can open in ‘writer’ image can open in an ‘image viewer’, files can be opened in a new email. requires calculating app / panel  compatibility
+contacts app lets you choose an image from all images as headshot, auto-scales. people bar auto updates.
+ */
 
 
-
-export function FileBrowserApp({app}) {
-    let [files, setFiles] = useState(()=>{
-        let data = []
-        data.push({
-            id:genid('file-meta'),
-            category:FILES,
-            type:FILE_INFO,
-            props: {
-                creation_date: new Date(2001),
-                modified_date: new Date(2020,11),
-                tags:['history'],
-                mimetype_major:'text',
-                mimetype_minor:'plain',
-                filename:'const.txt',
-                url:"https://www.usconstitution.net/const.txt",
-                filesize:-1,
-                type_info:{
-                    infotype:'text',
-                },
-                deleted:false,
+const FILE_SERVER_URL = "http://localhost:30011/files"
+function list_remote_files(db) {
+    return fetch(FILE_SERVER_URL).then(r => r.json()).then(real_files => {
+        let q = AND(IS_CATEGORY(CATEGORIES.FILES.ID),IS_TYPE(CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE))
+        let info_files = db.QUERY(q)
+        console.log("info files",info_files)
+        real_files.forEach(f => {
+            let url = `${FILE_SERVER_URL}/${f.name}${f.ext}`;
+            let match = info_files.find(i => {
+                return (i.props.url === url)
+            })
+            if(!match) {
+                let info = db.make(CATEGORIES.FILES.ID,CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE)
+                info.props.filename = f.name
+                info.props.url = url
+                info.props.mimetype = f.mimetype
+                db.add(info)
             }
         })
-        return data
+        return info_files = db.QUERY(q)
     })
-    return <div>
+}
+
+export function FileBrowserApp({app}) {
+    let db = useContext(DBContext)
+    useDBChanged(db,CATEGORIES.FILES.ID)
+    let [files, setFiles] = useState([])
+    return <Panel grow>
+        <button onClick={()=>list_remote_files(db).then(files=>setFiles(files))}>open</button>
         <FileBrowser files={files}/>
-    </div>
+    </Panel>
 }
