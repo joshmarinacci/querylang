@@ -59,7 +59,6 @@ export function Email({app }) {
             data={folders}
             selected={selectedFolder} setSelected={setSelectedFolder}
             renderItem={({item,...rest})=>{
-                console.log("folders items",item)
                 return <StandardSourceItem
                     title={propAsString(item,'title')}
                     icon={propAsString(item,'icon')}

@@ -30,6 +30,7 @@ import {BookmarksManager} from './apps/bookmarks/bookmarks.js'
 import {SystemBar} from './apps/systembar/systembar.js'
 import {Window, WindowManager, WindowManagerContext} from './ui/window.js'
 import {FileBrowserApp} from './ui/filebrowser.js'
+import {IFrameApp} from './apps/IframeApp.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
@@ -90,6 +91,7 @@ function App() {
     if(appid === 'SettingsApp') return <SettingsApp app={app}/>
     if(appid === 'DataBrowser') return <DataBrowser app={app}/>
     if(appid === 'FileBrowserApp') return <FileBrowserApp app={app}/>
+    if(appid === 'IFrameApp') return <IFrameApp app={app}/>
 
     return <div>app not found <b>{appid}</b></div>
   }

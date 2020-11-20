@@ -236,7 +236,7 @@ export function attach_in(A, B, ka, kb) {
 }
 
 
-const ROOT = "query_lang_root_key"
+const ROOT_KEY = "query_lang_root_key"
 class DB {
     log(...args) {
         console.log("DB:",...args)
@@ -311,10 +311,11 @@ class DB {
         })
     }
 
-    loadLocalStorage() {
-        this.log("loading local storage")
-        if(localStorage.getItem(ROOT)) {
-            let localJSON = localStorage.getItem(ROOT)
+    loadLocalStorage(key) {
+        if(!key) key = ROOT_KEY
+        this.log(`loading local storage from ${key}`)
+        if(localStorage.getItem(key)) {
+            let localJSON = localStorage.getItem(key)
             console.log("local is",localJSON)
             let local = JSON.parse(localJSON,function(key,value) {
                 if(key === 'props') return decode_props_with_types(value);
@@ -330,8 +331,9 @@ class DB {
             this.log("no local storage present")
         }
     }
-    clearLocalStorage() {
-        localStorage.removeItem(ROOT)
+    clearLocalStorage(key) {
+        if(!key) key = ROOT_KEY
+        localStorage.removeItem(key)
     }
     validateData() {
         validateData(this.data)
@@ -340,8 +342,9 @@ class DB {
         this.log("total unique count", Object.keys(this.object_cache).length)
     }
 
-    persist() {
-        this.log("persisting data")
+    persist(key) {
+        if(!key) key = ROOT_KEY
+        this.log(`persisting data to ${key}`)
         let preset = this.data.filter(i => i.local === false)
         let local = this.data.filter(i => i.local === true)
         this.log(`preset items ${preset.length}`)
@@ -349,24 +352,24 @@ class DB {
         this.log(`total item count ${this.data.length}`)
         this.log("local items")
         local.forEach(item => this.log("    ",item))
-        localStorage.setItem(ROOT,JSON.stringify(local,function(key,value){
+        localStorage.setItem(key,JSON.stringify(local,function(key,value){
             if(key === 'props') return encode_props_with_types(value)
             return value
         }))
     }
-    reload() {
+    reload(key) {
         this.object_cache = {}
         this.loadPresetData(this._original_data)
-        this.loadLocalStorage()
+        this.loadLocalStorage(key)
         this.validateData()
         this._fireUpdateAll()
     }
-    nukeAndReload() {
-        console.log("nuking and reloading")
+    nukeAndReload(key) {
+        console.log("nuking and reloading " + key)
         this.object_cache = {}
-        this.clearLocalStorage()
+        this.clearLocalStorage(key)
         this.loadPresetData(this._original_data)
-        this.loadLocalStorage()
+        this.loadLocalStorage(key)
         this.validateData()
         this._fireUpdateAll()
     }

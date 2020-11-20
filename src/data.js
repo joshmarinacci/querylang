@@ -943,6 +943,7 @@ loadApp({title:"Settings", appid:"SettingsApp", icon:'settings', launchbar:false
 loadApp({title:"Writer", appid:"WriterApp", icon:'create', launchbar:false})
 loadApp({title:'Data', appid:"DataBrowser",icon:'create', launchbar:false})
 loadApp({title:'Files', appid:"FileBrowserApp",icon:'image', launchbar:true})
+loadApp(({title:'2d Game', appid:'IFrameApp',icon:'game',launchbar:true}))
 
 function load_bookmarks() {
     data.push({

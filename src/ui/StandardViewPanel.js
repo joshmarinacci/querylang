@@ -29,12 +29,12 @@ export function StandardViewPanel({object, hide = [], order = [], custom = {}}) 
     let props = new Set()
     Object.keys(schema.props).forEach(id => props.add(id))
     hide.forEach(name => props.delete(name))
-    order.forEach(ord =>{
+    order.forEach((ord,i) =>{
         if(typeof ord === 'string') {
             let name = ord
             let sch = schema.props[name]
-            elems.push(<LineLabel key={'name_' + name} name={name} object={object} hint={custom[name]} schema={sch}/>)
-            elems.push(<ViewLine key={'value_' + name} object={object} schema={sch} name={name} hint={custom[name]}/>)
+            elems.push(<LineLabel key={'name_' + name+'_'+i} name={name} object={object} hint={custom[name]} schema={sch}/>)
+            elems.push(<ViewLine key={'value_' + name+'_'+i} object={object} schema={sch} name={name} hint={custom[name]}/>)
             props.delete(ord)
             return
         }
@@ -50,11 +50,11 @@ export function StandardViewPanel({object, hide = [], order = [], custom = {}}) 
 
     props.forEach((name, i) => {
         let sch = schema.props[name]
-        elems.push(<LineLabel key={'name_' + name} name={name} object={object} hint={custom[name]} schema={sch}/>)
-        elems.push(<ViewLine key={'value_' + name} object={object} schema={sch} name={name} hint={custom[name]}/>)
+        elems.push(<LineLabel key={'name_' + name+'_'+i} name={name} object={object} hint={custom[name]} schema={sch}/>)
+        elems.push(<ViewLine key={'value_' + name+'_'+i} object={object} schema={sch} name={name} hint={custom[name]}/>)
     })
 
-    return <div className={'standard-view-panel'}>{elems}</div>
+    return <div className={'standard-view-panel panel'}>{elems}</div>
 }
 
 function shouldHide(hint, schema, object, name) {
@@ -103,7 +103,7 @@ function ViewLine({name, object, schema, hint}) {
         let subschema = find_array_contents_schema(object, name)
         return <ArrayPanel key={'value_' + name} name={name} array={value} schema={subschema} hint={hint}/>
     }
-    return <b key={'value_' + name}>{propAsString(object, name)}</b>
+    return <b>{propAsString(object, name)}</b>
 }
 
 function ArrayPanel({array, name, schema, hint}) {
@@ -117,14 +117,14 @@ function ArrayPanel({array, name, schema, hint}) {
         let order = hint.order || []
         let props = new Set()
         Object.keys(schema.props).forEach(id => props.add(id))
-        order.forEach(ord => {
+        order.forEach((ord,ii) => {
             if (ord.name) {
                 if (hasProp(object, ord.name)) {
                     if (ord.value_label === true) {
                         elems.push(<label key={'name_' + i}>{propAsString(object, ord.name)}</label>)
                     } else {
                         let sch = schema.props[ord.name]
-                        elems.push(<ViewLine key={'value_' + name + '_' + ord.name} object={object} schema={sch}
+                        elems.push(<ViewLine key={'value_' + name + '_' + ord.name + '_'+i+"_"+ii} object={object} schema={sch}
                                              name={ord.name}/>)
                     }
                 }
@@ -140,11 +140,11 @@ function ArrayPanel({array, name, schema, hint}) {
         Array.from(props).forEach((name, i) => {
             let sch = schema.props[name]
             if (values.indexOf(name) >= 0) {
-                elems.push(<ViewLine key={'value_' + name} object={object} schema={sch} name={name}/>)
+                elems.push(<ViewLine key={'value_' + name + '_'+i} object={object} schema={sch} name={name}/>)
                 return
             }
-            elems.push(<label key={'name_' + name}>{name}</label>)
-            elems.push(<ViewLine key={'value_' + name} object={object} schema={sch} name={name}/>)
+            elems.push(<label key={'name_' + name + '_'+i}>{name}</label>)
+            elems.push(<ViewLine key={'value_' + name + '_'+i} object={object} schema={sch} name={name}/>)
         })
     })
     return elems
