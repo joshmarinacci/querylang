@@ -1,15 +1,14 @@
 import React, {useContext, useState} from 'react'
-import {HBox, Panel, Spacer, TopToolbar, VBox} from '../ui/ui.js'
+import {HBox, Panel, Spacer, Toolbar, TopToolbar, VBox} from '../ui/ui.js'
 import {CATEGORIES, SORTS} from '../schema.js'
 import {DBContext, propAsBoolean, propAsString, sort, useDBChanged} from '../db.js'
 import {AND, IS_CATEGORY, IS_PROP_CONTAINS, IS_TYPE} from '../query2.js'
 import {format, formatDistanceToNow} from "date-fns"
 
-import "./email.css"
 import {calculateFoldersFromTags} from '../util.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {TitleBar} from '../stories/email_example.js'
-import {SourceList} from '../ui/sourcelist.js'
+import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 import Icon from '@material-ui/core/Icon'
 
 export function Email({app }) {
@@ -54,18 +53,36 @@ export function Email({app }) {
 
     return <Grid3Layout>
         <TitleBar title={'Email'}/>
-        <SourceList column={1} secondary data={folders} selected={selectedFolder} setSelected={setSelectedFolder}
-                    renderItem={(obj,i) => <EmailFolder key={i} item={obj}/>}
+        <SourceList
+            column={1} row={2}
+            secondary
+            data={folders}
+            selected={selectedFolder} setSelected={setSelectedFolder}
+            renderItem={({item,...rest})=>{
+                console.log("folders items",item)
+                return <StandardSourceItem
+                    title={propAsString(item,'title')}
+                    icon={propAsString(item,'icon')}
+                    {...rest}/>
+            }}
         />
 
-        <TopToolbar column={2}>
+        <Toolbar>
             <Icon>create</Icon>
             <Icon>delete</Icon>
             <Icon>archive</Icon>
-        </TopToolbar>
+        </Toolbar>
 
-        <SourceList column={2} data={folder_results} selected={selectedMessage} setSelected={setSelectedMessage}
-                    renderItem={(obj,i) => <EmailMessage key={i} message={obj}/>}
+        <SourceList column={2} row={2}
+                    data={folder_results}
+                    selected={selectedMessage} setSelected={setSelectedMessage}
+                    renderItem={({item,...rest}) => {
+                        return <StandardSourceItem {...rest}
+                                                   title={propAsString(item,'sender')}
+                                                   subtitle={propAsString(item,'subject')}
+                                                   trailing_text={formatDistanceToNow(item.props.timestamp)}
+                        />
+                    }}
         />
 
         <TopToolbar column={3}>
@@ -83,7 +100,7 @@ function EmailFolder({item}){
     }
 
     let badge = ""
-    if(item.props.count) {
+    if(item && item.props && item.props.count) {
         badge = <span className={'badge'}>{item.props.count}</span>
     }
 

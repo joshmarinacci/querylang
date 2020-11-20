@@ -17,7 +17,7 @@ export function calculateFoldersFromTags(folders) {
             id:3000+i,
             props: {
                 title:t,
-                icon:'label',
+                icon:'folder',
                 query:true,
                 tag:true,
             }

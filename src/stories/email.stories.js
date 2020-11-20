@@ -1,12 +1,12 @@
 import {DBContext, makeDB} from '../db.js'
 import {PopupContainer, PopupManager, PopupManagerContext} from '../ui/PopupManager.js'
-import {Alarms} from '../apps/alarms.js'
 import React from 'react'
 import "../ui/themetester.css"
+import {Email} from '../apps/email.js'
 
 export default {
     title: 'QueryOS/Apps',
-    component: Alarms,
+    component: Email,
     argTypes: {
     },
 };
@@ -14,10 +14,10 @@ export default {
 let db = makeDB()
 let pm = new PopupManager()
 
-export const AlarmsBasic = () => {
+export const EmailsBasic = () => {
     return <DBContext.Provider value={db}>
         <PopupManagerContext.Provider value={pm}>
-            <Alarms/>
+            <Email/>
             <PopupContainer/>
         </PopupManagerContext.Provider>
     </DBContext.Provider>

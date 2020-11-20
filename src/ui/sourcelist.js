@@ -26,7 +26,7 @@ export function SourceList({data, column=1, row=1, secondary, selected, renderIt
         })}</ul>
 }
 
-export function StandardSourceItem({title, subtitle, icon, trailing_icon, header=false, onDoubleClick, isSelected, onClick}) {
+export function StandardSourceItem({title, subtitle, icon, trailing_icon, trailing_text, header=false, onDoubleClick, isSelected, onClick}) {
     let cls = {
         selected:isSelected,
         header:header,
@@ -36,6 +36,7 @@ export function StandardSourceItem({title, subtitle, icon, trailing_icon, header
         {(!header&&icon)?<Icon>{icon}</Icon>:""}
         {title?<span className={'title'}>{title}</span>:""}
         <Spacer/>
+        {trailing_text?<span className={'trailing_text'}>{trailing_text}</span>:""}
         {(!header&&trailing_icon)?<Icon>{trailing_icon}</Icon>:""}
     </HBox>
 

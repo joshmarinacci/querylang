@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {THEME_SCHEMA, ThemeTester} from "../ui/themetester.js"
 import {DBContext, decode_props_with_types, makeDB, useDBChanged} from '../db.js'
 import "../ui/themetester.css"
-import "../ui/grid3layout.css"
+// import "../ui/grid3layout.css"
 import {PopupContainer, PopupManager, PopupManagerContext} from '../ui/PopupManager.js'
 
 export default {

@@ -6,7 +6,7 @@ import {range} from '../util.js'
 import faker from 'faker'
 
 export function TitleBar({title}) {
-    return <div className={'titlebar'}>
+    return <div className={'titlebar info'}>
         {/*<Icon>settings</Icon>*/}
         {/*<Spacer/>*/}
         {title}

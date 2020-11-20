@@ -97,7 +97,8 @@ export function hasProp(s,key) {
 }
 
 export function propAsBoolean(s, key) {
-    if(!s) return false
+    if(!s || !s.props) return false
+    if(!(key in s.props))   return false
     return Boolean(s.props[key]).valueOf()
 }
 
