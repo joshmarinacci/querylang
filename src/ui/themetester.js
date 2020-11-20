@@ -1,7 +1,7 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {HBox, Toolbar, VBox} from './ui.js'
 import {flatten} from '../util.js'
-import {DBContext, encode_props_with_types} from '../db.js'
+import {DBContext, encode_props_with_types, propAsString} from '../db.js'
 
 import "./themetester.css"
 import {ENUM, INTEGER, STRING} from '../schema.js'
@@ -282,8 +282,7 @@ export function ThemeTester({theme, setTheme, doLoad}) {
     Object.keys(PROPS).forEach(name => {
         let info = PROPS[name]
         if(info.type === INTEGER) {
-            style[name] = `${theme.props[name].value}${info.unit}`
-            console.log("info is",info,style[name])
+            style[name] = `${propAsString(theme,name)}${info.unit}`
             return
         }
         style[name] = theme.props[name]
@@ -325,8 +324,9 @@ export function ThemeTester({theme, setTheme, doLoad}) {
         if(typeof info === 'object') {
             if(info.type === INTEGER) {
                 editors.push(<label>{prop}</label>)
+                let pval = propAsString(theme,'prop')
                 let vv = 10
-                if(theme.props[prop].value) vv = theme.props[prop].value
+                if(pval && 'value' in pval) vv = pval['value']
                 editors.push(<HBox>
                     <input type={'number'} value={vv} onChange={(e)=>{
                     db.setProp(theme,prop,{value:e.target.value})

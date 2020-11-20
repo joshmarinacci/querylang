@@ -9,31 +9,31 @@ html {
     font-size: 50pt;
     font-family: serif;
 }
-.theme-tester .preview {
-    --std-text-color: green;
-    --std-bg-color: green;
-    --std-border-color: green;
-    --bg-dark: darkgreen;
-    --text-dark: darkgreen;
+html {
+    --std-text-color: #151717;
+    --std-bg-color: #ffffff;
+    --std-border-color: #a3a3a3;
+    --bg-dark: #e1e1e1;
 
-    --accent-text-color: darkred;
-    --accent-border-color: darkred;
-    --accent-background-color:red;
+    --accent-text-color: #150a05;
+    --accent-border-color: #f03b16;
+    --accent-background-color:#914141;
 
-    --std-input-bg-color: red;
+    --std-input-bg-color: #f8f8f8;
 
-    --std-padding: 0.5em;
     --std-margin: 0em;
+    --std-line-margin: 0.25em 0.5em;
+    --std-padding: 0em;
     --std-line-padding: 0.25em 0.5em;
-    --std-line-margin: 0 0.25em;
+
     --std-form-margin: 0.25em;
 
     --radius: 0.25em;
 
 
-    --std-font-family: serif;
-    --std-font-size: 11pt;
-    --std-font-weight: 900;
+    --std-font-family: "Source Sans Pro", sans-serif;
+    --std-font-size: 9pt;
+    --std-font-weight: 400;
 
     font-family: var(--std-font-family);
     font-size: var(--std-font-size);
@@ -287,11 +287,13 @@ button:focus, input:focus {
 
 .controls {
     font-size: 11pt;
+    background-color: white;
 }
-.controls button, .controls input {
+.controls button, .controls input, .controls select {
     border: 1px solid black;
     padding: 0.25em 0.5em;
     margin: 0.25em;
+    background-color: white;
 }
 .controls button {
     color: white;
