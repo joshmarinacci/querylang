@@ -1,18 +1,18 @@
-.peoplebar .list {
+.PeopleBar {
     border-width: 0;
+    flex: 1.0;
+    background-color: transparent;
 }
 
-.peoplebar .list li {
+.PeopleBar li {
     display: flex;
     flex-direction: column;
+    border-width: 0;
+    margin: 0.25em;
 }
 
-.peoplebar .list li img {
+.PeopleBar li img {
     border-radius: 1rem;
     padding: 0.25rem;
 }
 
-.peoplebar .list li {
-    border-width: 0;
-    margin: 0.25em;
-}

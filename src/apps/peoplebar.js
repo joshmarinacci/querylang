@@ -1,13 +1,11 @@
 import {DBContext, propAsString} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {Window} from '../ui/ui.js'
 import React, {useContext} from 'react'
 import {AND, IS_CATEGORY, IS_PROP_TRUE, IS_TYPE} from '../query2.js'
 import "./peoplebar.css"
 import {format} from 'date-fns'
 import {utcToZonedTime} from 'date-fns-tz'
 
-const isPropTrue = (prop) => ({ equal: {prop, value:true}})
 
 const PersonView = ({person}) => {
     let tz = propAsString(person,'timezone')
@@ -29,7 +27,7 @@ export function PeopleBar({app}) {
         IS_PROP_TRUE('favorite'),
     ))
 
-    return <ul className={'list'}>{items.map(o => {
+    return <ul>{items.map(o => {
             return <PersonView key={o.id} person={o}/>
         })}</ul>
 }

@@ -13,10 +13,6 @@
     align-items: stretch;
 }
 
-.window {
-    overflow: visible;
-}
-
 .dialog .debug {
     flex: 1;
     font-family: monospace;
