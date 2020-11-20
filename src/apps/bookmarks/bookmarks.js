@@ -128,17 +128,29 @@ export function BookmarksManager({app}) {
     return  <Grid3Layout>
         <TitleBar title={"Bookmarks"}/>
 
-        <SourceList data={queries} selected={selectedQuery} setSelected={setSelectedQuery}
-                    renderItem={(o,i)=> <StandardSourceItem key={i}
-                                                       icon={propAsString(o,'icon')}
-                                                       title={propAsString(o,'title')}/>}/>
+        <SourceList column={1} row={2} data={queries} selected={selectedQuery} setSelected={setSelectedQuery}
+                    renderItem={({item,...args})=> <StandardSourceItem
+                                                       icon={propAsString(item,'icon')}
+                                                       title={propAsString(item,'title')}
+                                                       {...args}
+                    />}/>
         <TopToolbar column={2}>
             <Spacer/>
             <PopupTriggerButton onClick={showSortPopup} makePopup={showSortPopup} title={"Sort"}/>
         </TopToolbar>
 
-        <SourceList column={2} data={bookmarks}  selected={selected} setSelected={setSelected}
-                  renderItem={(o)=> <BookmarkView key={o.id} bookmark={o} onOpen={open_tab}/>}/>
+        <SourceList column={2} row={2} data={bookmarks} selected={selected} setSelected={setSelected}
+                  renderItem={({item, ...args})=> {
+                      let la = "never"
+                      if(hasProp(item,'lastAccessed'))
+                          la = formatDistanceToNow(item.props.lastAccessed) + " ago"
+                      return <StandardSourceItem
+                          icon={'bookmark'}
+                          title={propAsString(item,'title')}
+                          subtitle={propAsArray(item,'tags').join(", ") + " " +la}
+                          onDoubleClick={()=>open_tab(item)}
+                          {...args}/>
+                  }}/>
 
 
         <TopToolbar column={3}>
@@ -190,18 +202,6 @@ function AddDialog({visible, onAdd, draft, db}) {
     </div>
 }
 
-
-function BookmarkView({bookmark, onOpen}) {
-    let la = "never"
-    if(hasProp(bookmark,'lastAccessed'))
-        la = formatDistanceToNow(bookmark.props.lastAccessed) + " ago"
-    return <StandardSourceItem
-        icon={'bookmark'}
-        title={propAsString(bookmark,'title')}
-        subtitle={propAsArray(bookmark,'tags').join(", ") + " " +la}
-        onDoubleClick={()=>onOpen(bookmark)}
-    />
-}
 
 function BookmarkDetailsView({bookmark, onOpen, ...rest}) {
     if(!bookmark) return <Panel {...rest}/>
