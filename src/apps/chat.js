@@ -9,6 +9,7 @@ import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, is
 } from 'date-fns'
 
 import "./chat.css"
+import {Grid2Layout} from '../ui/grid3layout.js'
 
 export function Chat({app}) {
     const [selected, setSelected] = useState(null)
@@ -45,15 +46,15 @@ export function Chat({app}) {
         db.add(alert)
     }
 
-    return <HBox grow>
+    return <Grid2Layout toolbar={false} statusbar={false}>
             <DataList
-                className={'sidebar'}
+                className={'col1 row1'}
                 data={conversations}
                 selected={selected}
                 setSelected={setSelected}
                 stringify={(o) => <StandardListItem title={propAsString(o, 'title')} icon={'chat'}/>}
             />
-            <VBox grow className={'content-panel'}>
+            <VBox grow className={'panel col2 row1'}>
                 <VBox grow scroll>
                 <DataList style={{flex:1}} data={messages} className={'thread'} stringify={(o) => {
                     return <VBox className={(o.props.sender.id===1?"self":"")}>
@@ -78,5 +79,5 @@ export function Chat({app}) {
                     <button>send</button>
                 </Toolbar>
             </VBox>
-        </HBox>
+        </Grid2Layout>
 }

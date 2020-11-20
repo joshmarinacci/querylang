@@ -8,16 +8,16 @@ import {
     HBox,
     Panel,
     RemoveButton,
-    Spacer, StandardListItem,
+    StandardListItem,
     TextPropEditor,
     Toolbar,
-    VBox,
-    Window
+    VBox
 } from '../ui/ui.js'
 import "./contacts.css"
 import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {StandardViewPanel} from '../ui/StandardViewPanel.js'
+import {Grid2Layout} from '../ui/grid3layout.js'
 
 let CONTACTS_VIEW_CUSTOMIZATIONS = {
     'favorite':'star',
@@ -261,18 +261,17 @@ export function ContactList({app}) {
     }
 
 
-    return <HBox grow>
-            <VBox className={"sidebar"}>
-                <Toolbar>
-                    <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
-                    <Icon onClick={addNewContact}>add_circle</Icon>
-                </Toolbar>
-                <DataList data={items} selected={selected} setSelected={setSelected}
-                          stringify={(o,i) => <StandardListItem icon={'person'} title={`${propAsString(o,'first')} ${propAsString(o,'last')}`}/>}/>
-            </VBox>
-            <VBox grow className={"content-panel"}>
-                {panel}
-            </VBox>
-        </HBox>
+    return <Grid2Layout statusbar={false}>
+            <Toolbar className={'col1 span3'}>
+                <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
+                <Icon onClick={addNewContact}>add_circle</Icon>
+            </Toolbar>
+            <DataList data={items} selected={selected} setSelected={setSelected}
+                      className={'col1 row2'}
+                      stringify={(o,i) => <StandardListItem icon={'person'} title={`${propAsString(o,'first')} ${propAsString(o,'last')}`}/>}/>
+              <Panel className={'col2 row2'}>
+                  {panel}
+              </Panel>
+        </Grid2Layout>
 
 }

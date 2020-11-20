@@ -68,6 +68,15 @@ button {
     justify-items: stretch;
     flex: 1.0;
 }
+.grid2 {
+    display: grid;
+    grid-template-columns: 1fr 2.0fr;
+    grid-template-rows: 3em 1fr 2em;
+    grid-gap: 1px;
+    overflow: hidden;
+    justify-items: stretch;
+    flex: 1.0;
+}
 
 .col1 { grid-column: 1; }
 .col2 { grid-column: 2; }
