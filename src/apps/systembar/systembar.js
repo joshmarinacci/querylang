@@ -1,7 +1,7 @@
 import "./systembar.css"
 
 import React, {useContext, useEffect, useState} from 'react'
-import {HBox, Spacer, Toolbar, Window} from '../../ui/ui.js'
+import {Spacer, Toolbar} from '../../ui/ui.js'
 import {DBContext} from '../../db.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../../query2.js'
 import {CATEGORIES} from '../../schema.js'
@@ -35,10 +35,14 @@ export function SystemBar({app}) {
         }
     })
     return <Toolbar grow center>
-        <label className={'clock'}>{format(time,"eee MMM  dd, hh:mm aa")}</label>
+        <div className={'grp'}>
+            <label className={'clock'}>{format(time,"eee MMM  dd, hh:mm aa")}</label>
+        </div>
         <Spacer/>
-        <Icon onClick={()=>launch("CommandBar")}>code</Icon>
-        <Icon onClick={()=>launch("SettingsApp")}>settings</Icon>
-        <Icon onClick={()=>launch("DebugPanel")}>bug_report</Icon>
+        <div className={'grp'}>
+            <Icon onClick={()=>launch("CommandBar")}>code</Icon>
+            <Icon onClick={()=>launch("SettingsApp")}>settings</Icon>
+            <Icon onClick={()=>launch("DebugPanel")}>bug_report</Icon>
+        </div>
     </Toolbar>
 }
