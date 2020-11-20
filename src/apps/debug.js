@@ -19,7 +19,7 @@ export function DebugPanel({app}) {
         appService.launch(apps[0])
     }
 
-    return <VBox className={'content-panel'} grow>
+    return <VBox className={'panel'} grow>
         <button className={'primary'} onClick={()=>{
             db.persist()
             let alert = db.make(CATEGORIES.NOTIFICATION.ID, CATEGORIES.NOTIFICATION.TYPES.ALERT)
