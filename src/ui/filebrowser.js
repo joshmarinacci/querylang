@@ -12,7 +12,7 @@ import {CATEGORIES} from '../schema.js'
 import {Grid2Layout} from './grid3layout.js'
 import {SourceList, StandardSourceItem} from './sourcelist.js'
 
-export function FileBrowser({files, setFiles}) {
+export function FileBrowser({files}) {
     let db = useContext(DBContext)
     useDBChanged(db,CATEGORIES.FILES.ID)
 
@@ -35,7 +35,7 @@ export function FileBrowser({files, setFiles}) {
     }
     return <Grid2Layout>
         <Toolbar className={'col1 span3'}>
-            <button onClick={()=>list_remote_files(db).then(files=>setFiles(files))}>open</button>
+            <button onClick={()=>list_remote_files(db)}>refresh</button>
             <ToggleBar value={view} values={['list','grid']} icons={['list','view_module']} setValue={setView}/>
             <input type={'search'} placeholder={'search name'}/>
             <ActionButton onClick={show_add_dialog} caption={"add file"}/>
@@ -185,9 +185,9 @@ function ToggleBar({value, values, setValue}) {
 
 
 const FILE_SERVER_URL = "http://localhost:30011/files"
+let q = AND(IS_CATEGORY(CATEGORIES.FILES.ID),IS_TYPE(CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE))
 function list_remote_files(db) {
     return fetch(FILE_SERVER_URL).then(r => r.json()).then(real_files => {
-        let q = AND(IS_CATEGORY(CATEGORIES.FILES.ID),IS_TYPE(CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE))
         let info_files = db.QUERY(q)
         console.log("info files",info_files)
         real_files.forEach(f => {
@@ -208,6 +208,7 @@ function list_remote_files(db) {
 }
 
 export function FileBrowserApp({app}) {
-    let [files, setFiles] = useState([])
-    return <FileBrowser files={files} setFiles={setFiles}/>
+    let db = useContext(DBContext)
+    let files = db.QUERY(q)
+    return <FileBrowser files={files}/>
 }
