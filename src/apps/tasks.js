@@ -72,7 +72,7 @@ export function TaskLists({app}) {
     const trashTask = () => db.setProp(selectedTask,'deleted',true)
     const archiveTask = () => db.setProp(selectedTask, 'archived',true)
 
-    return <Grid3Layout>
+    return <Grid3Layout statusbar={false}>
         <TitleBar title={'Tasks'}/>
 
         <SourceList column={1} row={2} data={projects}
