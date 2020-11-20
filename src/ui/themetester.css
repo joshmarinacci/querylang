@@ -72,8 +72,9 @@ button {
 
 .col1 { grid-column: 1; }
 .col2 { grid-column: 2; }
-.row1 { grid-row: 1; }
-.row2 { grid-row: 2; }
+.row1 { grid-row-start: 1; }
+.row2 { grid-row-start: 2; }
+.span3 { grid-column-end: 4; }
 
 .info {
     grid-column: 1;
@@ -236,7 +237,7 @@ button, input {
 
 
 /* =============== colors ============== */
-form, ul, .info, .statusbar, .panel {
+form, ul, .info, .statusbar, .panel, table {
     background-color: var(--std-bg-color);
 }
 li {

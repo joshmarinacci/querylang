@@ -6,7 +6,7 @@ import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_TRUE, IS_TYPE} from '../query2.
 import Icon from '@material-ui/core/Icon'
 import {DataTable} from '../ui/datatable.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
-import {SourceList} from '../ui/sourcelist.js'
+import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 import {TitleBar} from '../stories/email_example.js'
 
 const uniqueBy = (list,propname) => {
@@ -71,8 +71,8 @@ export function ArtistsPanel({artists, db, playSong}) {
     }
 
     return [
-        <SourceList data={artists} column={2} selected={selectedArtist} setSelected={choose}
-                    renderItem={o => <HBox><b>{propAsString(o, 'artist')}</b></HBox>}
+        <SourceList data={artists} column={2} row={2} selected={selectedArtist} setSelected={choose}
+                    renderItem={({item, ...args}) => <StandardSourceItem title={propAsString(item,'artist')} {...args} />}
         />,
         <SongsPanel songs={songs} playSong={playSong} db={db} className={"col3 span3"}/>
     ]
@@ -90,8 +90,8 @@ export function AlbumsPanel({albums, db, playSong}) {
         )))
     }
     return [
-        <SourceList data={albums} column={2} selected={selectedAlbum} setSelected={choose}
-                    renderItem={o => <HBox><b>{propAsString(o,'album')}</b></HBox>}
+        <SourceList data={albums} column={2} row={2} selected={selectedAlbum} setSelected={choose}
+                    renderItem={({item, ...args}) => <StandardSourceItem title={propAsString(item,'album')} {...args} />}
         />,
         <SongsPanel songs={songs} playSong={playSong} db={db} className={'col3 span3'}/>
     ]
@@ -183,11 +183,11 @@ export function Music({app}) {
         IS_TYPE(CATEGORIES.MUSIC.TYPES.GROUP),
         IS_PROP_TRUE('active')))
 
-    let panel = <Panel grow className={'content-panel col2 span3'}>nothing</Panel>
+    let panel = <Panel grow className={'panel col2 row2 span3'}>nothing</Panel>
     if(selectedGroup) {
         if(propAsString(selectedGroup,'title') === 'Songs') {
             let songs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.MUSIC.ID), IS_TYPE(CATEGORIES.MUSIC.TYPES.SONG)))
-            panel = <SongsPanel songs={songs} playSong={setSelectedSong} db={db} className={'col2 span3'}/>
+            panel = <SongsPanel songs={songs} playSong={setSelectedSong} db={db} className={'col2 row2 span3'}/>
         }
         if(propAsString(selectedGroup,'title') === 'Artists') {
             let songs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.MUSIC.ID), IS_TYPE(CATEGORIES.MUSIC.TYPES.SONG)))
@@ -210,13 +210,14 @@ export function Music({app}) {
             <Spacer/>
             <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
         </TopToolbar>
-        <SourceList column={1} data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
+        <SourceList column={1} row={2} data={groups}
+                    selected={selectedGroup} setSelected={setSelectedGroup}
                     secondary
-                    renderItem={(o,i) => <HBox>
-                        <Icon>{propAsString(o,'icon')}</Icon>
-                        <b>{propAsString(o,'title')}</b>
-                    </HBox>}
-        />
+                    renderItem={({item, ...args}) => <StandardSourceItem
+                        icon={propAsString(item,'icon')}
+                        title={propAsString(item,'title')}
+                        {...args}
+                    />}/>
             {panel}
     </Grid3Layout>
 }
