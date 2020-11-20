@@ -1,21 +1,19 @@
 .window {
-    border: 1px solid var(--window-border);
+    border: 1px solid var(--std-border-color);
     display: flex;
     flex-direction: column;
-    /*align-items: stretch;*/
-    /*justify-content: stretch;*/
-    border-radius: 0.5rem 0.5rem 0 0;
+    border-radius: var(--radius);
     overflow: auto;
     position: absolute;
 }
 
 .window > title {
     display: block;
-    background-color: var(--window-titlebar-background-color);
-    color: var(--window-titlebar-text-color);
+    background-color: var(--accent-background-color);
+    color: var(--accent-text-color);
     user-select: none;
     cursor: move;
-    border-radius: 0.5rem 0.5rem 0 0;
+    border-radius: var(--radius) var(--radius) 0 0;
     padding: 0.25em 0.5em;
 }
 
@@ -25,9 +23,6 @@
     color: black;
 }
 
-.window title {
-    /*padding:0;*/
-}
 .window title b {
     padding: 0.25em;
     text-transform: capitalize;
@@ -36,7 +31,6 @@
     margin-right: 0.25rem;
 }
 .window title .close {
-    color:#555;
     margin: 0;
 }
 .window title .close:hover {
@@ -60,15 +54,15 @@
 }
 
 .window .resize-handle:hover {
-    background-color: #888888;
+    background-color: var(--accent-background-color);
 }
 .window.resizing .resize-handle {
-    background-color: #888888;
+    background-color: var(--accent-background-color);
 }
 
 
 .window.resizing {
-    border-color: greenyellow;
+    border-color: var(--accent-background-color);
 }
 
 .window > title {

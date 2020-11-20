@@ -17,7 +17,7 @@ html {
 
     --accent-text-color: #150a05;
     --accent-border-color: #f03b16;
-    --accent-background-color:#914141;
+    --accent-background-color:orange;
 
     --std-input-bg-color: #f8f8f8;
 
@@ -28,7 +28,7 @@ html {
 
     --std-form-margin: 0.25em;
 
-    --radius: 0.25em;
+    --radius: 0.5em;
 
 
     --std-font-family: "Source Sans Pro", sans-serif;
