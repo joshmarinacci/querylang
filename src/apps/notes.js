@@ -65,19 +65,29 @@ export function Notes({app}) {
 
     return <Grid3Layout>
         <TitleBar title={'notes'}/>
-        <SourceList data={groups} selected={selectedGroup} setSelected={setSelectedGroup} column={1} secondary renderItem={renderProject}/>
+        <SourceList data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
+                    column={1} row={2} secondary
+                    renderItem={({item, ...args})=> <StandardSourceItem
+                        icon={propAsString(item,'icon')}
+                        title={propAsString(item,'title')}
+                        {...args} />}/>
 
         <TopToolbar column={2}>
             <input type={'search'} value={searchTerms} onChange={e=>setSearchTerms(e.target.value)}/>
             <Icon onClick={addNewNote}>add_circle</Icon>
         </TopToolbar>
 
-        <SourceList column={2} data={notes} selected={selectedNote} setSelected={setSelectedNote} renderItem={renderNoteSummary}/>
+        <SourceList column={2} row={2} data={notes}
+                    selected={selectedNote} setSelected={setSelectedNote}
+                    renderItem={({item, ...args})=> <StandardSourceItem
+                        icon={'note'}
+                        title={propAsString(item,'title')}
+                        subtitle={formatDistanceToNow(item.props.lastedited)}
+                        {...args} />}/>
 
         <TopToolbar column={3}>
-
         </TopToolbar>
-        <VBox grow className={'content-panel col3 row2'}>
+        <VBox grow className={'panel col3 row2'}>
             <TextPropEditor buffer={selectedNote} prop={'title'} db={db}/>
             <TagsetEditor buffer={selectedNote} prop={'tags'} db={db}/>
             <TextareaPropEditor buffer={selectedNote} prop={'contents'} db={db} grow/>
