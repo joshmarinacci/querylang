@@ -58,7 +58,7 @@
 }
 
 .file-details-view .thumbnail {
-    border: 1px solid black;
+    border: 0px solid black;
     padding: 3px;
     margin: 1rem;
     max-width: 200px;

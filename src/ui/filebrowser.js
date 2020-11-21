@@ -152,11 +152,11 @@ function generate_text_thumb(file, cb) {
 
 function useThumbnail(file) {
     let [data,setData] = useState(null)
-    let major = propAsString(file,'mimetype_major')
+    let mimetype = propAsString(file,'mimetype')
     useEffect(()=>{
         // if(file) console.log("doing the effect", major, file.props.url)
-        if(major === 'text')  return generate_text_thumb(file, (text)=>setData(text))
-        if(major === 'image') return generate_image_thumb(file,(dataurl)=> setData(dataurl))
+        if(mimetype === 'text/plain')  return generate_text_thumb(file, (text)=>setData(text))
+        if(mimetype === 'image/jpeg') return generate_image_thumb(file,(dataurl)=> setData(dataurl))
     })
     return data
 }
@@ -201,7 +201,7 @@ function FilePreview({file}) {
     let preview = ""
     let thumb = useThumbnail(file)
     if(propAsString(file,'mimetype') === 'image/jpeg') preview = <img className={'thumbnail'} src={thumb} alt={"image preview"}/>
-    if(propAsString(file,'mimetype' )=== 'plain/text')  preview = <span className={'thumbnail'}><b>preview</b> {thumb}</span>
+    if(propAsString(file,'mimetype' )=== 'text/plain')  preview = <span className={'thumbnail'}><b>preview</b> {thumb}</span>
     return <div className={'preview'}>{preview}</div>
 }
 
