@@ -1,7 +1,7 @@
 import Icon from '@material-ui/core/Icon'
 import {HBox, Spacer, VBox} from '../ui/ui.js'
 import React from 'react'
-import {propAsBoolean, propAsString} from '../db.js'
+import {hasProp, propAsBoolean, propAsString} from '../db.js'
 import {range} from '../util.js'
 import faker from 'faker'
 
@@ -27,7 +27,7 @@ export function EmailFolder({item}){
     }
 
     let badge = ""
-    if(item.props.count) {
+    if(hasProp(item,'count')) {
         badge = <span className={'badge'}>{item.props.count}</span>
     }
 

@@ -3,6 +3,9 @@ import {HBox, Toolbar, VBox} from '../ui/ui.js'
 import {genid} from '../data.js'
 import {flatten} from '../util.js'
 import {FILE_INFO, FileBrowser, FILES} from '../ui/filebrowser.js'
+import {DBContext, makeDB} from '../db.js'
+import {PopupContainer, PopupManager, PopupManagerContext} from '../ui/PopupManager.js'
+import {Calendar} from '../apps/calendar.js'
 
 export default {
     title: 'QueryOS/FileBrowser',
@@ -90,7 +93,16 @@ function gen_local_files() {
 
 
 
+let db = makeDB()
+let pm = new PopupManager()
+
 export const FileBrowserSimple = () => {
     let [files,setFiles] = useState(()=>gen_local_files())
-    return <FileBrowser files={files}/>
+    return <DBContext.Provider value={db}>
+        <PopupManagerContext.Provider value={pm}>
+            <FileBrowser files={files}/>
+            <PopupContainer/>
+        </PopupManagerContext.Provider>
+    </DBContext.Provider>
+
 }
