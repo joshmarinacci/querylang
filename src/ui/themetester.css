@@ -330,7 +330,13 @@ button:focus, input:focus {
 .grid, .grid2 {
     background-color: var(--std-border-color);
 }
-
+#root {
+    border: 0px solid red;
+    box-sizing: border-box;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
 /* ========= more to organize ========== */
 .sidebar, .info, .statusbar {
