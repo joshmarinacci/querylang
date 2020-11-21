@@ -51,10 +51,10 @@
 
 
 .file-details-view {
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*align-items: center;*/
-    /*max-width: 30rem;*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 30rem;
 }
 
 .file-details-view .thumbnail {
@@ -63,4 +63,20 @@
     margin: 1rem;
     max-width: 200px;
     max-height: 200px;
+}
+
+
+.file-details-view .filename {
+    /*border: 5px solid red;*/
+    padding: 2em;
+}
+.file-details-view .preview {
+    min-width: 8em;
+    min-height: 5em;
+    background-color: #888888;
+}
+.file-details-view .actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }

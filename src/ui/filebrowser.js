@@ -161,19 +161,48 @@ function useThumbnail(file) {
     return data
 }
 
+function calculateActions(file) {
+    let actions = []
+    if(propAsString(file,'mimetype') === 'audio/mp3') {
+        actions.push(<ActionButton caption={'play'}/>)
+        actions.push(<ActionButton caption={'convert to WAV'}/>)
+        actions.push(<ActionButton caption={'add to Music Library'}/>)
+    }
+    if(propAsString(file,'mimetype')=== 'image/jpeg') {
+        actions.push(<ActionButton caption={"convert to PNG"}/>)
+        actions.push(<ActionButton caption={"mark as headshot"}/>)
+        actions.push(<ActionButton caption={"mark as desktop wallpaper"}/>)
+        actions.push(<ActionButton caption={"edit"}/>)
+    }
+    if(propAsString(file,'mimetype')=== 'image/png') {
+        actions.push(<ActionButton caption={"convert to JPEG"}/>)
+    }
+    if(propAsString(file,'mimetype')=== 'plain/text') {
+        actions.push(<ActionButton caption={"open in Writer"}/>)
+    }
+    actions.push(<ActionButton caption={"send to phone"}/>)
+    actions.push(<ActionButton caption={"send to chat"}/>)
+    actions.push(<ActionButton caption={"share on web"}/>)
+    actions.push(<ActionButton caption={"email"}/>)
+    return actions
+}
+
 function FileDetailsView({file}) {
-    // all data in props using a standard object viewer
-    // plus an image thumbnail if relevant
-    let thumb = useThumbnail(file)
     if(!file) return <div className={'panel file-details col2 row2'}>nothing selected</div>
+    return <div className={'file-details-view panel col2 row2'}>
+        <span className={'filename'}>{propAsString(file,'filename')}</span>
+        <FilePreview file={file}/>
+        <TagsetEditor buffer={file} prop={'tags'}/>
+        <div className={'actions'}>{calculateActions(file)}</div>
+    </div>
+}
+
+function FilePreview({file}) {
     let preview = ""
+    let thumb = useThumbnail(file)
     if(propAsString(file,'mimetype') === 'image/jpeg') preview = <img className={'thumbnail'} src={thumb} alt={"image preview"}/>
     if(propAsString(file,'mimetype' )=== 'plain/text')  preview = <span className={'thumbnail'}><b>preview</b> {thumb}</span>
-    return <div className={'file-details-view panel col2 row2'}>
-        {propAsString(file,'filename')}
-        {preview}
-        <TagsetEditor buffer={file} prop={'tags'}/>
-    </div>
+    return <div className={'preview'}>{preview}</div>
 }
 
 function ToggleBar({value, values, setValue}) {

@@ -2,10 +2,11 @@ import React, {useState} from 'react'
 import {HBox, Toolbar, VBox} from '../ui/ui.js'
 import {genid} from '../data.js'
 import {flatten} from '../util.js'
-import {FILE_INFO, FileBrowser, FILES} from '../ui/filebrowser.js'
+import {FileBrowser} from '../ui/filebrowser.js'
 import {DBContext, makeDB} from '../db.js'
 import {PopupContainer, PopupManager, PopupManagerContext} from '../ui/PopupManager.js'
 import {Calendar} from '../apps/calendar.js'
+import {CATEGORIES} from '../schema.js'
 
 export default {
     title: 'QueryOS/FileBrowser',
@@ -19,15 +20,14 @@ function gen_local_files() {
     let data = []
     data.push({
         id:genid('file-meta'),
-        category:FILES,
-        type:FILE_INFO,
+        category:CATEGORIES.FILES.ID,
+        type:CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
         props: {
             creation_date: new Date(2001),
             modified_date: new Date(2020,10),
             filename:'retro_beach.jpg',
             tags:['wallpaper'],
-            mimetype_major:'image',
-            mimetype_minor:'jpeg',
+            mimetype:'image/jpeg',
             url:"https://apps.josh.earth/images/retro_beach.jpg",
             filesize:-1,
             type_info:{
@@ -45,14 +45,13 @@ function gen_local_files() {
 
     data.push({
         id:genid('file-meta'),
-        category:FILES,
-        type:FILE_INFO,
+        category:CATEGORIES.FILES.ID,
+        type:CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
         props: {
             creation_date: new Date(2001),
             modified_date: new Date(2020,11),
             tags:['history'],
-            mimetype_major:'image',
-            mimetype_minor:'jpeg',
+            mimetype:'image/jpeg',
             filename:'car_linaeus.jpg',
             url:"https://apps.josh.earth/images/car_linnaeus.jpg",
             filesize:-1,
@@ -71,14 +70,13 @@ function gen_local_files() {
 
     data.push({
         id:genid('file-meta'),
-        category:FILES,
-        type:FILE_INFO,
+        category:CATEGORIES.FILES.ID,
+        type:CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
         props: {
             creation_date: new Date(2001),
             modified_date: new Date(2020,11),
             tags:['history'],
-            mimetype_major:'text',
-            mimetype_minor:'plain',
+            mimetype:'text/plain',
             filename:'const.txt',
             url:"https://www.usconstitution.net/const.txt",
             filesize:-1,
