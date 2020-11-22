@@ -12,9 +12,12 @@ import {CATEGORIES} from '../schema.js'
 import {Grid2Layout} from './grid3layout.js'
 import {SourceList, StandardSourceItem} from './sourcelist.js'
 
-export function FileBrowser({files}) {
+export function FileBrowser({}) {
     let db = useContext(DBContext)
     useDBChanged(db,CATEGORIES.FILES.ID)
+
+    let files = db.QUERY(AND(IS_CATEGORY(CATEGORIES.FILES.ID),
+        IS_TYPE(CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE)))
 
     let [view,setView] = useState("list")
     let [file,setFile] = useState(null)
@@ -52,11 +55,15 @@ export function FileBrowser({files}) {
 const get_mimetype_major = (str) => str.substring(0,str.indexOf("/"))
 const is_image_mimetype = (str) => (get_mimetype_major(str)==='image')
 const is_plaintext_mimetype = (str) => (str==='text/plain')
+const is_audio_mimetype = (str) => (get_mimetype_major(str)==='audio')
+const is_unknown_mimetype = (str) => (str==='application/octet-stream')
 
 function calculateIcon(file) {
     let mt = propAsString(file,'mimetype')
     if(is_image_mimetype(mt)) return 'image'
     if(is_plaintext_mimetype(mt)) return 'text_snippet'
+    if(is_audio_mimetype(mt)) return 'audiotrack'
+    if(is_unknown_mimetype(mt)) return "?"
     return 'file'
 }
 
