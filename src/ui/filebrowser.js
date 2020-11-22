@@ -197,10 +197,11 @@ function FileDetailsView({file}) {
     </div>
 }
 
+let MIMETYPE = CATEGORIES.FILES.SCHEMAS.FILE_INFO.props.mimetype.key
 function FilePreview({file}) {
     let preview = ""
     let thumb = useThumbnail(file)
-    if(propAsString(file,'mimetype') === 'image/jpeg') preview = <img className={'thumbnail'} src={thumb} alt={"image preview"}/>
+    if(propAsString(file,MIMETYPE) === 'image/jpeg') preview = <img className={'thumbnail'} src={thumb} alt={"image preview"}/>
     if(propAsString(file,'mimetype' )=== 'text/plain')  preview = <span className={'thumbnail'}><b>preview</b> {thumb}</span>
     return <div className={'preview'}>{preview}</div>
 }
