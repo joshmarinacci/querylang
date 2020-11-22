@@ -2,6 +2,17 @@ import {propAsString} from '../db.js'
 import React, {useEffect, useState} from 'react'
 import {CATEGORIES} from '../schema.js'
 let MIMETYPE = CATEGORIES.FILES.SCHEMAS.FILE_INFO.props.mimetype.key
+
+let DATA_CACHE = {}
+
+function ImagePreview({file}) {
+    let [data,setData] = useState(null)
+    useEffect(()=>{
+        generate_image_thumb(file,(url)=> setData(url))
+    },[file])
+    return <img className={'thumbnail'} src={data}/>
+}
+
 function generate_image_thumb(file, cb) {
     if(DATA_CACHE[file.props.url]) return cb(DATA_CACHE[file.props.url])
 
@@ -40,7 +51,14 @@ function generate_image_thumb(file, cb) {
             img3.src = blob_url
         })
 }
-let DATA_CACHE = {}
+
+function TextPreview({file}) {
+    let [data,setData] = useState(null)
+    useEffect(()=>{
+        generate_text_thumb(file,(url)=> setData(url))
+    },[file])
+    return <span className={'thumbnail'}><b>preview</b> {data}</span>
+}
 
 function generate_text_thumb(file, cb) {
     if(DATA_CACHE[file.props.url]) return cb(DATA_CACHE[file.props.url])
@@ -59,23 +77,16 @@ function generate_text_thumb(file, cb) {
     })
 }
 
-function useThumbnail(file) {
-    let [data,setData] = useState(null)
-    let mimetype = propAsString(file,'mimetype')
-    useEffect(()=>{
-        // if(file) console.log("doing the effect", major, file.props.url)
-        if(mimetype === 'text/plain')  return generate_text_thumb(file, (text)=>setData(text))
-        if(mimetype === 'image/jpeg') return generate_image_thumb(file,(dataurl)=> setData(dataurl))
-    })
-    return data
+
+function AudioPreview({file}) {
+    return <audio className={'thumbnail'} src={propAsString(file,'url')} controls={true}/>
 }
 
-
 export function FilePreview({file}) {
-    let preview = ""
-    let thumb = useThumbnail(file)
-    if(propAsString(file,MIMETYPE) === 'image/jpeg') preview = <img className={'thumbnail'} src={thumb} alt={"image preview"}/>
-    if(propAsString(file,'mimetype' )=== 'text/plain')  preview = <span className={'thumbnail'}><b>preview</b> {thumb}</span>
-    return <div className={'preview'}>{preview}</div>
+    let mimetype = propAsString(file,MIMETYPE)
+    if(mimetype === 'image/jpeg') return <ImagePreview file={file}/>
+    if(mimetype === 'text/plain') return <TextPreview file={file}/>
+    if(mimetype === 'audio/mpeg') return <AudioPreview file={file}/>
+    return <div className={'preview'}>no preview</div>
 }
 
