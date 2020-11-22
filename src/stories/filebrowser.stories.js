@@ -1,12 +1,8 @@
-import React, {useState} from 'react'
-import {HBox, Toolbar, VBox} from '../ui/ui.js'
-import {genid} from '../data.js'
-import {flatten} from '../util.js'
+import React from 'react'
 import {FileBrowser} from '../ui/filebrowser.js'
 import {DBContext, makeDB} from '../db.js'
 import {PopupContainer, PopupManager, PopupManagerContext} from '../ui/PopupManager.js'
-import {Calendar} from '../apps/calendar.js'
-import {CATEGORIES} from '../schema.js'
+import {DialogContainer, DialogManager, DialogManagerContext} from '../ui/DialogManager.js'
 
 export default {
     title: 'QueryOS/FileBrowser',
@@ -18,12 +14,16 @@ export default {
 
 let db = makeDB()
 let pm = new PopupManager()
+let dm = new DialogManager()
 
 export const FileBrowserSimple = () => {
     return <DBContext.Provider value={db}>
         <PopupManagerContext.Provider value={pm}>
-            <FileBrowser/>
-            <PopupContainer/>
+            <DialogManagerContext.Provider value={dm}>
+                <FileBrowser/>
+                <PopupContainer/>
+                <DialogContainer/>
+            </DialogManagerContext.Provider>
         </PopupManagerContext.Provider>
     </DBContext.Provider>
 

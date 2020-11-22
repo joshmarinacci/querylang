@@ -12,9 +12,25 @@ import {CATEGORIES} from '../schema.js'
 import {Grid2Layout} from './grid3layout.js'
 import {SourceList, StandardSourceItem} from './sourcelist.js'
 import {FilePreview} from './filepreview.js'
+import {PopupManager, PopupManagerContext} from './PopupManager.js'
+import {DialogManagerContext} from './DialogManager.js'
 
+function Dialog({title,children,...rest}) {
+    return <div className={'dialog'} {...rest}>
+        <h1>{title}</h1>
+        {children}
+    </div>
+}
+function AddRemoteFileDialog({onDone}) {
+    let [url, setUrl] = useState("")
+    return <Dialog title={'add a remote file by url'}>
+        <input type={"text"} value={url} onChange={(e)=>setUrl(e.target.value)}/>
+        <button onClick={()=>onDone(url)}>done</button>
+    </Dialog>
+}
 export function FileBrowser({}) {
     let db = useContext(DBContext)
+    let dm = useContext(DialogManagerContext)
     useDBChanged(db,CATEGORIES.FILES.ID)
 
     let files = db.QUERY(AND(IS_CATEGORY(CATEGORIES.FILES.ID),
@@ -27,6 +43,10 @@ export function FileBrowser({}) {
     if(view === 'grid') panel =  <FileGrid files={files} selected={file} setSelected={setFile}/>
     let show_add_dialog = () => {
         console.log("you can add a file !")
+        dm.show(<AddRemoteFileDialog onDone={url => {
+            dm.hide()
+            console.log("need to add the url",url)
+        }}/>)
     }
 
     let set_wallpaper = () => {
