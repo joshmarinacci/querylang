@@ -5,6 +5,7 @@ import "../ui/themetester.css"
 import {PopupContainer, PopupManager, PopupManagerContext} from '../ui/PopupManager.js'
 import {CATEGORIES} from '../schema.js'
 import {NewsReader} from '../apps/NewsReader.js'
+import {DialogContainer, DialogManager, DialogManagerContext} from '../ui/DialogManager.js'
 
 export default {
     title: 'QueryOS/NewsReader',
@@ -37,11 +38,19 @@ function generate_data(db) {
     db.setProp(post2,'post_date',new Date(2020,10,15))
     db.setProp(post2,'read',false)
     db.add(post2)
+
+    let sub2 = db.make(CATEGORIES.RSS.ID, CATEGORIES.RSS.SCHEMAS.SUBSCRIPTION.TYPE)
+    db.setProp(sub2,'title','ARS')
+    db.setProp(sub2,'url',"http://feeds.arstechnica.com/arstechnica/index/")
+    db.setProp(sub2, 'tags',['nasa','space'])
+    db.add(sub2)
+
 }
 
 
 let db = makeDB()
 let pm = new PopupManager()
+let dm = new DialogManager()
 
 export const NewsReaderSimple = () => {
     useState(()=>{
@@ -52,8 +61,11 @@ export const NewsReaderSimple = () => {
 
     return <DBContext.Provider value={db}>
         <PopupManagerContext.Provider value={pm}>
-            <NewsReader/>
-            <PopupContainer/>
+            <DialogManagerContext.Provider value={dm}>
+                <NewsReader/>
+                <PopupContainer/>
+                <DialogContainer/>
+            </DialogManagerContext.Provider>
         </PopupManagerContext.Provider>
     </DBContext.Provider>
 

@@ -1,3 +1,7 @@
 li.unread  {
     font-weight: bold;
 }
+
+li .summary img {
+    max-width: 100%;
+}

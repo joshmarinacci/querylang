@@ -7,15 +7,18 @@ import {Grid3Layout} from '../ui/grid3layout.js'
 import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 
 import {format} from "date-fns"
-import {Toolbar} from '../ui/ui.js'
+import {Panel, Toolbar} from '../ui/ui.js'
 import {flatten} from '../util.js'
 import "./NewsReader.css"
+import {DialogManagerContext} from '../ui/DialogManager.js'
+import dompurify from 'dompurify';
+
 
 const RSS_SERVER_URL = "http://localhost:30011/rss"
 
-function refresh (db, subs) {
+function refresh (db) {
     console.log("parsing feed")
-    console.log("refreshing subscriptions",subs)
+    let subs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.RSS.ID), IS_TYPE(CATEGORIES.RSS.SCHEMAS.SUBSCRIPTION.TYPE)))
     subs.map(sub => {
         let url = `${RSS_SERVER_URL}?url=${propAsString(sub,'url')}`;
         return fetch(url).then(r => r.json()).then(d => {
@@ -42,7 +45,7 @@ function refresh (db, subs) {
                     db.setProp(post,'guid',p.guid)
                     db.setProp(post,'url',p.permalink)
                     db.setProp(post,'post_date',new Date(p.date))
-                    db.setProp(post,'summary',p.summary)
+                    db.setProp(post,'summary',p.description)
                     db.add(post)
                     // console.log("added post",post)
                 }
@@ -51,8 +54,29 @@ function refresh (db, subs) {
     })
 }
 
+function SimpleDialog({title="unnamed dialog", children}) {
+    return <div className={"dialog"}>
+        <h1>{title}</h1>
+        {children}
+    </div>
+}
+
+function AddFeedDialog({onDone, onCancel}) {
+    let [url,set_url] = useState("")
+    return <SimpleDialog title={"Add RSS Feed"}>
+        <Panel>
+            <input type={"text"} placeholder={"url of rss feed here"} value={url} onChange={e => set_url(e.target.value)}/>
+        </Panel>
+        <Toolbar>
+            <button onClick={onCancel}>cancel</button>
+            <button onClick={()=>onDone(url)}>add</button>
+        </Toolbar>
+    </SimpleDialog>
+}
+
 export function NewsReader({}) {
     let db = useContext(DBContext)
+    let dm = useContext(DialogManagerContext)
     useDBChanged(db,CATEGORIES.RSS.ID)
     let [post, set_post] = useState(null)
     let [sub, set_sub] = useState(null)
@@ -65,10 +89,21 @@ export function NewsReader({}) {
             db.setProp(post,'read',true)
         }
     }
+    const add_feed= () =>{
+        dm.show(<AddFeedDialog onCancel={()=>dm.hide()} onDone={(url)=>{
+            console.log("adding",url)
+            let sub = db.make(CATEGORIES.RSS.ID, CATEGORIES.RSS.SCHEMAS.SUBSCRIPTION.TYPE)
+            db.setProp(sub,'url',url)
+            db.add(sub)
+            refresh(db)
+            dm.hide()
+        }}/> )
+    }
     return <Grid3Layout>
         <div className={'col1 row1'}>news</div>
         <Toolbar>
-            <button onClick={()=>refresh(db,subs)}>refresh</button>
+            <button onClick={()=>refresh(db)}>refresh</button>
+            <button onClick={()=>add_feed()}>add feed</button>
         </Toolbar>
         <SourceList column={1} row={2} data={subs} selected={sub} setSelected={set_sub}
                     renderItem={({item,...rest})=>{
@@ -95,12 +130,18 @@ function PostPanel({post, className}) {
         panel:true,
         read:propAsBoolean(post,'read')
     }
+
+    const sum = propAsString(post,'summary')
+    // console.log("summary",sum)
+    const html = dompurify.sanitize(sum)
+    // console.log("html is",html)
+
     return <div className={flatten(cls)+" "+className}>this is a post
         <h3>{propAsString(post,'title')}</h3>
         <h4>{format(post.props.post_date,'MMM d')}</h4>
         <b>read = {propAsBoolean(post,'read')?"true":"false"}</b>
         <button>original</button>
         <a target="_blank" href={propAsString(post,'url')}>{propAsString(post,'url')}</a>
-        <div className={'summary'}>{propAsString(post,'summary')}</div>
+        <div className={'summary'} dangerouslySetInnerHTML={{__html: html}}/>
     </div>
 }
