@@ -105,7 +105,6 @@ export function NewsReader({}) {
     }
     const add_feed= () =>{
         dm.show(<AddFeedDialog onCancel={()=>dm.hide()} onDone={(url)=>{
-            console.log("adding",url)
             let sub = db.make(CATEGORIES.RSS.ID, CATEGORIES.RSS.SCHEMAS.SUBSCRIPTION.TYPE)
             db.setProp(sub,'url',url)
             db.add(sub)
@@ -150,7 +149,7 @@ function PostPanel({post, className}) {
     const html = dompurify.sanitize(sum)
     // console.log("html is",html)
 
-    return <div className={flatten(cls)+" "+className}>this is a post
+    return <div className={flatten(cls)+" "+className}>
         <h3>{propAsString(post,'title')}</h3>
         <h4>{format(post.props.post_date,'MMM d')}</h4>
         <b>read = {propAsBoolean(post,'read')?"true":"false"}</b>

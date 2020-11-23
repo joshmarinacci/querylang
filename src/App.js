@@ -31,12 +31,15 @@ import {SystemBar} from './apps/systembar/systembar.js'
 import {Window, WindowManager, WindowManagerContext} from './ui/window.js'
 import {FileBrowserApp} from './ui/filebrowser.js'
 import {IFrameApp} from './apps/IframeApp.js'
+import {NewsReader} from './apps/NewsReader.js'
+import {DialogContainer, DialogManager, DialogManagerContext} from './ui/DialogManager.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
 let alarm_service = new AlarmService(db_service)
 let pm = new PopupManager()
 let wm = new WindowManager()
+let dm = new DialogManager()
 
 function App() {
 
@@ -92,12 +95,18 @@ function App() {
     if(appid === 'DataBrowser') return <DataBrowser app={app}/>
     if(appid === 'FileBrowserApp') return <FileBrowserApp app={app}/>
     if(appid === 'IFrameApp') return <IFrameApp app={app}/>
+    if(appid === 'NewsReader') return <NewsReader app={app}/>
 
     return <div>app not found <b>{appid}</b></div>
   }
 
   let ins = apps.map((app,i) => {
-    return <Window key={app.props.appid} app={app}>{makeApp(app)}</Window>
+    return <Window key={app.props.appid} app={app}>
+      <DialogManagerContext.Provider value={dm}>
+        {makeApp(app)}
+        <DialogContainer/>
+      </DialogManagerContext.Provider>
+    </Window>
   })
 
   return <div className={'os-background'}>

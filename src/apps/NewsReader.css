@@ -1,6 +1,10 @@
+div.post {
+    border: 5px solid red;
+    overflow: auto;
+}
 li.unread  {
     font-weight: bold;
 }
-div.summary img {
+div.summary img, div.summary video {
     max-width: 100%;
 }
