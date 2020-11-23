@@ -690,6 +690,11 @@ const RSS = {
                     type: STRING,
                     default:""
                 },
+                description:{
+                    key:'description',
+                    type: STRING,
+                    default:""
+                },
                 tags:{
                     key:'tags',
                     type: ARRAY,

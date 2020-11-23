@@ -26,7 +26,7 @@ export function SourceList({data, column=1, row=1, secondary, selected, renderIt
         })}</ul>
 }
 
-export function StandardSourceItem({title, subtitle, icon, trailing_icon, trailing_text, header=false, onDoubleClick, isSelected, onClick}) {
+export function StandardSourceItem({title, subtitle, icon, trailing_icon, trailing_text, header=false, onDoubleClick, isSelected, onClick, className=""}) {
     let cls = {
         selected:isSelected,
         header:header,
@@ -49,7 +49,7 @@ export function StandardSourceItem({title, subtitle, icon, trailing_icon, traili
             </HBox>
     }
     return <li onDoubleClick={onDoubleClick}
-               className={flatten(cls)}
+               className={flatten(cls) + " " + className}
                onClick={onClick}
     >
         <VBox grow>
