@@ -674,6 +674,69 @@ export const CATEGORIES = {
     }
 }
 
+const RSS = {
+    ID:'RSS',
+    SCHEMAS:{
+        SUBSCRIPTION:{
+            TYPE:'SUBSCRIPTION',
+            props:{
+                title:{
+                    key:'title',
+                    type: STRING,
+                    default:""
+                },
+                url:{
+                    key:'url',
+                    type: STRING,
+                    default:""
+                },
+                tags:{
+                    key:'tags',
+                    type: ARRAY,
+                    content: {
+                        type:STRING
+                    },
+                    default:[],
+                }
+            }
+        },
+        POST:{
+            TYPE:'POST',
+            props: {
+                title:{
+                    key:'title',
+                    type: STRING,
+                    default:""
+                },
+                subscription: {
+                    key:'subscription',
+                },
+                url:{
+                    key:'title',
+                    type: STRING,
+                    default:""
+                },
+                post_date: {
+                    key:'title',
+                    type: TIMESTAMP,
+                    default:()=>new Date()
+                },
+                read: {
+                    key:'read',
+                    type: BOOLEAN,
+                    default:false,
+                },
+                summary:{
+                    key:'summary',
+                    type: STRING,
+                    default:'no summary available',
+                }
+            }
+        }
+    }
+}
+CATEGORIES.RSS = RSS
+
 const SCHEMAS = {}
 Object.values(CATEGORIES).forEach(val => {
     if(val.SCHEMAS) {
@@ -781,3 +844,6 @@ export function makeNewObject(type, category, customSchema) {
     // console.log("made new object of type",type,obj)
     return obj
 }
+
+
+
