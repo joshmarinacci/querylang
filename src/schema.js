@@ -712,12 +712,17 @@ const RSS = {
                     key:'subscription',
                 },
                 url:{
-                    key:'title',
+                    key:'url',
+                    type: STRING,
+                    default:""
+                },
+                guid:{
+                    key:'guid',
                     type: STRING,
                     default:""
                 },
                 post_date: {
-                    key:'title',
+                    key:'post_date',
                     type: TIMESTAMP,
                     default:()=>new Date()
                 },

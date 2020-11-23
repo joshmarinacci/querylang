@@ -17,8 +17,8 @@ export default {
 function generate_data(db) {
     let sub = db.make(CATEGORIES.RSS.ID, CATEGORIES.RSS.SCHEMAS.SUBSCRIPTION.TYPE)
     db.setProp(sub,'title','VR News')
-    db.setProp(sub,'url',"some url")
-    db.setProp(sub, 'tags',['tech','vr'])
+    db.setProp(sub,'url',"https://www.nasa.gov/rss/dyn/breaking_news.rss")
+    db.setProp(sub, 'tags',['nasa','space'])
     db.add(sub)
 
     let post = db.make(CATEGORIES.RSS.ID, CATEGORIES.RSS.SCHEMAS.POST.TYPE)
