@@ -15,9 +15,10 @@
     flex-direction: row;
     padding: 0.5em;
     margin:0;
-    border: 1px solid black;
+    border: 1px solid var(--std-border-color);
     border-radius: 1em;
-    background-color: #ddd;
+    background-color: var(--std-bg-color);
+    color: var(--std-text-color);
 }
 .SystemBar .grp > * {
 }
