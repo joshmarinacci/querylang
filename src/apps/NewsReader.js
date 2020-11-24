@@ -29,6 +29,7 @@ dompurify.addHook('afterSanitizeAttributes', function (node) {
 
 
 const RSS_SERVER_URL = "http://localhost:30011/rss"
+const SCAN_SERVER_URL = "http://localhost:30011/scan"
 
 function refresh (db) {
     console.log("parsing feed")
@@ -77,9 +78,25 @@ function SimpleDialog({title="unnamed dialog", children}) {
 
 function AddFeedDialog({onDone, onCancel}) {
     let [url,set_url] = useState("")
+    const doScan = () => {
+        console.log("scanning", url)
+        let furl = `${SCAN_SERVER_URL}?url=${url}`;
+        console.log("fetching", furl)
+        return fetch(furl).then(r => r.json()).then(d => {
+            console.log("results are",d)
+            if(d.mimetype && d.mimetype.startsWith("text/html")) {
+                console.log("it's a webpage")
+                if(d.feed) {
+                    console.log("has a feed",d.feed)
+                    set_url(d.feed)
+                }
+            }
+        })
+    }
     return <SimpleDialog title={"Add RSS Feed"}>
         <Panel>
             <input type={"text"} placeholder={"url of rss feed here"} value={url} onChange={e => set_url(e.target.value)}/>
+            <button onClick={doScan}>scan</button>
         </Panel>
         <Toolbar>
             <button onClick={onCancel}>cancel</button>
