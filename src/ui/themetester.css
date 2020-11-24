@@ -36,9 +36,26 @@ html {
     --std-font-size: 9pt;
     --std-font-weight: 400;
 
+    /* dark mode */
+    /*
+    --std-text-color: #888;
+    --std-bg-color: #222;
+    --std-border-color: #000;
+    --bg-dark: #666;
+
+    --accent-text-color: #ccc;
+    --accent-border-color: #353535;
+    --accent-background-color: #9b3808;
+
+    --std-input-bg-color: #444;
+    --std-font-weight: 300;
+    --std-font-size: 20pt;
+    */
+
     font-family: var(--std-font-family);
     font-size: var(--std-font-size);
     font-weight: var(--std-font-weight);
+    color: var(--std-text-color);
 }
 
 
@@ -172,9 +189,10 @@ li {
     margin: var(--std-line-margin);
 }
 
-button, input, select {
+button, input, select, textarea {
     padding: var(--std-line-padding);
     margin:var(--std-margin);
+    font-size: var(--std-font-size);
 }
 
 .toggle-group {
@@ -266,9 +284,10 @@ button, input, select {
     border: 1px solid var(--std-border-color);
     color: var(--std-text-color);
 }
-input, select {
+input, select, textarea {
     background-color: var(--std-input-bg-color);
 }
+
 
 button.primary {
     background-color: var(--accent-background-color);
@@ -336,6 +355,7 @@ button:focus, input:focus {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    background-color: var(--std-bg-color);
 }
 
 /* ========= more to organize ========== */
