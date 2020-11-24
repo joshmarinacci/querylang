@@ -15,7 +15,20 @@ export function SourceList({data, column=1, row=1, secondary, selected, renderIt
     }
     let cls = `source-list col${column} row${row} ${className}`
     if(secondary) cls += ' secondary'
-    return <ul className={cls}>{data.map((o,i)=> {
+    return <ul className={cls}
+               onKeyDown={e=>{
+                   // console.log("Key event",e.key)
+                   let i = data.findIndex(d => d.id === selected.id)
+                   if(e.key === 'ArrowDown') {
+                       setSelected(data[i+1])
+                       e.preventDefault()
+                   }
+                   if(e.key === 'ArrowUp') {
+                       setSelected(data[i-1])
+                       e.preventDefault()
+                   }
+               }}
+    >{data.map((o,i)=> {
         let args = {
             item:o,
             key:i,
@@ -50,7 +63,7 @@ export function StandardSourceItem({title, subtitle, icon, trailing_icon, traili
     }
     return <li onDoubleClick={onDoubleClick}
                className={flatten(cls) + " " + className}
-               onClick={onClick}
+               onClick={onClick} tabIndex={0}
     >
         <VBox grow>
             {row1}
