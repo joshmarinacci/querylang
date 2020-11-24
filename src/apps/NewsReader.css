@@ -1,5 +1,5 @@
 div.post {
-    border: 5px solid red;
+    border: 0px solid red;
     overflow: auto;
 }
 li.unread  {
@@ -7,4 +7,12 @@ li.unread  {
 }
 div.summary img, div.summary video {
     max-width: 100%;
+}
+
+div.podcast {
+    border: 0px solid red;
+}
+div.podcast img {
+    max-width: 100%;
+    max-height: 256px;
 }

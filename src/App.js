@@ -33,6 +33,7 @@ import {FileBrowserApp} from './ui/filebrowser.js'
 import {IFrameApp} from './apps/IframeApp.js'
 import {NewsReader} from './apps/NewsReader.js'
 import {DialogContainer, DialogManager, DialogManagerContext} from './ui/DialogManager.js'
+import {PodcastPlayer} from './apps/PodcastPlayer.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
@@ -96,6 +97,7 @@ function App() {
     if(appid === 'FileBrowserApp') return <FileBrowserApp app={app}/>
     if(appid === 'IFrameApp') return <IFrameApp app={app}/>
     if(appid === 'NewsReader') return <NewsReader app={app}/>
+    if(appid === 'PodcastPlayer') return <PodcastPlayer app={app}/>
 
     return <div>app not found <b>{appid}</b></div>
   }

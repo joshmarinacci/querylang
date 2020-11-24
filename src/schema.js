@@ -4,6 +4,7 @@ export const ENUM = 'ENUM'
 export const BOOLEAN = 'BOOLEAN'
 export const ARRAY = 'ARRAY'
 export const TIMESTAMP = 'TIMESTAMP'
+export const ID = 'ID'
 
 export const CATEGORIES = {
     CONTACT:{
@@ -715,6 +716,8 @@ const RSS = {
                 },
                 subscription: {
                     key:'subscription',
+                    type:ID,
+                    default:-1
                 },
                 url:{
                     key:'url',

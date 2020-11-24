@@ -270,6 +270,16 @@ class DB {
         obj.modifiedtime = new Date()
         this._fireUpdate(obj)
     }
+    bulk_add(objs, cat) {
+        let now = new Date()
+        objs.forEach(obj => {
+            this.data.push(obj)
+            obj.local = true
+            obj.createdtime = now
+            obj.modifiedtime = now
+        })
+        this.listeners[cat].forEach(l => l())
+    }
     remove(obj) {
         obj.removedtime = new Date()
         this.data = this.data.filter(d => d.id !== obj.id)

@@ -945,6 +945,7 @@ loadApp({title:'Data', appid:"DataBrowser",icon:'create', launchbar:false})
 loadApp({title:'Files', appid:"FileBrowserApp",icon:'image', launchbar:true})
 loadApp(({title:'MinesweepR', appid:'IFrameApp',icon:'apps',launchbar:true}))
 loadApp(({title:'News', appid:'NewsReader',icon:'article',launchbar:true}))
+loadApp(({title:'Podcasts', appid:'PodcastPlayer',icon:'podcast',launchbar:true}))
 
 function load_bookmarks() {
     data.push({
