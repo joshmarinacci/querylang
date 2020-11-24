@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {DBContext, propAsBoolean, propAsString, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
@@ -122,6 +122,7 @@ export function NewsReader({}) {
         n--
         if(n>=0) set_post(posts[n])
     }
+
     return <Grid3Layout>
         <div className={'col1 row1'}>news</div>
         <Toolbar>
@@ -129,23 +130,28 @@ export function NewsReader({}) {
             <button onClick={()=>add_feed()}>add feed</button>
         </Toolbar>
         <SourceList column={1} row={2} data={subs} selected={sub} setSelected={set_sub}
-                    renderItem={({item,...rest})=>{
-                        return <StandardSourceItem title={propAsString(item,'title')}
-                            {...rest}
-                        />
-                    }}/>
+                    renderItem={({item,...rest})=> <StandardSourceItem
+                        title={propAsString(item,'title')} {...rest}/>}/>
         <SourceList column={2} row={2} data={posts}  selected={post} setSelected={set_post}
-                    renderItem={({item,...rest})=>{
-            return <StandardSourceItem className={(propAsBoolean(item,'read')?"read":"unread")} title={propAsString(item,'title')} {...rest}/>
-        }}/>
+                    renderItem={({item,...rest})=> <StandardSourceItem
+                        className={(propAsBoolean(item,'read')?"read":"unread")}
+                        title={propAsString(item,'title')} {...rest}/>}/>
         <Toolbar>
             <button onClick={mark_as_read}>mark as read</button>
         </Toolbar>
-        <PostPanel className={'col3 row2'} post={post} navNext={navNext} navPrev={navPrev} />
+        <PostPanel className={'col3 row2'} post={post} navNext={navNext} navPrev={navPrev} markRead={mark_as_read} />
     </Grid3Layout>
 }
 
-function PostPanel({post, className, navNext, navPrev}) {
+function PostPanel({post, className, navNext, navPrev, markRead}) {
+
+
+    //if view this post for 3 sec, then mark as read
+    useEffect(()=>{
+        let id = setTimeout(()=>markRead(),3*1000)
+        return () => clearTimeout(id)
+    })
+
     if(!post) return <div className={'post' + className}>nothing selected</div>
 
     let cls = {
@@ -169,6 +175,9 @@ function PostPanel({post, className, navNext, navPrev}) {
         }
         if(e.key === 'v') {
             openArticle()
+        }
+        if(e.key === 'm') {
+            markRead()
         }
     }
 
