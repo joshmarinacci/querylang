@@ -112,6 +112,16 @@ export function NewsReader({}) {
             dm.hide()
         }}/> )
     }
+    const navNext = () => {
+        let n = posts.indexOf(post)
+        n++
+        if(n < posts.length)  set_post(posts[n])
+    }
+    const navPrev = () => {
+        let n = posts.indexOf(post)
+        n--
+        if(n>=0) set_post(posts[n])
+    }
     return <Grid3Layout>
         <div className={'col1 row1'}>news</div>
         <Toolbar>
@@ -131,11 +141,11 @@ export function NewsReader({}) {
         <Toolbar>
             <button onClick={mark_as_read}>mark as read</button>
         </Toolbar>
-        <PostPanel className={'col3 row2'} post={post}/>
+        <PostPanel className={'col3 row2'} post={post} navNext={navNext} navPrev={navPrev} />
     </Grid3Layout>
 }
 
-function PostPanel({post, className}) {
+function PostPanel({post, className, navNext, navPrev}) {
     if(!post) return <div className={'post' + className}>nothing selected</div>
 
     let cls = {
@@ -145,11 +155,24 @@ function PostPanel({post, className}) {
     }
 
     const sum = propAsString(post,'summary')
-    // console.log("summary",sum)
     const html = dompurify.sanitize(sum)
-    // console.log("html is",html)
 
-    return <div className={flatten(cls)+" "+className}>
+    const openArticle = () => {
+        window.open(propAsString(post,'url'),'_blank')
+    }
+    const keydown = (e) => {
+        if(e.key === 'j') {
+            navNext()
+        }
+        if(e.key === 'k') {
+            navPrev()
+        }
+        if(e.key === 'v') {
+            openArticle()
+        }
+    }
+
+    return <div className={flatten(cls)+" "+className} tabIndex={0} onKeyDown={keydown}>
         <h3>{propAsString(post,'title')}</h3>
         <h4>{format(post.props.post_date,'MMM d')}</h4>
         <b>read = {propAsBoolean(post,'read')?"true":"false"}</b>
