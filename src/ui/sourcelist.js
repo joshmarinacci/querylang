@@ -19,11 +19,11 @@ export function SourceList({data, column=1, row=1, secondary, selected, renderIt
                onKeyDown={e=>{
                    // console.log("Key event",e.key)
                    let i = data.findIndex(d => d.id === selected.id)
-                   if(e.key === 'ArrowDown') {
+                   if(e.key === 'ArrowDown' && i < data.length-1) {
                        setSelected(data[i+1])
                        e.preventDefault()
                    }
-                   if(e.key === 'ArrowUp') {
+                   if(e.key === 'ArrowUp' && i > 0) {
                        setSelected(data[i-1])
                        e.preventDefault()
                    }
