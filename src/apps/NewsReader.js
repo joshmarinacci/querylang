@@ -7,7 +7,7 @@ import {Grid3Layout} from '../ui/grid3layout.js'
 import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 
 import {format} from "date-fns"
-import {Panel, Toolbar} from '../ui/ui.js'
+import {Panel, Spacer, Toolbar} from '../ui/ui.js'
 import {flatten} from '../util.js'
 import "./NewsReader.css"
 import {DialogManagerContext} from '../ui/DialogManager.js'
@@ -99,6 +99,7 @@ function AddFeedDialog({onDone, onCancel}) {
             <button onClick={doScan}>scan</button>
         </Panel>
         <Toolbar>
+            <Spacer/>
             <button onClick={onCancel}>cancel</button>
             <button onClick={()=>onDone(url)}>add</button>
         </Toolbar>
@@ -129,7 +130,7 @@ export function NewsReader({}) {
             dm.hide()
         }}/> )
     }
-    return <Grid3Layout>
+    return <Grid3Layout statusbar={false}>
         <div className={'col1 row1'}>news</div>
         <Toolbar>
             <button onClick={()=>refresh(db)}>refresh</button>

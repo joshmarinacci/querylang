@@ -40,7 +40,6 @@ let app_launcher_service = new AppLauncherService()
 let alarm_service = new AlarmService(db_service)
 let pm = new PopupManager()
 let wm = new WindowManager()
-let dm = new DialogManager()
 
 function App() {
 
@@ -103,6 +102,7 @@ function App() {
   }
 
   let ins = apps.map((app,i) => {
+    let dm = new DialogManager()
     return <Window key={app.props.appid} app={app}>
       <DialogManagerContext.Provider value={dm}>
         {makeApp(app)}
