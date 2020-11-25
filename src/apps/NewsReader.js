@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {DBContext, propAsBoolean, propAsString, useDBChanged} from '../db.js'
+import {DBContext, propAsBoolean, propAsString, sort, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import "./DataBrowser.css"
@@ -115,6 +115,7 @@ export function NewsReader({}) {
 
     let subs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.RSS.ID), IS_TYPE(CATEGORIES.RSS.SCHEMAS.SUBSCRIPTION.TYPE)))
     let posts = db.QUERY(AND(IS_CATEGORY(CATEGORIES.RSS.ID), IS_TYPE(CATEGORIES.RSS.SCHEMAS.POST.TYPE), IS_PROP_EQUAL('subscription',sub?sub.id:null)))
+    sort(posts,['post_date'])
 
     const mark_as_read = () => {
         if(post) {
