@@ -44,6 +44,14 @@ export function Window({children, resize=true, hide_titlebar=false, app, anchor=
     let [resizing, setResizing] = useState(false)
     let [z, setZ] = useState(1)
 
+    const maximize = () => {
+        setLeft(70)
+        setTop(50)
+        sw(window.innerWidth-70-100)
+        sh(window.innerHeight-50-5)
+        console.log(window.innerWidth, window.innerHeight)
+    }
+
     let style = {
         width: `${w}px`,
         height: `${h}px`,
@@ -150,6 +158,7 @@ export function Window({children, resize=true, hide_titlebar=false, app, anchor=
     }
     if(!hide_titlebar) {
         title_ui = <title onMouseDown={mouseDown}>
+            <Icon className={'maximize'} onClick={maximize}>maximize</Icon>
             <Icon className={'appicon'}>{app.props.icon}</Icon>
             <b>{title}</b>
             <Icon onClick={closeApp} className={'close'}>close</Icon>
