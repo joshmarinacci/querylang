@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../node_modules/codemirror/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="../node_modules/codemirror/theme/ambiance.css">
+    <script src="../node_modules/codemirror/mode/markdown/markdown.js"></script>
+    <style type="text/css">
+        /*.CodeMirror {*/
+        /*    border: 1px solid red;*/
+        /*}*/
+        /**/
+        /*.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}*/
+        /*.cm-s-default .cm-trailing-space-a:before,*/
+        /*.cm-s-default .cm-trailing-space-b:before {position: absolute; content: "\00B7"; color: #777;}*/
+        /*.cm-s-default .cm-trailing-space-new-line:before {position: absolute; content: "\21B5"; color: #777;}*/
+
+        #popup {
+            display:none;
+            border: 5px solid black;
+            background-color: white;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+<!--cm.addWidget(pos: {line, ch}, node: Element, scrollIntoView: boolean)-->
+
+
+<div id="popup">
+    a popup
+</div>
+
+<script>
+    const $ = (sel) => document.querySelector(sel)
+
+    const editor = CodeMirror(document.body, {
+        value: `
+    # header 1
+
+    A paragraph to type with *some bold* text to read.
+    `,
+        mode:  "markdown",
+        lineNumbers:true,
+        theme:'default',
+        extraKeys: {
+            "Tab": "autocomplete"
+        },
+    });
+    // editor.addWidget({line:1,ch:3}, $("#popup"))
+
+    // on control-space show the popup below the cursor
+    editor.on('keyup', function(editor, event){
+        if(event.key === ' ' && event.ctrlKey) {
+            let pos = editor.getCursor()
+            $("#popup").style.setProperty('display','block');
+            editor.addWidget(pos, $("#popup"))
+        }
+    });
+
+
+</script>
+</body>
+</html>
