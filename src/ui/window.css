@@ -37,6 +37,11 @@
     color:#fff;
     cursor: auto;
 }
+.window title .maximize:hover {
+    background-color: var(--accent-text-color);
+    color: var(--accent-background-color);
+    cursor: auto;
+}
 
 .window .resize-handle {
     position: absolute;

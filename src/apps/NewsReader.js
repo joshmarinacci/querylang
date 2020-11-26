@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {DBContext, propAsBoolean, propAsString, useDBChanged} from '../db.js'
+import React, {useContext, useState} from 'react'
+import {DBContext, propAsBoolean, propAsString, sort, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import "./DataBrowser.css"
@@ -7,7 +7,7 @@ import {Grid3Layout} from '../ui/grid3layout.js'
 import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 
 import {format} from "date-fns"
-import {Panel, Toolbar} from '../ui/ui.js'
+import {Panel, Spacer, Toolbar} from '../ui/ui.js'
 import {flatten} from '../util.js'
 import "./NewsReader.css"
 import {DialogManagerContext} from '../ui/DialogManager.js'
@@ -29,6 +29,7 @@ dompurify.addHook('afterSanitizeAttributes', function (node) {
 
 
 const RSS_SERVER_URL = "http://localhost:30011/rss"
+const SCAN_SERVER_URL = "http://localhost:30011/scan"
 
 function refresh (db) {
     console.log("parsing feed")
@@ -77,11 +78,28 @@ function SimpleDialog({title="unnamed dialog", children}) {
 
 function AddFeedDialog({onDone, onCancel}) {
     let [url,set_url] = useState("")
+    const doScan = () => {
+        console.log("scanning", url)
+        let furl = `${SCAN_SERVER_URL}?url=${url}`;
+        console.log("fetching", furl)
+        return fetch(furl).then(r => r.json()).then(d => {
+            console.log("results are",d)
+            if(d.mimetype && d.mimetype.startsWith("text/html")) {
+                console.log("it's a webpage")
+                if(d.feed) {
+                    console.log("has a feed",d.feed)
+                    set_url(d.feed)
+                }
+            }
+        })
+    }
     return <SimpleDialog title={"Add RSS Feed"}>
         <Panel>
             <input type={"text"} placeholder={"url of rss feed here"} value={url} onChange={e => set_url(e.target.value)}/>
+            <button onClick={doScan}>scan</button>
         </Panel>
         <Toolbar>
+            <Spacer/>
             <button onClick={onCancel}>cancel</button>
             <button onClick={()=>onDone(url)}>add</button>
         </Toolbar>
@@ -97,6 +115,7 @@ export function NewsReader({}) {
 
     let subs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.RSS.ID), IS_TYPE(CATEGORIES.RSS.SCHEMAS.SUBSCRIPTION.TYPE)))
     let posts = db.QUERY(AND(IS_CATEGORY(CATEGORIES.RSS.ID), IS_TYPE(CATEGORIES.RSS.SCHEMAS.POST.TYPE), IS_PROP_EQUAL('subscription',sub?sub.id:null)))
+    sort(posts,['post_date'])
 
     const mark_as_read = () => {
         if(post) {
@@ -123,7 +142,7 @@ export function NewsReader({}) {
         if(n>=0) set_post(posts[n])
     }
 
-    return <Grid3Layout>
+    return <Grid3Layout statusbar={false}>
         <div className={'col1 row1'}>news</div>
         <Toolbar>
             <button onClick={()=>refresh(db)}>refresh</button>
