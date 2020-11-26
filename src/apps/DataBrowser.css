@@ -13,6 +13,9 @@
 /*    align-items: stretch;*/
 /*}*/
 
+.window.DataBrowser {
+    overflow: unset;
+}
 .dialog .debug {
     flex: 1;
     font-family: monospace;

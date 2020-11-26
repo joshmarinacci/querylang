@@ -15,34 +15,33 @@ import {DataList, HBox, Panel, StandardListItem, Toolbar, VBox} from '../ui/ui.j
 import "./DataBrowser.css"
 import Icon from '@material-ui/core/Icon'
 import {format, parse, parseISO} from 'date-fns'
+import {Grid3Layout} from '../ui/grid3layout.js'
+import {TitleBar} from '../stories/email_example.js'
+import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
+import {DialogManagerContext} from '../ui/DialogManager.js'
 
 export function DataBrowser({app}) {
     let db = useContext(DBContext)
+    let dm = useContext(DialogManagerContext)
     useDBChanged(db, CATEGORIES.DATABROWSER.ID)
     let queries = db.QUERY(AND(
         IS_TYPE(CATEGORIES.DATABROWSER.TYPES.QUERY)
     ))
 
-    const [showDialog, setShowDialog] = useState(false)
 
     const makeQuery = () => {
-        setShowDialog(true)
+        dm.show(<QueryEditorDialog/>)
     }
 
-    return <VBox>
+    return <Grid3Layout>
+        <TitleBar title={'Data Browser'}/>
         <Toolbar>
             <button onClick={makeQuery}>make query</button>
             <input type={'search'}/>
         </Toolbar>
-        <HBox>
-            <DataList data={queries}
-                      stringify={o=><StandardListItem title={o.props.title}/>}
-            />
-            <Panel>nothing selected</Panel>
-            {showDialog?<QueryEditorDialog/>:""}
-
-        </HBox>
-    </VBox>
+        <SourceList col={1} row={2} data={queries} renderItem={({item,...rest})=><StandardSourceItem {...rest}/>}/>
+        {/*{showDialog?<QueryEditorDialog/>:""}*/}
+    </Grid3Layout>
 }
 
 const ANY_PROP = {
@@ -172,7 +171,13 @@ function QueryEditorDialog() {
         setPredicates(predicates.filter(pp => pp.id !== p.id))
     }
 
-    return <div className={'dialog'}>
+    return <div className={'dialog'} style={{
+        minHeight:'40em',
+        display:'flex',
+        flexDirection:'column',
+        // zIndex:200,
+    }}>
+        <h1>Create Query</h1>
         <CategoryTypeQueryView selectedCat={selectedCat} selectedType={selectedType} chooseCat={chooseCat} chooseType={chooseType}/>
         {
             predicates.map(p => <PropertyQueryView predicate={p} key={p.id} type={selectedType}
@@ -184,7 +189,6 @@ function QueryEditorDialog() {
         <HBox>
             <button onClick={run_query}>run</button>
         </HBox>
-
         <textarea value={debug_text} className={"debug"} disabled/>
     </div>
 }
