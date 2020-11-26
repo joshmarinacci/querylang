@@ -1,0 +1,18 @@
+.window.Alarms {
+    --bg-dark: rgba(0,0,0,0.4);
+    border: 5px solid red;
+
+    background-color: rgba(200, 200, 200, 0.4);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 1em;
+    border: 1px solid rgba(255,255,255,0.8);
+
+}
+
+.window.Alarms ul {
+    background-color: transparent;
+}
+.window.Alarms > title {
+    background-color: rgba(256,165,0,0.4);
+}

@@ -6,6 +6,7 @@ import {CATEGORIES} from '../schema.js'
 import {Icon} from '@material-ui/core'
 
 import {format} from 'date-fns'
+import './alarms.css'
 
 export function Alarms({app}) {
     let db = useContext(DBContext)
