@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
-import {DBContext, useDBChanged} from '../db.js'
+import {DBContext, propAsString, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {Window} from '../ui/window.js'
 import {
@@ -23,24 +23,44 @@ import {DialogManagerContext} from '../ui/DialogManager.js'
 export function DataBrowser({app}) {
     let db = useContext(DBContext)
     let dm = useContext(DialogManagerContext)
-    useDBChanged(db, CATEGORIES.DATABROWSER.ID)
+    useDBChanged(db, CATEGORIES.GENERAL.ID)
     let queries = db.QUERY(AND(
-        IS_TYPE(CATEGORIES.DATABROWSER.TYPES.QUERY)
+        IS_TYPE(CATEGORIES.GENERAL.SCHEMAS.QUERY.TYPE)
     ))
+
+    const [q, set_q] = useState(null)
 
 
     const makeQuery = () => {
         dm.show(<QueryEditorDialog/>)
     }
 
-    return <Grid3Layout>
+    let data = []
+    if(q) {
+        console.log(q.props.query)
+        data = db.QUERY(q.props.query)
+    }
+    console.log('data is',data)
+
+    return <Grid3Layout statusbar={false}>
         <TitleBar title={'Data Browser'}/>
-        <Toolbar>
+        <Toolbar className={'col2 span3'}>
             <button onClick={makeQuery}>make query</button>
             <input type={'search'}/>
         </Toolbar>
-        <SourceList col={1} row={2} data={queries} renderItem={({item,...rest})=><StandardSourceItem {...rest}/>}/>
-        {/*{showDialog?<QueryEditorDialog/>:""}*/}
+        <SourceList col={1} row={2} data={queries} selected={q} setSelected={set_q}
+                    renderItem={({item,...rest})=><StandardSourceItem
+            title={propAsString(item,'title')}
+            icon={propAsString(item,'icon')}
+            {...rest}/>}/>
+            <Panel className={'col2 row2 span3'}>
+                <div style={{
+                    whiteSpace:'pre',
+                    overflow:'auto',
+                }}>
+                    {JSON.stringify(data,null,'  ')}
+                </div>
+            </Panel>
     </Grid3Layout>
 }
 
@@ -101,6 +121,7 @@ function findPropByKey(props, key) {
 
 function QueryEditorDialog() {
     let db = useContext(DBContext)
+    let dm = useContext(DialogManagerContext)
 
     let [selectedCat, setSelectedCat] = useState({})
     let [selectedType, setSelectedType] = useState({})
@@ -171,6 +192,15 @@ function QueryEditorDialog() {
         setPredicates(predicates.filter(pp => pp.id !== p.id))
     }
 
+    const save_query = () => {
+        let query = gen_query()
+        console.log('saving a query',query)
+        let q = db.make(CATEGORIES.GENERAL.ID, CATEGORIES.GENERAL.SCHEMAS.QUERY.TYPE)
+        db.setProp(q,'query',query)
+        db.add(q)
+        dm.hide()
+    }
+
     return <div className={'dialog'} style={{
         minHeight:'40em',
         display:'flex',
@@ -186,9 +216,10 @@ function QueryEditorDialog() {
             />)
         }
         <HBox><button onClick={add_predicate}>+</button></HBox>
-        <HBox>
+        <Toolbar>
             <button onClick={run_query}>run</button>
-        </HBox>
+            <button onClick={save_query}>save</button>
+        </Toolbar>
         <textarea value={debug_text} className={"debug"} disabled/>
     </div>
 }

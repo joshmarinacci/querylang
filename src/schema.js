@@ -5,6 +5,7 @@ export const BOOLEAN = 'BOOLEAN'
 export const ARRAY = 'ARRAY'
 export const TIMESTAMP = 'TIMESTAMP'
 export const ID = 'ID'
+export const OBJECT = 'OBJECT'
 
 export const CATEGORIES = {
     CONTACT:{
@@ -144,6 +145,25 @@ export const CATEGORIES = {
         ID:'GENERAL',
         TYPES:{
             COLLECTION:'COLLECTION'
+        },
+        SCHEMAS: {
+            QUERY: {
+                TYPE:'QUERY',
+                title:'query',
+                props: {
+                    title: {
+                        key:'title',
+                        type:STRING,
+                        default:'untitled',
+                    },
+                    query: {
+                        key:'query',
+                        type: OBJECT,
+                        default:{}
+                    }
+                }
+
+            }
         }
     },
     TASKS: {
@@ -569,12 +589,6 @@ export const CATEGORIES = {
                     }
                 }
             }
-        }
-    },
-    DATABROWSER:{
-        ID:'DATABROWSER',
-        TYPES:{
-            QUERY:'QUERY',
         }
     },
     BOOKMARKS:{

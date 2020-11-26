@@ -966,14 +966,13 @@ load_bookmarks()
 
 data.push({
     id:50000,
-    category: CATEGORIES.DATABROWSER.ID,
-    type: CATEGORIES.DATABROWSER.TYPES.QUERY,
+    category: CATEGORIES.GENERAL.ID,
+    type: CATEGORIES.GENERAL.SCHEMAS.QUERY.TYPE,
     props: {
         title:'all songs',
         active:true,
-        query:true,
         icon:'person',
-        query_impl: {
+        query: {
             and:[
                 {
                     CATEGORY:CATEGORIES.MUSIC.ID,
@@ -987,15 +986,14 @@ data.push({
 })
 
 data.push({
-    id:50000,
-    category: CATEGORIES.DATABROWSER.ID,
-    type: CATEGORIES.DATABROWSER.TYPES.QUERY,
+    id:50001,
+    category: CATEGORIES.GENERAL.ID,
+    type: CATEGORIES.GENERAL.SCHEMAS.QUERY.TYPE,
     props: {
         title:'all contacts',
         active:true,
-        query:true,
         icon:'person',
-        query_impl: {
+        query: {
             and:[
                 {
                     CATEGORY:CATEGORIES.CONTACT.ID,
