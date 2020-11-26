@@ -9,6 +9,8 @@ html {
     font-size: 50pt;
     font-family: serif;
     min-height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
 }
 html {
     --std-text-color: #151717;
