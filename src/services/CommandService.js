@@ -93,6 +93,35 @@ class PlayMusicByArtistAction {
 
 }
 
+class OpenWeatherPanel {
+    constructor(args) {
+        this.title = 'Show Weather'
+    }
+}
+
+class OpenFileBrowserAction {
+    constructor(args) {
+        this.title = `Search Files with query ${args}`
+    }
+
+}
+
+class ScheduleMeetingAction {
+    constructor(args) {
+        this.to_parse = args
+        this.title = `Create Event: ${args}`
+    }
+
+}
+
+class LookupWordAction {
+    constructor(arg) {
+        this.word = arg
+        this.title = `Look up ${this.word}`
+    }
+
+}
+
 const services = [
     {
         title:'AppOpener',
@@ -138,6 +167,9 @@ const services = [
         title:'EventMaker',
         prefixMatch:str => {
             return 'schedule'.startsWith(str)
+        },
+        findActions: args => {
+            return new ScheduleMeetingAction(args)
         }
     },
     {
@@ -157,12 +189,19 @@ const services = [
         title:'DictionaryLookup',
         prefixMatch: str => {
             return "lookup".startsWith(str)
+        },
+        findActions: args => {
+            console.log('dictonary args',args)
+            return new LookupWordAction(args[0])
         }
     },
     {
         title: 'FileSearcher',
         prefixMatch: str => {
             return 'file:'.startsWith(str)
+        },
+        findActions: args => {
+            return new OpenFileBrowserAction(args)
         }
     },
     {
@@ -179,6 +218,9 @@ const services = [
         title:'WeatherFinder',
         prefixMatch: str => {
             return 'weather'.startsWith(str)
+        },
+        findActions: args => {
+            return new OpenWeatherPanel(args)
         }
     },
     // {
@@ -196,7 +238,7 @@ function eq(value, answer, msg) {
 }
 
 function startCompletions(str, services) {
-    console.log(`searching for services that can do something with "${str}"`)
+    // console.log(`searching for services that can do something with "${str}"`)
     return services.filter(s => {
         // console.log('checking',s)
         if(s.prefixMatch) {
@@ -207,13 +249,14 @@ function startCompletions(str, services) {
 }
 
 function findActions(str) {
+    console.log(`===== ${str}`)
     let args = str.split(" ")
     let svcs = startCompletions(args[0],services)
-    console.log(`finding actions for "${str}" => "${args[0]}"`)
-    console.log("found the services",svcs)
+    // console.log(`finding actions for "${str}" => "${args[0]}"`)
+    // console.log("found the services",svcs)
     let rest = args.slice(1)
     let actions = svcs.map(s => {
-        console.log('checking with service',s)
+        // console.log('checking with service',s)
         if(s.findActions) return s.findActions(rest)
         return []
     }).flat()
@@ -276,21 +319,26 @@ function test1() {
     // `weath` should match the weather app
     eq(startCompletions('weath',services)[0].title,'WeatherFinder','weather test')
     // `weather` should match the weather app and return action to open weather panel
+    eq(findActions('weather').length,1)
 
     // `file` should match the file searcher app
     eq(startCompletions('file',services)[0].title,'FileSearcher','launch file app')
     // `file:` should match the file searcher app
+    eq(findActions('file:').length,1)
     // 'file: flowers'  should return a query for searching for flowers in all known files
+    eq(findActions('file: flowers').length,1)
 
 
     // 'sched' should match the event scheduler app
     eq(startCompletions('sched',services)[0].title,'EventMaker','start event maker')
     // 'schedule meeting tomorrow at 5am' should suggest create a meeting with calculated next day of 5am
+    eq(findActions('schedule meeting tomorrow at 5am').length,1)
 
 
     // 'look' should match the dictionary app
     eq(startCompletions('look',services)[0].title,'DictionaryLookup','launch dictionary')
     // 'lookup acorn' should match dictonary app and return action that searches for acorn
+    eq(findActions('lookup acorn').length,1)
 
 
     // 'jo' should search for people who's name starts with 'jo', case-insensitive, with action to open each result in contact panel
