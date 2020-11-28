@@ -1,8 +1,9 @@
 import React, {useContext} from "react"
 import "./commandbar3.css"
-import {DBContext} from '../db.js'
-import {AND, IS_CATEGORY, IS_TYPE} from '../query2.js'
+import {DBContext, propAsString} from '../db.js'
+import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
+import * as chrono from 'chrono-node'
 
 const APP_NAMES = [
     "chat",
@@ -49,10 +50,26 @@ const URL_SCANNER =     {
         if("http".startsWith(str)) return true
         return false
     },
-    findActions:(args) => {
-        // let url = args[0]
-        // console.log('looking at url',url)
-        // return new ScanURLAction(url)
+    get_completions: (args, db) => {
+        if(args.length < 2) return []
+        let val = args[1]
+        if(val.startsWith('http')) {
+            return [
+                {
+                    text: args[0] + ' ' + val,
+                    title: `Open in browser`,
+                },
+                {
+                    text: args[0] + ' ' + val,
+                    title:`scan for news feed (RSS)`
+                },
+                {
+                    text: args[0] + ' ' + val,
+                    title:`check as image`
+                },
+            ]
+        }
+        return []
     }
 }
 const EMAIL_OPENER = {
@@ -70,6 +87,15 @@ const EMAIL_OPENER = {
         ]
         console.log("doing a search on",command)
         // return PEOPLE.filter(p => p.first.toLowerCase().startsWith(command.toLowerCase()) || p.last.toLowerCase().startsWith(command.toLowerCase())).map(p=>new ComposeEmailAction(p))
+    },
+    get_completions: (args, db) => {
+        if (args.length < 2) return []
+        let val = args[1]
+        let people = db.QUERY(AND(IS_CATEGORY(CATEGORIES.CONTACT.ID), IS_TYPE(CATEGORIES.CONTACT.TYPES.PERSON), IS_PROP_SUBSTRING('first',val)))
+        return people.map((p)=>({
+            text:`${args[0]} person`,
+            title:`compose email to ${propAsString(p,'first')} ${propAsString(p,'last')}`
+        }))
     }
 }
 const EVENT_MAKER = {
@@ -78,9 +104,23 @@ const EVENT_MAKER = {
     prefixMatch:str => {
         return 'schedule'.startsWith(str)
     },
-    findActions: args => {
-        // return new ScheduleMeetingAction(args)
-    }
+        get_completions: (args, db) => {
+            if (args.length < 2) return []
+            let [first,...rest] = args
+            console.log("EVENT_MAKER rest is",rest.join(" "))
+            let date = chrono.parseDate(rest.join(" "));
+            console.log("scanned",date)
+            if(date) {
+                return [
+                    {
+                        text: 'schedule ',
+                        title: `Schedule event at ${date}`,
+                    }
+                ]
+            } else {
+                return []
+            }
+        }
 }
 const MUSIC_RUNNER = {
     title:'MusicRunner',
@@ -88,12 +128,23 @@ const MUSIC_RUNNER = {
     prefixMatch:(str) => {
         return "play".startsWith(str)
     },
-    findActions:args => {
-        console.log("music runner with",args)
-        // if(args.length === 0) return new OpenMusicPlayerAction()
-        let q = args[0].toLowerCase()
-        // return MUSIC.ARTISTS.filter(a => a.name.toLowerCase().startsWith(q))
-        //     .map(a => new PlayMusicByArtistAction(a))
+    get_completions: (args, db) => {
+        if (args.length < 2) return []
+        console.log("MUSIC_RUNNER",args[1])
+        let songs = db.QUERY(AND(
+            IS_CATEGORY(CATEGORIES.MUSIC.ID),
+            IS_TYPE(CATEGORIES.MUSIC.TYPES.SONG),
+            OR(
+                IS_PROP_SUBSTRING('artist',args[1]),
+                IS_PROP_SUBSTRING('title',args[1]),
+                IS_PROP_SUBSTRING('album',args[1]),
+            )))
+        return songs.map(s => {
+            return {
+                text:'music',
+                title:`Play ${propAsString(s,'title')} by ${propAsString(s,'artist')}`
+            }
+        })
     }
 }
 const DICTONARY_LOOKUP = {
@@ -102,9 +153,12 @@ const DICTONARY_LOOKUP = {
     prefixMatch: str => {
         return "lookup".startsWith(str)
     },
-    findActions: args => {
-        console.log('dictonary args',args)
-//    return new LookupWordAction(args[0])
+    get_completions: (args, db) => {
+        if (args.length < 2) return []
+        return [{
+            text:'lookup',
+            title:`lookup definition of ${args[1]}`
+        }]
     }
 }
 const FILE_SEARCHER = {
@@ -113,8 +167,19 @@ const FILE_SEARCHER = {
     prefixMatch: str => {
         return 'file:'.startsWith(str)
     },
-    findActions: args => {
-        // return new OpenFileBrowserAction(args)
+    get_completions: (args, db) => {
+        if (args.length < 2) return []
+        let files = db.QUERY(AND(
+            IS_CATEGORY(CATEGORIES.FILES.ID),
+            IS_TYPE(CATEGORIES.FILES.SCHEMAS.FILE_INFO),
+            OR(
+                IS_PROP_SUBSTRING('filename',args[1]),
+                IS_PROP_SUBSTRING('url',args[1]),
+            )))
+        return files.map(f => ({
+            text:'file: ',
+            title:`view file ${args[1]}`
+        }))
     }
 }
 const CALCULATOR_SERVICE = {
@@ -124,8 +189,12 @@ const CALCULATOR_SERVICE = {
         if('calculate'.startsWith(str)) return true
         return str.match(/[0-9]/i)
     },
-    findActions: args => {
-//    return new OpenCalculatorPanelAction(args)
+    get_completions: (args, db) => {
+        if (args.length < 2) return []
+        return [{
+            text: args.join(" "),
+            title:`${args.join(" ")} =`
+        }]
     }
 }
 const WEATHER_FINDER = {
@@ -134,8 +203,13 @@ const WEATHER_FINDER = {
     prefixMatch: str => {
         return 'weather'.startsWith(str)
     },
-    findActions: args => {
-        // return new OpenWeatherPanel(args)
+    get_completions: (args, db) => {
+        return [
+            {
+                text:'weather',
+                title:'get the weather'
+            }
+        ]
     }
 }
 
@@ -153,24 +227,22 @@ const COMMAND_SERVICES = [
 
 
 function find_results(code, db) {
-    let apps = db.QUERY(AND(IS_CATEGORY(CATEGORIES.APP.ID), IS_TYPE(CATEGORIES.APP.TYPES.APP)))
-    // console.log("apps",apps)
     let args = code.split(" ")
-    console.log("=== searching for results to",args)
+    // console.log("=== searching for results to",args)
     let list = []
     COMMAND_SERVICES.forEach(svc => {
         // console.log('checking',svc)
         if(svc.prefixMatch(args[0])) {
-            console.log("matched", svc.title)
+            // console.log("matched", svc.title)
             if(args.length > 1) {
-                console.log('more args',args)
+                // console.log('more args',args)
                 let res = svc.get_completions(args, db);//.forEach(it => list.push(it))
                 res.forEach(it => list.push(it))
-                console.log("results",res)
+                // console.log("results",res)
             } else {
                 list.push({
                     text: svc.command + " ",
-                    title: svc.command + " "
+                    title: svc.title
                 })
             }
         }
