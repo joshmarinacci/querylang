@@ -1,3 +1,10 @@
+// import * as chrono from 'chrono-node'
+
+
+const assert = require('assert')
+const wiki = require('wikijs').default;
+const chrono = require('chrono-node');
+
 /*
 
 * AppOpener. Open. All app names.
@@ -13,6 +20,7 @@
 
 */
 
+
 const APP_NAMES = [
     "chat",
     "Calendar",
@@ -22,10 +30,12 @@ const PEOPLE = [
     {
         first:"Josh",
         last:"Marinacci",
+        email:'josh@josh.earth',
     },
     {
         first: "Jesse",
-        last:"Marinacci"
+        last:"Marinacci",
+        email:'jesse@josh.earth',
     }
 ]
 
@@ -69,12 +79,26 @@ class ComposeEmailAction  {
         this.person = person
         this.title = 'Compose New Email'
     }
+    resolve_to_string() {
+        return Promise.resolve({
+            from:this.person.email
+        })
+    }
 }
 
 class OpenCalculatorPanelAction {
     constructor(args) {
         this.args = args
         this.title = `calculate ${args.join(" ")}`
+    }
+    resolve_to_string() {
+        let a = parseInt(this.args[0])
+        let op = this.args[1]
+        let b = parseInt(this.args[2])
+
+        if(op === '*') return a * b
+        if(op === '+') return a + b
+        return Number.MAX_VALUE
     }
 
 }
@@ -109,7 +133,11 @@ class OpenFileBrowserAction {
 class ScheduleMeetingAction {
     constructor(args) {
         this.to_parse = args
-        this.title = `Create Event: ${args}`
+        this.title = `Create Event: ${args.join(" ")}`
+    }
+    resolve_to_string() {
+        let ret = chrono.parseDate(this.to_parse.join(" "));
+        return Promise.resolve(ret)
     }
 
 }
@@ -118,6 +146,14 @@ class LookupWordAction {
     constructor(arg) {
         this.word = arg
         this.title = `Look up ${this.word}`
+    }
+    resolve_to_string() {
+        return wiki().page(this.word).then(page => {
+            this.page = page
+            return page.summary()
+        }).then(sum => {
+            return sum.substring(0,50)
+        });
     }
 
 }
@@ -264,7 +300,7 @@ function findActions(str) {
     return actions
 }
 
-function test1() {
+function test_actions() {
     // op should complete to open from AppOpener
     eq(startCompletions('op',services).length,1)
     // open should complete to open from AppOpener then suggest a space
@@ -341,9 +377,36 @@ function test1() {
     eq(findActions('lookup acorn').length,1)
 
 
+
+
     // 'jo' should search for people who's name starts with 'jo', case-insensitive, with action to open each result in contact panel
     // eq(startCompletions('jo',services)[0].title,'PeopleFinder','recognize the people finder')
 }
 
-test1()
+test_actions()
 
+function resolve(str) {
+    let actions = findActions(str)
+    console.log("got actions",actions)
+    return actions[0].resolve_to_string()
+}
+
+function eq_resolve(str, answer, msg) {
+    resolve(str).then(ret => {
+        console.log("promise returned",ret)
+        console.log("comparing to ans",answer)
+        assert.deepStrictEqual(ret,answer)
+    })
+}
+
+function test_execution() {
+    eq_resolve('schedule meeting tomorrow at 5am', new Date(2020,10,29,5))
+    eq_resolve('email josh',{from:"josh@josh.earth"})
+    //
+    // eq(resolve('calculate 4 * 5'),20)
+    // eq(resolve('calculate 4 + 5'),9)
+    //
+    eq_resolve('lookup acorn',"The acorn, or oaknut, is the nut of the oaks and t")
+}
+
+test_execution()
