@@ -1,0 +1,8 @@
+.commandbar {
+    border: 1px solid red;
+}
+
+.commandbar .results li {
+    /*width: 100px;*/
+    border: 1px solid blue;
+}
