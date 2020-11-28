@@ -13,25 +13,125 @@
 
 */
 
+const APP_NAMES = [
+    "chat",
+    "Calendar",
+]
+
+const PEOPLE = [
+    {
+        first:"Josh",
+        last:"Marinacci",
+    },
+    {
+        first: "Jesse",
+        last:"Marinacci"
+    }
+]
+
+const MUSIC = {
+    ARTISTS: [
+        {
+            name:'Beatles'
+        },
+        {
+            name:'Beck',
+        },
+        {
+            name:'Beach Boys'
+        }
+    ]
+}
+
+class OpenAppAction {
+    constructor(name) {
+        this.name = name
+        this.title = `Open ${name}`
+    }
+}
+
+class ScanURLAction {
+    constructor(url) {
+        this.url = url
+        this.title = `Open ${url}`
+    }
+
+}
+
+class OpenInboxAction{
+    constructor() {
+        this.title = 'Open Inbox'
+    }
+}
+
+class ComposeEmailAction  {
+    constructor(person) {
+        this.person = person
+        this.title = 'Compose New Email'
+    }
+}
+
+class OpenCalculatorPanelAction {
+    constructor(args) {
+        this.args = args
+        this.title = `calculate ${args.join(" ")}`
+    }
+
+}
+
+class OpenMusicPlayerAction {
+    constructor() {
+        this.title = 'Open Music Player'
+    }
+}
+
+class PlayMusicByArtistAction {
+    constructor(a) {
+        this.artist = a
+        this.title = `Play music by ${a.name}`
+    }
+
+}
+
 const services = [
     {
         title:'AppOpener',
         prefixMatch:(str) => {
             return "open".startsWith(str)
+        },
+        findActions: (args) => {
+            return APP_NAMES.filter(a => a.toLowerCase().startsWith(args[0].toLowerCase()))
+                .map(name => new OpenAppAction(name))
         }
     },
     {
         title:'URLScanner',
         prefixMatch:(str) => {
+            if("scan".startsWith(str)) return true
             if("https".startsWith(str.substring(0,5))) return true
             if("http".startsWith(str)) return true
             return false
+        },
+        findActions:(args) => {
+            let url = args[0]
+            console.log('looking at url',url)
+            return new ScanURLAction(url)
         }
     },
     {
         title:'EmailOpener',
         prefixMatch:(str) => {
             return "email".startsWith(str)
+        },
+        findActions: args => {
+            let command = args[0]
+            console.log("command is",command)
+            if(!command || command.trim().length === 0) return [
+                new OpenInboxAction(),
+                new ComposeEmailAction(),
+            ]
+            console.log("doing a search on",command)
+            return PEOPLE.filter(p => p.first.toLowerCase().startsWith(command.toLowerCase()) || p.last.toLowerCase().startsWith(command.toLowerCase())).map(p=>new ComposeEmailAction(p))
         }
     },
     {
@@ -44,6 +144,13 @@ const services = [
         title:'MusicRunner',
         prefixMatch:(str) => {
             return "play".startsWith(str)
+        },
+        findActions:args => {
+            console.log("music runner with",args)
+            if(args.length === 0) return new OpenMusicPlayerAction()
+            let q = args[0].toLowerCase()
+            return MUSIC.ARTISTS.filter(a => a.name.toLowerCase().startsWith(q))
+                .map(a => new PlayMusicByArtistAction(a))
         }
     },
     {
@@ -61,7 +168,11 @@ const services = [
     {
         title: 'CalculatorService',
         prefixMatch:(str) => {
+            if('calculate'.startsWith(str)) return true
             return str.match(/[0-9]/i)
+        },
+        findActions: args => {
+            return new OpenCalculatorPanelAction(args)
         }
     },
     {
@@ -95,19 +206,45 @@ function startCompletions(str, services) {
     })
 }
 
+function findActions(str) {
+    let args = str.split(" ")
+    let svcs = startCompletions(args[0],services)
+    console.log(`finding actions for "${str}" => "${args[0]}"`)
+    console.log("found the services",svcs)
+    let rest = args.slice(1)
+    let actions = svcs.map(s => {
+        console.log('checking with service',s)
+        if(s.findActions) return s.findActions(rest)
+        return []
+    }).flat()
+    console.log('actions are',actions)
+    return actions
+}
+
 function test1() {
     // op should complete to open from AppOpener
     eq(startCompletions('op',services).length,1)
     // open should complete to open from AppOpener then suggest a space
     eq(startCompletions('open',services).length,1)
+
+    // 'open c' should suggest actions to open all apps that start with 'c' which is calendar and chat
+    eq(findActions('open c').length,2,'open two apps starting with c')
+    eq(findActions('open chat').length,1,'action to open chat app')
+
     // `ht` should match URL scanner
     eq(startCompletions('ht',services).length,1, 'http')
     // http should match but not suggest completions from URLScanner
     eq(startCompletions('http',services).length,1, 'http')
     // https://www.google.com/ should match URL scanner, result offers to scan it
     eq(startCompletions('https://www.google.com/',services).length,1, 'google')
+    eq(findActions("scan https://www.google.com/").length,1,'google')
+
+
     // `email` should just match Email Runner which then can offer actions
     eq(startCompletions('email',services).length,1)
+    // 'email' should return actions for read email and compose new email
+    eq(findActions('email').length,2,'email actions')
+
 
     // 4 should match Calculator, shows result of 'Calc 4 = 4'
     eq(startCompletions('4',services).length,1, 'calc 4')
@@ -115,20 +252,26 @@ function test1() {
     eq(startCompletions('4*',services).length,1)
     // 4*5 should match Calculator, shows result of 'Calc 4*5 = 20'
     eq(startCompletions('4*5',services).length,1)
+    // calculate 4*5 should return an action with the result of 4*5 as the title, and open the calc panel
+    eq(findActions('calculate 4*5').length,1,' open calculator')
 
 
 
 
-    // email should match only email app. offers actions of new and read
+    // 'email' should match only email app. offers actions of new and read
     eq(startCompletions('email',services)[0].title,'EmailOpener','just start email')
-    // email jos, email app already accepted, now starts searching for names in contacts
+    // 'email j' should show actions for composing email to everyone who's name begins with 'j'.
+    eq(findActions('email j').length,2)
 
     // `pla` should match MusicRunner
     eq(startCompletions('pla',services)[0].title, 'MusicRunner','music runner')
 
-    // `play beatles` should match music runner playing the beatles
-    // 'play be' should match music runner and return actions to play music by artists that start with be (beatles and beach boys and beck)
     // 'play' should match music runner and return action to open music player
+    eq(findActions('play').length,1)
+    // 'play be' should match music runner and return actions to play music by artists that start with be (beatles and beach boys and beck)
+    eq(findActions('play be').length,3)
+    // `play beatles` should match music runner playing the beatles
+    eq(findActions('play beatles').length,1)
 
     // `weath` should match the weather app
     eq(startCompletions('weath',services)[0].title,'WeatherFinder','weather test')
