@@ -7,6 +7,10 @@
 }
 
 .commandbar .results li {
-    /*width: 100px;*/
     border: 1px solid blue;
+}
+
+.window.PanelViewerApp {
+    border: 2px dotted gray;
+    padding: 2px;
 }
