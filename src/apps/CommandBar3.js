@@ -6,6 +6,7 @@ import {CATEGORIES} from '../schema.js'
 import * as chrono from 'chrono-node'
 import {flatten} from '../util.js'
 import {ActionManagerContext} from '../services/ActionManager.js'
+import {AppLauncherContext} from '../services/AppLauncherService.js'
 
 const APP_NAMES = [
     "chat",
@@ -258,9 +259,6 @@ function find_results(code, db) {
     return list
 }
 
-function perform_action(sel, am) {
-    am.perform_action(sel)
-}
 
 export function CommandBar3() {
     const [code, setCode] = useState("");
@@ -268,6 +266,7 @@ export function CommandBar3() {
     let results = find_results(code,db)
     let [selected, setSelected] = useState(-1)
     let am = useContext(ActionManagerContext)
+    let app_launcher = useContext(AppLauncherContext)
 
     function handle_keys(e) {
         if(selected > results.length) {
@@ -289,7 +288,7 @@ export function CommandBar3() {
             if(selected>=0) {
                 let sel = results[selected]
                 if(sel.action) {
-                    perform_action(sel,am)
+                    am.perform_action(sel,db,app_launcher)
                     setCode("")
                 } else {
                     setCode(sel.text)

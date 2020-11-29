@@ -8,13 +8,14 @@ import React from 'react'
 export class ActionManager {
     constructor() {
     }
-    perform_action(sel) {
+    perform_action(sel, db, app_launcher) {
         console.log("performing action",sel)
         if(sel.service === 'EMAIL_OPENER') {
             console.log("spawn compose panel with contact", sel.person)
         }
         if(sel.service === 'APP_OPENER') {
-            console.log("launching app with id",sel.appid)
+            app_launcher.launchById(sel.appid,db)
+            return
         }
         if(sel.service === 'URL_SCANNER') {
             console.log("scanning",sel)
