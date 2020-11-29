@@ -1,21 +1,15 @@
-import React, {useContext} from "react"
+import React, {useContext, useState} from "react"
 import "./commandbar3.css"
 import {DBContext, propAsString} from '../db.js'
 import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
 import * as chrono from 'chrono-node'
+import {flatten} from '../util.js'
 
 const APP_NAMES = [
     "chat",
     "Calendar",
 ]
-
-// class OpenAppAction {
-//     constructor(name) {
-//         this.name = name
-//         this.title = `Open ${name}`
-//     }
-// }
 
 const APP_OPENER = {
     title:'AppOpener',
@@ -28,7 +22,7 @@ const APP_OPENER = {
         //     .map(name => new OpenAppAction(name))
     },
     get_completions: (args, db) => {
-        console.log("scanning args",args)
+        // console.log("scanning args",args)
         let apps = db.QUERY(AND(IS_CATEGORY(CATEGORIES.APP.ID), IS_TYPE(CATEGORIES.APP.TYPES.APP)))
         let name = args[1]
         name = name.toLowerCase()
@@ -36,7 +30,10 @@ const APP_OPENER = {
         return apps.filter(name_match).map(app => {
             return {
                 text: args[0] + ' ' + app.props.appid,
-                title: `Open ${app.props.title}`
+                title: `Open ${app.props.title}`,
+                action:true,
+                service: 'APP_OPENER',
+                appid: app.props.appid,
             }
         })
     }
@@ -56,16 +53,25 @@ const URL_SCANNER =     {
         if(val.startsWith('http')) {
             return [
                 {
-                    text: args[0] + ' ' + val,
                     title: `Open in browser`,
+                    action:true,
+                    service:'URL_SCANNER',
+                    command:'open',
+                    url:val,
                 },
                 {
-                    text: args[0] + ' ' + val,
-                    title:`scan for news feed (RSS)`
+                    title:`scan for news feed (RSS)`,
+                    action:true,
+                    service:'URL_SCANNER',
+                    command:'scan_news',
+                    url:val,
                 },
                 {
-                    text: args[0] + ' ' + val,
-                    title:`check as image`
+                    title:`check as image`,
+                    action:true,
+                    service:'URL_SCANNER',
+                    command:'scan_image',
+                    url:val,
                 },
             ]
         }
@@ -78,23 +84,16 @@ const EMAIL_OPENER = {
     prefixMatch:(str) => {
         return "email".startsWith(str)
     },
-    findActions: args => {
-        let command = args[0]
-        console.log("command is",command)
-        if(!command || command.trim().length === 0) return [
-            // new OpenInboxAction(),
-            // new ComposeEmailAction(),
-        ]
-        console.log("doing a search on",command)
-        // return PEOPLE.filter(p => p.first.toLowerCase().startsWith(command.toLowerCase()) || p.last.toLowerCase().startsWith(command.toLowerCase())).map(p=>new ComposeEmailAction(p))
-    },
     get_completions: (args, db) => {
         if (args.length < 2) return []
         let val = args[1]
         let people = db.QUERY(AND(IS_CATEGORY(CATEGORIES.CONTACT.ID), IS_TYPE(CATEGORIES.CONTACT.TYPES.PERSON), IS_PROP_SUBSTRING('first',val)))
         return people.map((p)=>({
             text:`${args[0]} person`,
-            title:`compose email to ${propAsString(p,'first')} ${propAsString(p,'last')}`
+            title:`compose email to ${propAsString(p,'first')} ${propAsString(p,'last')}`,
+            action:true,
+            service: 'EMAIL_OPENER',
+            person:p,
         }))
     }
 }
@@ -107,14 +106,16 @@ const EVENT_MAKER = {
         get_completions: (args, db) => {
             if (args.length < 2) return []
             let [first,...rest] = args
-            console.log("EVENT_MAKER rest is",rest.join(" "))
+            // console.log("EVENT_MAKER rest is",rest.join(" "))
             let date = chrono.parseDate(rest.join(" "));
-            console.log("scanned",date)
+            // console.log("scanned",date)
             if(date) {
                 return [
                     {
                         text: 'schedule ',
                         title: `Schedule event at ${date}`,
+                        action:true,
+                        service: "EVENT_MAKER",
                     }
                 ]
             } else {
@@ -130,7 +131,7 @@ const MUSIC_RUNNER = {
     },
     get_completions: (args, db) => {
         if (args.length < 2) return []
-        console.log("MUSIC_RUNNER",args[1])
+        // console.log("MUSIC_RUNNER",args[1])
         let songs = db.QUERY(AND(
             IS_CATEGORY(CATEGORIES.MUSIC.ID),
             IS_TYPE(CATEGORIES.MUSIC.TYPES.SONG),
@@ -141,8 +142,10 @@ const MUSIC_RUNNER = {
             )))
         return songs.map(s => {
             return {
-                text:'music',
-                title:`Play ${propAsString(s,'title')} by ${propAsString(s,'artist')}`
+                text:`play ${args[1]}`,
+                title:`Play ${propAsString(s,'title')} by ${propAsString(s,'artist')}`,
+                action:true,
+                service: 'MUSIC_RUNNER'
             }
         })
     }
@@ -156,8 +159,10 @@ const DICTONARY_LOOKUP = {
     get_completions: (args, db) => {
         if (args.length < 2) return []
         return [{
-            text:'lookup',
-            title:`lookup definition of ${args[1]}`
+            text:`lookup ${args[1]}`,
+            title:`lookup definition of ${args[1]}`,
+            action:true,
+            service:'DICTONARY_LOOKUP',
         }]
     }
 }
@@ -251,25 +256,88 @@ function find_results(code, db) {
     return list
 }
 
+function perform_action(sel) {
+    console.log("performing action",sel)
+    if(sel.service === 'EMAIL_OPENER') {
+        console.log("spawn compose panel with contact", sel.person)
+    }
+    if(sel.service === 'APP_OPENER') {
+        console.log("launching app with id",sel.appid)
+    }
+    if(sel.service === 'URL_SCANNER') {
+        console.log("scanning",sel)
+    }
+    if(sel.service === 'EVENT_MAKER') {
+        console.log("making event",sel)
+    }
+    if(sel.service === 'MUSIC_RUNNER') {
+        console.log("playing music",sel)
+    }
+    if(sel.service === 'DICTONARY_LOOKUP') {
+        console.log("looking up definition of",sel)
+    }
+    if(sel.service === 'FILE_SEARCHER') {
+        console.log("viewing file",sel)
+    }
+    if(sel.service === 'CALCULATOR_SERVICE') {
+        console.log("calculating",sel)
+    }
+    if(sel.service === 'WEATHER_FINDER') {
+        console.log("getting the weather",sel)
+    }
+}
+
 export function CommandBar3() {
-    const [code, setCode] = React.useState("");
+    const [code, setCode] = useState("");
     let db = useContext(DBContext)
     let results = find_results(code,db)
+    let [selected, setSelected] = useState(-1)
 
-    function detect_enter(e) {
+    function handle_keys(e) {
+        if(selected > results.length) {
+            setSelected(results.length -1)
+        }
+        if(e.key === 'ArrowDown') {
+            e.preventDefault()
+            if(selected+1 < results.length) {
+                setSelected(selected+1)
+            }
+        }
+        if(e.key === 'ArrowUp') {
+            e.preventDefault()
+            if(selected>0) {
+                setSelected(selected-1)
+            }
+        }
         if(e.key === 'Enter') {
-            console.log("pressed enter")
-            setCode("")
+            if(selected>=0) {
+                let sel = results[selected]
+                if(sel.action) {
+                    console.log("performing action",sel)
+                    perform_action(sel)
+                    setCode("")
+                } else {
+                    setCode(sel.text)
+                }
+            } else {
+                setCode("")
+            }
         }
     }
 
     return (
         <div className={'commandbar'}>
             <input type={'text'} value={code} onChange={e => setCode(e.target.value)}
-                   onKeyDown={e => detect_enter(e)}
+                   onKeyDown={e => handle_keys(e)}
             />
             <ul className={'results'}>
-                {results.map((r,i) => <li key={i}>{r.title}</li>)}
+                {results.map((r,i) => {
+                    let clss = {
+                        result:true,
+                        selected:(i === selected)
+                    }
+                    return <li key={i} className={flatten(clss)}>{r.title}</li>
+                })}
             </ul>
         </div>
     );

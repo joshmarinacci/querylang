@@ -1,5 +1,9 @@
 .commandbar {
     border: 1px solid red;
+    font-size: 200%;
+}
+.commandbar input {
+    font-size: inherit;
 }
 
 .commandbar .results li {
