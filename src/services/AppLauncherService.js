@@ -24,6 +24,16 @@ export class AppLauncherService {
         ))
         this.launch(apps[0])
     }
+    launchByIdWithArgs(db, appid, args) {
+        let apps = db.QUERY(AND(
+            IS_CATEGORY(CATEGORIES.APP.ID),
+            IS_TYPE(CATEGORIES.APP.TYPES.APP),
+            IS_PROP_EQUAL('appid', appid)
+        ))
+        let app = apps[0]
+        app.launch_args = args
+        this.launch(app)
+    }
     addEventListener(handler) {
         this.listeners.push(handler)
     }

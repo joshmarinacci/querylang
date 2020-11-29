@@ -947,6 +947,9 @@ loadApp(({title:'MinesweepR', appid:'IFrameApp',icon:'apps',launchbar:true}))
 loadApp(({title:'News', appid:'NewsReader',icon:'article',launchbar:true}))
 loadApp(({title:'Podcasts', appid:'PodcastPlayer',icon:'podcast',launchbar:true}))
 loadApp({title:'commandbar3', appid:'CommandBar3', icon:'code', preload:true, launchbar:true})
+loadApp({title:'panel viewer',appid:'PanelViewerApp', launchbar:false,
+    window:{default_width: 300, default_height: 300}
+})
 
 function load_bookmarks() {
     data.push({

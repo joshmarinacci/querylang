@@ -152,7 +152,7 @@ const MUSIC_RUNNER = {
         })
     }
 }
-const DICTONARY_LOOKUP = {
+const DICTIONARY_LOOKUP = {
     title:'DictionaryLookup',
     command:'lookup',
     prefixMatch: str => {
@@ -163,6 +163,7 @@ const DICTONARY_LOOKUP = {
         return [{
             text:`lookup ${args[1]}`,
             title:`lookup definition of ${args[1]}`,
+            word: args[1],
             action:true,
             service:'DICTONARY_LOOKUP',
         }]
@@ -226,7 +227,7 @@ const COMMAND_SERVICES = [
     EMAIL_OPENER,
     EVENT_MAKER,
     MUSIC_RUNNER,
-    DICTONARY_LOOKUP,
+    DICTIONARY_LOOKUP,
     FILE_SEARCHER,
     CALCULATOR_SERVICE,
     WEATHER_FINDER,

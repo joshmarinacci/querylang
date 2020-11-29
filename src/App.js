@@ -36,6 +36,7 @@ import {DialogContainer, DialogManager, DialogManagerContext} from './ui/DialogM
 import {PodcastPlayer} from './apps/PodcastPlayer.js'
 import {CommandBar3} from './apps/CommandBar3.js'
 import {ActionManager, ActionManagerContext} from './services/ActionManager.js'
+import {PanelViewerApp} from './apps/PanelViewerApp.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
@@ -101,6 +102,7 @@ function App() {
     if(appid === 'IFrameApp') return <IFrameApp app={app}/>
     if(appid === 'NewsReader') return <NewsReader app={app}/>
     if(appid === 'PodcastPlayer') return <PodcastPlayer app={app}/>
+    if(appid === 'PanelViewerApp') return <PanelViewerApp app={app}/>
 
     return <div>app not found <b>{appid}</b></div>
   }
