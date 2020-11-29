@@ -5,6 +5,7 @@ import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
 import * as chrono from 'chrono-node'
 import {flatten} from '../util.js'
+import {ActionManagerContext} from '../services/ActionManager.js'
 
 const APP_NAMES = [
     "chat",
@@ -233,6 +234,7 @@ const COMMAND_SERVICES = [
 
 function find_results(code, db) {
     let args = code.split(" ")
+    if(args[0] === '') return []
     // console.log("=== searching for results to",args)
     let list = []
     COMMAND_SERVICES.forEach(svc => {
@@ -256,35 +258,8 @@ function find_results(code, db) {
     return list
 }
 
-function perform_action(sel) {
-    console.log("performing action",sel)
-    if(sel.service === 'EMAIL_OPENER') {
-        console.log("spawn compose panel with contact", sel.person)
-    }
-    if(sel.service === 'APP_OPENER') {
-        console.log("launching app with id",sel.appid)
-    }
-    if(sel.service === 'URL_SCANNER') {
-        console.log("scanning",sel)
-    }
-    if(sel.service === 'EVENT_MAKER') {
-        console.log("making event",sel)
-    }
-    if(sel.service === 'MUSIC_RUNNER') {
-        console.log("playing music",sel)
-    }
-    if(sel.service === 'DICTONARY_LOOKUP') {
-        console.log("looking up definition of",sel)
-    }
-    if(sel.service === 'FILE_SEARCHER') {
-        console.log("viewing file",sel)
-    }
-    if(sel.service === 'CALCULATOR_SERVICE') {
-        console.log("calculating",sel)
-    }
-    if(sel.service === 'WEATHER_FINDER') {
-        console.log("getting the weather",sel)
-    }
+function perform_action(sel, am) {
+    am.perform_action(sel)
 }
 
 export function CommandBar3() {
@@ -292,6 +267,7 @@ export function CommandBar3() {
     let db = useContext(DBContext)
     let results = find_results(code,db)
     let [selected, setSelected] = useState(-1)
+    let am = useContext(ActionManagerContext)
 
     function handle_keys(e) {
         if(selected > results.length) {
@@ -313,8 +289,7 @@ export function CommandBar3() {
             if(selected>=0) {
                 let sel = results[selected]
                 if(sel.action) {
-                    console.log("performing action",sel)
-                    perform_action(sel)
+                    perform_action(sel,am)
                     setCode("")
                 } else {
                     setCode(sel.text)

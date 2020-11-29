@@ -34,11 +34,14 @@ import {IFrameApp} from './apps/IframeApp.js'
 import {NewsReader} from './apps/NewsReader.js'
 import {DialogContainer, DialogManager, DialogManagerContext} from './ui/DialogManager.js'
 import {PodcastPlayer} from './apps/PodcastPlayer.js'
+import {CommandBar3} from './apps/CommandBar3.js'
+import {ActionManager, ActionManagerContext} from './services/ActionManager.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
 let alarm_service = new AlarmService(db_service)
 let pm = new PopupManager()
+let am = new ActionManager()
 let wm = new WindowManager()
 
 function App() {
@@ -91,6 +94,7 @@ function App() {
     if(appid === 'DebugPanel') return <DebugPanel app={app} />
 
     if(appid === 'CommandBar') return <CommandBar app={app} />
+    if(appid === 'CommandBar3') return <CommandBar3 app={app} />
     if(appid === 'SettingsApp') return <SettingsApp app={app}/>
     if(appid === 'DataBrowser') return <DataBrowser app={app}/>
     if(appid === 'FileBrowserApp') return <FileBrowserApp app={app}/>
@@ -117,10 +121,12 @@ function App() {
       <AppLauncherContext.Provider value={app_launcher_service}>
         <AlarmContext.Provider value={alarm_service}>
           <PopupManagerContext.Provider value={pm}>
-            <BackgroundImage/>
-          <AppBar/>
-          {ins}
-          <PopupContainer/>
+            <ActionManagerContext.Provider value={am}>
+              <BackgroundImage/>
+              <AppBar/>
+              {ins}
+              <PopupContainer/>
+            </ActionManagerContext.Provider>
           </PopupManagerContext.Provider>
         </AlarmContext.Provider>
       </AppLauncherContext.Provider>
