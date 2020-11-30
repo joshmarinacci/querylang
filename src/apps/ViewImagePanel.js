@@ -25,7 +25,8 @@ export function ViewImagePanel({args}) {
             <img className={'thumbnail'} src={propAsString(file,'url')}
                  style={{
                      width:'auto',
-                     maxWidth:'300px',
+                     maxWidth:'100%',
+                     maxHeight: '100%',
                      height:'auto',
                  }}
             />
