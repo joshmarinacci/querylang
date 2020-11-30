@@ -1037,6 +1037,68 @@ function load_remotefiles() {
             tags:['wallpaper'],
         }
     })
+    data.push({
+        id:genid("file"),
+        category: CATEGORIES.FILES.ID,
+        type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
+        props: {
+            filename:"Roseate Spoonbill",
+            creator:'https://unsplash.com/@rayhennessy',
+            mimetype:'image/jpg',
+            url:'https://source.unsplash.com/VgvtxnoAg4Q/1440x900',
+            tags:['wallpaper'],
+        }
+    })
+    data.push({
+        id:genid("file"),
+        category: CATEGORIES.FILES.ID,
+        type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
+        props: {
+            filename:"Mesosaurus Fossil Camp, C17, Namibia",
+            creator:'https://unsplash.com/@harrycunnningham1',
+            mimetype:'image/jpg',
+            url:'https://source.unsplash.com/SiWwHAvcm4g/1440x900',
+            tags:['wallpaper'],
+        }
+    })
+
+
+    data.push({
+        id:genid("file"),
+        category: CATEGORIES.FILES.ID,
+        type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
+        props: {
+            filename:"Mummy Boy",
+            creator:'https://unsplash.com/@eadesstudio',
+            mimetype:'image/jpg',
+            url:'https://source.unsplash.com/_r7_ktKLR0w/1440x900',
+            tags:['wallpaper'],
+        }
+    })
+    data.push({
+        id:genid("file"),
+        category: CATEGORIES.FILES.ID,
+        type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
+        props: {
+            filename:"Time Square movement",
+            creator:'https://unsplash.com/@supergios',
+            mimetype:'image/jpg',
+            url:'https://source.unsplash.com/q7iwsTvPLxA/1440x900',
+            tags:['wallpaper'],
+        }
+    })
+    data.push({
+        id:genid("file"),
+        category: CATEGORIES.FILES.ID,
+        type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
+        props: {
+            filename:"San Francisco 2020, after the labor day fires",
+            creator:'https://unsplash.com/@stay_in_touch',
+            mimetype:'image/jpg',
+            url:'https://source.unsplash.com/rAtADOlvcos/1440x900',
+            tags:['wallpaper'],
+        }
+    })
 }
 
 load_remotefiles()
