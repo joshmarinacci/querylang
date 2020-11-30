@@ -40,7 +40,7 @@ export function SystemBar({app}) {
         </div>
         <Spacer/>
         <div className={'grp'}>
-            <Icon onClick={()=>launch("CommandBar")}>code</Icon>
+            <Icon onClick={()=>launch("CommandBar3")}>code</Icon>
             <Icon onClick={()=>launch("SettingsApp")}>settings</Icon>
             <Icon onClick={()=>launch("DebugPanel")}>bug_report</Icon>
         </div>

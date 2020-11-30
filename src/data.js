@@ -935,8 +935,6 @@ loadApp( {title:"SystemBar", appid:'SystemBar',preload:true,launchbar:false,
 
 loadApp({title:'Bookmarks', appid:"BookmarksManager",icon:'bookmarks'})
 loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report', launchbar: false, window:{default_width: 200, default_height: 200}})
-loadApp({ title:'cmd.bar', appid:'CommandBar', icon:'code',  preload:false, launchbar:false,
-    window: { default_width: 400,  default_height: 100 }})
 loadApp({title:"Maps", appid:"MapViewer", icon:'map', launchbar:false})
 loadApp({title:"Settings", appid:"SettingsApp", icon:'settings', launchbar:false,
     window:{default_width:400, default_height:400}})

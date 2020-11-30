@@ -18,7 +18,6 @@ import {NotificationPanel} from './apps/NotificationPanel.js'
 import {AND} from './query2.js'
 import {AlarmContext, AlarmService} from './services/AlarmService.js'
 import {DebugPanel} from './apps/debug.js'
-import {CommandBar} from './apps/CommandBar.js'
 import {PopupContainer, PopupManager, PopupManagerContext} from './ui/PopupManager.js'
 import {MapViewer} from './apps/maps.js'
 import {SettingsApp} from './apps/settings.js'
@@ -50,7 +49,7 @@ function App() {
   useEffect(()=>{
     let handle = (e)=>{
       if(e.key === ' ' && e.ctrlKey===true) {
-        app_launcher_service.launchById('CommandBar',db_service)
+        app_launcher_service.launchById('CommandBar3',db_service)
       }
     }
     document.addEventListener('keypress',handle)
@@ -94,7 +93,6 @@ function App() {
     if(appid === 'BookmarksManager') return <BookmarksManager app={app}/>
     if(appid === 'DebugPanel') return <DebugPanel app={app} />
 
-    if(appid === 'CommandBar') return <CommandBar app={app} />
     if(appid === 'CommandBar3') return <CommandBar3 app={app} />
     if(appid === 'SettingsApp') return <SettingsApp app={app}/>
     if(appid === 'DataBrowser') return <DataBrowser app={app}/>
