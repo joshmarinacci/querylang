@@ -75,10 +75,15 @@ function processType(pred,o) {
     if(o.type !== pred.TYPE) return false
     return true
 }
+function processId(pred,o) {
+    if(pred.ID !== o.id) return false
+    return true
+}
 
 function passPredicate(pred,o) {
     if(pred.hasOwnProperty('CATEGORY') && !processCategory(pred,o)) return false
     if(pred.hasOwnProperty('TYPE') && !processType(pred,o)) return false
+    if(pred.hasOwnProperty('ID') && !processId(pred,o)) return false
     if(isOr(pred) && !processOr(pred,o)) return false;
     if(isAnd(pred) && !processAnd(pred,o)) return false;
     if(pred.hasOwnProperty('equal') && !processEqual(pred.equal,o)) return false
@@ -119,6 +124,7 @@ export function query2(data,opts) {
 export const AND = (...args) => ({ and: args})
 export const OR = (...args) => ({ or: args})
 export const IS_CATEGORY = (CATEGORY) => ({CATEGORY})
+export const IS_ID = ID => ({ID})
 export const IS_TYPE = (TYPE) => ({TYPE})
 export const IS_PROP_EQUAL = (prop,value) => ({ equal: {prop, value, negate:false}})
 export const IS_PROP_NOTEQUAL = (prop,value) => ({ equal: {prop, value, negate:true}})

@@ -48,6 +48,11 @@ export class ActionManager {
         }
         if(action.service === 'FILE_SEARCHER') {
             console.log("viewing file",action)
+            app_launcher.launchByIdWithArgs(db, 'PanelViewerApp',{
+                title:'viewing file',
+                panel_func: 'ViewImagePanel',
+                info:action,
+            })
         }
         if(action.service === 'CALCULATOR_SERVICE') {
             console.log("calculating",action)

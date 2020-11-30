@@ -1010,4 +1010,35 @@ data.push({
     }
 })
 
+
+function load_remotefiles() {
+    data.push({
+        id:genid("file"),
+        category: CATEGORIES.FILES.ID,
+        type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
+        props: {
+            filename:"SpirallingStaircase.jpg",
+            mimetype:'image/jpg',
+            creator:'',
+            url:'https://source.unsplash.com/h_9L1oSiAh8/1440x900',
+            //https://source.unsplash.com/{PHOTO ID}/{WIDTHxHEIGHT}
+            tags:['wallpaper'],
+        }
+    })
+    data.push({
+        id:genid("file"),
+        category: CATEGORIES.FILES.ID,
+        type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
+        props: {
+            filename:"Iceland.jpg",
+            creator:'https://unsplash.com/@lenswithbenefits',
+            mimetype:'image/jpg',
+            url:'https://source.unsplash.com/qdhiGlMXzOs/1440x900',
+            tags:['wallpaper'],
+        }
+    })
+}
+
+load_remotefiles()
+
 export const DATA = data

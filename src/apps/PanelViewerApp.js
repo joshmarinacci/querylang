@@ -1,11 +1,13 @@
 import React, {Component} from 'react'
 import {DictionaryPanel} from './DictionaryPanel'
+import {ViewImagePanel} from './ViewImagePanel.js'
 
 export class PanelViewerApp extends Component {
     constructor(props) {
         super(props);
         this.panels = {
             DictionaryPanel:DictionaryPanel,
+            ViewImagePanel:ViewImagePanel,
         }
     }
     render() {

@@ -3,7 +3,7 @@ import {ActionButton, HBox, Panel, TagsetEditor, ToggleButton, ToggleGroup, Tool
 import {flatten} from '../util.js'
 
 import "./filebrowser.css"
-import {DBContext, propAsString, useDBChanged} from '../db.js'
+import {DBContext, propAsDate, propAsString, useDBChanged} from '../db.js'
 import Icon from '@material-ui/core/Icon'
 
 import {format} from "date-fns"
@@ -105,7 +105,7 @@ function FileList({files, selected, setSelected}){
                            return <StandardSourceItem
                                icon={calculateIcon(item)}
                                title={propAsString(item,'filename')}
-                               trailing_text={format(item.props.modified_date,'MMM dd, yyyy')}
+                               trailing_text={format(propAsDate(item,'modified_date'),'MMM dd, yyyy')}
                                {...args}/>
                        }}/>
 }

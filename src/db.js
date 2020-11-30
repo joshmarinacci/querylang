@@ -118,6 +118,15 @@ export function propAsArray(s, key) {
     }
 }
 
+export function propAsDate(s, key) {
+    if(!s) return Date.now()
+    if(!s.props) return Date.now()
+    if(s.props[key] instanceof Date) return s.props[key]
+    console.warn("property value not a date",s.props[key])
+    return Date.now()
+}
+
+
 export function filter(list,opts) {
     return list.filter(o => {
         let pass = true

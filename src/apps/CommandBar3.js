@@ -177,16 +177,22 @@ const FILE_SEARCHER = {
     },
     get_completions: (args, db) => {
         if (args.length < 2) return []
+        let q = args[1]
+        if(q.trim() === '') return []
         let files = db.QUERY(AND(
             IS_CATEGORY(CATEGORIES.FILES.ID),
-            IS_TYPE(CATEGORIES.FILES.SCHEMAS.FILE_INFO),
+            IS_TYPE(CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE),
             OR(
-                IS_PROP_SUBSTRING('filename',args[1]),
-                IS_PROP_SUBSTRING('url',args[1]),
-            )))
+                IS_PROP_SUBSTRING('filename',q),
+                IS_PROP_SUBSTRING('url',q),
+            )
+        ))
         return files.map(f => ({
-            text:'file: ',
-            title:`view file ${args[1]}`
+            text:`file: ${propAsString(f,'filename')}`,
+            title:`view file ${propAsString(f,'filename')}`,
+            action:true,
+            service:'FILE_SEARCHER',
+            fileid:f.id,
         }))
     }
 }
