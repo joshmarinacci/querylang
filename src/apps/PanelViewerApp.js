@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {DictionaryPanel} from './DictionaryPanel'
 import {ViewImagePanel} from './ViewImagePanel.js'
+import {WebpageScanResultsPanel} from "./WebpageScanResultsPanel.js"
 
 export class PanelViewerApp extends Component {
     constructor(props) {
@@ -8,6 +9,7 @@ export class PanelViewerApp extends Component {
         this.panels = {
             DictionaryPanel:DictionaryPanel,
             ViewImagePanel:ViewImagePanel,
+            WebpageScanResultsPanel:WebpageScanResultsPanel
         }
     }
     render() {

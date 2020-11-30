@@ -4,6 +4,7 @@ invokes actions for system wide commands
 
 
 import React from 'react'
+import {SCAN_SERVER_URL} from '../apps/NewsReader.js'
 
 export class ActionManager {
     constructor() {
@@ -19,6 +20,19 @@ export class ActionManager {
         }
         if(action.service === 'URL_SCANNER') {
             console.log("scanning",action)
+            let furl = `${SCAN_SERVER_URL}?url=${action.url}`;
+            console.log("fetching", furl)
+            return fetch(furl).then(r => r.json()).then(d => {
+                console.log("results are",d)
+                app_launcher.launchByIdWithArgs(db, 'PanelViewerApp',{
+                    title:'scan results',
+                    panel_func: 'WebpageScanResultsPanel',
+                    info:{
+                        action:action,
+                        results:d,
+                    },
+                })
+            })
         }
         if(action.service === 'EVENT_MAKER') {
             console.log("making event",action)

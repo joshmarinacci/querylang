@@ -29,7 +29,7 @@ dompurify.addHook('afterSanitizeAttributes', function (node) {
 
 
 const RSS_SERVER_URL = "http://localhost:30011/rss"
-const SCAN_SERVER_URL = "http://localhost:30011/scan"
+export const SCAN_SERVER_URL = "http://localhost:30011/scan"
 
 function refresh (db) {
     console.log("parsing feed")
@@ -114,6 +114,7 @@ export function NewsReader({}) {
     let [sub, set_sub] = useState(null)
 
     let subs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.RSS.ID), IS_TYPE(CATEGORIES.RSS.SCHEMAS.SUBSCRIPTION.TYPE)))
+    console.log("subs length",subs.length)
     let posts = db.QUERY(AND(IS_CATEGORY(CATEGORIES.RSS.ID), IS_TYPE(CATEGORIES.RSS.SCHEMAS.POST.TYPE), IS_PROP_EQUAL('subscription',sub?sub.id:null)))
     sort(posts,['post_date'])
 
