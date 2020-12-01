@@ -8,11 +8,11 @@ import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 
 import {format} from "date-fns"
 import {Panel, Spacer, Toolbar} from '../ui/ui.js'
-import {flatten} from '../util.js'
+import {get_json_with_auth, flatten} from '../util.js'
 import "./NewsReader.css"
 import {DialogManagerContext} from '../ui/DialogManager.js'
 import dompurify from 'dompurify';
-import {BASE_SERVICE_URL, RSS_SERVER_URL} from '../globals.js'
+import {RSS_SERVER_URL, SCAN_SERVER_URL} from '../globals.js'
 
 dompurify.addHook('afterSanitizeAttributes', function (node) {
     // set all elements owning target to target=_blank
@@ -34,7 +34,7 @@ function refresh (db) {
     let subs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.RSS.ID), IS_TYPE(CATEGORIES.RSS.SCHEMAS.SUBSCRIPTION.TYPE)))
     subs.map(sub => {
         let url = `${RSS_SERVER_URL}?url=${propAsString(sub,'url')}`;
-        return fetch(url).then(r => r.json()).then(d => {
+        return get_json_with_auth(url).then(r => r.json()).then(d => {
             //update subscription title and description if changed
             db.setProp(sub,'title',d.meta.title)
             db.setProp(sub,'description',d.meta.description)
@@ -80,7 +80,7 @@ function AddFeedDialog({onDone, onCancel}) {
         console.log("scanning", url)
         let furl = `${SCAN_SERVER_URL}?url=${url}`;
         console.log("fetching", furl)
-        return fetch(furl).then(r => r.json()).then(d => {
+        return get_json_with_auth(furl).then(r => r.json()).then(d => {
             console.log("results are",d)
             if(d.mimetype && d.mimetype.startsWith("text/html")) {
                 console.log("it's a webpage")

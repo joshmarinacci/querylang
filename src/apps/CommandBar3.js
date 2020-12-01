@@ -10,10 +10,10 @@ import {AppLauncherContext} from '../services/AppLauncherService.js'
 
 
 function find_results(code, db) {
-    let cmds = db.QUERY(AND(IS_CATEGORY(CATEGORIES.APP.ID),IS_TYPE(CATEGORIES.APP.SCHEMAS.SEARCH_PLUGIN.TYPE) ))
     let args = code.split(" ")
     if(args[0] === '') return []
     // console.log("=== searching for results to",args)
+    let cmds = db.QUERY(AND(IS_CATEGORY(CATEGORIES.APP.ID),IS_TYPE(CATEGORIES.APP.SCHEMAS.SEARCH_PLUGIN.TYPE) ))
     let list = []
     cmds.forEach(obj => {
         let svc = obj.props.plugin

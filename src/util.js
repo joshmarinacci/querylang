@@ -29,7 +29,7 @@ export function calculateFoldersFromTags(folders) {
 
 export const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));
 
-export function fetch_with_auth(url) {
+export function get_json_with_auth(url) {
     return fetch(url,{
         headers:{
             'access-key':'testkey',
@@ -38,7 +38,7 @@ export function fetch_with_auth(url) {
 }
 
 export function check_services() {
-    return fetch_with_auth(INFO_SERVER_URL).then(r => r.json())
+    return get_json_with_auth(INFO_SERVER_URL).then(r => r.json())
 }
 
 export function post_json_with_auth(url,payload) {

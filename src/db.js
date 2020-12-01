@@ -376,6 +376,14 @@ class DB {
             return value
         }))
     }
+    persist_to_plainobject() {
+        let local = this.data.filter(i => i.local === true)
+        let str = JSON.stringify(local,function(key,value){
+            if(key === 'props') return encode_props_with_types(value)
+            return value
+        })
+        return JSON.parse(str)
+    }
     reload(key) {
         this.object_cache = {}
         this.loadPresetData(this._original_data)
@@ -389,6 +397,26 @@ class DB {
         this.clearLocalStorage(key)
         this.loadPresetData(this._original_data)
         this.loadLocalStorage(key)
+        this.validateData()
+        this._fireUpdateAll()
+    }
+    nuke_and_reload_from_plainobject(obj) {
+        console.log("nuking and reloading " + obj)
+        this.object_cache = {}
+        this.loadPresetData(this._original_data)
+        console.log("loading in data ",obj)
+        let str = JSON.stringify(obj)
+        let local = JSON.parse(str,function(key,value) {
+            if(key === 'props') return decode_props_with_types(value);
+            return value
+        })
+
+        console.log("new local data is",local)
+        local.forEach(item => {
+            this.data.push(item)
+            this.object_cache[item.id] = item
+        })
+
         this.validateData()
         this._fireUpdateAll()
     }

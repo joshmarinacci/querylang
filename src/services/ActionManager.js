@@ -9,7 +9,7 @@ import {CATEGORIES} from '../schema.js'
 import {propAsString} from '../db.js'
 import * as chrono from 'chrono-node'
 import {SCAN_SERVER_URL} from '../globals.js'
-import {fetch_with_auth} from '../util.js'
+import {get_json_with_auth} from '../util.js'
 
 export class ActionManager {
     constructor() {
@@ -26,7 +26,7 @@ export class ActionManager {
         if(action.service === 'URL_SCANNER') {
             console.log("scanning",action)
             let furl = `${SCAN_SERVER_URL}?url=${action.url}`;
-            return fetch_with_auth(furl).then(r => r.json()).then(d => {
+            return get_json_with_auth(furl).then(r => r.json()).then(d => {
                 app_launcher.launchByIdWithArgs(db, 'PanelViewerApp',{
                     title:'scan results',
                     panel_func: 'WebpageScanResultsPanel',
@@ -309,6 +309,7 @@ export function load_commandbar_plugins(db) {
         let obj = db.make(CATEGORIES.APP.ID, CATEGORIES.APP.SCHEMAS.SEARCH_PLUGIN.TYPE)
         obj.props.plugin = cmd
         db.add(obj)
+        obj.local = false
     })
 }
 

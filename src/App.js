@@ -36,7 +36,7 @@ import {PodcastPlayer} from './apps/PodcastPlayer.js'
 import {CommandBar3} from './apps/CommandBar3.js'
 import {ActionManager, ActionManagerContext, load_commandbar_plugins} from './services/ActionManager.js'
 import {PanelViewerApp} from './apps/PanelViewerApp.js'
-import {check_services, fetch_with_auth} from './util.js'
+import {check_services, get_json_with_auth} from './util.js'
 import {PERSIST_SERVER_URL} from './globals.js'
 
 let db_service = makeDB()
@@ -74,8 +74,10 @@ function App() {
       check_services()
           .then(d=>{
             console.log("services loaded",d)
-            fetch_with_auth(PERSIST_SERVER_URL+'/load/myjson').then(r => r.json()).then(r => {
+            get_json_with_auth(PERSIST_SERVER_URL+'/load/myjson').then(r => r.json()).then(r => {
               console.log('response from persist is',r)
+              db_service.nuke_and_reload_from_plainobject(r.data)
+              load_commandbar_plugins(db_service)
             })
           })
           .catch(e => {
