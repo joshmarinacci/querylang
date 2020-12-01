@@ -6,6 +6,8 @@ import {AppLauncherContext} from '../services/AppLauncherService.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
 import {genid} from '../data.js'
+import {PERSIST_SERVER_URL} from '../globals.js'
+import {post_json_with_auth} from '../util.js'
 
 let datasets = [
     {
@@ -45,6 +47,13 @@ export function DebugPanel({app}) {
             setProp(alert,'title','saved to local storage')
             db.add(alert)
         }}>persist</button>
+        <button children={'primary'} onClick={()=>{
+            console.log("saving to remote server")
+            let data = db.persist_to_json_blob()
+            post_json_with_auth(PERSIST_SERVER_URL+'/save/myjson',data).then(d => {
+                console.log("data response is",d)
+            })
+        }}>persist remote</button>
         <button className={'primary'} onClick={()=>db.reload(ds.key)}>reload</button>
         <button className={'primary'} onClick={()=>launch("DataBrowser")}>data browser</button>
         <Spacer/>

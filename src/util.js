@@ -38,7 +38,16 @@ export function fetch_with_auth(url) {
 }
 
 export function check_services() {
-    return fetch_with_auth(INFO_SERVER_URL).then(r => r.json()).then(d =>{
-        console.log("info is",d)
-    })
+    return fetch_with_auth(INFO_SERVER_URL).then(r => r.json())
+}
+
+export function post_json_with_auth(url,payload) {
+    return fetch(url,{
+        method:'POST',
+        headers:{
+            'content-type':'application/json',
+            'access-key':'testkey',
+        },
+        body:JSON.stringify(payload)
+    }).then(r => r.json())
 }

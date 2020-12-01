@@ -36,7 +36,8 @@ import {PodcastPlayer} from './apps/PodcastPlayer.js'
 import {CommandBar3} from './apps/CommandBar3.js'
 import {ActionManager, ActionManagerContext, load_commandbar_plugins} from './services/ActionManager.js'
 import {PanelViewerApp} from './apps/PanelViewerApp.js'
-import {check_services} from './util.js'
+import {check_services, fetch_with_auth} from './util.js'
+import {PERSIST_SERVER_URL} from './globals.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
@@ -70,7 +71,14 @@ function App() {
   useState(() => {
     console.log("inside startup effect")
     setTimeout(()=>{
-      check_services().catch(e => {
+      check_services()
+          .then(d=>{
+            console.log("services loaded",d)
+            fetch_with_auth(PERSIST_SERVER_URL+'/load/myjson').then(r => r.json()).then(r => {
+              console.log('response from persist is',r)
+            })
+          })
+          .catch(e => {
         console.log("services not available")
         let alert = db_service.make(CATEGORIES.NOTIFICATION.ID, CATEGORIES.NOTIFICATION.TYPES.ALERT)
         setProp(alert,'title','services not available')
