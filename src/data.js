@@ -1,8 +1,6 @@
 import sub from "date-fns/sub"
-import {CATEGORIES, validateData} from './schema.js'
-import {Window} from './ui/window.js'
+import {CATEGORIES} from './schema.js'
 import React from 'react'
-import {load_commandbar_plugins} from './services/ActionManager.js'
 
 const data = [
     {

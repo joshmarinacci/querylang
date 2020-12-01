@@ -12,6 +12,7 @@ import {flatten} from '../util.js'
 import "./NewsReader.css"
 import {DialogManagerContext} from '../ui/DialogManager.js'
 import dompurify from 'dompurify';
+import {BASE_SERVICE_URL, RSS_SERVER_URL} from '../globals.js'
 
 dompurify.addHook('afterSanitizeAttributes', function (node) {
     // set all elements owning target to target=_blank
@@ -27,9 +28,6 @@ dompurify.addHook('afterSanitizeAttributes', function (node) {
     }
 });
 
-
-const RSS_SERVER_URL = "http://localhost:30011/rss"
-export const SCAN_SERVER_URL = "http://localhost:30011/scan"
 
 function refresh (db) {
     console.log("parsing feed")

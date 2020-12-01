@@ -4,11 +4,12 @@ invokes actions for system wide commands
 
 
 import React from 'react'
-import {SCAN_SERVER_URL} from '../apps/NewsReader.js'
 import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
 import {propAsString} from '../db.js'
 import * as chrono from 'chrono-node'
+import {SCAN_SERVER_URL} from '../globals.js'
+import {fetch_with_auth} from '../util.js'
 
 export class ActionManager {
     constructor() {
@@ -25,9 +26,7 @@ export class ActionManager {
         if(action.service === 'URL_SCANNER') {
             console.log("scanning",action)
             let furl = `${SCAN_SERVER_URL}?url=${action.url}`;
-            console.log("fetching", furl)
-            return fetch(furl).then(r => r.json()).then(d => {
-                console.log("results are",d)
+            return fetch_with_auth(furl).then(r => r.json()).then(d => {
                 app_launcher.launchByIdWithArgs(db, 'PanelViewerApp',{
                     title:'scan results',
                     panel_func: 'WebpageScanResultsPanel',
@@ -89,12 +88,7 @@ const APP_OPENER = {
     prefixMatch:(str) => {
         return "open".startsWith(str)
     },
-    findActions: (args) => {
-        // return APP_NAMES.filter(a => a.toLowerCase().startsWith(args[0].toLowerCase()))
-        //     .map(name => new OpenAppAction(name))
-    },
     get_completions: (args, db) => {
-        // console.log("scanning args",args)
         let apps = db.QUERY(AND(IS_CATEGORY(CATEGORIES.APP.ID), IS_TYPE(CATEGORIES.APP.TYPES.APP)))
         let name = args[1]
         name = name.toLowerCase()
