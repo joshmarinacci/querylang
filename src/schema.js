@@ -379,6 +379,7 @@ export const CATEGORIES = {
         },
         SCHEMAS: {
             APP: {
+                TYPE:'APP',
                 title:'app',
                 props: {
                     title: {
@@ -406,6 +407,13 @@ export const CATEGORIES = {
                         type: BOOLEAN,
                         default: true
                     }
+                }
+            },
+            SEARCH_PLUGIN:{
+                TYPE:'SEARCH_PLUGIN',
+                title:'Search Plugin',
+                props:{
+
                 }
             }
         }

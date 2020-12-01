@@ -34,7 +34,7 @@ import {NewsReader} from './apps/NewsReader.js'
 import {DialogContainer, DialogManager, DialogManagerContext} from './ui/DialogManager.js'
 import {PodcastPlayer} from './apps/PodcastPlayer.js'
 import {CommandBar3} from './apps/CommandBar3.js'
-import {ActionManager, ActionManagerContext} from './services/ActionManager.js'
+import {ActionManager, ActionManagerContext, load_commandbar_plugins} from './services/ActionManager.js'
 import {PanelViewerApp} from './apps/PanelViewerApp.js'
 
 let db_service = makeDB()
@@ -43,6 +43,8 @@ let alarm_service = new AlarmService(db_service)
 let pm = new PopupManager()
 let am = new ActionManager()
 let wm = new WindowManager()
+load_commandbar_plugins(db_service)
+
 
 function App() {
 

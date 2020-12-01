@@ -309,3 +309,14 @@ export const COMMAND_SERVICES = [
     WEATHER_FINDER,
 ]
 
+
+export function load_commandbar_plugins(db) {
+    COMMAND_SERVICES.forEach(cmd => {
+        let obj = db.make(CATEGORIES.APP.ID, CATEGORIES.APP.SCHEMAS.SEARCH_PLUGIN.TYPE)
+        obj.props.plugin = cmd
+        db.add(obj)
+    })
+}
+
+
+

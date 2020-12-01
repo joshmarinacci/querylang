@@ -2,6 +2,7 @@ import sub from "date-fns/sub"
 import {CATEGORIES, validateData} from './schema.js'
 import {Window} from './ui/window.js'
 import React from 'react'
+import {load_commandbar_plugins} from './services/ActionManager.js'
 
 const data = [
     {
@@ -1010,92 +1011,54 @@ data.push({
 
 
 function load_remotefiles() {
-    data.push({
-        id:genid("file"),
-        category: CATEGORIES.FILES.ID,
-        type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
-        props: {
-            filename:"SpirallingStaircase.jpg",
-            mimetype:'image/jpg',
-            creator:'',
-            url:'https://source.unsplash.com/h_9L1oSiAh8/1440x900',
-            //https://source.unsplash.com/{PHOTO ID}/{WIDTHxHEIGHT}
-            tags:['wallpaper'],
-        }
+    function preload_remote_jpeg_wallpaper(param) {
+        data.push({
+            id:genid("file"),
+            category: CATEGORIES.FILES.ID,
+            type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
+            props: {
+                filename:param.filename,
+                mimetype:'image/jpg',
+                creator:param.creator,
+                url:param.url,
+                tags:['wallpaper'],
+            }
+        })
+    }
+    preload_remote_jpeg_wallpaper({
+        filename:"SpirallingStaircase.jpg",
+        creator:'',
+        url:'https://source.unsplash.com/h_9L1oSiAh8/1440x900',
     })
-    data.push({
-        id:genid("file"),
-        category: CATEGORIES.FILES.ID,
-        type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
-        props: {
-            filename:"Iceland.jpg",
-            creator:'https://unsplash.com/@lenswithbenefits',
-            mimetype:'image/jpg',
-            url:'https://source.unsplash.com/qdhiGlMXzOs/1440x900',
-            tags:['wallpaper'],
-        }
+    preload_remote_jpeg_wallpaper({
+        filename:"Iceland.jpg",
+        creator:'https://unsplash.com/@lenswithbenefits',
+        url:'https://source.unsplash.com/qdhiGlMXzOs/1440x900',
     })
-    data.push({
-        id:genid("file"),
-        category: CATEGORIES.FILES.ID,
-        type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
-        props: {
-            filename:"Roseate Spoonbill",
-            creator:'https://unsplash.com/@rayhennessy',
-            mimetype:'image/jpg',
-            url:'https://source.unsplash.com/VgvtxnoAg4Q/1440x900',
-            tags:['wallpaper'],
-        }
+    preload_remote_jpeg_wallpaper({
+        filename:"Roseate Spoonbill",
+        creator:'https://unsplash.com/@rayhennessy',
+        url:'https://source.unsplash.com/VgvtxnoAg4Q/1440x900',
     })
-    data.push({
-        id:genid("file"),
-        category: CATEGORIES.FILES.ID,
-        type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
-        props: {
-            filename:"Mesosaurus Fossil Camp, C17, Namibia",
-            creator:'https://unsplash.com/@harrycunnningham1',
-            mimetype:'image/jpg',
-            url:'https://source.unsplash.com/SiWwHAvcm4g/1440x900',
-            tags:['wallpaper'],
-        }
+    preload_remote_jpeg_wallpaper({
+        filename:"Mesosaurus Fossil Camp, C17, Namibia",
+        creator:'https://unsplash.com/@harrycunnningham1',
+        url:'https://source.unsplash.com/SiWwHAvcm4g/1440x900',
     })
-
-
-    data.push({
-        id:genid("file"),
-        category: CATEGORIES.FILES.ID,
-        type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
-        props: {
-            filename:"Mummy Boy",
-            creator:'https://unsplash.com/@eadesstudio',
-            mimetype:'image/jpg',
-            url:'https://source.unsplash.com/_r7_ktKLR0w/1440x900',
-            tags:['wallpaper'],
-        }
+    preload_remote_jpeg_wallpaper({
+        filename:"Mummy Boy",
+        creator:'https://unsplash.com/@eadesstudio',
+        url:'https://source.unsplash.com/_r7_ktKLR0w/1440x900',
     })
-    data.push({
-        id:genid("file"),
-        category: CATEGORIES.FILES.ID,
-        type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
-        props: {
-            filename:"Time Square movement",
-            creator:'https://unsplash.com/@supergios',
-            mimetype:'image/jpg',
-            url:'https://source.unsplash.com/q7iwsTvPLxA/1440x900',
-            tags:['wallpaper'],
-        }
+    preload_remote_jpeg_wallpaper({
+        filename:"Time Square movement",
+        creator:'https://unsplash.com/@supergios',
+        url:'https://source.unsplash.com/q7iwsTvPLxA/1440x900',
     })
-    data.push({
-        id:genid("file"),
-        category: CATEGORIES.FILES.ID,
-        type: CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE,
-        props: {
-            filename:"San Francisco 2020, after the labor day fires",
-            creator:'https://unsplash.com/@stay_in_touch',
-            mimetype:'image/jpg',
-            url:'https://source.unsplash.com/rAtADOlvcos/1440x900',
-            tags:['wallpaper'],
-        }
+    preload_remote_jpeg_wallpaper({
+        filename:"San Francisco 2020, after the labor day fires",
+        creator:'https://unsplash.com/@stay_in_touch',
+        url:'https://source.unsplash.com/rAtADOlvcos/1440x900',
     })
 }
 
