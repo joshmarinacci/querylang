@@ -7,7 +7,7 @@ import {TaskLists} from './apps/tasks.js'
 import {Chat} from './apps/chat.js'
 import {Calendar} from './apps/calendar.js'
 import {Notes} from './apps/notes.js'
-import {DBContext, makeDB} from './db.js'
+import {DBContext, makeDB, setProp} from './db.js'
 import {AppBar} from './apps/AppBar.js'
 import {Alarms} from './apps/alarms.js'
 import {Email} from './apps/email.js'
@@ -36,6 +36,7 @@ import {PodcastPlayer} from './apps/PodcastPlayer.js'
 import {CommandBar3} from './apps/CommandBar3.js'
 import {ActionManager, ActionManagerContext, load_commandbar_plugins} from './services/ActionManager.js'
 import {PanelViewerApp} from './apps/PanelViewerApp.js'
+import {check_services} from './util.js'
 
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
@@ -64,6 +65,18 @@ function App() {
     let handler = () => setApps(app_launcher_service.running.slice())
     app_launcher_service.addEventListener(handler)
     return () => app_launcher_service.removeEventListener(handler)
+  })
+
+  useState(() => {
+    console.log("inside startup effect")
+    setTimeout(()=>{
+      check_services().catch(e => {
+        console.log("services not available")
+        let alert = db_service.make(CATEGORIES.NOTIFICATION.ID, CATEGORIES.NOTIFICATION.TYPES.ALERT)
+        setProp(alert,'title','services not available')
+        db_service.add(alert)
+      })
+    },2000)
   })
 
   let [apps, setApps] = useState(()=>{

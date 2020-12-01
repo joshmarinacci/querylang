@@ -1,4 +1,5 @@
 import {propAsArray} from './db.js'
+import {INFO_SERVER_URL} from './globals.js'
 
 export function p(...args) {
     console.log(...args)
@@ -33,5 +34,11 @@ export function fetch_with_auth(url) {
         headers:{
             'access-key':'testkey',
         }
+    })
+}
+
+export function check_services() {
+    return fetch_with_auth(INFO_SERVER_URL).then(r => r.json()).then(d =>{
+        console.log("info is",d)
     })
 }
