@@ -74,14 +74,14 @@ function App() {
       check_services()
           .then(d=>{
             console.log("services loaded",d)
-            get_json_with_auth(PERSIST_SERVER_URL+'/load/myjson').then(r => r.json()).then(r => {
+            return get_json_with_auth(PERSIST_SERVER_URL+'/load/myjson').then(r => r.json()).then(r => {
               console.log('response from persist is',r)
               db_service.nuke_and_reload_from_plainobject(r.data)
               load_commandbar_plugins(db_service)
             })
           })
           .catch(e => {
-        console.log("services not available")
+        console.log("services not available",e)
         let alert = db_service.make(CATEGORIES.NOTIFICATION.ID, CATEGORIES.NOTIFICATION.TYPES.ALERT)
         setProp(alert,'title','services not available')
         db_service.add(alert)
