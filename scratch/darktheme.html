@@ -253,11 +253,30 @@
         }
 
 
+        /* =========== disabled ========= */
+        button:disabled {
+            background-color: var(--bg-3);
+            color: var(--bg-5);
+        }
+        button.primary {
+            background-color: var(--ac-7);
+            color: var(--bg-1);
+        }
+        input:disabled {
+            background-color: var(--bg-4);
+            color: var(--bg-5);
+        }
+        input:disabled+label {
+            color: var(--bg-5);
+        }
 
 
         /* ========== hovers ========= */
         button:hover {
             background-color: var(--bg-3);
+        }
+        button.primary:hover {
+            background-color: var(--ac-9);
         }
         button {
             transition: background-color var(--transition-speed);
@@ -395,7 +414,7 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
             <label for="anim_slow">slow</label>
         </div>
         <label>Panel translucency:</label>
-        <input type="checkbox">
+        <input type="checkbox" checked>
 
 
         <label>Text size:</label>
@@ -410,6 +429,18 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
         <input type="checkbox">
 
         <label class="c2">bottom-heavy shapes and increased character spacing can help improve legibility and reading speed.</label>
+
+        <label>more buttons</label>
+        <div class="group">
+            <button>button</button>
+            <button disabled>disabled</button>
+            <button class="primary">primary</button>
+        </div>
+        <label>more checkboxes</label>
+        <div class="group">
+            <input type="checkbox" id="regular_checkbox"> <label for="regular_checkbox">checkbox</label>
+            <input type="checkbox" id="disabled_checkbox" disabled> <label for="disabled_checkbox">checkbox</label>
+        </div>
 
     </div>
 
