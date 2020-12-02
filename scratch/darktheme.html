@@ -29,6 +29,8 @@
             --ac-7: hsl(var(--bg-hue),100%, 70%);
             --ac-8: hsl(var(--bg-hue),100%, 80%);
             --ac-9: hsl(var(--bg-hue),100%, 90%);
+
+            --transition-speed: 0.5s;
         }
         .window {
             border: 1px solid var(--bg-1);
@@ -218,8 +220,15 @@
             background-color: var(--bg-3);
         }
         button {
-            transition: background-color 0.1s;
+            transition: background-color var(--transition-speed);
+            /*text-shadow: 0 -1px 0 #000;*/
         }
+        input {
+            transition: background-color var(--transition-speed);
+            transition: color var(--transition-speed);
+        }
+
+
         button.selected {
             background-color: var(--bg-2);
         }
@@ -231,6 +240,17 @@
         input:focus {
             background-color: var(--bg-6);
             color: var(--bg-2);
+            /*animation: glow 800ms ease-out infinite alternate;*/
+        }
+        @keyframes glow {
+            0% {
+                border-color: #393;
+                box-shadow: 0 0 5px rgba(0,0,255,.2), inset 0 0 5px rgba(0,0,255,.1), 0 2px 0 #000;
+            }
+            100% {
+                border-color: #6f6;
+                box-shadow: 0 0 20px rgba(0,0,255,.6), inset 0 0 10px rgba(0,0,255,.4), 0 2px 0 #000;
+            }
         }
         .form-grid:focus-within {
             border-color: var(--ac-9);
