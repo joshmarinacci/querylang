@@ -8,42 +8,60 @@
             background-color: white;
             font-family: sans-serif;
             color: white;
+            --button-radius: 0.25em;
+            --window-radius: 0.5em;
+            --std-inline-padding: 0.25em 0.5em;
+
+            --bg-hue: 200;
+            --bg-sat: 0%;
+            --bg-1: hsl(var(--bg-hue), var(--bg-sat), 10%);
+            --bg-2: hsl(var(--bg-hue), var(--bg-sat), 20%);
+            --bg-3: hsl(var(--bg-hue), var(--bg-sat), 30%);
+            --bg-4: hsl(var(--bg-hue), var(--bg-sat), 40%);
+            --bg-5: hsl(var(--bg-hue), var(--bg-sat), 50%);
+            --bg-9: hsl(var(--bg-hue), var(--bg-sat), 80%);
         }
         .window {
-            border: 1px solid black;
+            border: 1px solid var(--bg-1);
             margin: 2em;
-            border-radius: 0.5em;
-            background-color: hsl(100,0%,30%);
+            border-radius: var(--window-radius);
+            background-color: var(--bg-3);
             box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.5);
         }
         .titlebar {
             display: flex;
             flex-direction: row;
-            background-color: hsl(100,0%,31%);
+            background-color: var(--bg-2);
             color: white;
-            border: 1px solid black;
             padding: 0.25em;
             align-items: center;
+            border-style: solid;
+            border-top-left-radius: var(--window-radius);
+            border-top-right-radius: var(--window-radius);
+            border-color: var(--bg-1);
+            border-width: 0 0 1px 0;
         }
         .spacer {
             flex: 1.0;
         }
 
         button, input {
-            color: white;
+            color: var(--bg-9);
             font-size: 100%;
-            background-color: hsl(200,0%,40%);
-            border: 1px solid black;
-            border-radius: 0.25em;
-            padding: 0.25em 0.5em;
+            background-color: var(--bg-5);
+            border: 1px solid var(--bg-2);
+            border-radius: var(--button-radius);
+            padding: var(--std-inline-padding);
+        }
+
+        label {
+            padding: var(--std-inline-padding);
+            justify-self: start;
         }
 
         .borderless {
             background-color: transparent;
             border-width: 0;
-        }
-        label {
-            padding-right: 0.5em;
         }
 
         .form-grid {
@@ -51,19 +69,19 @@
             grid-template-columns: 0.5fr [labels] 1fr [inputs] 3fr 0.5fr;
         }
         .form-grid > * {
-            border: 0px solid red;
-            padding: 0.5em;
-            align-self: center;
+            justify-self: start;
         }
-        .form-grid label {
+        .form-grid > label {
             text-align: right;
             align-self: center;
+            justify-self: end;
         }
         .form-grid input[type=checkbox] {
             font-size: 200%;
         }
         .form-grid .c2 {
             grid-column: inputs;
+            justify-self: start;
         }
         .form-grid label {
             grid-column: labels;
@@ -73,19 +91,18 @@
         }
 
         .toggle-group, .group {
-            border: 0px solid red;
+            border-width: 0;
             display: flex;
             flex-direction: row;
             padding:0;
             margin: 1em;
-            --button-radius: 0.25em;
         }
         .toggle-group {
             border-radius: var(--button-radius);
             box-shadow: 0px 1px 5px rgba(0,0,0,0.2);
         }
         .toggle-group button {
-            border: 1px solid hsl(200,0%, 20%);
+            border: 1px solid var(--bg-2);
             border-width: 1px 1px 1px 0;
             border-radius: 0;
             margin:0;
@@ -102,45 +119,29 @@
             border-bottom-right-radius: var(--button-radius);
         }
         .toggle-group button.selected {
-            background-color: hsl(200,0%,10%);
+            background-color: var(--bg-2);
         }
 
-        .color-group button.color {
-            font-size: 8pt;
-            min-width: unset;
-            width: 2em;
-            height: 2em;
-            /*background-color: red;*/
-            /*color: red;*/
-            border-radius: 1em;
-            margin: 0.125em 0.25em;
-        }
-        .color.blue { color: dodgerblue; background-color: dodgerblue; }
-        .color.teal { color: lightseagreen; background-color: lightseagreen; }
-        .color.green { color: greenyellow; background-color: greenyellow; }
-        .color.yellow { color: gold; background-color: gold; }
-        .color.orange { color: coral; background-color: coral; }
-        .color.red { color: orangered;  background-color: orangered;   }
-        .color.pink { color: palevioletred; background-color: palevioletred; }
-        .color.purple { color: violet; background-color: violet; }
-        .color.brown { color: rosybrown; background-color: rosybrown; }
-        .color.gray { color: slategray; background-color: slategray; }
+
+
+
+
         .custom-toggle {
             display: flex;
-            border: 0px solid red;
+            border-width: 0;
             flex-direction: row;
             align-items: center;
             padding: 1em;
         }
         .custom-toggle label {
             display: flex;
-            border: 0px solid red;
+            border-width: 0;
             flex-direction: column;
             align-items: center;
         }
         .custom-toggle.selected {
-            border: 1px solid lightskyblue;
-            background-color: darkblue;
+            border: 1px solid var(--bg-2);
+            background-color: var(--bg-5);
             border-radius: 0.33em;
         }
         .custom-toggle img {
@@ -148,6 +149,31 @@
             padding: 0em;
             margin: 0.5em;
         }
+
+
+
+
+        .color-group button.color {
+            font-size: 0.5em;
+            min-width: unset;
+            width: 2em;
+            height: 2em;
+            border-radius: 1em;
+            margin: 0.125em 0.25em;
+        }
+        .color.blue { background-color: dodgerblue; }
+        .color.teal { background-color: lightseagreen; }
+        .color.green { background-color: greenyellow; }
+        .color.yellow { background-color: gold; }
+        .color.orange { background-color: coral; }
+        .color.red { background-color: orangered;   }
+        .color.pink { background-color: palevioletred; }
+        .color.purple { background-color: violet; }
+        .color.brown { background-color: rosybrown; }
+        .color.gray { background-color: slategray; }
+
+
+
     </style>
 </head>
 <body>
@@ -184,7 +210,7 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
         <div class="custom-toggle">
             <input type="radio" name="style" id="style_light">
             <label for="style_light">
-                <img src="#" width="100" height="75">
+                <img s1rc="#" width="100" height="75">
                 <span>Light</span>
             </label>
         </div>
@@ -199,7 +225,7 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
     </div>
     <label class="c2">Visual style for system components like the Dock and Panel indicators.</label>
     <label>Schedule:</label>
-    <div class="toggle-group">
+    <div class="toggle-group c2">
         <button class="selected">Disabled</button>
         <button class="">Sunset to Sunrise</button>
         <button class="">Manual</button>
@@ -212,17 +238,17 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
     </div>
 
     <label>Accent</label>
-    <div class="color-group">
-        <button class="toggle color blue">check</button>
-        <button class="toggle color teal">nocheck</button>
-        <button class="toggle color green">nocheck</button>
-        <button class="toggle color yellow">nocheck</button>
-        <button class="toggle color orange">nocheck</button>
-        <button class="toggle color red">nocheck</button>
-        <button class="toggle color pink">nocheck</button>
-        <button class="toggle color purple">nocheck</button>
-        <button class="toggle color brown">nocheck</button>
-        <button class="toggle color gray">nocheck</button>
+    <div class="color-group c2">
+        <button class="toggle color blue"></button>
+        <button class="toggle color teal"></button>
+        <button class="toggle color green"></button>
+        <button class="toggle color yellow"></button>
+        <button class="toggle color orange"></button>
+        <button class="toggle color red"></button>
+        <button class="toggle color pink"></button>
+        <button class="toggle color purple"></button>
+        <button class="toggle color brown"></button>
+        <button class="toggle color gray"></button>
     </div>
     <label class="c2">Used across the system by default. Apps can always use their own accent color.</label>
     <label>Window animations:</label>
