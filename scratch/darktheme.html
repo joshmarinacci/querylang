@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dark Theme Test</title>
+</head>
+<body>
+
+<!--
+
+https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-dark@2x.png
+
+
+-->
+<div class="window">
+
+
+<div class="titlebar">
+    <button class="borderless">close</button>
+    <button>All Settings</button>
+    <span class="spacer"></span>
+    <label>Desktop</label>
+    <span class="spacer"></span>
+    <input type="search">
+    <button class="borderless">maximize</button>
+</div>
+
+<div class="tabbar">
+    <button class="toggle">Wallpaper</button>
+    <button class="toggle selected">Appearance</button>
+    <button class="toggle">Dock</button>
+    <button class="toggle">Multitasking</button>
+</div>
+
+
+
+<div class="form-grid">
+    <label>Style:</label>
+    <div class="group">
+        <div class="toggle">
+            <input type="radio">default
+            <img src="#" width="64" height="64">
+        </div>
+        <div class="toggle">
+            <input type="radio">dark
+            <img src="#" width="64" height="64">
+        </div>
+
+    </div>
+    <label>Visual style for system components like the Dock and Panel indicators</label>
+    <label>Schedule:</label>
+    <div class="toggle-group">
+        <button class="selected">Disabled</button>
+        <button class="selected">Sunset to Sunrise</button>
+        <button class="selected">Manual</button>
+    </div>
+    <div class="group">
+        <label>From:</label>
+        <input type="time">
+        <label>To:</label>
+        <input type="time">
+    </div>
+
+    <label>Accent</label>
+    <div class="toggle-group">
+        <button class="toggle color blue">check</button>
+        <button class="toggle color teal">nocheck</button>
+        <button class="toggle color green">nocheck</button>
+        <button class="toggle color yellow">nocheck</button>
+        <button class="toggle color orange">nocheck</button>
+        <button class="toggle color red">nocheck</button>
+        <button class="toggle color pink">nocheck</button>
+        <button class="toggle color purple">nocheck</button>
+        <button class="toggle color brown">nocheck</button>
+        <button class="toggle color gray">nocheck</button>
+    </div>
+    <label>Used across the system by default. Apps can always use their own accent color.</label>
+    <label>Window animations:</label>
+    <input type="checkbox">
+    <label>Panel translucency:</label>
+    <input type="checkbox">
+
+
+    <label>Text size:</label>
+    <div class="group">
+        <button>Small</button>
+        <button>Default</button>
+        <button>Large</button>
+        <button>Larger</button>
+    </div>
+
+    <label>Dyslexia-friendly text:</label>
+    <input type="checkbox">
+
+    <label>bottom-heavy shapes and increased character spacing can help improve legibility and reading speed.</label>
+
+</div>
+
+</div>
+
+
+</body>
+</html>
