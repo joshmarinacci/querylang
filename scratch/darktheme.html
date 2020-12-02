@@ -9,6 +9,7 @@
             font-family: sans-serif;
             color: white;
             --button-radius: 0.25em;
+            --checkbox-radius: 0.125em;
             --window-radius: 0.5em;
             --std-inline-padding: 0.25em 0.5em;
 
@@ -19,7 +20,15 @@
             --bg-3: hsl(var(--bg-hue), var(--bg-sat), 30%);
             --bg-4: hsl(var(--bg-hue), var(--bg-sat), 40%);
             --bg-5: hsl(var(--bg-hue), var(--bg-sat), 50%);
+            --bg-6: hsl(var(--bg-hue), var(--bg-sat), 60%);
             --bg-9: hsl(var(--bg-hue), var(--bg-sat), 80%);
+
+
+            --ac-3: hsl(var(--bg-hue),100%, 30%);
+            --ac-5: hsl(var(--bg-hue),100%, 50%);
+            --ac-7: hsl(var(--bg-hue),100%, 70%);
+            --ac-8: hsl(var(--bg-hue),100%, 80%);
+            --ac-9: hsl(var(--bg-hue),100%, 90%);
         }
         .window {
             border: 1px solid var(--bg-1);
@@ -48,10 +57,36 @@
         button, input {
             color: var(--bg-9);
             font-size: 100%;
-            background-color: var(--bg-5);
+            background-color: var(--bg-4);
             border: 1px solid var(--bg-2);
             border-radius: var(--button-radius);
             padding: var(--std-inline-padding);
+        }
+        input[type=checkbox] {
+            color: var(--bg-9);
+            border: 1px solid var(--bg-2);
+            background-color: var(--bg-5);
+            appearance: none;
+            padding:0;
+            border-radius: var(--checkbox-radius);
+        }
+        input[type=checkbox]::after {
+            content: ' ';
+            font-size: 0.33em;
+            padding: 0em;
+            min-width: 1.5em;
+            min-height: 1.5em;
+            text-align: center;
+            margin:0;
+            display: block;
+        }
+        input[type=checkbox]:checked::after {
+            content: '\2713';
+        }
+        input[type=checkbox]:checked {
+            border: 1px solid var(--ac-9);
+            background-color: var(--ac-5);
+            color: white;
         }
 
         label {
@@ -59,14 +94,20 @@
             justify-self: start;
         }
 
+
+
         .borderless {
             background-color: transparent;
             border-width: 0;
         }
 
+        /* ======== grid ============= */
+
         .form-grid {
             display: grid;
             grid-template-columns: 0.5fr [labels] 1fr [inputs] 3fr 0.5fr;
+            border: 1px solid transparent;
+            border-radius: var(--window-radius);
         }
         .form-grid > * {
             justify-self: start;
@@ -95,7 +136,7 @@
             display: flex;
             flex-direction: row;
             padding:0;
-            margin: 1em;
+            margin: 0.5em 0em;
         }
         .toggle-group {
             border-radius: var(--button-radius);
@@ -118,9 +159,6 @@
             border-top-right-radius: var(--button-radius);
             border-bottom-right-radius: var(--button-radius);
         }
-        .toggle-group button.selected {
-            background-color: var(--bg-2);
-        }
 
 
 
@@ -140,8 +178,8 @@
             align-items: center;
         }
         .custom-toggle.selected {
-            border: 1px solid var(--bg-2);
-            background-color: var(--bg-5);
+            border: 1px solid var(--ac-9);
+            background-color: var(--ac-3);
             border-radius: 0.33em;
         }
         .custom-toggle img {
@@ -171,6 +209,32 @@
         .color.purple { background-color: violet; }
         .color.brown { background-color: rosybrown; }
         .color.gray { background-color: slategray; }
+
+
+
+
+        /* ========== hovers ========= */
+        button:hover {
+            background-color: var(--bg-3);
+        }
+        button {
+            transition: background-color 0.1s;
+        }
+        button.selected {
+            background-color: var(--bg-2);
+        }
+        button.selected:hover {
+            background-color: var(--bg-1);
+        }
+
+        /* ======== focus =========== */
+        input:focus {
+            background-color: var(--bg-6);
+            color: var(--bg-2);
+        }
+        .form-grid:focus-within {
+            border-color: var(--ac-9);
+        }
 
 
 
@@ -274,6 +338,14 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
 
 </div>
 
+<script type="text/javascript">
+    const $ = sel => document.querySelector(sel)
+    const $$ = sel => document.querySelectorAll(sel)
+    const on = (el,type,cb) => el.addEventListener(type,cb)
 
+
+    const toggle_button = (e) => e.target.classList.toggle("selected")
+    $$("button").forEach(b => on(b,'click',toggle_button))
+</script>
 </body>
 </html>
