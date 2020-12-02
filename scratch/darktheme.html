@@ -72,7 +72,7 @@
             border-radius: var(--button-radius);
             padding: var(--std-inline-padding);
         }
-        input[type=checkbox] {
+        input[type=checkbox], input[type=radio] {
             color: var(--bg-9);
             border: 1px solid var(--bg-2);
             background-color: var(--bg-5);
@@ -81,6 +81,13 @@
             border-radius: var(--checkbox-radius);
             box-shadow: 0px 1px 5px rgba(0,0,0,0.2);
         }
+
+        .group input[type=radio] {
+            border-radius: 1em;
+            width: 1em;
+            height: 1em;
+        }
+
         input[type=checkbox]::after {
             content: ' ';
             font-size: 0.33em;
@@ -98,6 +105,10 @@
             border: 1px solid var(--ac-9);
             background-color: var(--ac-5);
             color: white;
+        }
+
+        .group input[type=radio]:checked {
+            background-color: var(--ac-7);
         }
 
         label {
@@ -148,6 +159,7 @@
             flex-direction: row;
             padding:0;
             margin: 0.5em 0em;
+            align-items: center;
         }
         .toggle-group {
             border-radius: var(--button-radius);
@@ -376,7 +388,12 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
         </div>
         <label class="c2">Used across the system by default. Apps can always use their own accent color.</label>
         <label>Window animations:</label>
-        <input type="checkbox">
+        <div class="group">
+            <input type="radio" id="anim_fast" name="anim">
+            <label for="anim_fast">fast</label>
+            <input type="radio" id="anim_slow" name="anim" checked>
+            <label for="anim_slow">slow</label>
+        </div>
         <label>Panel translucency:</label>
         <input type="checkbox">
 
