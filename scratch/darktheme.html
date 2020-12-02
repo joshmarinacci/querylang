@@ -39,6 +39,14 @@
             background-color: var(--bg-3);
             box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.5);
         }
+        .hbox {
+            display: flex;
+            flex-direction: row;
+        }
+        .vbox {
+            display: flex;
+            flex-direction: column;
+        }
         .titlebar {
             display: flex;
             flex-direction: row;
@@ -71,6 +79,7 @@
             appearance: none;
             padding:0;
             border-radius: var(--checkbox-radius);
+            box-shadow: 0px 1px 5px rgba(0,0,0,0.2);
         }
         input[type=checkbox]::after {
             content: ' ';
@@ -213,6 +222,25 @@
         .color.gray { background-color: slategray; }
 
 
+        ul {
+            min-width: 10em;
+            border: 1px solid var(--bg-1);
+            margin:0;
+            padding:0;
+            border-width: 0 1px 0 0;
+        }
+
+        li {
+            list-style: none;
+            /*padding: var(--std-inline-padding);*/
+            padding: 0.5em;
+            border: 1px solid transparent;
+        }
+        li.selected {
+            background-color: var(--ac-7);
+        }
+
+
 
 
         /* ========== hovers ========= */
@@ -253,9 +281,15 @@
             }
         }
         .form-grid:focus-within {
-            border-color: var(--ac-9);
+            /*border-color: var(--ac-9);*/
+            outline: 3px solid var(--ac-9);
+            -moz-outline-radius: var(--window-radius);
         }
-
+        ul:focus-within {
+            outline: 3px solid var(--ac-9);
+            /*outline-offset: 5px;*/
+            -moz-outline-radius: var(--window-radius);
+        }
 
 
     </style>
@@ -281,78 +315,86 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
     <button class="borderless">/</button>
 </div>
 
-
-<div class="form-grid">
-    <div class="toggle-group c2">
-        <button class="toggle">Wallpaper</button>
-        <button class="toggle selected">Appearance</button>
-        <button class="toggle">Dock</button>
-        <button class="toggle">Multitasking</button>
-    </div>
-    <label>Style:</label>
-    <div class="group">
-        <div class="custom-toggle">
-            <input type="radio" name="style" id="style_light">
-            <label for="style_light">
-                <img s1rc="#" width="100" height="75">
-                <span>Light</span>
-            </label>
+<div class="hbox">
+    <ul>
+        <li>fun item 1</li>
+        <li>fun item 1</li>
+        <li class="selected" tabindex="0">fun item 1</li>
+        <li>fun item 1</li>
+    </ul>
+    <div class="form-grid grow">
+        <div class="toggle-group c2">
+            <button class="toggle">Wallpaper</button>
+            <button class="toggle selected">Appearance</button>
+            <button class="toggle">Dock</button>
+            <button class="toggle">Multitasking</button>
         </div>
-        <div class="custom-toggle selected">
-            <input type="radio" name="style" id="style_dark" checked>
-            <label for="style_dark">
-                <img src="#" width="100" height="75">
-                <span>Dark</span>
-            </label>
+        <label>Style:</label>
+        <div class="group">
+            <div class="custom-toggle">
+                <input type="radio" name="style" id="style_light">
+                <label for="style_light">
+                    <img s1rc="#" width="100" height="75">
+                    <span>Light</span>
+                </label>
+            </div>
+            <div class="custom-toggle selected">
+                <input type="radio" name="style" id="style_dark" checked>
+                <label for="style_dark">
+                    <img src="#" width="100" height="75">
+                    <span>Dark</span>
+                </label>
+            </div>
+
+        </div>
+        <label class="c2">Visual style for system components like the Dock and Panel indicators.</label>
+        <label>Schedule:</label>
+        <div class="toggle-group c2">
+            <button class="selected">Disabled</button>
+            <button class="">Sunset to Sunrise</button>
+            <button class="">Manual</button>
+        </div>
+        <div class="group c2">
+            <label>From:</label>
+            <input type="time" value="3:00 pm">
+            <label>To:</label>
+            <input type="time" value="7:00 am">
         </div>
 
-    </div>
-    <label class="c2">Visual style for system components like the Dock and Panel indicators.</label>
-    <label>Schedule:</label>
-    <div class="toggle-group c2">
-        <button class="selected">Disabled</button>
-        <button class="">Sunset to Sunrise</button>
-        <button class="">Manual</button>
-    </div>
-    <div class="group c2">
-        <label>From:</label>
-        <input type="time" value="3:00 pm">
-        <label>To:</label>
-        <input type="time" value="7:00 am">
-    </div>
-
-    <label>Accent</label>
-    <div class="color-group c2">
-        <button class="toggle color blue"></button>
-        <button class="toggle color teal"></button>
-        <button class="toggle color green"></button>
-        <button class="toggle color yellow"></button>
-        <button class="toggle color orange"></button>
-        <button class="toggle color red"></button>
-        <button class="toggle color pink"></button>
-        <button class="toggle color purple"></button>
-        <button class="toggle color brown"></button>
-        <button class="toggle color gray"></button>
-    </div>
-    <label class="c2">Used across the system by default. Apps can always use their own accent color.</label>
-    <label>Window animations:</label>
-    <input type="checkbox">
-    <label>Panel translucency:</label>
-    <input type="checkbox">
+        <label>Accent</label>
+        <div class="color-group c2">
+            <button class="toggle color blue"></button>
+            <button class="toggle color teal"></button>
+            <button class="toggle color green"></button>
+            <button class="toggle color yellow"></button>
+            <button class="toggle color orange"></button>
+            <button class="toggle color red"></button>
+            <button class="toggle color pink"></button>
+            <button class="toggle color purple"></button>
+            <button class="toggle color brown"></button>
+            <button class="toggle color gray"></button>
+        </div>
+        <label class="c2">Used across the system by default. Apps can always use their own accent color.</label>
+        <label>Window animations:</label>
+        <input type="checkbox">
+        <label>Panel translucency:</label>
+        <input type="checkbox">
 
 
-    <label>Text size:</label>
-    <div class="toggle-group">
-        <button>Small</button>
-        <button class="selected">Default</button>
-        <button>Large</button>
-        <button>Larger</button>
+        <label>Text size:</label>
+        <div class="toggle-group">
+            <button>Small</button>
+            <button class="selected">Default</button>
+            <button>Large</button>
+            <button>Larger</button>
+        </div>
+
+        <label>Dyslexia-friendly text:</label>
+        <input type="checkbox">
+
+        <label class="c2">bottom-heavy shapes and increased character spacing can help improve legibility and reading speed.</label>
+
     </div>
-
-    <label>Dyslexia-friendly text:</label>
-    <input type="checkbox">
-
-    <label class="c2">bottom-heavy shapes and increased character spacing can help improve legibility and reading speed.</label>
 
 </div>
 
