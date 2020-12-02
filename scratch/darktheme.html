@@ -3,6 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <title>Dark Theme Test</title>
+    <style type="text/css">
+        body {
+            background-color: white;
+            font-family: sans-serif;
+            color: white;
+        }
+        .window {
+            border: 1px solid black;
+            margin: 2em;
+            border-radius: 0.5em;
+            background-color: hsl(100,0%,30%);
+            box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.5);
+        }
+        .titlebar {
+            display: flex;
+            flex-direction: row;
+            background-color: hsl(100,0%,31%);
+            color: white;
+            border: 1px solid black;
+            padding: 0.25em;
+            align-items: center;
+        }
+        .spacer {
+            flex: 1.0;
+        }
+
+        button, input {
+            color: white;
+            font-size: 100%;
+            background-color: hsl(200,0%,40%);
+            border: 1px solid black;
+            border-radius: 0.25em;
+            padding: 0.25em 0.5em;
+        }
+
+        .borderless {
+            background-color: transparent;
+            border-width: 0;
+        }
+        label {
+            padding-right: 0.5em;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 0.5fr [labels] 1fr [inputs] 3fr 0.5fr;
+        }
+        .form-grid > * {
+            border: 0px solid red;
+            padding: 0.5em;
+            align-self: center;
+        }
+        .form-grid label {
+            text-align: right;
+            align-self: center;
+        }
+        .form-grid input[type=checkbox] {
+            font-size: 200%;
+        }
+        .form-grid .c2 {
+            grid-column: inputs;
+        }
+        .form-grid label {
+            grid-column: labels;
+        }
+        .form-grid label.c2 {
+            text-align: left;
+        }
+
+        .toggle-group, .group {
+            border: 0px solid red;
+            display: flex;
+            flex-direction: row;
+            padding:0;
+            margin: 1em;
+            --button-radius: 0.25em;
+        }
+        .toggle-group {
+            border-radius: var(--button-radius);
+            box-shadow: 0px 1px 5px rgba(0,0,0,0.2);
+        }
+        .toggle-group button {
+            border: 1px solid hsl(200,0%, 20%);
+            border-width: 1px 1px 1px 0;
+            border-radius: 0;
+            margin:0;
+            min-width: 8em;
+            flex-grow: 1.0;
+        }
+        .toggle-group button:first-child {
+            border-left-width: 1px;
+            border-top-left-radius: var(--button-radius);
+            border-bottom-left-radius: var(--button-radius);
+        }
+        .toggle-group button:last-child {
+            border-top-right-radius: var(--button-radius);
+            border-bottom-right-radius: var(--button-radius);
+        }
+        .toggle-group button.selected {
+            background-color: hsl(200,0%,10%);
+        }
+
+        .color-group button.color {
+            font-size: 8pt;
+            min-width: unset;
+            width: 2em;
+            height: 2em;
+            /*background-color: red;*/
+            /*color: red;*/
+            border-radius: 1em;
+            margin: 0.125em 0.25em;
+        }
+        .color.blue { color: dodgerblue; background-color: dodgerblue; }
+        .color.teal { color: lightseagreen; background-color: lightseagreen; }
+        .color.green { color: greenyellow; background-color: greenyellow; }
+        .color.yellow { color: gold; background-color: gold; }
+        .color.orange { color: coral; background-color: coral; }
+        .color.red { color: orangered;  background-color: orangered;   }
+        .color.pink { color: palevioletred; background-color: palevioletred; }
+        .color.purple { color: violet; background-color: violet; }
+        .color.brown { color: rosybrown; background-color: rosybrown; }
+        .color.gray { color: slategray; background-color: slategray; }
+        .custom-toggle {
+            display: flex;
+            border: 0px solid red;
+            flex-direction: row;
+            align-items: center;
+            padding: 1em;
+        }
+        .custom-toggle label {
+            display: flex;
+            border: 0px solid red;
+            flex-direction: column;
+            align-items: center;
+        }
+        .custom-toggle.selected {
+            border: 1px solid lightskyblue;
+            background-color: darkblue;
+            border-radius: 0.33em;
+        }
+        .custom-toggle img {
+            background-color: #556;
+            padding: 0em;
+            margin: 0.5em;
+        }
+    </style>
 </head>
 <body>
 
@@ -16,53 +162,57 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
 
 
 <div class="titlebar">
-    <button class="borderless">close</button>
+    <button class="borderless">X</button>
     <button>All Settings</button>
     <span class="spacer"></span>
     <label>Desktop</label>
     <span class="spacer"></span>
-    <input type="search">
-    <button class="borderless">maximize</button>
+    <input type="search" placeholder="Search Settings">
+    <button class="borderless">/</button>
 </div>
-
-<div class="tabbar">
-    <button class="toggle">Wallpaper</button>
-    <button class="toggle selected">Appearance</button>
-    <button class="toggle">Dock</button>
-    <button class="toggle">Multitasking</button>
-</div>
-
 
 
 <div class="form-grid">
+    <div class="toggle-group c2">
+        <button class="toggle">Wallpaper</button>
+        <button class="toggle selected">Appearance</button>
+        <button class="toggle">Dock</button>
+        <button class="toggle">Multitasking</button>
+    </div>
     <label>Style:</label>
     <div class="group">
-        <div class="toggle">
-            <input type="radio">default
-            <img src="#" width="64" height="64">
+        <div class="custom-toggle">
+            <input type="radio" name="style" id="style_light">
+            <label for="style_light">
+                <img src="#" width="100" height="75">
+                <span>Light</span>
+            </label>
         </div>
-        <div class="toggle">
-            <input type="radio">dark
-            <img src="#" width="64" height="64">
+        <div class="custom-toggle selected">
+            <input type="radio" name="style" id="style_dark" checked>
+            <label for="style_dark">
+                <img src="#" width="100" height="75">
+                <span>Dark</span>
+            </label>
         </div>
 
     </div>
-    <label>Visual style for system components like the Dock and Panel indicators</label>
+    <label class="c2">Visual style for system components like the Dock and Panel indicators.</label>
     <label>Schedule:</label>
     <div class="toggle-group">
         <button class="selected">Disabled</button>
-        <button class="selected">Sunset to Sunrise</button>
-        <button class="selected">Manual</button>
+        <button class="">Sunset to Sunrise</button>
+        <button class="">Manual</button>
     </div>
-    <div class="group">
+    <div class="group c2">
         <label>From:</label>
-        <input type="time">
+        <input type="time" value="3:00 pm">
         <label>To:</label>
-        <input type="time">
+        <input type="time" value="7:00 am">
     </div>
 
     <label>Accent</label>
-    <div class="toggle-group">
+    <div class="color-group">
         <button class="toggle color blue">check</button>
         <button class="toggle color teal">nocheck</button>
         <button class="toggle color green">nocheck</button>
@@ -74,7 +224,7 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
         <button class="toggle color brown">nocheck</button>
         <button class="toggle color gray">nocheck</button>
     </div>
-    <label>Used across the system by default. Apps can always use their own accent color.</label>
+    <label class="c2">Used across the system by default. Apps can always use their own accent color.</label>
     <label>Window animations:</label>
     <input type="checkbox">
     <label>Panel translucency:</label>
@@ -82,9 +232,9 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
 
 
     <label>Text size:</label>
-    <div class="group">
+    <div class="toggle-group">
         <button>Small</button>
-        <button>Default</button>
+        <button class="selected">Default</button>
         <button>Large</button>
         <button>Larger</button>
     </div>
@@ -92,7 +242,7 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
     <label>Dyslexia-friendly text:</label>
     <input type="checkbox">
 
-    <label>bottom-heavy shapes and increased character spacing can help improve legibility and reading speed.</label>
+    <label class="c2">bottom-heavy shapes and increased character spacing can help improve legibility and reading speed.</label>
 
 </div>
 
