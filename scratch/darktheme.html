@@ -64,13 +64,18 @@
             flex: 1.0;
         }
 
-        button, input {
+        button, input, select {
+            box-sizing: border-box;
             color: var(--bg-9);
             font-size: 100%;
             background-color: var(--bg-4);
             border: 1px solid var(--bg-2);
             border-radius: var(--button-radius);
             padding: var(--std-inline-padding);
+            /*line-height: 1.2rem;*/
+        }
+        input, select {
+            appearance: none;
         }
         input[type=checkbox], input[type=radio] {
             color: var(--bg-9);
@@ -106,6 +111,7 @@
             background-color: var(--ac-5);
             color: white;
         }
+
 
         .group input[type=radio]:checked {
             background-color: var(--ac-7);
@@ -440,6 +446,16 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
         <div class="group">
             <input type="checkbox" id="regular_checkbox"> <label for="regular_checkbox">checkbox</label>
             <input type="checkbox" id="disabled_checkbox" disabled> <label for="disabled_checkbox">checkbox</label>
+        </div>
+
+        <label>number inputs</label>
+        <div class="group">
+            <input type="number" step="1" value="50" max="100" size="5"/>
+            <select>
+                <option>option 1</option>
+                <option selected>option 2</option>
+                <option>option 3</option>
+            </select>
         </div>
 
     </div>
