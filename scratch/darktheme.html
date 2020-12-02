@@ -14,21 +14,27 @@
             --std-inline-padding: 0.25em 0.5em;
 
             --bg-hue: 200;
-            --bg-sat: 0%;
-            --bg-1: hsl(var(--bg-hue), var(--bg-sat), 10%);
-            --bg-2: hsl(var(--bg-hue), var(--bg-sat), 20%);
-            --bg-3: hsl(var(--bg-hue), var(--bg-sat), 30%);
-            --bg-4: hsl(var(--bg-hue), var(--bg-sat), 40%);
-            --bg-5: hsl(var(--bg-hue), var(--bg-sat), 50%);
-            --bg-6: hsl(var(--bg-hue), var(--bg-sat), 60%);
-            --bg-9: hsl(var(--bg-hue), var(--bg-sat), 80%);
+            --bg-sat: 5%;
+
+            --base: 0%;             --dir: +1;
+
+            --bg-1: hsl(var(--bg-hue), var(--bg-sat), calc(var(--base) + var(--dir)*10%));
+            --bg-2: hsl(var(--bg-hue), var(--bg-sat), calc(var(--base) + var(--dir)*20%));
+            --bg-3: hsl(var(--bg-hue), var(--bg-sat), calc(var(--base) + var(--dir)*30%));
+            --bg-4: hsl(var(--bg-hue), var(--bg-sat), calc(var(--base) + var(--dir)*40%));
+            --bg-5: hsl(var(--bg-hue), var(--bg-sat), calc(var(--base) + var(--dir)*50%));
+
+            --bg-6: hsl(var(--bg-hue), var(--bg-sat), calc(var(--base) + var(--dir)*60%));
+            --bg-9: hsl(var(--bg-hue), var(--bg-sat), calc(var(--base) + var(--dir)*80%));
 
 
-            --ac-3: hsl(var(--bg-hue),100%, 30%);
-            --ac-5: hsl(var(--bg-hue),100%, 50%);
-            --ac-7: hsl(var(--bg-hue),100%, 70%);
-            --ac-8: hsl(var(--bg-hue),100%, 80%);
-            --ac-9: hsl(var(--bg-hue),100%, 90%);
+
+            --ac-sat: 100%;
+            --ac-3: hsl(var(--bg-hue),var(--ac-sat), 30%);
+            --ac-5: hsl(var(--bg-hue),var(--ac-sat), 50%);
+            --ac-7: hsl(var(--bg-hue),var(--ac-sat), 70%);
+            --ac-8: hsl(var(--bg-hue),var(--ac-sat), 80%);
+            --ac-9: hsl(var(--bg-hue),var(--ac-sat), 90%);
 
             --transition-speed: 0.5s;
         }
@@ -133,7 +139,7 @@
 
         .form-grid {
             display: grid;
-            grid-template-columns: 0.5fr [labels] 1fr [inputs] 3fr 0.5fr;
+            grid-template-columns: [labels] 1fr [inputs] 3fr;
             border: 1px solid transparent;
             border-radius: var(--window-radius);
         }
@@ -321,11 +327,13 @@
             /*border-color: var(--ac-9);*/
             outline: 3px solid var(--ac-9);
             -moz-outline-radius: var(--window-radius);
+            transition: outline var(--transition-speed);
         }
         ul:focus-within {
             outline: 3px solid var(--ac-9);
             /*outline-offset: 5px;*/
             -moz-outline-radius: var(--window-radius);
+            transition: outline var(--transition-speed);
         }
 
 
@@ -339,6 +347,17 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
 
 
 -->
+
+<div class="hbox">
+    <button id="set-red-accent">red</button>
+    <button id="set-green-accent">green</button>
+    <button id="set-blue-accent">blue</button>
+    <button id="set-gray-accent">gray</button>
+</div>
+<div class="hbox">
+    <button id="set-light-theme">light</button>
+    <button id="set-dark-theme">dark</button>
+</div>
 <div class="window">
 
 
@@ -471,7 +490,38 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
 
 
     const toggle_button = (e) => e.target.classList.toggle("selected")
-    $$("button").forEach(b => on(b,'click',toggle_button))
+    $$(".toggle-group").forEach(g => {
+        g.querySelectorAll("button").forEach(bt => {
+            on(bt,'click',(e)=>{
+                g.querySelectorAll('button').forEach(b => {
+                    if(b === bt) {
+                        b.classList.add('selected')
+                    } else {
+                        b.classList.remove('selected')
+                    }
+                })
+            })
+        })
+    })
+
+
+    const set_theme = (hue, sat) => {
+        $("body").style.setProperty("--bg-hue",`${hue}`)
+        $("body").style.setProperty("--bg-sat",`${sat}%`)
+    }
+    on($("#set-red-accent"),'click',  ()=> set_theme(0,  5))
+    on($("#set-green-accent"),'click',()=> set_theme(100,5))
+    on($("#set-blue-accent"),'click', ()=> set_theme(200,5))
+    on($("#set-gray-accent"),'click', ()=> set_theme(200,0))
+
+    on($("#set-light-theme"),'click',()=>{
+        $("body").style.setProperty("--base",`100%`)
+        $("body").style.setProperty("--dir",`-1`)
+    })
+    on($("#set-dark-theme"),'click',()=>{
+        $("body").style.setProperty("--base",`0%`)
+        $("body").style.setProperty("--dir",`+1`)
+    })
 </script>
 </body>
 </html>
