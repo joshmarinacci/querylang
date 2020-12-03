@@ -49,13 +49,12 @@
             --ac-8: hsl(var(--bg-hue),var(--ac-sat), var(--lit-8));
             --ac-9: hsl(var(--bg-hue),var(--ac-sat), var(--lit-9));
 
-            --transition-speed: 0.5s;
-
-
+            --transition-speed: 0.1s;
 
             --std-border: var(--bg-9);
             --std-ac-bg: var(--ac-3);
 
+            background-color: var(--bg-2);
         }
 
         /* ============ layout ========= */
@@ -211,7 +210,7 @@
         }
         .titlebar {
             /*color: var(--bg-9);*/
-            background-color: var(--bg-2);
+            background-color: var(--bg-3);
             border-color: var(--std-border);
         }
         ul {
@@ -228,6 +227,7 @@
         }
         button, input, select {
             /*color: var(--bg-9);*/
+            color: inherit;
             background-color: var(--bg-1);
             border-color: var(--std-border);
         }
@@ -236,7 +236,7 @@
             background-color: var(--std-ac-bg);
         }
         button.selected {
-            background-color: var(--bg-2);
+            background-color: var(--bg-3);
         }
         input[type=checkbox]:checked, input[type=radio]:checked {
             color: var(--bg-1);
@@ -260,13 +260,13 @@
 
         /* ========== hovers ========= */
         button:hover {
-            background-color: var(--bg-3);
-        }
-        button.primary:hover {
-            background-color: var(--ac-9);
+            background-color: var(--bg-2);
         }
         button.selected:hover {
-            background-color: var(--bg-1);
+            background-color: var(--bg-2);
+        }
+        button.primary:hover {
+            background-color: var(--ac-4);
         }
 
         /* ======== animations ======= */
@@ -584,12 +584,11 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
         }
     }
 
-    on($("#set-light-theme"),'click',()=>{
-        rescale_lit(1,9,100,0)
-    })
-    on($("#set-dark-theme"),'click',()=>{
-        rescale_lit(1,9,0,100)
-    })
+    const set_light_theme = () => rescale_lit(1,9,100,0)
+    const set_dark_theme = () => rescale_lit(1,9,20,80)
+
+    on($("#set-light-theme"),'click',set_light_theme)
+    on($("#set-dark-theme"),'click',set_dark_theme)
 
     let hues = $("#hues")
     for(let i=0; i<360; i+= 10) {
@@ -603,7 +602,10 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
         })
         hues.appendChild(ch)
     }
-    rescale_lit(1,9,100,0) //set to light theme by default
+
+    // set_light_theme()
+    set_dark_theme()
+
 </script>
 </body>
 </html>
