@@ -1,4 +1,4 @@
-export const BASE_SERVICE_URL = "http://apps.josh.earth:30011"
+export const BASE_SERVICE_URL = "https://apps.josh.earth/queryos-services"
 export const INFO_SERVER_URL = `${BASE_SERVICE_URL}/`
 export const RSS_SERVER_URL = `${BASE_SERVICE_URL}/rss`
 export const SCAN_SERVER_URL = `${BASE_SERVICE_URL}/scan`
