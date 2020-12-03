@@ -72,6 +72,10 @@
             flex-direction: row;
             padding: 0.25em;
             align-items: center;
+            border-style: solid;
+            border-top-left-radius: var(--window-radius);
+            border-top-right-radius: var(--window-radius);
+            border-width: 0 0 1px 0;
         }
         .window {
             margin: 2em;
@@ -105,9 +109,9 @@
             appearance: none;
             padding:0;
             border-radius: var(--checkbox-radius);
-            box-shadow: 0px 1px 5px rgba(0,0,0,0.2);
             border-style: solid;
             border-width: 1px;
+            box-shadow: 0px 1px 5px rgba(0,0,0,0.2);
         }
         input[type=radio] {
             border-radius: 1em;
@@ -141,7 +145,6 @@
         .form-grid {
             display: grid;
             grid-template-columns: [labels] 1fr [inputs] 3fr;
-            border: 1px solid transparent;
             border-radius: var(--window-radius);
         }
         .form-grid > * {
@@ -208,56 +211,111 @@
         .titlebar {
             background-color: var(--bg-2);
             color: var(--bg-9);
-            border-style: solid;
-            border-top-left-radius: var(--window-radius);
-            border-top-right-radius: var(--window-radius);
             border-color: var(--std-border);
-            border-width: 0 0 1px 0;
         }
         ul {
             border-color: var(--std-border);
         }
         li {
             color: var(--bg-9);
-            border: 1px solid transparent;
+        }
+        label {
+            color: var(--bg-9);
         }
         li.selected {
             background-color: var(--std-ac-bg);
         }
         button, input, select {
             color: var(--bg-9);
-            background-color: var(--bg-4);
+            background-color: var(--bg-1);
             border-color: var(--std-border);
         }
-        input[type=checkbox], input[type=radio] {
+        button.primary {
+            background-color: var(--std-ac-bg);
             color: var(--bg-9);
-            border-color: var(--std-border);
-            background-color: var(--bg-5);
         }
-        input[type=checkbox]:checked {
-            border: 1px solid var(--ac-9);
+        button.selected {
+            background-color: var(--bg-2);
+        }
+        input[type=checkbox]:checked, input[type=radio]:checked {
+            border-color: var(--ac-9);
             background-color: var(--ac-5);
-            color: var(--bg-9);
-        }
-        .group input[type=radio]:checked {
-            background-color: var(--ac-7);
-        }
-        label {
-            color: var(--bg-9);
-        }
-        .toggle-group button {
-            border-color: var(--std-border);
+            color: var(--bg-1);
         }
 
-        /* ============ styles ========== */
+        /* =========== disabled  ========= */
+        button:disabled {
+            background-color: var(--bg-3);
+            color: var(--bg-5);
+        }
+        input:disabled {
+            background-color: var(--bg-4);
+            color: var(--bg-5);
+        }
+        input:disabled+label {
+            color: var(--bg-5);
+        }
+
+
+        /* ========== hovers ========= */
+        button:hover {
+            background-color: var(--bg-3);
+        }
+        button.primary:hover {
+            background-color: var(--ac-9);
+        }
+        button.selected:hover {
+            background-color: var(--bg-1);
+        }
+
+        /* ======== animations ======= */
+        button {
+            transition: background-color var(--transition-speed);
+            /*text-shadow: 0 -1px 0 #000;*/
+        }
+        input {
+            transition: background-color var(--transition-speed);
+            transition: color var(--transition-speed);
+        }
+
+
+
+        /* ======== focus =========== */
+        input:focus {
+            /*background-color: var(--bg-6);*/
+            /*color: var(--bg-2);*/
+            /*animation: glow 800ms ease-out infinite alternate;*/
+        }
+        @keyframes glow {
+            0% {
+                border-color: #393;
+                box-shadow: 0 0 5px rgba(0,0,255,.2), inset 0 0 5px rgba(0,0,255,.1), 0 2px 0 #000;
+            }
+            100% {
+                border-color: #6f6;
+                box-shadow: 0 0 20px rgba(0,0,255,.6), inset 0 0 10px rgba(0,0,255,.4), 0 2px 0 #000;
+            }
+        }
+        .form-grid:focus-within {
+            /*border-color: var(--ac-9);*/
+            /*outline: 3px solid var(--ac-3);*/
+            /*-moz-outline-radius: var(--window-radius);*/
+            /*transition: outline var(--transition-speed);*/
+        }
+        ul:focus-within {
+            /*outline: 3px solid var(--ac-9);*/
+            /*outline-offset: 5px;*/
+            /*-moz-outline-radius: var(--window-radius);*/
+            /*transition: outline var(--transition-speed);*/
+        }
+
+
+        /* ======== custom ======== */
         .borderless {
             background-color: transparent;
             border-width: 0;
         }
 
-
-
-        /* ======== custom ======== */
         .custom-toggle {
             display: flex;
             border-width: 0;
@@ -301,79 +359,6 @@
         .color.purple { background-color: violet; }
         .color.brown { background-color: rosybrown; }
         .color.gray { background-color: slategray; }
-
-
-
-        /* =========== disabled ========= */
-        button:disabled {
-            background-color: var(--bg-3);
-            color: var(--bg-5);
-        }
-        button.primary {
-            background-color: var(--std-ac-bg);
-            color: var(--bg-9);
-        }
-        input:disabled {
-            background-color: var(--bg-4);
-            color: var(--bg-5);
-        }
-        input:disabled+label {
-            color: var(--bg-5);
-        }
-
-
-        /* ========== hovers ========= */
-        button:hover {
-            background-color: var(--bg-3);
-        }
-        button.primary:hover {
-            background-color: var(--ac-9);
-        }
-        button {
-            transition: background-color var(--transition-speed);
-            /*text-shadow: 0 -1px 0 #000;*/
-        }
-        input {
-            transition: background-color var(--transition-speed);
-            transition: color var(--transition-speed);
-        }
-
-
-        button.selected {
-            background-color: var(--bg-2);
-        }
-        button.selected:hover {
-            background-color: var(--bg-1);
-        }
-
-        /* ======== focus =========== */
-        input:focus {
-            background-color: var(--bg-6);
-            color: var(--bg-2);
-            /*animation: glow 800ms ease-out infinite alternate;*/
-        }
-        @keyframes glow {
-            0% {
-                border-color: #393;
-                box-shadow: 0 0 5px rgba(0,0,255,.2), inset 0 0 5px rgba(0,0,255,.1), 0 2px 0 #000;
-            }
-            100% {
-                border-color: #6f6;
-                box-shadow: 0 0 20px rgba(0,0,255,.6), inset 0 0 10px rgba(0,0,255,.4), 0 2px 0 #000;
-            }
-        }
-        .form-grid:focus-within {
-            /*border-color: var(--ac-9);*/
-            outline: 3px solid var(--ac-9);
-            -moz-outline-radius: var(--window-radius);
-            transition: outline var(--transition-speed);
-        }
-        ul:focus-within {
-            outline: 3px solid var(--ac-9);
-            /*outline-offset: 5px;*/
-            -moz-outline-radius: var(--window-radius);
-            transition: outline var(--transition-speed);
-        }
 
         .swatch {
             width: 2em;
