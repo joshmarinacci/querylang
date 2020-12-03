@@ -357,7 +357,8 @@ button:focus, input:focus {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: var(--std-bg-color);
+    /*background-color: var(--std-bg-color);*/
+    background-color: teal;
 }
 
 /* ========= more to organize ========== */

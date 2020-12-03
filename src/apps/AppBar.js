@@ -6,6 +6,7 @@ import {DBContext, propAsString} from '../db.js'
 import "./appbar.css"
 import Icon from '@material-ui/core/Icon'
 import {AppLauncherContext} from '../services/AppLauncherService.js'
+import {LAYERS} from '../data.js'
 
 const isAppCategory = () => ({ CATEGORY:CATEGORIES.APP.ID })
 const isApp = () => ({ TYPE:CATEGORIES.APP.TYPES.APP })
@@ -33,6 +34,7 @@ export function AppBar({}) {
             appid: 'AppBar',
             preload: true,
             launchbar: false,
+            layer:LAYERS.SYSTEM,
             window: {
                 default_width: 80,
                 default_height: items.length*70,

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 import Icon from '@material-ui/core/Icon'
-import {propAsString} from '../db.js'
+import {hasProp, propAsString} from '../db.js'
 import {AppLauncherContext} from '../services/AppLauncherService.js'
 import "./window.css"
 
@@ -34,7 +34,7 @@ export function Window({children, resize=true, hide_titlebar=false, app, anchor=
 
     let [dragging, setDragging] = useState(false)
     let [left,setLeft] = useState((title==="apps")?0:100)
-    let [top,setTop] = useState(40)
+    let [top,setTop] = useState(50)
     let [offx, setOffx] = useState(0)
     let [offy, setOffy] = useState(0)
 
@@ -42,7 +42,11 @@ export function Window({children, resize=true, hide_titlebar=false, app, anchor=
     let [h,sh] = useState(height?height:100)
 
     let [resizing, setResizing] = useState(false)
-    let [z, setZ] = useState(1)
+    let layer = 100;
+    if(hasProp(app,'layer')) {
+        layer = app.props.layer
+    }
+    let [z, setZ] = useState(layer)
 
     const maximize = () => {
         setLeft(70)
@@ -60,17 +64,23 @@ export function Window({children, resize=true, hide_titlebar=false, app, anchor=
         top:(top-offy)+'px',
         zIndex: z,
     }
-    if(anchor === "top-right"){
-        style.left = null
-        style.right = '0px'
-        style.bottom = null
-        style.top = '0px'
-    }
     if(anchor === "top-left"){
         style.left = '0px'
         style.right = null
         style.bottom = null
-        style.top = '0px'
+        style.top = '40px'
+    }
+    if(anchor === "top"){
+        style.left = "0px"
+        style.right = '0px'
+        style.bottom = null
+        style.top = '1px'
+    }
+    if(anchor === "top-right"){
+        style.left = null
+        style.right = '0px'
+        style.bottom = null
+        style.top = '40px'
     }
     if(anchor === "bottom-right"){
         style.left = null

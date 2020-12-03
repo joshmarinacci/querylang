@@ -497,125 +497,7 @@ const data = [
     },
 
 
-    {
-        id:27,
-        category: CATEGORIES.APP.ID,
-        type: CATEGORIES.APP.TYPES.APP,
-        props: {
-            title:'Contacts',
-            appid:'ContactList',
-            icon:'perm_contact_calendar',
-            window: {
-                default_width: 600,
-                default_height: 300,
-            }
-        }
-    },
 
-
-    {
-        id:29,
-        category: CATEGORIES.APP.ID,
-        type: CATEGORIES.APP.TYPES.APP,
-        props: {
-            title:'Tasks',
-            appid:'TaskLists',
-            icon:'add_task',
-            window: {
-                default_width: 800,
-                default_height: 300,
-            }
-        }
-    },
-
-    {
-        id:30,
-        category: CATEGORIES.APP.ID,
-        type: CATEGORIES.APP.TYPES.APP,
-        props: {
-            title:'Chat',
-            appid:'Chat',
-            icon:'chat',
-            window: {
-                default_width: 500,
-                default_height: 320,
-            }
-        }
-    },
-
-    {
-        id:31,
-        category: CATEGORIES.APP.ID,
-        type: CATEGORIES.APP.TYPES.APP,
-        props: {
-            title:'Calendar',
-            appid:'Calendar',
-            icon:'today',
-            window: {
-                default_width: 600,
-                default_height: 700,
-            }
-        }
-    },
-
-    {
-        id:32,
-        category: CATEGORIES.APP.ID,
-        type: CATEGORIES.APP.TYPES.APP,
-        props: {
-            title:'Notes',
-            appid:'Notes',
-            icon:'note',
-            window: {
-                default_width: 800,
-                default_height: 400,
-            }
-        }
-    },
-
-
-    {
-        id:33,
-        category: CATEGORIES.APP.ID,
-        type: CATEGORIES.APP.TYPES.APP,
-        props: {
-            title:'Alarms',
-            appid:'Alarms',
-            icon:'alarm',
-            window: {
-                default_width: 500,
-                default_height: 200,
-            }
-        }
-    },
-    {
-        id:34,
-        category: CATEGORIES.APP.ID,
-        type: CATEGORIES.APP.TYPES.APP,
-        props: {
-            title:'Email',
-            appid:'Email',
-            icon:'email',
-            window: {
-                default_width: 800,
-                default_height: 400,
-            }
-        }
-    },
-    {
-        id:35,
-        category: CATEGORIES.APP.ID,
-        type: CATEGORIES.APP.TYPES.APP,
-        props: {
-            title:'Music',
-            appid:'Music',
-            icon:'library_music',
-            window: {
-                default_width: 800,
-                default_height: 400,
-            }
-        }
-    },
 
 
 
@@ -924,29 +806,60 @@ function loadApp(props) {
     )
 }
 
-loadApp({ title:'Peoplebar', appid:'PeopleBar', launchbar:false, preload:true,
+export const LAYERS = {
+    BACKGROUND:1,
+    APPLICATION:100,
+    SYSTEM:10000,
+    COMMAND:20000,
+    POPUP:30000,
+}
+
+loadApp({ title:'Peoplebar', appid:'PeopleBar', launchbar:false, preload:true, layer:LAYERS.SYSTEM,
         window: { default_width:100, default_height:326, anchor:'top-right', hide_titlebar:true, resize:false }})
-loadApp({ title: 'Notifications', appid: 'NotificationPanel', preload: true, launchbar: false,
+loadApp({ title: 'Notifications', appid: 'NotificationPanel', preload: true, launchbar: false, layer:LAYERS.SYSTEM,
     window: { default_width: 200, default_height: 326, anchor: 'bottom-right', hide_titlebar: true, resize:false }})
-loadApp( {title:"SystemBar", appid:'SystemBar',preload:true,launchbar:false,
-    window:{ default_width:500,  default_height:'auto',  anchor:'top-right', hide_titlebar:true, resize:false }})
+loadApp( {title:"SystemBar", appid:'SystemBar',preload:true,launchbar:false, layer:LAYERS.SYSTEM,
+    window:{ default_width:500,  default_height:'auto',  anchor:'top', hide_titlebar:true, resize:false }})
 
 
 loadApp({title:'Bookmarks', appid:"BookmarksManager",icon:'bookmarks'})
-loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report', launchbar: false, window:{default_width: 200, default_height: 200}})
+loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report', launchbar: false, layer:LAYERS.SYSTEM,
+    window:{default_width: 200, default_height: 200}})
 loadApp({title:"Maps", appid:"MapViewer", icon:'map', launchbar:false})
 loadApp({title:"Settings", appid:"SettingsApp", icon:'settings', launchbar:false,
     window:{default_width:400, default_height:400}})
 loadApp({title:"Writer", appid:"WriterApp", icon:'create', launchbar:false})
 loadApp({title:'Data', appid:"DataBrowser",icon:'create', launchbar:false})
 loadApp({title:'Files', appid:"FileBrowserApp",icon:'image', launchbar:true})
-loadApp(({title:'MinesweepR', appid:'IFrameApp',icon:'apps',launchbar:true}))
-loadApp(({title:'News', appid:'NewsReader',icon:'article',launchbar:true}))
-loadApp(({title:'Podcasts', appid:'PodcastPlayer',icon:'podcast',launchbar:true}))
-loadApp({title:'commandbar3', appid:'CommandBar3', icon:'code', preload:true, launchbar:true})
+loadApp(({title:'MinesweepR', appid:'IFrameApp',icon:'apps',launchbar:false}))
+loadApp(({title:'News', appid:'NewsReader',icon:'article',launchbar:false}))
+loadApp(({title:'Podcasts', appid:'PodcastPlayer',icon:'podcast',launchbar:false}))
+loadApp({title:'commandbar3', appid:'CommandBar3', icon:'code', preload:false, launchbar:false, layer: LAYERS.COMMAND,
+    window:{default_width: 300, default_height: 300, hide_titlebar:true, resize: false}
+})
 loadApp({title:'panel viewer',appid:'PanelViewerApp', launchbar:false,
     window:{default_width: 300, default_height: 300}
 })
+loadApp({title:'Contacts',  appid:'ContactList',  icon:'perm_contact_calendar',   launchbar:false,
+    window: {       default_width: 600,      default_height: 300,  }}
+)
+loadApp({title:'Tasks',  appid:'TaskLists',   icon:'add_task',
+    window: { default_width: 800,  default_height: 300,  }})
+loadApp({title:'Chat',  appid:'Chat', icon:'chat',
+    window: {  default_width: 500,   default_height: 320,  }
+})
+loadApp({ title:'Calendar', appid:'Calendar',  icon:'today',
+    window: { default_width: 600, default_height: 700 }})
+loadApp( { title:'Notes', appid:'Notes',  icon:'note',
+        window: { default_width: 800, default_height: 400  }})
+loadApp({title:'Alarms', appid:'Alarms', icon:'alarm',
+    window: { default_width: 500, default_height: 200, }})
+loadApp({ title:'Email', appid:'Email', icon:'email',
+    window: { default_width: 800, default_height: 400, }})
+loadApp({ title:'Music', appid:'Music', icon:'library_music',
+    window: { default_width: 800, default_height: 400, }})
+
+
 
 function load_bookmarks() {
     data.push({
