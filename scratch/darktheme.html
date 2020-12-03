@@ -5,9 +5,9 @@
     <title>Dark Theme Test</title>
     <style type="text/css">
         body {
-            background-color: white;
+            /*background-color: magenta;*/
             font-family: sans-serif;
-            color: white;
+            color: magenta;
             --button-radius: 0.25em;
             --checkbox-radius: 0.125em;
             --window-radius: 0.5em;
@@ -16,33 +16,50 @@
             --bg-hue: 200;
             --bg-sat: 5%;
 
-            --base: 0%;             --dir: +1;
+            --lit-1: 10%;
+            --lit-2: 20%;
+            --lit-3: 30%;
+            --lit-4: 40%;
+            --lit-5: 50%;
+            --lit-6: 60%;
+            --lit-7: 70%;
+            --lit-8: 80%;
+            --lit-9: 90%;
 
-            --bg-1: hsl(var(--bg-hue), var(--bg-sat), calc(var(--base) + var(--dir)*10%));
-            --bg-2: hsl(var(--bg-hue), var(--bg-sat), calc(var(--base) + var(--dir)*20%));
-            --bg-3: hsl(var(--bg-hue), var(--bg-sat), calc(var(--base) + var(--dir)*30%));
-            --bg-4: hsl(var(--bg-hue), var(--bg-sat), calc(var(--base) + var(--dir)*40%));
-            --bg-5: hsl(var(--bg-hue), var(--bg-sat), calc(var(--base) + var(--dir)*50%));
-
-            --bg-6: hsl(var(--bg-hue), var(--bg-sat), calc(var(--base) + var(--dir)*60%));
-            --bg-9: hsl(var(--bg-hue), var(--bg-sat), calc(var(--base) + var(--dir)*80%));
+            --bg-1: hsl(var(--bg-hue), var(--bg-sat), var(--lit-1));
+            --bg-2: hsl(var(--bg-hue), var(--bg-sat), var(--lit-2));
+            --bg-3: hsl(var(--bg-hue), var(--bg-sat), var(--lit-3));
+            --bg-4: hsl(var(--bg-hue), var(--bg-sat), var(--lit-4));
+            --bg-5: hsl(var(--bg-hue), var(--bg-sat), var(--lit-5));
+            --bg-6: hsl(var(--bg-hue), var(--bg-sat), var(--lit-6));
+            --bg-7: hsl(var(--bg-hue), var(--bg-sat), var(--lit-7));
+            --bg-8: hsl(var(--bg-hue), var(--bg-sat), var(--lit-8));
+            --bg-9: hsl(var(--bg-hue), var(--bg-sat), var(--lit-9));
 
 
 
             --ac-sat: 100%;
-            --ac-3: hsl(var(--bg-hue),var(--ac-sat), 30%);
-            --ac-5: hsl(var(--bg-hue),var(--ac-sat), 50%);
-            --ac-7: hsl(var(--bg-hue),var(--ac-sat), 70%);
-            --ac-8: hsl(var(--bg-hue),var(--ac-sat), 80%);
-            --ac-9: hsl(var(--bg-hue),var(--ac-sat), 90%);
+            --ac-1: hsl(var(--bg-hue),var(--ac-sat), var(--lit-1));
+            --ac-2: hsl(var(--bg-hue),var(--ac-sat), var(--lit-2));
+            --ac-3: hsl(var(--bg-hue),var(--ac-sat), var(--lit-3));
+            --ac-4: hsl(var(--bg-hue),var(--ac-sat), var(--lit-4));
+            --ac-5: hsl(var(--bg-hue),var(--ac-sat), var(--lit-5));
+            --ac-6: hsl(var(--bg-hue),var(--ac-sat), var(--lit-6));
+            --ac-7: hsl(var(--bg-hue),var(--ac-sat), var(--lit-7));
+            --ac-8: hsl(var(--bg-hue),var(--ac-sat), var(--lit-8));
+            --ac-9: hsl(var(--bg-hue),var(--ac-sat), var(--lit-9));
 
             --transition-speed: 0.5s;
+
+
+            --std-border: var(--bg-9);
+
         }
         .window {
-            border: 1px solid var(--bg-1);
+            border: 1px solid var(--std-border);
             margin: 2em;
             border-radius: var(--window-radius);
-            background-color: var(--bg-3);
+            background-color: var(--bg-2);
             box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.5);
         }
         .hbox {
@@ -57,13 +74,13 @@
             display: flex;
             flex-direction: row;
             background-color: var(--bg-2);
-            color: white;
+            color: var(--bg-9);
             padding: 0.25em;
             align-items: center;
             border-style: solid;
             border-top-left-radius: var(--window-radius);
             border-top-right-radius: var(--window-radius);
-            border-color: var(--bg-1);
+            border-color: var(--std-border);
             border-width: 0 0 1px 0;
         }
         .spacer {
@@ -75,7 +92,7 @@
             color: var(--bg-9);
             font-size: 100%;
             background-color: var(--bg-4);
-            border: 1px solid var(--bg-2);
+            border: 1px solid var(--std-border);
             border-radius: var(--button-radius);
             padding: var(--std-inline-padding);
             /*line-height: 1.2rem;*/
@@ -85,7 +102,7 @@
         }
         input[type=checkbox], input[type=radio] {
             color: var(--bg-9);
-            border: 1px solid var(--bg-2);
+            border: 1px solid var(--std-border);
             background-color: var(--bg-5);
             appearance: none;
             padding:0;
@@ -115,7 +132,7 @@
         input[type=checkbox]:checked {
             border: 1px solid var(--ac-9);
             background-color: var(--ac-5);
-            color: white;
+            color: var(--bg-9);
         }
 
 
@@ -126,6 +143,7 @@
         label {
             padding: var(--std-inline-padding);
             justify-self: start;
+            color: var(--bg-9);
         }
 
 
@@ -178,7 +196,7 @@
             box-shadow: 0px 1px 5px rgba(0,0,0,0.2);
         }
         .toggle-group button {
-            border: 1px solid var(--bg-2);
+            border: 1px solid var(--std-border);
             border-width: 1px 1px 1px 0;
             border-radius: 0;
             margin:0;
@@ -248,13 +266,14 @@
 
         ul {
             min-width: 10em;
-            border: 1px solid var(--bg-1);
+            border: 1px solid var(--std-border);
             margin:0;
             padding:0;
             border-width: 0 1px 0 0;
         }
 
         li {
+            color: var(--bg-9);
             list-style: none;
             /*padding: var(--std-inline-padding);*/
             padding: 0.5em;
@@ -336,6 +355,12 @@
             transition: outline var(--transition-speed);
         }
 
+        .swatch {
+            width: 2em;
+            height: 2em;
+            border: 1px solid black;
+            font-size: 90%;
+        }
 
     </style>
 </head>
@@ -358,6 +383,31 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
     <button id="set-light-theme">light</button>
     <button id="set-dark-theme">dark</button>
 </div>
+
+<div class="hbox" id="hues"></div>
+<div class="hbox">
+    <div class='swatch' style="background-color: var(--bg-1)">1</div>
+    <div class='swatch' style="background-color: var(--bg-2)">2</div>
+    <div class='swatch' style="background-color: var(--bg-3)">3</div>
+    <div class='swatch' style="background-color: var(--bg-4)">4</div>
+    <div class='swatch' style="background-color: var(--bg-5)">5</div>
+    <div class='swatch' style="background-color: var(--bg-6)">6</div>
+    <div class='swatch' style="background-color: var(--bg-7)">7</div>
+    <div class='swatch' style="background-color: var(--bg-8)">8</div>
+    <div class='swatch' style="background-color: var(--bg-9)">9</div>
+</div>
+<div class="hbox">
+    <div class='swatch' style="background-color: var(--ac-1)">1</div>
+    <div class='swatch' style="background-color: var(--ac-2)">2</div>
+    <div class='swatch' style="background-color: var(--ac-3)">3</div>
+    <div class='swatch' style="background-color: var(--ac-4)">4</div>
+    <div class='swatch' style="background-color: var(--ac-5)">5</div>
+    <div class='swatch' style="background-color: var(--ac-6)">6</div>
+    <div class='swatch' style="background-color: var(--ac-7)">7</div>
+    <div class='swatch' style="background-color: var(--ac-8)">8</div>
+    <div class='swatch' style="background-color: var(--ac-9)">9</div>
+</div>
+
 <div class="window">
 
 
@@ -505,23 +555,45 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
     })
 
 
-    const set_theme = (hue, sat) => {
+    const set_theme = (hue, sat,acsat) => {
         $("body").style.setProperty("--bg-hue",`${hue}`)
         $("body").style.setProperty("--bg-sat",`${sat}%`)
+        $("body").style.setProperty("--ac-sat",`${acsat}%`)
     }
-    on($("#set-red-accent"),'click',  ()=> set_theme(0,  5))
-    on($("#set-green-accent"),'click',()=> set_theme(100,5))
-    on($("#set-blue-accent"),'click', ()=> set_theme(200,5))
-    on($("#set-gray-accent"),'click', ()=> set_theme(200,0))
+    on($("#set-red-accent"),'click',  ()=> set_theme(0,  5,100))
+    on($("#set-green-accent"),'click',()=> set_theme(80,5,100))
+    on($("#set-blue-accent"),'click', ()=> set_theme(200,5,100))
+    on($("#set-gray-accent"),'click', ()=> set_theme(200,0,0))
+
+    function rescale_lit(start, end, min, max) {
+        for(let i=start; i<=end; i++) {
+            let t = (i-start)/(end-start)
+            // console.log(t)
+            let v = min + t*(max-min)
+            console.log(i,t,v)
+            $("body").style.setProperty(`--lit-${i}`,`${v}%`)
+        }
+    }
 
     on($("#set-light-theme"),'click',()=>{
-        $("body").style.setProperty("--base",`100%`)
-        $("body").style.setProperty("--dir",`-1`)
+        rescale_lit(1,9,100,0)
     })
     on($("#set-dark-theme"),'click',()=>{
-        $("body").style.setProperty("--base",`0%`)
-        $("body").style.setProperty("--dir",`+1`)
+        rescale_lit(1,9,0,100)
     })
+
+    let hues = $("#hues")
+    for(let i=0; i<360; i+= 10) {
+        let ch = document.createElement('div')
+        ch.classList.add("swatch")
+        ch.style.setProperty('background-color',`hsl(${i},100%,80%)`)
+        ch.style.setProperty("color","black")
+        ch.innerText = i+""
+        on(ch,'click',()=>{
+            set_theme(i,5,100)
+        })
+        hues.appendChild(ch)
+    }
 </script>
 </body>
 </html>
