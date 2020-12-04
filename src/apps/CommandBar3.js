@@ -38,7 +38,7 @@ function find_results(code, db) {
 }
 
 
-export function CommandBar3() {
+export function CommandBar3({app, instance}) {
     const [code, setCode] = useState("");
     let db = useContext(DBContext)
     let results = find_results(code,db)
@@ -68,6 +68,7 @@ export function CommandBar3() {
                 if(sel.action) {
                     am.perform_action(sel,db,app_launcher)
                     setCode("")
+                    app_launcher.close(instance)
                 } else {
                     setCode(sel.text)
                 }
@@ -79,7 +80,9 @@ export function CommandBar3() {
 
     return (
         <div className={'commandbar'}>
-            <input type={'text'} value={code} onChange={e => setCode(e.target.value)}
+            <input type={'text'} value={code}
+                   autoFocus
+                   onChange={e => setCode(e.target.value)}
                    onKeyDown={e => handle_keys(e)}
             />
             <ul className={'results'}>

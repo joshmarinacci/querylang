@@ -104,9 +104,9 @@ function App() {
         app_launcher_service.launchById('CommandBar3',db_service)
       }
     }
-    document.addEventListener('keypress',handle)
+    document.addEventListener('keydown',handle)
     return () => {
-      document.removeEventListener('keypress',handle)
+      document.removeEventListener('keydown',handle)
     }
   })
 
