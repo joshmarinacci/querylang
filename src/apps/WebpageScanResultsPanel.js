@@ -3,7 +3,7 @@ import {CATEGORIES} from '../schema.js'
 import {useContext} from 'react'
 import {DBContext} from '../db.js'
 
-export function WebpageScanResultsPanel({args}) {
+export function WebpageScanResultsPanel({args, onClose}) {
     // console.log("results are",args)
     let r = args.info.results
     console.log(r)
@@ -18,6 +18,7 @@ export function WebpageScanResultsPanel({args}) {
         db.setProp(sub,'title',r.title)
         db.setProp(sub,'description',r.description)
         db.add(sub)
+        onClose()
     }
     if(r.feed) {
         feed = <button onClick={add_as_news}>add as News source</button>

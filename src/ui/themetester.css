@@ -377,3 +377,7 @@ button:focus, input:focus {
     width: 99vw;
     height: 99vh;
 }
+
+.window.PanelViewerApp {
+    background-color: var(--std-bg-color);
+}

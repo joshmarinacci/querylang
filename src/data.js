@@ -840,8 +840,8 @@ loadApp(({title:'Podcasts', appid:'PodcastPlayer',icon:'podcast',launchbar:false
 loadApp({title:'commandbar3', appid:'CommandBar3', icon:'code', preload:false, launchbar:false, layer: LAYERS.COMMAND,
     window:{default_width: 300, default_height: 300, hide_titlebar:true, resize: false}
 })
-loadApp({title:'panel viewer',appid:'PanelViewerApp', launchbar:false,
-    window:{default_width: 300, default_height: 300}
+loadApp({title:'panel viewer',appid:'PanelViewerApp', launchbar:false, layer: LAYERS.COMMAND,
+    window:{default_width: 300, default_height: 300, hide_titlebar:true, resize: true}
 })
 loadApp({title:'Contacts',  appid:'ContactList',  icon:'perm_contact_calendar',   launchbar:false,
     window: {       default_width: 600,      default_height: 300,  }}

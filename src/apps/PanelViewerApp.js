@@ -1,25 +1,19 @@
-import React, {Component} from 'react'
+import React, {Component, useContext} from 'react'
 import {DictionaryPanel} from './DictionaryPanel'
 import {ViewImagePanel} from './ViewImagePanel.js'
 import {WebpageScanResultsPanel} from "./WebpageScanResultsPanel.js"
+import {AppLauncherContext} from '../services/AppLauncherService.js'
 
-export class PanelViewerApp extends Component {
-    constructor(props) {
-        super(props);
-        this.panels = {
-            DictionaryPanel:DictionaryPanel,
-            ViewImagePanel:ViewImagePanel,
-            WebpageScanResultsPanel:WebpageScanResultsPanel
-        }
-    }
-    render() {
-        let app = this.props.app
-        console.log("launching panel with args",app.launch_args)
-        let ThePanel = this.panels[app.launch_args.panel_func]
-        return <ThePanel args={app.launch_args}/>
-    }
+const PANELS = {
+    DictionaryPanel:DictionaryPanel,
+    ViewImagePanel:ViewImagePanel,
+    WebpageScanResultsPanel:WebpageScanResultsPanel
 }
 
-// export function PanelViewerApp({app}) {
-//     const FuncName = app.launch_args.panel_func
-// }
+export function PanelViewerApp({instance}) {
+    let al = useContext(AppLauncherContext)
+    let ThePanel = PANELS[instance.args.panel_func]
+    return <ThePanel args={instance.args} onClose={()=>{
+        al.close(instance)
+    }}/>
+}
