@@ -26,24 +26,6 @@ export function AppBar({}) {
     let items = db.QUERY(AND(isAppCategory(),
         isApp(),
         isPropEqual('launchbar',true)))
-    let app = {
-        id: 1222,
-        category: CATEGORIES.APP.ID,
-        type: CATEGORIES.APP.TYPES.APP,
-        props: {
-            appid: 'AppBar',
-            preload: true,
-            launchbar: false,
-            layer:LAYERS.SYSTEM,
-            window: {
-                default_width: 80,
-                default_height: items.length*70,
-                anchor: 'top-left',
-            }
-        }
-    }
-
-    return <Window resize={false} hide_titlebar={true} app={app}>
-        <ul className={'list'}>{items.map(o => <AppView key={o.id} app={o}/>)}</ul>
-    </Window>
+    //TODO: resize to fit proper height = items.length*70 ?,
+    return <ul className={'list'}>{items.map(o => <AppView key={o.id} app={o}/>)}</ul>
 }

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import './App.css'
 import "./ui/themetester.css"
 import {ContactList} from './apps/contacts.js'
@@ -7,7 +7,7 @@ import {TaskLists} from './apps/tasks.js'
 import {Chat} from './apps/chat.js'
 import {Calendar} from './apps/calendar.js'
 import {Notes} from './apps/notes.js'
-import {DBContext, makeDB, setProp} from './db.js'
+import {DBContext, makeDB, propAsString, setProp} from './db.js'
 import {AppBar} from './apps/AppBar.js'
 import {Alarms} from './apps/alarms.js'
 import {Email} from './apps/email.js'
@@ -50,7 +50,7 @@ load_commandbar_plugins(db_service)
 
 const APP_REGISTRY = {
   // system apps
-  CommandBar3, DebugPanel, NotificationPanel,
+  AppBar, CommandBar3, DebugPanel, NotificationPanel,
   PanelViewerApp, PeopleBar,  SystemBar,  SettingsApp,
 
 
@@ -61,7 +61,42 @@ const APP_REGISTRY = {
   TaskLists, WriterApp,
 }
 
+
+function load_remote_data() {
+    check_services()
+        .then(d=>{
+          console.log("services loaded",d)
+          return get_json_with_auth(PERSIST_SERVER_URL+'/load/myjson').then(r => r.json()).then(r => {
+            console.log('response from persist is',r)
+            db_service.nuke_and_reload_from_plainobject(r.data)
+            load_commandbar_plugins(db_service)
+          })
+        })
+        .catch(e => {
+          console.log("services not available",e)
+          let alert = db_service.make(CATEGORIES.NOTIFICATION.ID, CATEGORIES.NOTIFICATION.TYPES.ALERT)
+          setProp(alert,'title','services not available')
+          db_service.add(alert)
+        })
+}
+
+function preload_apps() {
+    // console.log("preloading apps")
+    db_service.QUERY(AND(
+        {CATEGORY:CATEGORIES.APP.ID},
+        {TYPE:CATEGORIES.APP.TYPES.APP},
+        {equal: {prop:'preload', value:true}}
+    )).forEach(app => {
+      // console.log("preloading ",propAsString(app,'appid'))
+      app_launcher_service.launch(app)
+    })
+}
+
+setTimeout(preload_apps,1000)
+setTimeout(load_remote_data,2000)
+
 function App() {
+  let [apps, setApps] = useState([])
 
   useEffect(()=>{
     let handle = (e)=>{
@@ -81,51 +116,20 @@ function App() {
     return () => app_launcher_service.removeEventListener(handler)
   })
 
-  useState(() => {
-    console.log("inside startup effect")
-    setTimeout(()=>{
-      check_services()
-          .then(d=>{
-            console.log("services loaded",d)
-            return get_json_with_auth(PERSIST_SERVER_URL+'/load/myjson').then(r => r.json()).then(r => {
-              console.log('response from persist is',r)
-              db_service.nuke_and_reload_from_plainobject(r.data)
-              load_commandbar_plugins(db_service)
-            })
-          })
-          .catch(e => {
-        console.log("services not available",e)
-        let alert = db_service.make(CATEGORIES.NOTIFICATION.ID, CATEGORIES.NOTIFICATION.TYPES.ALERT)
-        setProp(alert,'title','services not available')
-        db_service.add(alert)
-      })
-    },2000)
-  })
-
-  let [apps, setApps] = useState(()=>{
-    let apps = db_service.QUERY(AND(
-        {CATEGORY:CATEGORIES.APP.ID},
-            {TYPE:CATEGORIES.APP.TYPES.APP},
-            {equal: {prop:'preload', value:true}}
-      ))
-    apps.forEach(app => app_launcher_service.launch(app))
-    return apps
-  })
-
-  function makeApp(app) {
-    let appid = app.props.appid
+  function makeApp(ai) {
+    let appid = ai.app.props.appid
     if(APP_REGISTRY[appid]) {
       let TheApp = APP_REGISTRY[appid]
-      return <TheApp app={app}/>
+      return <TheApp instance={ai} app={ai.app}/>
     }
     return <div>app not found <b>{appid}</b></div>
   }
 
-  let ins = apps.map((app,i) => {
+  let app_instances = apps.map((ai,i) => {
     let dm = new DialogManager()
-    return <Window key={app.props.appid} app={app}>
+    return <Window key={ai.id} instance={ai}>
       <DialogManagerContext.Provider value={dm}>
-        {makeApp(app)}
+        {makeApp(ai)}
         <DialogContainer/>
       </DialogManagerContext.Provider>
     </Window>
@@ -139,8 +143,7 @@ function App() {
           <PopupManagerContext.Provider value={pm}>
             <ActionManagerContext.Provider value={am}>
               <BackgroundImage/>
-              <AppBar/>
-              {ins}
+                {app_instances}
               <PopupContainer/>
             </ActionManagerContext.Provider>
           </PopupManagerContext.Provider>
@@ -154,5 +157,9 @@ export default App;
 
 
 function BackgroundImage({}) {
-  return <div id={'background-image'}/>
+  let db = useContext(DBContext)
+  return <div id={'background-image'} onContextMenu={(e)=>{
+    e.preventDefault()
+    app_launcher_service.launchById("DebugPanel",db)
+  }}/>
 }

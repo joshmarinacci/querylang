@@ -4,33 +4,26 @@ import {hasProp, propAsString} from '../db.js'
 import {AppLauncherContext} from '../services/AppLauncherService.js'
 import "./window.css"
 
-export function Window({children, resize=true, hide_titlebar=false, app, anchor="none",}) {
+function get_val(instance, name, backup) {
+    if(instance.app && instance.app.props.window && instance.app.props.window[name]) {
+        return instance.app.props.window[name]
+    }
+    return backup
+}
+
+export function Window({children, resize=true, hide_titlebar=false, instance, anchor="none",}) {
     let appService = useContext(AppLauncherContext)
     let wm = useContext(WindowManagerContext)
-    let title = propAsString(app,'title')
-    // console.log("making window for app",app)
-    let width = 800
-    if(app && app.props.window && app.props.window.default_width) {
-        width = app.props.window.default_width
-    }
-    let height = 400
-    if(app && app.props.window && app.props.window.default_height) {
-        height = app.props.window.default_height
-    }
-    if(app && app.props.window && app.props.window.anchor) {
-        anchor = app.props.window.anchor
-    }
-    if(app && app.props.window && app.props.window.hide_titlebar) {
-        hide_titlebar = app.props.window.hide_titlebar
-    }
-    if(app && app.props.window && 'resize' in app.props.window) {
-        resize = app.props.window.resize
-    }
+    let title = propAsString(instance.app,'title')
+    // console.log("updating window for app",instance.id, instance.app.props.appid)
 
+    let width = get_val(instance,'default_width',800)
+    let height = get_val(instance,'default_height',400)
+    anchor = get_val(instance,'anchor','none')
+    hide_titlebar = get_val(instance,'hide_titlebar',false)
+    resize = get_val(instance,'resize',true)
     let className = ""
-    if(app) {
-        className = propAsString(app,'appid')
-    }
+    if(instance.app) className = propAsString(instance.app,'appid')
 
     let [dragging, setDragging] = useState(false)
     let [left,setLeft] = useState((title==="apps")?0:100)
@@ -43,8 +36,8 @@ export function Window({children, resize=true, hide_titlebar=false, app, anchor=
 
     let [resizing, setResizing] = useState(false)
     let layer = 100;
-    if(hasProp(app,'layer')) {
-        layer = app.props.layer
+    if(hasProp(instance.app,'layer')) {
+        layer = instance.app.props.layer
     }
     let [z, setZ] = useState(layer)
 
@@ -153,7 +146,7 @@ export function Window({children, resize=true, hide_titlebar=false, app, anchor=
     if(dragging) className += " dragging "
     if(resizing) className += " resizing "
 
-    const closeApp = () => appService.close(app)
+    const closeApp = () => appService.close(instance)
 
     let resize_handle = ""
     if(resize) {
@@ -163,13 +156,10 @@ export function Window({children, resize=true, hide_titlebar=false, app, anchor=
 
     }
     let title_ui = ""
-    if(!title && app && app.props && app.props.title) {
-        title = app.props.title
-    }
     if(!hide_titlebar) {
         title_ui = <title onMouseDown={mouseDown}>
             <Icon className={'maximize'} onClick={maximize}>maximize</Icon>
-            <Icon className={'appicon'}>{app.props.icon}</Icon>
+            <Icon className={'appicon'}>{instance.app.props.icon}</Icon>
             <b>{title}</b>
             <Icon onClick={closeApp} className={'close'}>close</Icon>
         </title>

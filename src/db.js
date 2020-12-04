@@ -335,13 +335,13 @@ class DB {
         this.log(`loading local storage from ${key}`)
         if(localStorage.getItem(key)) {
             let localJSON = localStorage.getItem(key)
-            console.log("local is",localJSON)
+            // console.log("local is",localJSON)
             let local = JSON.parse(localJSON,function(key,value) {
                 if(key === 'props') return decode_props_with_types(value);
                 return value
             })
 
-            console.log("local data is",local)
+            // console.log("local data is",local)
             local.forEach(item => {
                 this.data.push(item)
                 this.object_cache[item.id] = item
@@ -401,7 +401,7 @@ class DB {
         this._fireUpdateAll()
     }
     nuke_and_reload_from_plainobject(obj) {
-        console.log("nuking and reloading " + obj)
+        // console.log("nuking and reloading " + obj)
         this.object_cache = {}
         this.loadPresetData(this._original_data)
         console.log("loading in data ",obj)

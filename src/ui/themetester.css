@@ -369,3 +369,11 @@ button:focus, input:focus {
     font-size: 1.0em;
     font-family: 'Material Icons';
 }
+
+
+
+#background-image {
+    position: fixed;
+    width: 99vw;
+    height: 99vh;
+}

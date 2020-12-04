@@ -814,6 +814,9 @@ export const LAYERS = {
     POPUP:30000,
 }
 
+loadApp(({title:'AppBar', appid:'AppBar', launchbar:false, preload:true, layer:LAYERS.SYSTEM,
+    window: { default_width:80, default_height:600, anchor:'top-left', hide_titlebar:true, resize:false }}))
+
 loadApp({ title:'Peoplebar', appid:'PeopleBar', launchbar:false, preload:true, layer:LAYERS.SYSTEM,
         window: { default_width:100, default_height:326, anchor:'top-right', hide_titlebar:true, resize:false }})
 loadApp({ title: 'Notifications', appid: 'NotificationPanel', preload: true, launchbar: false, layer:LAYERS.SYSTEM,
