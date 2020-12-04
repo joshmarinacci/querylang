@@ -48,6 +48,19 @@ let wm = new WindowManager()
 load_commandbar_plugins(db_service)
 
 
+const APP_REGISTRY = {
+  // system apps
+  CommandBar3, DebugPanel, NotificationPanel,
+  PanelViewerApp, PeopleBar,  SystemBar,  SettingsApp,
+
+
+  // user apps
+  Alarms,  BookmarksManager, Calendar,  Chat, ContactList, DataBrowser, Email,
+  FileBrowserApp, IFrameApp,
+  MapViewer, Music, NewsReader, Notes, PodcastPlayer,
+  TaskLists, WriterApp,
+}
+
 function App() {
 
   useEffect(()=>{
@@ -101,32 +114,10 @@ function App() {
 
   function makeApp(app) {
     let appid = app.props.appid
-    if(appid === 'PeopleBar') return <PeopleBar app={app}/>
-    if(appid === 'NotificationPanel') return <NotificationPanel app={app} />
-    if(appid === 'SystemBar') return <SystemBar app={app}/>
-
-    if(appid === 'ContactList') return <ContactList app={app}/>
-    if(appid === 'TaskLists') return <TaskLists app={app}/>
-    if(appid === 'Chat') return <Chat app={app} />
-    if(appid === 'Calendar') return <Calendar app={app} />
-    if(appid === 'Notes') return <Notes app={app} />
-    if(appid === 'Alarms') return <Alarms app={app} />
-    if(appid === 'Email') return <Email app={app} />
-    if(appid === 'Music') return <Music app={app} />
-    if(appid === 'MapViewer') return <MapViewer app={app}/>
-    if(appid === 'WriterApp') return <WriterApp app={app}/>
-    if(appid === 'BookmarksManager') return <BookmarksManager app={app}/>
-    if(appid === 'DebugPanel') return <DebugPanel app={app} />
-
-    if(appid === 'CommandBar3') return <CommandBar3 app={app} />
-    if(appid === 'SettingsApp') return <SettingsApp app={app}/>
-    if(appid === 'DataBrowser') return <DataBrowser app={app}/>
-    if(appid === 'FileBrowserApp') return <FileBrowserApp app={app}/>
-    if(appid === 'IFrameApp') return <IFrameApp app={app}/>
-    if(appid === 'NewsReader') return <NewsReader app={app}/>
-    if(appid === 'PodcastPlayer') return <PodcastPlayer app={app}/>
-    if(appid === 'PanelViewerApp') return <PanelViewerApp app={app}/>
-
+    if(APP_REGISTRY[appid]) {
+      let TheApp = APP_REGISTRY[appid]
+      return <TheApp app={app}/>
+    }
     return <div>app not found <b>{appid}</b></div>
   }
 
