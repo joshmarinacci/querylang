@@ -29,13 +29,14 @@ export function WebpageScanResultsPanel({args, onClose}) {
     }
     return <VBox style={{
         alignItems:'center',
-    }}>
+    }} className={'WebpageScanResultsPanel'}>
 
             <b>{r.url}</b>
         <h3>{r.title}</h3>
         <p>{r.description}</p>
         {image}
         {feed}
+        <button onClick={onClose}>close</button>
     </VBox>
 
 }

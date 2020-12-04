@@ -381,3 +381,7 @@ button:focus, input:focus {
 .window.PanelViewerApp {
     background-color: var(--std-bg-color);
 }
+
+.WebpageScanResultsPanel img {
+    max-width: 100px;
+}
