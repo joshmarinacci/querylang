@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react'
 import Icon from '@material-ui/core/Icon'
 import {HBox, Spacer, VBox} from './ui.js'
 import {flatten} from './grid3layout.js'
+import {isElement} from 'react-dom/test-utils'
 
 export function SourceList({data, column=1, row=1, secondary, selected, renderItem, setSelected, className=""}) {
     if(!data) {
@@ -44,6 +45,16 @@ export function StandardSourceItem({title, subtitle, icon, trailing_icon, traili
         selected:isSelected,
         header:header,
     }
+    let ref = useRef()
+    useEffect(()=>{
+        if(isSelected) {
+            ref.current.scrollIntoView({
+                behavior:'smooth',
+                block:'center'
+            })
+        }
+    },[isSelected])
+
 
     const row1 = <HBox center>
         {(!header&&icon)?<Icon>{icon}</Icon>:""}
@@ -64,6 +75,7 @@ export function StandardSourceItem({title, subtitle, icon, trailing_icon, traili
     return <li onDoubleClick={onDoubleClick}
                className={flatten(cls) + " " + className}
                onClick={onClick} tabIndex={0}
+               ref={ref}
     >
         <VBox grow>
             {row1}
