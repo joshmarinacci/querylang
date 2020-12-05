@@ -22,6 +22,7 @@ export function Window({children, resize=true, hide_titlebar=false, instance, an
     anchor = get_val(instance,'anchor','none')
     hide_titlebar = get_val(instance,'hide_titlebar',false)
     resize = get_val(instance,'resize',true)
+    let back_draggable = get_val(instance,'back_draggable',false)
     let className = ""
     if(instance.app) className = propAsString(instance.app,'appid')
 
@@ -126,6 +127,7 @@ export function Window({children, resize=true, hide_titlebar=false, instance, an
     }
 
     const resize_mouse_down = (e) => {
+        e.stopPropagation()
         setResizing(true)
     }
 
@@ -151,6 +153,7 @@ export function Window({children, resize=true, hide_titlebar=false, instance, an
 
     if(dragging) className += " dragging "
     if(resizing) className += " resizing "
+    if(back_draggable) className += " back-draggable"
 
     const closeApp = () => appService.close(instance)
 
@@ -170,7 +173,9 @@ export function Window({children, resize=true, hide_titlebar=false, instance, an
             <Icon onClick={closeApp} className={'close'}>close</Icon>
         </title>
     }
-    return <div className={"window " + className} style={style}>
+    return <div className={"window " + className} style={style} onMouseDown={(e)=>{
+        if(back_draggable) mouseDown(e)
+    }}>
         {title_ui}
         {children}
         {resize_handle}

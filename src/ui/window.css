@@ -16,6 +16,10 @@
     border-radius: var(--radius) var(--radius) 0 0;
     padding: 0.25em 0.5em;
 }
+.window.back-draggable {
+    user-select: none;
+    cursor: move;
+}
 
 
 .window.dragging > title {

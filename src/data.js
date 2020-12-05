@@ -841,7 +841,7 @@ loadApp({title:'commandbar3', appid:'CommandBar3', icon:'code', preload:false, l
     window:{default_width: 700, default_height: 300, hide_titlebar:true, resize: false, anchor:'center'}
 })
 loadApp({title:'panel viewer',appid:'PanelViewerApp', launchbar:false, layer: LAYERS.COMMAND,
-    window:{default_width: 300, default_height: 300, hide_titlebar:true, resize: true}
+    window:{default_width: 300, default_height: 300, hide_titlebar:true, resize: true, back_draggable:true}
 })
 loadApp({title:'Contacts',  appid:'ContactList',  icon:'perm_contact_calendar',   launchbar:false,
     window: {       default_width: 600,      default_height: 300,  }}
