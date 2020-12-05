@@ -2,6 +2,7 @@ import React from 'react'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
 import {genid} from '../data.js'
+import {propAsBoolean} from '../db.js'
 
 class AppInstance {
     constructor(app, args) {
@@ -19,6 +20,13 @@ export class AppLauncherService {
         this.listeners = []
     }
     launch(app, args) {
+        if(propAsBoolean(app,'single_instance')) {
+            let dupes = this.running.filter(ai => ai.app.props.appid === app.props.appid)
+            if(dupes.length > 0) {
+                console.log("refusing to spawn a copy", dupes)
+                return
+            }
+        }
         this.running.push(new AppInstance(app, args))
         // remove dupes
         let group = new Map()

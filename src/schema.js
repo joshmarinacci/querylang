@@ -408,6 +408,11 @@ export const CATEGORIES = {
                         key:'launchbar',
                         type: BOOLEAN,
                         default: true
+                    },
+                    single_instance:{
+                        key:'single_instance',
+                        type:BOOLEAN,
+                        default:false,
                     }
                 }
             },

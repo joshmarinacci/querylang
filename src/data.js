@@ -814,22 +814,22 @@ export const LAYERS = {
     POPUP:30000,
 }
 
-loadApp(({title:'AppBar', appid:'AppBar', launchbar:false, preload:true, layer:LAYERS.SYSTEM,
+loadApp(({title:'AppBar', appid:'AppBar', launchbar:false, preload:true, layer:LAYERS.SYSTEM, single_instance:true,
     window: { default_width:80, default_height:600, anchor:'top-left', hide_titlebar:true, resize:false }}))
 
-loadApp({ title:'Peoplebar', appid:'PeopleBar', launchbar:false, preload:true, layer:LAYERS.SYSTEM,
+loadApp({ title:'Peoplebar', appid:'PeopleBar', launchbar:false, preload:true, layer:LAYERS.SYSTEM, single_instance:true,
         window: { default_width:100, default_height:326, anchor:'top-right', hide_titlebar:true, resize:false }})
-loadApp({ title: 'Notifications', appid: 'NotificationPanel', preload: true, launchbar: false, layer:LAYERS.SYSTEM,
+loadApp({ title: 'Notifications', appid: 'NotificationPanel', preload: true, launchbar: false, layer:LAYERS.SYSTEM, single_instance:true,
     window: { default_width: 200, default_height: 326, anchor: 'bottom-right', hide_titlebar: true, resize:false }})
-loadApp( {title:"SystemBar", appid:'SystemBar',preload:true,launchbar:false, layer:LAYERS.SYSTEM,
+loadApp( {title:"SystemBar", appid:'SystemBar',preload:true,launchbar:false, layer:LAYERS.SYSTEM, single_instance:true,
     window:{ default_width:500,  default_height:'auto',  anchor:'top', hide_titlebar:true, resize:false }})
 
 
 loadApp({title:'Bookmarks', appid:"BookmarksManager",icon:'bookmarks'})
-loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report', launchbar: false, layer:LAYERS.SYSTEM,
+loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report', launchbar: false, layer:LAYERS.SYSTEM, single_instance:true,
     window:{default_width: 200, default_height: 200}})
 loadApp({title:"Maps", appid:"MapViewer", icon:'map', launchbar:false})
-loadApp({title:"Settings", appid:"SettingsApp", icon:'settings', launchbar:false,
+loadApp({title:"Settings", appid:"SettingsApp", icon:'settings', launchbar:false, single_instance:true,
     window:{default_width:400, default_height:400}})
 loadApp({title:"Writer", appid:"WriterApp", icon:'create', launchbar:false})
 loadApp({title:'Data', appid:"DataBrowser",icon:'create', launchbar:false})
