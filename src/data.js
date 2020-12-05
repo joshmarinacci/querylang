@@ -838,7 +838,7 @@ loadApp(({title:'MinesweepR', appid:'IFrameApp',icon:'apps',launchbar:false}))
 loadApp(({title:'News', appid:'NewsReader',icon:'article',launchbar:false}))
 loadApp(({title:'Podcasts', appid:'PodcastPlayer',icon:'podcast',launchbar:false}))
 loadApp({title:'commandbar3', appid:'CommandBar3', icon:'code', preload:false, launchbar:false, layer: LAYERS.COMMAND,
-    window:{default_width: 300, default_height: 300, hide_titlebar:true, resize: false}
+    window:{default_width: 700, default_height: 300, hide_titlebar:true, resize: false, anchor:'center'}
 })
 loadApp({title:'panel viewer',appid:'PanelViewerApp', launchbar:false, layer: LAYERS.COMMAND,
     window:{default_width: 300, default_height: 300, hide_titlebar:true, resize: true}

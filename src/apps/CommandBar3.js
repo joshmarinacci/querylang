@@ -79,7 +79,7 @@ export function CommandBar3({app, instance}) {
     }
 
     return (
-        <div className={'commandbar'}>
+        <div className={'commandbar vbox'}>
             <input type={'text'} value={code}
                    autoFocus
                    onChange={e => setCode(e.target.value)}

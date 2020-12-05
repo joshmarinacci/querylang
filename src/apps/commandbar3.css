@@ -1,11 +1,16 @@
 .commandbar {
     border: 1px solid red;
     font-size: 200%;
+
 }
 .commandbar input {
     font-size: inherit;
+    block-size: content-box;
 }
 
+.commandbar .results {
+    max-height: 50vh;
+}
 .commandbar .results li {
     border: 1px solid blue;
 }

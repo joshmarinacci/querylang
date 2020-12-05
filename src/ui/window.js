@@ -69,6 +69,12 @@ export function Window({children, resize=true, hide_titlebar=false, instance, an
         style.bottom = null
         style.top = '1px'
     }
+    if(anchor === 'center') {
+        style.left = '20vw';
+        style.right = '20vw';
+        style.width = 'auto'
+        style.height = 'auto'
+    }
     if(anchor === "top-right"){
         style.left = null
         style.right = '0px'
