@@ -175,6 +175,7 @@ export const CATEGORIES = {
         },
         SCHEMAS: {
             TASK:{
+                TYPE:'TASK',
                 title:'task',
                 props: {
                     title:{
@@ -209,6 +210,7 @@ export const CATEGORIES = {
             },
             PROJECT: {
                 title:'task project',
+                TYPE: "PROJECT",
                 props: {
                     title:{
                         key:'title',

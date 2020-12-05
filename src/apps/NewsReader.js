@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {DBContext, propAsBoolean, propAsString, sort, useDBChanged} from '../db.js'
+import {DBContext, propAsBoolean, propAsString, setProp, sort, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import "./DataBrowser.css"
@@ -104,6 +104,53 @@ function AddFeedDialog({onDone, onCancel}) {
     </SimpleDialog>
 }
 
+function add_to_read(post, db) {
+    console.log('adding',post)
+    let proj = db.QUERY(AND(
+        IS_CATEGORY(CATEGORIES.TASKS.ID),
+        IS_TYPE(CATEGORIES.TASKS.TYPES.PROJECT),
+        IS_PROP_EQUAL("title","To Read")
+    ))
+    if(!proj || proj.length < 1) {
+        let proj2 = db.make(CATEGORIES.TASKS.ID, CATEGORIES.TASKS.TYPES.PROJECT)
+        setProp(proj2,'title','To Read')
+        setProp(proj2,'active',true)
+        setProp(proj2,'icon','book')
+        db.add(proj2)
+        console.log('creating new project',proj2)
+        proj = [proj2]
+    }
+    let obj = db.make(CATEGORIES.TASKS.ID, CATEGORIES.TASKS.SCHEMAS.TASK.TYPE)
+    db.setProp(obj,'project',proj[0].id)
+    db.setProp(obj,'title',propAsString(post,'title'))
+    db.setProp(obj,'notes',propAsString(post,'url'))
+    db.add(obj)
+
+}
+
+function add_to_movies(post, db) {
+    console.log('adding',post)
+    let proj = db.QUERY(AND(
+        IS_CATEGORY(CATEGORIES.TASKS.ID),
+        IS_TYPE(CATEGORIES.TASKS.TYPES.PROJECT),
+        IS_PROP_EQUAL("title","To Watch")
+        ))
+    if(!proj || proj.length < 1) {
+        let proj2 = db.make(CATEGORIES.TASKS.ID, CATEGORIES.TASKS.TYPES.PROJECT)
+        setProp(proj2,'title','To Watch')
+        setProp(proj2,'active',true)
+        setProp(proj2,'icon','book')
+        db.add(proj2)
+        console.log('creating new project',proj2)
+        proj = [proj2]
+    }
+    let obj = db.make(CATEGORIES.TASKS.ID, CATEGORIES.TASKS.SCHEMAS.TASK.TYPE)
+    db.setProp(obj,'project',proj[0].id)
+    db.setProp(obj,'title',propAsString(post,'title'))
+    db.setProp(obj,'notes',propAsString(post,'url'))
+    db.add(obj)
+ }
+
 export function NewsReader({}) {
     let db = useContext(DBContext)
     let dm = useContext(DialogManagerContext)
@@ -156,6 +203,8 @@ export function NewsReader({}) {
                         title={propAsString(item,'title')} {...rest}/>}/>
         <Toolbar>
             <button onClick={mark_as_read}>mark as read</button>
+            <button onClick={()=>add_to_read(post,db)}>add to deep reading list</button>
+            <button onClick={()=>add_to_movies(post,db)}>add to movies list</button>
         </Toolbar>
         <PostPanel className={'col3 row2'} post={post} navNext={navNext} navPrev={navPrev} markRead={mark_as_read} />
     </Grid3Layout>
