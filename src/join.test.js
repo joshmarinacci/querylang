@@ -34,7 +34,6 @@ function PROJECT(data, ...rest) {
     return data.map(item => {
         let obj = {props:{}}
         rest.forEach(field => {
-            // console.log('mapping',field)
             obj.props[field] = item.props[field]
         })
         return obj
@@ -133,19 +132,27 @@ function get_item_prop_by_name(item, name) {
     if(Array.isArray(name)) {
         let path = name.slice()
         let val = item
+        let lastname = name
         while(path.length > 0) {
-            val = val.props[path.shift()]
-            log('now val is',val)
+            lastname = path.shift()
+            val = val.props[lastname]
+            log('now val is',lastname,":",val)
         }
-        return val
+        return {
+            key:lastname,
+            value:val,
+        }
     }
-    return item.props[name]
+    return {
+        key:name,
+        value:item.props[name]
+    }
 }
 
 function fetchWeather(item,conditions) {
     log("fetching weather with conditions",conditions,'from item',item)
     let q = conditions.map(cond => {
-        return get_item_prop_by_name(item,cond.on.A)
+        return get_item_prop_by_name(item,cond.on.A).value
     }).join(" ")
     let api_key = 'fe5dd0b0a21045f0bdd235656201411'
     let url = `http://api.weatherapi.com/v1/current.json?key=${api_key}&q=${q}`
@@ -191,8 +198,16 @@ function JOIN(data, query, project) {
             return item2
         })
     })
-    return Promise.all(proms)
-    // log("the project is",project)
+    return Promise.all(proms).then(data => {
+        return data.map(item => {
+            let item2 = {props:{}}
+            project.project.forEach(field => {
+                let dd = get_item_prop_by_name(item,field)
+                item2.props[dd.key] = dd.value
+            })
+            return item2
+        })
+    })
 }
 
 function IS_DOMAIN(domain) {
@@ -234,7 +249,7 @@ it("join addresses to weather",()=>{
             ON_EQUAL(["addresses","city"],"city"),
             ON_EQUAL(["addresses","state"],"state")
         ),
-        RPROJECT("temp_c"),
+        RPROJECT('first',['current',"temp_c"]),
     ).then(data => {
         log("final data",data)
         expect(data.length).toEqual(2)
