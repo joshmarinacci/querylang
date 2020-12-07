@@ -26,18 +26,27 @@ it("get all favorite contacts",()=>{
     ))
     console.log("result is",res)
     expect(res.length).toEqual(2)
-    expect(res[0].domain).toEqual('weatherapi')
 })
 
 
-function PROJECT(data, ...rest) {
+function process_project(data, projection) {
+    log("projection is",projection)
     return data.map(item => {
         let obj = {props:{}}
-        rest.forEach(field => {
-            obj.props[field] = item.props[field]
+        projection.project.forEach(field => {
+            let dd = get_item_prop_by_name(item,field)
+            obj.props[dd.key] = dd.value
         })
         return obj
     })
+
+    // return data.map(item => {
+        // let obj = {props:{}}
+        // rest.forEach(field => {
+        //     obj.props[field] = item.props[field]
+        // })
+        // return obj
+    // })
 }
 
 function EXPAND(data, field) {
@@ -64,7 +73,7 @@ it("project addresses and first names",()=>{
         IS_TYPE(CATEGORIES.CONTACT.TYPES.PERSON),
         IS_PROP_TRUE("favorite"),
     ))
-    res = PROJECT(res,"first","addresses")
+    res = process_project(res,PROJECT("first","addresses"))
     res = EXPAND(res, "addresses")
     console.log("result is",res)
     console.log(JSON.stringify(res,null,'  '))
@@ -109,7 +118,7 @@ function RQUERY(arg) {
 }
 
 it("fetch weather for city",()=>{
-    expect.assertions(1);
+    expect.assertions(2);
 
     return RQUERY(AND(
         IS_PROP_EQUAL("city",'Eugene'),
@@ -199,14 +208,7 @@ function JOIN(data, query, project) {
         })
     })
     return Promise.all(proms).then(data => {
-        return data.map(item => {
-            let item2 = {props:{}}
-            project.project.forEach(field => {
-                let dd = get_item_prop_by_name(item,field)
-                item2.props[dd.key] = dd.value
-            })
-            return item2
-        })
+        return process_project(data,project)
     })
 }
 
@@ -225,34 +227,34 @@ function ON_EQUAL(city, city2) {
     }
 }
 
-function RPROJECT(...args) {
+function PROJECT(...args) {
     return {
         project:args,
     }
 }
 
 it("join addresses to weather",()=>{
-    expect.assertions(1);
+    expect.assertions(2);
 
     let res = db.QUERY(AND(
         IS_CATEGORY(CATEGORIES.CONTACT.ID),
         IS_TYPE(CATEGORIES.CONTACT.TYPES.PERSON),
         IS_PROP_TRUE("favorite"),
     ))
-    res = PROJECT(res,"first","addresses")
+    res = process_project(res,PROJECT("first","addresses"))
     res = EXPAND(res, "addresses")
-    console.log("result is",res)
-
+    // console.log("result is",res)
     return JOIN(res,
         AND(
             IS_DOMAIN("weather"),
             ON_EQUAL(["addresses","city"],"city"),
             ON_EQUAL(["addresses","state"],"state")
         ),
-        RPROJECT('first',['current',"temp_c"]),
+        PROJECT('first',['current',"temp_c"]),
     ).then(data => {
         log("final data",data)
         expect(data.length).toEqual(2)
+        expect(data[0].props.first).toEqual("Jesse")
     })
 
 
