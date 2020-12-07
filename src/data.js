@@ -87,6 +87,18 @@ const data = [
                         zipcode: '97404',
                         country: 'USA'
                     }
+                },
+                {
+                    type:CATEGORIES.CONTACT.TYPES.MAILING_ADDRESS,
+                    category: CATEGORIES.CONTACT.TYPES.MAILING_ADDRESS,
+                    props: {
+                        type:'school',
+                        street1: 'irving elementary drive',
+                        city:'eugene',
+                        state:'OR',
+                        zipcode: '97404',
+                        country: 'USA',
+                    }
                 }
             ],
             icon:'http://placekeanu.com/64/64/a',
