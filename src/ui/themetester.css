@@ -385,3 +385,7 @@ button:focus, input:focus {
 .WebpageScanResultsPanel img {
     max-width: 100px;
 }
+
+.scroll {
+    overflow: scroll;
+}

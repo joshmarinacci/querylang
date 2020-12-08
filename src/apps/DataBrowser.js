@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import {DBContext, propAsString, useDBChanged} from '../db.js'
-import {CATEGORIES, lookup_schema, STRING} from '../schema.js'
+import {BOOLEAN, CATEGORIES, lookup_schema, STRING} from '../schema.js'
 import {Window} from '../ui/window.js'
 import {
     AND,
@@ -71,25 +71,27 @@ function ToggleViewsGroup({values, setValue, selectedValue}) {
 }
 
 function DataViewPanel({data, mode}) {
+    const [sel, set_sel] = useState(null)
     if(mode === 'table') {
-        return <VBox scroll>
-            <DataTable data={data}
-                       stringifyDataColumn={(o,k)=>{
-                           // console.log("checking",k)
-                           if(k === 'first') return propAsString(o,k)
-                           let v = o.props[k]
-                           if(v === true) return "true"
-                           if(v === false) return "false"
+        return <VBox scroll className={'col2 span3'}>
+            <DataTable data={data} selected={sel} setSelected={set_sel}
+                       stringifyDataColumn={(item,key)=>{
+                           let sch = lookup_schema('local',item.category, item.type)
+                           if(!sch.props[key]) return "?"
+                           let v = item.props[key]
+                           if(sch.props[key].type === BOOLEAN) {
+                               return v?"true":"false"
+                           }
                            if(!v) return "---"
-                           if(Array.isArray(v)) return "---"
-                           return propAsString(o,k)
+                           if(Array.isArray(v)) return "[...]"
+                           return propAsString(item,key)
                        }}
             />
         </VBox>
     }
     if(mode === 'list') {
-        return <VBox scroll>
-            <SourceList data={data}  setSelected={()=>{}} renderItem={({item,...rest}) => {
+        return <VBox scroll className={'col2 span3'}>
+            <SourceList data={data}  selected={sel} setSelected={set_sel} renderItem={({item,...rest}) => {
                 let sch = lookup_schema('local',item.category, item.type)
                 let str = ""
                 Object.keys(sch.props).forEach(key =>{
@@ -101,7 +103,12 @@ function DataViewPanel({data, mode}) {
             }}/>
         </VBox>
     }
-    return <Panel className={'col2 row2 span3'}>
+    if(mode === 'chart') {
+        return <VBox scroll className={'col2 span3'}>
+            <div>no chart yet</div>
+        </VBox>
+    }
+    return <Panel className={'col2 row2 span3 scroll'}>
         <div style={{
             whiteSpace:'pre',
             overflow:'auto',
