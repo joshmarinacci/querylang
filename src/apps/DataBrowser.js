@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import {DBContext, propAsString, useDBChanged} from '../db.js'
-import {BOOLEAN, CATEGORIES, lookup_schema, STRING} from '../schema.js'
+import {BOOLEAN, CATEGORIES, lookup_schema, lookup_types_for_category, STRING} from '../schema.js'
 import {Window} from '../ui/window.js'
 import {
     AND,
@@ -152,11 +152,7 @@ function fetch_types_by_category(cat) {
         console.warn(`CATEGORY ${cat.ID} might be missing schemas`)
         return [ANY_TYPE]
     }
-    let tt = CATEGORIES[cat.ID].SCHEMAS
-    let arr = Object.keys(tt).map(key => {
-        tt[key].key = key
-        return tt[key]
-    })
+    let arr = lookup_types_for_category('local',cat.ID)
     arr.unshift(ANY_TYPE)
     return arr
 }

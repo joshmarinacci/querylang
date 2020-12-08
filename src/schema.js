@@ -706,9 +706,11 @@ export const CATEGORIES = {
 
 const RSS = {
     ID:'RSS',
+    title:"RSS News Feeds",
     SCHEMAS:{
         SUBSCRIPTION:{
             TYPE:'SUBSCRIPTION',
+            title:'subscription',
             props:{
                 title:{
                     key:'title',
@@ -737,6 +739,7 @@ const RSS = {
         },
         POST:{
             TYPE:'POST',
+            title:'post',
             props: {
                 title:{
                     key:'title',
@@ -891,5 +894,18 @@ export function lookup_schema(domain, category, type) {
     return CATEGORIES[category].SCHEMAS[type]
 }
 
+export function lookup_types_for_category(domain, category) {
+    // console.log("lookup_types_for_category",domain,category)
+    let schemas = CATEGORIES[category].SCHEMAS
+    // console.log("schemas for category is",schemas)
+    Object.keys(schemas).forEach(key => {
+        let type = schemas[key]
+        if(!type.title) console.warn(category + " " + key + " is missing a title")
+    })
+    return Object.keys(schemas).map(key => {
+        schemas[key].key = key
+        return schemas[key]
+    })
+}
 
 
