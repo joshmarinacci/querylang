@@ -25,46 +25,6 @@ it("get all favorite contacts",()=>{
     })
 
 })
-
-
-function process_project(data, projection) {
-    log("projection is",projection)
-    return data.map(item => {
-        let obj = {props:{}}
-        projection.project.forEach(field => {
-            let dd = get_item_prop_by_name(item,field)
-            obj.props[dd.key] = dd.value
-        })
-        return obj
-    })
-
-    // return data.map(item => {
-        // let obj = {props:{}}
-        // rest.forEach(field => {
-        //     obj.props[field] = item.props[field]
-        // })
-        // return obj
-    // })
-}
-
-function EXPAND(data, field) {
-    let d2 = []
-    data.forEach(item => {
-        let vals = item.props[field]
-        vals.forEach(val => {
-            // console.log('value of',field,'is',val)
-            let obj = {props:{}}
-            Object.keys(item.props).forEach(key => {
-                if(key !== field)  obj.props[key] = item.props[key]
-            })
-            obj.props[field] = val;
-            d2.push(obj)
-            // console.log("adding",obj)
-        })
-    })
-    return d2
-}
-
 it("project addresses and first names",()=>{
     expect.assertions(1)
     return EXECUTE(
@@ -85,50 +45,7 @@ it("project addresses and first names",()=>{
         log("result is",res)
         expect(res.length).toEqual(2)
     })
-    // res = process_project(res,PROJECT("first","addresses"))
-    // res = EXPAND(res, "addresses")
-    // console.log("result is",res)
-    // console.log(JSON.stringify(res,null,'  '))
-    // expect(res.length).toEqual(2)
 })
-
-function RQUERY(arg) {
-    // console.log(arg)
-    if(arg.and) {
-        // console.log("is AND")
-        //combine is prop equals into a query
-        let q = ""
-        arg.and.forEach(clause => {
-            // console.log("clause is",clause)
-            if(clause.equal && clause.equal.prop === 'city') {
-                q += " " + clause.equal.value
-            }
-            if(clause.equal && clause.equal.prop === 'state') {
-                q += " " + clause.equal.value
-            }
-        })
-        let api_key = 'fe5dd0b0a21045f0bdd235656201411'
-        let url = `http://api.weatherapi.com/v1/current.json?key=${api_key}&q=${q}`
-        console.log("final url is",url)
-        return fetch(url)
-            .then(res => res.json())
-            .then(d => {
-                console.log("final result is",d)
-                return [{
-                    domain:'weatherapi',
-                    category:'weatherapi',
-                    type:'current',
-                    props:{
-                        temp_c: d.current.temp_c,
-                        temp_f: d.current.temp_f,
-                    }
-                }]
-            }).catch(e => {
-                console.error(e)
-            })
-    }
-}
-
 it("fetch weather for city", () => {
     expect.assertions(1);
     return EXECUTE(PJOIN(
@@ -141,7 +58,6 @@ it("fetch weather for city", () => {
     )).then(res => {
         console.log("result is",res)
         expect(res.length).toEqual(1)
-        // expect(res[0].domain).toEqual("weatherapi")
     })
 })
 
@@ -225,36 +141,6 @@ function fetchCityInfo(item, mapping) {
     }
     return Promise.resolve(result)
 }
-
-function JOIN(data, query, project) {
-    log("JOIN query",query)
-    log("data is",data)
-    if(!query.and) throw new Error("JOIN query should be 'and'")
-    let service = null
-    let conds = []
-    query.and.forEach(q => {
-        if(q.domain && q.domain==='weather') {
-            service = fetchWeather
-        }
-        if(q.on) conds.push(q)
-    })
-    let proms = data.map(item => {
-        // log("joining item",item,'with conditions',conds)
-        return service(item,conds).then(res => {
-            log("result from join",res)
-            let item2 = {props:{}}
-            Object.keys(item.props).forEach(key => {
-                item2.props[key] = item.props[key]
-            })
-            item2.props.current = res
-            return item2
-        })
-    })
-    return Promise.all(proms).then(data => {
-        return process_project(data,project)
-    })
-}
-
 function IS_DOMAIN(domain) {
     return {
         domain:domain,
@@ -277,16 +163,8 @@ function ON_IS(field, value) {
         }
     }
 }
-
-function PROJECT(...args) {
-    return {
-        project:args,
-    }
-}
-
 it("join addresses to weather",()=>{
     expect.assertions(2);
-
     let favs = AND(
         IS_DOMAIN('local'),
         IS_CATEGORY(CATEGORIES.CONTACT.ID),
@@ -294,9 +172,6 @@ it("join addresses to weather",()=>{
         IS_PROP_TRUE("favorite"),
     )
     let clean_favs = PEXPAND(PPROJECT(favs,"first",'addresses'),'addresses')
-    // res = process_project(res,PROJECT("first","addresses"))
-    // res = EXPAND(res, "addresses")
-    // console.log("result is",res)
     let with_weather = PJOIN(clean_favs, JOIN_SOURCE(
         IS_DOMAIN("weather"),
         ON_EQUAL(["addresses","city"],"city"),
