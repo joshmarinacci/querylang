@@ -1,3 +1,5 @@
+import {find_city} from './services/CityInfo.js'
+
 export const IS_DOMAIN = (domain) => ({domain})
 export const ON_EQUAL = (A, B) => ({ on:{A, B  } })
 export const ON_IS = (field, value) => ({ on: {field, value } })
@@ -197,8 +199,11 @@ function fetchCityInfo(item, mapping) {
             timezone:'N/A'
         }
     }
-    if(q.city.toLowerCase() === 'eugene') {
-        result.props.timezone = 'Pacific'
-    }
+    let city = find_city(q.city,q.state)
+    log("found city info",city)
+    result.props.timezone = city.timezone
+    // if(q.city.toLowerCase() === 'eugene') {
+    //     result.props.timezone = 'Pacific'
+    // }
     return Promise.resolve(result)
 }

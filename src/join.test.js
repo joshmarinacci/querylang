@@ -167,7 +167,7 @@ it("join addresses to city info server",()=>{
         log("dynamic timezone data is",data)
         expect(data.length).toEqual(2)
         // expect(data[0].type).toEqual("info")
-        expect(data[0].props.timezone).toEqual("Pacific")
+        expect(data[0].props.timezone).toEqual("UTC-08")
     })
 })
 
