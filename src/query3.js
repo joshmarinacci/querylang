@@ -1,4 +1,4 @@
-import {find_city} from './services/CityInfo.js'
+import {CITY_INFO_SERVER_URL} from './globals.js'
 
 export const IS_DOMAIN = (domain) => ({domain})
 export const ON_EQUAL = (A, B) => ({ on:{A, B  } })
@@ -9,8 +9,6 @@ export const JOIN = (...args) => ({join:args})
 export const NONE = () => ({none:'none'})
 export const ONE  = () => ({one:'one'})
 export const JOIN_SOURCE = (q, ...mapping) => ({ domain:q.domain, mapping })
-
-
 
 function log(...args) {
     console.log(args.map(a => {
@@ -182,28 +180,33 @@ function fetchWeather(item,conditions) {
 
 }
 
-function fetchCityInfo(item, mapping) {
-    log("fetching city info  with mapping",mapping,'from item',item)
+async function fetchCityInfo(item, mapping) {
+    log("fetching city info  with mapping", mapping, 'from item', item)
     let q = {}
     mapping.forEach(cond => {
-        if(cond.on.value) {
+        if (cond.on.value) {
             q[cond.on.field] = cond.on.value
         } else {
             q[cond.on.B] = get_item_prop_by_name(item, cond.on.A).value
         }
     })
-    console.log('query is',q)
+    log('query is', q)
     let result = {
-        type:'info',
-        props:{
-            timezone:'N/A'
+        type: 'info',
+        props: {
+            timezone: 'N/A'
         }
     }
-    let city = find_city(q.city,q.state)
-    log("found city info",city)
+    let city = await find_city(q.city, q.state)
+
+    log("found city info", city)
     result.props.timezone = city.timezone
-    // if(q.city.toLowerCase() === 'eugene') {
-    //     result.props.timezone = 'Pacific'
-    // }
-    return Promise.resolve(result)
+    return result
+}
+
+
+function find_city (city,state) {
+    let url = CITY_INFO_SERVER_URL + "?city="+city+"&state="+state
+    log("fetching the url",url)
+    return fetch(url).then(res => res.json())
 }
