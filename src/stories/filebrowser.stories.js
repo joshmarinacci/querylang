@@ -5,7 +5,7 @@ import {PopupContainer, PopupManager, PopupManagerContext} from '../ui/PopupMana
 import {DialogContainer, DialogManager, DialogManagerContext} from '../ui/DialogManager.js'
 
 export default {
-    title: 'QueryOS/FileBrowser',
+    title: 'QueryOS/Apps',
     component: FileBrowser,
     argTypes: {
     },

@@ -58,6 +58,6 @@
     "babel-loader": "^8.2.1",
     "faker": "^5.1.0",
     "react-is": "^17.0.1"
-  },
-  "type": "module"
+  }
 }
+

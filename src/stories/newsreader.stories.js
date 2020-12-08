@@ -8,7 +8,7 @@ import {NewsReader} from '../apps/NewsReader.js'
 import {DialogContainer, DialogManager, DialogManagerContext} from '../ui/DialogManager.js'
 
 export default {
-    title: 'QueryOS/NewsReader',
+    title: 'QueryOS/Apps',
     component: NewsReader,
     argTypes: {
     },
