@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import {DBContext, propAsString, useDBChanged} from '../db.js'
-import {CATEGORIES, lookup_schema} from '../schema.js'
+import {CATEGORIES, lookup_schema, STRING} from '../schema.js'
 import {Window} from '../ui/window.js'
 import {
     AND,
@@ -91,8 +91,13 @@ function DataViewPanel({data, mode}) {
         return <VBox scroll>
             <SourceList data={data}  setSelected={()=>{}} renderItem={({item,...rest}) => {
                 let sch = lookup_schema('local',item.category, item.type)
-                console.log("schema is",sch)
-                return <StandardSourceItem title={sch.title} {...rest}/>
+                let str = ""
+                Object.keys(sch.props).forEach(key =>{
+                    if(sch.props[key].type === STRING) {
+                        str += propAsString(item,key) + " "
+                    }
+                })
+                return <StandardSourceItem title={sch.title} subtitle={str} {...rest}/>
             }}/>
         </VBox>
     }
