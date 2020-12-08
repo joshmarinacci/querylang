@@ -128,6 +128,7 @@ function QueryEditorDialog() {
     // let [propQuery, setPropQuery] = useState({})
     let [predicates, setPredicates] = useState([])
     let [debug_text, set_debug_text] = useState("")
+    let [query_title, set_query_title] = useState("untitled")
 
     const chooseCat = (cat) => {
         setSelectedCat(cat)
@@ -197,6 +198,7 @@ function QueryEditorDialog() {
         console.log('saving a query',query)
         let q = db.make(CATEGORIES.GENERAL.ID, CATEGORIES.GENERAL.SCHEMAS.QUERY.TYPE)
         db.setProp(q,'query',query)
+        db.setProp(q,'title',query_title)
         db.add(q)
         dm.hide()
     }
@@ -219,6 +221,7 @@ function QueryEditorDialog() {
         <Toolbar>
             <button onClick={run_query}>run</button>
             <button onClick={save_query}>save</button>
+            <input type={'text'} value={query_title} onChange={e => set_query_title(e.target.value)}/>
         </Toolbar>
         <textarea value={debug_text} className={"debug"} disabled/>
     </div>
