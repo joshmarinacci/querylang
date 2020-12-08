@@ -887,5 +887,9 @@ export function makeNewObject(type, category, customSchema) {
     return obj
 }
 
+export function lookup_schema(domain, category, type) {
+    return CATEGORIES[category].SCHEMAS[type]
+}
+
 
 

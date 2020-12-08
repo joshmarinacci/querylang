@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import {DBContext, propAsString, useDBChanged} from '../db.js'
-import {CATEGORIES} from '../schema.js'
+import {CATEGORIES, lookup_schema} from '../schema.js'
 import {Window} from '../ui/window.js'
 import {
     AND,
@@ -11,7 +11,7 @@ import {
     IS_PROP_SUBSTRING,
     IS_TYPE
 } from '../query2.js'
-import {DataList, HBox, Panel, StandardListItem, Toolbar, VBox} from '../ui/ui.js'
+import {DataList, HBox, Panel, StandardListItem, ToggleButton, ToggleGroup, Toolbar, VBox} from '../ui/ui.js'
 import "./DataBrowser.css"
 import Icon from '@material-ui/core/Icon'
 import {format, parse, parseISO} from 'date-fns'
@@ -19,6 +19,7 @@ import {Grid3Layout} from '../ui/grid3layout.js'
 import {TitleBar} from '../stories/email_example.js'
 import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 import {DialogManagerContext} from '../ui/DialogManager.js'
+import {DataTable} from '../ui/datatable.js'
 
 export function DataBrowser({app}) {
     let db = useContext(DBContext)
@@ -42,26 +43,67 @@ export function DataBrowser({app}) {
     }
     console.log('data is',data)
 
+    const modes = ['table','list','chart','raw']
+    const [mode, set_mode] = useState('raw')
+
     return <Grid3Layout statusbar={false}>
         <TitleBar title={'Data Browser'}/>
         <Toolbar className={'col2 span3'}>
             <button onClick={makeQuery}>make query</button>
             <input type={'search'}/>
+            <ToggleViewsGroup values={modes} setValue={set_mode} selectedValue={mode}/>
         </Toolbar>
         <SourceList col={1} row={2} data={queries} selected={q} setSelected={set_q}
                     renderItem={({item,...rest})=><StandardSourceItem
             title={propAsString(item,'title')}
             icon={propAsString(item,'icon')}
             {...rest}/>}/>
-            <Panel className={'col2 row2 span3'}>
-                <div style={{
-                    whiteSpace:'pre',
-                    overflow:'auto',
-                }}>
-                    {JSON.stringify(data,null,'  ')}
-                </div>
-            </Panel>
+            <DataViewPanel data={data} mode={mode}/>
     </Grid3Layout>
+}
+
+function ToggleViewsGroup({values, setValue, selectedValue}) {
+    return <ToggleGroup>
+        {values.map(v => {
+        return <ToggleButton caption={v} key={v} selected={v===selectedValue} onClick={()=>setValue(v)}/>
+    })}
+    </ToggleGroup>
+}
+
+function DataViewPanel({data, mode}) {
+    if(mode === 'table') {
+        return <VBox scroll>
+            <DataTable data={data}
+                       stringifyDataColumn={(o,k)=>{
+                           // console.log("checking",k)
+                           if(k === 'first') return propAsString(o,k)
+                           let v = o.props[k]
+                           if(v === true) return "true"
+                           if(v === false) return "false"
+                           if(!v) return "---"
+                           if(Array.isArray(v)) return "---"
+                           return propAsString(o,k)
+                       }}
+            />
+        </VBox>
+    }
+    if(mode === 'list') {
+        return <VBox scroll>
+            <SourceList data={data}  setSelected={()=>{}} renderItem={({item,...rest}) => {
+                let sch = lookup_schema('local',item.category, item.type)
+                console.log("schema is",sch)
+                return <StandardSourceItem title={sch.title} {...rest}/>
+            }}/>
+        </VBox>
+    }
+    return <Panel className={'col2 row2 span3'}>
+        <div style={{
+            whiteSpace:'pre',
+            overflow:'auto',
+        }}>
+            {JSON.stringify(data,null,'  ')}
+        </div>
+    </Panel>
 }
 
 const ANY_PROP = {
