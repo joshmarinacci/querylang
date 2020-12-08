@@ -1,10 +1,22 @@
+export const IS_DOMAIN = (domain) => ({domain})
+export const ON_EQUAL = (A, B) => ({ on:{A, B  } })
+export const ON_IS = (field, value) => ({ on: {field, value } })
+export const PROJECT = (...args) => ({project:args})
+export const EXPAND = (...args) => ({expand:args})
+export const JOIN = (...args) => ({join:args})
+export const NONE = () => ({none:'none'})
+export const ONE  = () => ({one:'one'})
+export const JOIN_SOURCE = (q, ...mapping) => ({ domain:q.domain, mapping })
+
+
+
 function log(...args) {
     console.log(args.map(a => {
         return JSON.stringify(a,null,'  ')
     }).join("\n"))
 }
 function EXECUTE_AND(db,clause) {
-    log("EXECUTE_AND",clause)
+    // log("EXECUTE_AND",clause)
     let data = []
     clause.forEach(c => {
         if (c.domain && c.domain === 'local') {
@@ -21,13 +33,13 @@ function EXECUTE_AND(db,clause) {
             data = data.filter(it => it.props[c.equal.prop] === c.equal.value)
         }
     })
-    log("end of and is",data)
+    // log("end of and is",data)
     return Promise.resolve(data)
 }
 function EXECUTE_PROJECT(db,data, ...fields) {
-    log("projection is",fields,'on data',data)
+    // log("projection is",fields,'on data',data)
     return EXECUTE(db,data).then(data => {
-        log("real data is",data)
+        // log("real data is",data)
         data = data.map(item => {
             let obj = {props:{}}
             fields.forEach(field => {
@@ -40,7 +52,7 @@ function EXECUTE_PROJECT(db,data, ...fields) {
     })
 }
 function EXECUTE_EXPAND(db,data, field) {
-    log("EXECUTE_EXPAND",field,'on data',data)
+    // log("EXECUTE_EXPAND",field,'on data',data)
     return EXECUTE(db,data).then(data => {
         let d2 = []
         data.forEach(item => {
@@ -60,31 +72,32 @@ function EXECUTE_EXPAND(db,data, field) {
     })
 }
 function EXECUTE_NONE() {
-    log("EXECUTE_NONE")
+    // log("EXECUTE_NONE")
     return Promise.resolve([])
 }
 function EXECUTE_ONE() {
-    log("EXECUTE_ONE")
+    // log("EXECUTE_ONE")
     return Promise.resolve([{type:'one',props:{}}])
 }
-function EXECUTE_JOIN(db,data, join_source) {
-    log("EXECUTE_JOIN",join_source.join_source,'using data',data)
+function EXECUTE_JOIN(db, data, js) {
+    let join_source = js
+    log("EXECUTE_JOIN",join_source,'using data',data)
     return EXECUTE(db,data).then(data => {
         log("real data to join with is",data)
-        log("domain is", join_source.join_source.domain.domain)
-        log("mapping is", join_source.join_source.mapping)
+        log("domain is", join_source.domain)
+        log("mapping is", join_source.mapping)
         let svc = null
-        if (join_source.join_source.domain.domain === 'weather') {
+        if (join_source.domain === 'weather') {
             log("doing a weather query")
             svc = fetchWeather
         }
-        if(join_source.join_source.domain.domain === 'cityinfo') {
+        if(join_source.domain === 'cityinfo') {
             log("doing a city info query")
             svc = fetchCityInfo
         }
         if(svc) {
             return Promise.all(data.map(item => {
-                return svc(item,join_source.join_source.mapping).then(ret => {
+                return svc(item,join_source.mapping).then(ret => {
                     let item2 = {props:{}}
                     Object.keys(item.props).forEach(key => {
                         item2.props[key] = item.props[key]
@@ -96,7 +109,7 @@ function EXECUTE_JOIN(db,data, join_source) {
                 })
             }))
         } else {
-            throw new Error("unsupported JOIN domain " + join_source.join_source.domain.domain)
+            throw new Error("unsupported JOIN domain " + join_source.domain)
         }
     })}
 export function EXECUTE(db,...args) {

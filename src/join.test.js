@@ -4,10 +4,10 @@
 
 import '@testing-library/jest-dom/extend-expect';
 
-import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_TRUE, IS_TYPE, query2} from './query2.js'
+import {AND, IS_CATEGORY, IS_PROP_TRUE, IS_TYPE} from './query2.js'
 import {CATEGORIES} from './schema.js'
-import {makeDB, project} from './db.js'
-import {EXECUTE} from './query3.js'
+import {makeDB} from './db.js'
+import {EXECUTE, EXPAND, IS_DOMAIN, JOIN, JOIN_SOURCE, NONE, ON_EQUAL, ON_IS, ONE, PROJECT} from './query3.js'
 
 let db = makeDB()
 
@@ -20,7 +20,7 @@ it("get all favorite contacts",()=>{
         IS_PROP_TRUE("favorite")
     )
     EXECUTE(db,favorites).then((res)=>{
-        console.log("result is",res)
+        // console.log("result is",res)
         expect(res.length).toEqual(2)
         expect(res[0].props.first).toEqual('Jesse')
     })
@@ -43,7 +43,7 @@ it("project addresses and first names",()=>{
             "addresses",
         )
     ).then(res => {
-        log("result is",res)
+        // log("result is",res)
         expect(res.length).toEqual(2)
     })
 })
@@ -57,7 +57,7 @@ it("fetch weather for city", () => {
             ON_IS("state","OR"),
         )
     )).then(res => {
-        console.log("result is",res)
+        // console.log("result is",res)
         expect(res.length).toEqual(1)
     })
 })
@@ -68,28 +68,6 @@ function log(...args) {
     }).join("\n"))
 }
 
-function IS_DOMAIN(domain) {
-    return {
-        domain:domain,
-    }
-}
-
-function ON_EQUAL(city, city2) {
-    return {
-        on:{
-            A:city,
-            B:city2
-        }
-    }
-}
-function ON_IS(field, value) {
-    return {
-        on:{
-            field:field,
-            value:value,
-        }
-    }
-}
 it("join addresses to weather",()=>{
     expect.assertions(2);
     let favs = AND(
@@ -105,7 +83,7 @@ it("join addresses to weather",()=>{
         ON_EQUAL(["addresses","state"],"state")
     ))
     return EXECUTE(db,with_weather).then(data => {
-        log("final data",data)
+        // log("final data",data)
         expect(data.length).toEqual(2)
         expect(data[0].props.first).toEqual("Jesse")
     })
@@ -113,19 +91,6 @@ it("join addresses to weather",()=>{
 
 
 
-const PROJECT = (...args) => ({project:args})
-const EXPAND = (...args) => ({expand:args})
-const JOIN = (...args) => ({join:args})
-const NONE = () => ({none:'none'})
-const ONE  = () => ({one:'one'})
-
-function JOIN_SOURCE(isdomain, ...mapping) {
-   return {
-       join_source:{
-           domain:isdomain,
-           mapping:mapping
-       }}
-}
 
 it("join addresses to city info server",()=>{
     expect.assertions(2);
