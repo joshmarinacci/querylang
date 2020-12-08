@@ -10,22 +10,20 @@ import {makeDB, project} from './db.js'
 
 let db = makeDB()
 
-it('get all contacts', () => {
-    let res = db.QUERY(AND(
-        IS_CATEGORY(CATEGORIES.CONTACT.ID),
-        IS_TYPE(CATEGORIES.CONTACT.TYPES.PERSON)
-        ))
-    expect(res.length).toEqual(4)
-});
-
 it("get all favorite contacts",()=>{
-    let res = db.QUERY(AND(
+    expect.assertions(2)
+    let favorites = AND(
+        IS_DOMAIN('local'),
         IS_CATEGORY(CATEGORIES.CONTACT.ID),
         IS_TYPE(CATEGORIES.CONTACT.TYPES.PERSON),
-        IS_PROP_TRUE("favorite"),
-    ))
-    console.log("result is",res)
-    expect(res.length).toEqual(2)
+        IS_PROP_TRUE("favorite")
+    )
+    EXECUTE(favorites).then((res)=>{
+        console.log("result is",res)
+        expect(res.length).toEqual(2)
+        expect(res[0].props.first).toEqual('Jesse')
+    })
+
 })
 
 
@@ -68,16 +66,30 @@ function EXPAND(data, field) {
 }
 
 it("project addresses and first names",()=>{
-    let res = db.QUERY(AND(
-        IS_CATEGORY(CATEGORIES.CONTACT.ID),
-        IS_TYPE(CATEGORIES.CONTACT.TYPES.PERSON),
-        IS_PROP_TRUE("favorite"),
-    ))
-    res = process_project(res,PROJECT("first","addresses"))
-    res = EXPAND(res, "addresses")
-    console.log("result is",res)
-    console.log(JSON.stringify(res,null,'  '))
-    expect(res.length).toEqual(2)
+    expect.assertions(1)
+    return EXECUTE(
+        PEXPAND(
+            PPROJECT(
+                AND(
+                    IS_DOMAIN('local'),
+                    IS_CATEGORY(CATEGORIES.CONTACT.ID),
+                    IS_TYPE(CATEGORIES.CONTACT.TYPES.PERSON),
+                    IS_PROP_TRUE("favorite"),
+                ),
+                "first",
+                "addresses"
+            ),
+            "addresses",
+        )
+    ).then(res => {
+        log("result is",res)
+        expect(res.length).toEqual(2)
+    })
+    // res = process_project(res,PROJECT("first","addresses"))
+    // res = EXPAND(res, "addresses")
+    // console.log("result is",res)
+    // console.log(JSON.stringify(res,null,'  '))
+    // expect(res.length).toEqual(2)
 })
 
 function RQUERY(arg) {
@@ -117,16 +129,19 @@ function RQUERY(arg) {
     }
 }
 
-it("fetch weather for city",()=>{
-    expect.assertions(2);
-
-    return RQUERY(AND(
-        IS_PROP_EQUAL("city",'Eugene'),
-        IS_PROP_EQUAL("state","OR")
-        )).then(res => {
-            console.log("result is",res)
-            expect(res.length).toEqual(1)
-            expect(res[0].domain).toEqual("weatherapi")
+it("fetch weather for city", () => {
+    expect.assertions(1);
+    return EXECUTE(PJOIN(
+        ONE(),
+        JOIN_SOURCE(
+            IS_DOMAIN("weather"),
+            ON_IS("city","Eugene"),
+            ON_IS("state","OR"),
+        )
+    )).then(res => {
+        console.log("result is",res)
+        expect(res.length).toEqual(1)
+        // expect(res[0].domain).toEqual("weatherapi")
     })
 })
 
@@ -272,22 +287,22 @@ function PROJECT(...args) {
 it("join addresses to weather",()=>{
     expect.assertions(2);
 
-    let res = db.QUERY(AND(
+    let favs = AND(
+        IS_DOMAIN('local'),
         IS_CATEGORY(CATEGORIES.CONTACT.ID),
         IS_TYPE(CATEGORIES.CONTACT.TYPES.PERSON),
         IS_PROP_TRUE("favorite"),
-    ))
-    res = process_project(res,PROJECT("first","addresses"))
-    res = EXPAND(res, "addresses")
+    )
+    let clean_favs = PEXPAND(PPROJECT(favs,"first",'addresses'),'addresses')
+    // res = process_project(res,PROJECT("first","addresses"))
+    // res = EXPAND(res, "addresses")
     // console.log("result is",res)
-    return JOIN(res,
-        AND(
-            IS_DOMAIN("weather"),
-            ON_EQUAL(["addresses","city"],"city"),
-            ON_EQUAL(["addresses","state"],"state")
-        ),
-        PROJECT('first',['current',"temp_c"]),
-    ).then(data => {
+    let with_weather = PJOIN(clean_favs, JOIN_SOURCE(
+        IS_DOMAIN("weather"),
+        ON_EQUAL(["addresses","city"],"city"),
+        ON_EQUAL(["addresses","state"],"state")
+    ))
+    return EXECUTE(with_weather).then(data => {
         log("final data",data)
         expect(data.length).toEqual(2)
         expect(data[0].props.first).toEqual("Jesse")
@@ -316,7 +331,6 @@ function EXECUTE_AND(clause) {
     log("end of and is",data)
     return Promise.resolve(data)
 }
-
 function EXECUTE_PROJECT(data, ...fields) {
     log("projection is",fields,'on data',data)
     return EXECUTE(data).then(data => {
@@ -332,7 +346,6 @@ function EXECUTE_PROJECT(data, ...fields) {
         return data
     })
 }
-
 function EXECUTE_EXPAND(data, field) {
     log("EXECUTE_EXPAND",field,'on data',data)
     return EXECUTE(data).then(data => {
@@ -353,7 +366,6 @@ function EXECUTE_EXPAND(data, field) {
         return d2
     })
 }
-
 function EXECUTE_NONE() {
     log("EXECUTE_NONE")
     return Promise.resolve([])
@@ -362,26 +374,38 @@ function EXECUTE_ONE() {
     log("EXECUTE_ONE")
     return Promise.resolve([{type:'one',props:{}}])
 }
-
-
 function EXECUTE_JOIN(data, join_source) {
     log("EXECUTE_JOIN",join_source.join_source,'using data',data)
     return EXECUTE(data).then(data => {
         log("real data to join with is",data)
         log("domain is", join_source.join_source.domain.domain)
         log("mapping is", join_source.join_source.mapping)
+        let svc = null
         if (join_source.join_source.domain.domain === 'weather') {
             log("doing a weather query")
-            return Promise.all(data.map(item => fetchWeather(item,join_source.join_source.mapping)))
+            svc = fetchWeather
         }
         if(join_source.join_source.domain.domain === 'cityinfo') {
             log("doing a city info query")
-            return Promise.all(data.map(item => fetchCityInfo(item,join_source.join_source.mapping)))
+            svc = fetchCityInfo
         }
-        throw new Error("unsupported JOIN domain " + join_source.join_source.domain.domain )
-    })
-}
-
+        if(svc) {
+            return Promise.all(data.map(item => {
+                return svc(item,join_source.join_source.mapping).then(ret => {
+                    let item2 = {props:{}}
+                    Object.keys(item.props).forEach(key => {
+                        item2.props[key] = item.props[key]
+                    })
+                    Object.keys(ret.props).forEach(key => {
+                        item2.props[key] = ret.props[key]
+                    })
+                    return item2
+                })
+            }))
+        } else {
+            throw new Error("unsupported JOIN domain " + join_source.join_source.domain.domain)
+        }
+    })}
 function EXECUTE(...args) {
     let proms = args.map(arg => {
         log('EXECUTE',arg)
@@ -396,18 +420,11 @@ function EXECUTE(...args) {
     return Promise.all(proms).then(d => d.flat())
 }
 
-// builder functions
-// const PFIND = (...args) => ({find:args})
 const PPROJECT = (...args) => ({project:args})
 const PEXPAND = (...args) => ({expand:args})
 const PJOIN = (...args) => ({join:args})
-
-function NONE() {
-    return {none:'none'}
-}
-function ONE() {
-    return {one:'one'}
-}
+const NONE = () => ({none:'none'})
+const ONE  = () => ({one:'one'})
 
 function JOIN_SOURCE(isdomain, ...mapping) {
    return {
@@ -491,8 +508,8 @@ it("join addresses to city info server",()=>{
     return EXECUTE(dynamic_timezones).then(data => {
         log("dynamic timezone data is",data)
         expect(data.length).toEqual(2)
-        expect(data[0].type).toEqual("info")
-        // expect(data[0].props.timezone).toEqual("Pacific")
+        // expect(data[0].type).toEqual("info")
+        expect(data[0].props.timezone).toEqual("Pacific")
     })
 })
 
