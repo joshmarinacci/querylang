@@ -5,7 +5,7 @@ import React, {useState} from 'react'
 import {StandardEditPanel} from '../ui/StandardEditPanel.js'
 
 export default {
-    title: 'QueryOS/StandardEditPanel',
+    title: 'QueryOS/SchemaPanels',
     component: StandardEditPanel,
     argTypes: {
     },
