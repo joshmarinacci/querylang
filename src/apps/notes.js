@@ -94,17 +94,3 @@ export function Notes({app}) {
         </VBox>
     </Grid3Layout>
 }
-
-
-const renderProject = (o) => {
-    return <StandardSourceItem
-        title={propAsString(o,'title')}
-        icon={propAsString(o,'icon')}/>
-}
-
-const renderNoteSummary = (o) => {
-    return <StandardSourceItem
-        icon={'note'}
-        title={propAsString(o,'title')}
-        subtitle={formatDistanceToNow(o.props.lastedited)}/>
-}

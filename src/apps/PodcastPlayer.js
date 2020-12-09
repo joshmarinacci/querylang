@@ -11,7 +11,7 @@ import {Panel, Toolbar} from '../ui/ui.js'
 import {flatten} from '../util.js'
 import "./NewsReader.css"
 import {DialogManagerContext} from '../ui/DialogManager.js'
-import dompurify from 'dompurify';
+
 
 const RSS_SERVER_URL = "http://localhost:30011/rss"
 

@@ -65,72 +65,6 @@ let CONTACTS_VIEW_CUSTOMIZATIONS = {
     }
 }
 
-export function ContactViewPanel ({selected, onEdit}) {
-    let favorite = <Icon>star_outline</Icon>
-    if(propAsBoolean(selected,'favorite')) {
-        favorite = <Icon>star</Icon>
-    }
-    return <VBox grow>
-        <Toolbar>
-            <button
-                disabled={!selected}
-                onClick={onEdit}>edit
-            </button>
-            <button>more</button>
-        </Toolbar>
-        <Panel>
-        <img src={selected.props.icon}/>
-        <p>
-            {propAsString(selected, 'first')}
-            &nbsp;
-            {propAsString(selected, 'last')}
-        </p>
-        {favorite}
-        <ul className={'display-emails'}>
-            {
-                selected.props.emails.map((email,i)=>{
-                    return [<i key={'type'+i}>{propAsString(email,'type')}</i>,
-                        <b key={'value'+i}>
-                            <a href={`mailto:${propAsString(email,'value')}`}>
-                                {propAsString(email,'value')}
-                            </a></b>]
-                })
-            }
-        </ul>
-        <ul className={'display-phones'}>
-            {
-                selected.props.phones.map((phone,i)=>{
-                    return [<i key={'type'+i}>{propAsString(phone,'type')}</i>,
-                        <b key={'value'+i}><a href={`tel:${propAsString}`}>{propAsString(phone,'value')}</a></b>]
-                })
-            }
-        </ul>
-        <ul className={'display-addresses'}>
-            {
-                selected.props.addresses.map((addr,i)=>{
-                    let map = propAsString(addr,'street1')
-                        +", "+propAsString(addr,'city')
-                        +", "+propAsString(addr,'state')
-                        +", "+propAsString(addr,'zipcode')
-                    map = map.replaceAll(' ','+')
-                    return [
-                        <i key={'type'+i}>{propAsString(addr,'type')}</i>,
-                        <p key={'address'+i}>
-                            <a href={`http://maps.apple.com/?address=${map}`}>
-                                {propAsString(addr,'street1')}<br/>
-                                {propAsString(addr,'city')} &nbsp;
-                                {propAsString(addr,'state')}, &nbsp;
-                                {propAsString(addr,'zipcode')}
-                            </a>
-                        </p>,
-                    ]
-                })
-            }
-        </ul>
-        </Panel>
-    </VBox>
-}
-
 export function ContactEditPanel({db, onDone, selected}) {
     const [buffer, setBuffer] = useState(()=>{
         return deepClone(selected)
@@ -254,7 +188,6 @@ export function ContactList({app}) {
                                        {group:true, names:['first','last']}
                                    ]}
         />
-        // panel = <ContactViewPanel selected={selected} onEdit={()=>setEditing(true)}/>
     }
     if(editing) {
         panel = <ContactEditPanel selected={selected} onDone={()=>setEditing(false)} db={db}/>

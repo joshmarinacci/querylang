@@ -73,7 +73,7 @@ export function Calendar({app}) {
     if(view === 'day') panel = <DayView events={events}/>
     if(view === 'week') panel = <WeekView events={events}/>
 
-    return <VBox grow>
+    return <VBox grow style={{backgroundColor:'var(--std-bg-color)'}}>
         <h1>{format(today,'E MMM d')}</h1>
         <HBox>
             <Icon onClick={nav_prev_day}>arrow_left</Icon>
