@@ -58,5 +58,6 @@
 }
 
 .popup-trigger-button {
-    /*align-self: start;*/
+    display: flex;
+    flex-direction: row;
 }

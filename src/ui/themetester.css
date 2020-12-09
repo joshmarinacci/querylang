@@ -115,7 +115,7 @@ button {
     flex-direction: row;
     grid-row: 1;
     align-items: center;
-    overflow: auto;
+    overflow: hidden;
 }
 ul {
     overflow: auto;

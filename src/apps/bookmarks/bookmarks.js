@@ -135,6 +135,7 @@ export function BookmarksManager({app}) {
                                                        {...args}
                     />}/>
         <TopToolbar column={2}>
+            <input type={'search'}/>
             <Spacer/>
             <PopupTriggerButton onClick={showSortPopup} makePopup={showSortPopup} title={"Sort"}/>
         </TopToolbar>
