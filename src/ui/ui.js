@@ -5,6 +5,7 @@ import {HiMinusCircle, HiPlusCircle} from 'react-icons/hi'
 
 // import "./window.css"
 import "./ui.css"
+import "../menus.css"
 import Icon from '@material-ui/core/Icon'
 import {flatten} from '../util.js'
 
@@ -225,4 +226,41 @@ export function PopupTriggerButton({makePopup, title}) {
         {title}
         <Icon>arrow_drop_down</Icon>
     </button>
+}
+
+
+export function MenuBar({children}) {
+    return <ul className={'menu-bar'}>{children}</ul>
+}
+export function MenuBarButton({caption,children}) {
+    return <li>
+        <div className={'item'}>
+            <button className={'menu-button'}>{caption}</button>
+        </div>
+        <ul>{children}</ul>
+    </li>
+}
+// export function MenuList({children}) {
+//     return <ul className={'menu-list'}>{children}</ul>
+// }
+export function MenuItem({caption}) {
+    return <li><div className={'item'}>
+        <button>{caption}</button>
+    </div>
+    </li>
+}
+export function MenuDivider({}) {
+    return <li className={'divider'}/>
+}
+export function MenuItemTriggerSub({caption, children}) {
+    return <li>
+        <div className={'item'}>
+            <button className={'menu-button'}>{caption}</button>
+            <Spacer/>
+            <span>&gt;</span>
+        </div>
+
+
+        <ul>{children}</ul>
+    </li>
 }
