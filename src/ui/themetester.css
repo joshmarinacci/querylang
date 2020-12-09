@@ -81,7 +81,7 @@ button {
 
 .grid {
     display: grid;
-    grid-template-columns: 1fr 2.0fr 3fr;
+    grid-template-columns: 15em 2.0fr 3fr;
     grid-template-rows: 3em 1fr 2em;
     grid-gap: 1px;
     overflow: hidden;

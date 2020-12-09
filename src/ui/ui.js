@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import {DBContext, propAsArray, propAsBoolean, propAsString, setProp} from '../db.js'
 import {getEnumPropValues} from '../schema.js'
 import {HiMinusCircle, HiPlusCircle} from 'react-icons/hi'
@@ -9,6 +9,7 @@ import Icon from '@material-ui/core/Icon'
 import {flatten} from '../util.js'
 
 import {Window} from "./window.js"
+import {PopupManagerContext} from './PopupManager.js'
 
 export {Window}
 
@@ -208,4 +209,20 @@ export function ToggleButton({caption, selected, icon, ...rest}) {
 }
 export function ToggleGroup({children}) {
     return <div className={'toggle-group'}>{children}</div>
+}
+
+export function PopupTriggerButton({makePopup, title}) {
+    const popupButton = useRef()
+    let pm = useContext(PopupManagerContext)
+
+    const showSortPopup = () => {
+        if(makePopup) return pm.show(makePopup(), popupButton.current)
+        console.warn("makePopup is null in PopupTriggerButton")
+    }
+    return <button onClick={showSortPopup} ref={popupButton}
+                   className={'popup-trigger-button'}
+    >
+        {title}
+        <Icon>arrow_drop_down</Icon>
+    </button>
 }

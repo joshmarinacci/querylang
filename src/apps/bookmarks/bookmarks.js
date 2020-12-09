@@ -4,7 +4,7 @@ import React, {useContext, useRef, useState} from 'react'
 import {
     DataList,
     HBox,
-    Panel,
+    Panel, PopupTriggerButton,
     Spacer, StandardListItem,
     TagsetEditor, TextareaPropEditor,
     TextPropEditor,
@@ -44,18 +44,6 @@ function MenuDivider({}) {
     return <li className={'menu-item menu-item-divider'}></li>
 }
 
-function PopupTriggerButton({makePopup, title}) {
-    const popupButton = useRef()
-    let pm = useContext(PopupManagerContext)
-
-    const showSortPopup = () => pm.show(makePopup(),popupButton.current)
-    return <button onClick={showSortPopup} ref={popupButton}
-                   className={'popup-trigger-button'}
-    >
-        {title}
-        <Icon>arrow_drop_down</Icon>
-    </button>
-}
 
 export function BookmarksManager({app}) {
     let db = useContext(DBContext)
