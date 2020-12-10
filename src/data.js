@@ -889,6 +889,18 @@ function load_bookmarks() {
             lastAccessed:new Date(),
         }
     })
+    data.push({
+        id:genid("bookmark"),
+        category: CATEGORIES.BOOKMARKS.ID,
+        type: CATEGORIES.BOOKMARKS.SCHEMAS.BOOKMARK.TYPE,
+        props: {
+            title:"Ars Technica",
+            url:'https://www.arstechnica.com/',
+            tags:[],
+            excerpt:"this is the site",
+            lastAccessed:new Date(),
+        }
+    })
 }
 load_bookmarks()
 

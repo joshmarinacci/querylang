@@ -11,7 +11,7 @@ import {
 } from '../../ui/ui.js'
 import {formatDistanceToNow} from "date-fns"
 import {DBContext, filterPropArrayContains, hasProp, propAsBoolean, sort, useDBChanged} from '../../db.js'
-import {AND, IS_CATEGORY, IS_TYPE} from '../../query2.js'
+import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../../query2.js'
 import {CATEGORIES, SORTS} from '../../schema.js'
 import {Icon} from '@material-ui/core'
 
@@ -52,6 +52,8 @@ export function BookmarksManager({app}) {
     const [selectedQuery, setSelectedQuery] = useState(null)
     const [sortField, setSortField] = useState("title")
     const [sortOrder, setSortOrder] = useState(SORTS.ASCENDING)
+    const [searchTerms, setSearchTerms] = useState("")
+
 
     const show_add_dialog = () => {
         let obj = db.make(CATEGORIES.BOOKMARKS.ID, CATEGORIES.BOOKMARKS.SCHEMAS.BOOKMARK.TYPE)
@@ -91,6 +93,7 @@ export function BookmarksManager({app}) {
     }
 
     let bookmarks = db.QUERY(AND(IS_CATEGORY(CATEGORIES.BOOKMARKS.ID),IS_TYPE(CATEGORIES.BOOKMARKS.SCHEMAS.BOOKMARK.TYPE)))
+    if(searchTerms.length >= 2) bookmarks = QUERY(bookmarks, AND(IS_PROP_SUBSTRING('title',searchTerms)))
 
     let queries = calculateFoldersFromTags(bookmarks)
     queries.unshift({
@@ -120,7 +123,7 @@ export function BookmarksManager({app}) {
                                                        {...args}
                     />}/>
         <TopToolbar column={2}>
-            <input type={'search'}/>
+            <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
             <Spacer/>
             <PopupTriggerButton onClick={showSortPopup} makePopup={showSortPopup} title={"Sort"}/>
         </TopToolbar>
