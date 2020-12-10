@@ -129,22 +129,7 @@ export function ContactList({app}) {
         setEditing(true)
     }
 
-    const editSelectedContact = () => {
-        setEditing(true)
-    }
-
-    let panel = <Panel grow>nothing selected</Panel>
-    if (selected) {
-        panel = <StandardViewPanel object={selected} custom={CONTACTS_VIEW_CUSTOMIZATIONS}
-                                   order={[
-                                       {group:true, names:['first','last']}
-                                   ]}
-        />
-    }
-    if(editing) {
-        panel = <ContactEditPanel selected={selected} onDone={()=>setEditing(false)} db={db}/>
-    }
-
+    const editSelectedContact = () => setEditing(true)
 
     return <Grid2Layout statusbar={false}>
             <Toolbar className={'col1 span3'}>
@@ -152,19 +137,17 @@ export function ContactList({app}) {
                 <Icon onClick={addNewContact}>add_circle</Icon>
                 <button onClick={editSelectedContact}>edit</button>
             </Toolbar>
-            <SourceList data={items} selected={selected} setSelected={setSelected}
-                      className={'col1 row2'}
-                        renderItem={({item,...rest})=>{
-                            return <StandardSourceItem
-                                title={propAsString(item,'first') + " " +
-                                propAsString(item,'last')}
-                                icon={'person'}
-                                {...rest}
-                                />
-                        }}/>
-              <Panel className={'col2 row2'}>
-                  {panel}
-              </Panel>
+            <SourceList data={items} selected={selected} setSelected={setSelected} className={'col1 row2'}
+                        renderItem={({item,...rest})=> <StandardSourceItem
+                                title={`${propAsString(item,'first')} ${propAsString(item,'last')}`}
+                                icon={'person'} {...rest}/>
+                        }/>
+              <Panel className={'col2 row2 scroll'}>{editing?
+                  <ContactEditPanel selected={selected} onDone={()=>setEditing(false)} db={db}/>
+                  :<StandardViewPanel object={selected} custom={CONTACTS_VIEW_CUSTOMIZATIONS}
+                                       order={[ {group:true, names:['first','last']} ]}/>
+
+              }</Panel>
         </Grid2Layout>
 
 }
