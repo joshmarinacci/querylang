@@ -240,13 +240,12 @@ export function MenuBarButton({caption,children}) {
         <ul>{children}</ul>
     </li>
 }
-// export function MenuList({children}) {
-//     return <ul className={'menu-list'}>{children}</ul>
-// }
+
 export function MenuItem({caption}) {
-    return <li><div className={'item'}>
-        <button>{caption}</button>
-    </div>
+    return <li>
+        <div className={'item'}>
+            <button>{caption}</button>
+        </div>
     </li>
 }
 export function MenuDivider({}) {
@@ -257,7 +256,7 @@ export function MenuItemTriggerSub({caption, children}) {
         <div className={'item'}>
             <button className={'menu-button'}>{caption}</button>
             <Spacer/>
-            <span>&gt;</span>
+            <Icon>arrow_right</Icon>
         </div>
 
 

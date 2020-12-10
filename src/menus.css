@@ -51,7 +51,7 @@ ul.menu-bar button:hover {
     background-color: transparent;
 }
 ul.menu-bar .item:hover {
-    background-color: red;
+    background-color: var(--accent-background-color);
 }
 
 
@@ -61,69 +61,3 @@ ul.menu-bar > li {
     margin:0;
     background-color: transparent;
 }
-
-
-/*
-ul.menu-bar > li > ul {
-    left: auto;
-    min-width: 100%;
-    border: 1px solid green;
-}
-
-ul.menu-bar > li > ul > li {
-    left: -999999em;
-    border: 1px solid red;
-    position: relative;
-    z-index: 1;
-}
-ul.menu-bar > li > ul > li > ul {
-    left: auto;
-    border: 5px solid red;
-    min-width: 100%;
-}
-*/
-/*
-
-
-ul.menu {
-    border: 0px solid red;
-    max-width: 20em;
-    margin:0em;
-    padding:0.5em;
-    border-radius: 1em;
-    background-color: hsl(0,0%,90%);
-}
-ul.menu li {
-    border: 0px solid blue;
-    margin: 0.25em;
-    padding: 0.25em 1.0em;
-    border-radius: 0.5em;
-    color: black;
-}
-ul.menu li.header {
-    margin: 0 0.5em;
-    color: gray;
-}
-ul.menu li.divider {
-    border: 0px solid red;
-    height: 1px;
-    padding:0;
-    background-color: hsl(0,0%,70%);
-    margin: 0.5em 0.5em;
-}
-ul.menu li.action:hover {
-    background-color: #99dbf3;
-}
-
-
-
-
-.menubutton {
-    margin: 0;
-    padding: 0.5em 1.0em;
-    border-radius: 0.5em;
-}
-.menubutton:hover {
-    background-color: #99dbf3;
-}
-*/
