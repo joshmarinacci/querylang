@@ -1,5 +1,4 @@
-import {CATEGORIES} from '../schema.js'
-import {HBox, VBox, Window} from '../ui/ui.js'
+import {HBox, VBox} from '../ui/ui.js'
 import React, {useContext, useState} from 'react'
 import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, isAfter,
     subDays, addDays,
@@ -7,7 +6,6 @@ import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, is
     startOfWeek, endOfWeek,
     getDay,
 } from 'date-fns'
-import {AND, IS_CATEGORY, IS_TYPE} from '../query2.js'
 
 import "./calendar.css"
 import {DBContext} from '../db.js'

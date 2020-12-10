@@ -1,7 +1,6 @@
-import React, {useContext, useEffect, useRef, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 
 // import "./PopupManager.css"
-import {flatten} from '../util.js'
 import "./dialogmanager.css"
 export class DialogManager {
     constructor() {

@@ -1,16 +1,15 @@
 import "./bookmarks.css"
 
-import React, {useContext, useRef, useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {
     HBox,
     Panel, PopupTriggerButton,
     Spacer, TagsetEditor, TextareaPropEditor,
     TextPropEditor,
     Toolbar, TopToolbar,
-    VBox,
-    Window
+    VBox
 } from '../../ui/ui.js'
-import {format, formatDistanceToNow} from "date-fns"
+import {formatDistanceToNow} from "date-fns"
 import {DBContext, filterPropArrayContains, hasProp, propAsBoolean, sort, useDBChanged} from '../../db.js'
 import {AND, IS_CATEGORY, IS_TYPE} from '../../query2.js'
 import {CATEGORIES, SORTS} from '../../schema.js'

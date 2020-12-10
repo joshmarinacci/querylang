@@ -2,11 +2,6 @@ import React, {useState} from 'react'
 
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {SourceList} from '../ui/sourcelist.js'
-import {range} from '../util.js'
-import faker from 'faker'
-import {HBox, Spacer, VBox} from '../ui/ui.js'
-import {propAsBoolean, propAsString} from '../db.js'
-import Icon from '@material-ui/core/Icon'
 
 import "./DataList.stories.css"
 import {EmailFolder, EmailItem, gen_emails, gen_folders} from './email_example.js'

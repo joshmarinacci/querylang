@@ -1,11 +1,10 @@
 import React, {useContext, useState} from "react"
 import "./commandbar3.css"
-import {DBContext, propAsString} from '../db.js'
-import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR} from '../query2.js'
+import {DBContext} from '../db.js'
+import {AND, IS_CATEGORY, IS_TYPE} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
-import * as chrono from 'chrono-node'
 import {flatten} from '../util.js'
-import {ActionManagerContext, COMMAND_SERVICES} from '../services/ActionManager.js'
+import {ActionManagerContext} from '../services/ActionManager.js'
 import {AppLauncherContext} from '../services/AppLauncherService.js'
 
 

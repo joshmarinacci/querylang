@@ -1,4 +1,3 @@
-import {StandardViewPanel} from '../ui/StandardViewPanel.js'
 import {DBContext, makeDB, setProp, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import React, {useState} from 'react'

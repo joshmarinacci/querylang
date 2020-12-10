@@ -1,10 +1,9 @@
-import React, {useContext, useEffect, useRef, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {DBContext, propAsString, useDBChanged} from '../db.js'
 import {BOOLEAN, CATEGORIES, lookup_schema, lookup_types_for_category, STRING} from '../schema.js'
-import {Window} from '../ui/window.js'
 import {
     AND,
-    IS_CATEGORY, IS_PROP_CONTAINS,
+    IS_PROP_CONTAINS,
     IS_PROP_EQUAL,
     IS_PROP_NOTEQUAL,
     IS_PROP_NOTSUBSTRING,
@@ -14,7 +13,7 @@ import {
 import {HBox, Panel, ToggleButton, ToggleGroup, Toolbar, VBox} from '../ui/ui.js'
 import "./DataBrowser.css"
 import Icon from '@material-ui/core/Icon'
-import {format, parse, parseISO} from 'date-fns'
+import {format, parseISO} from 'date-fns'
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {TitleBar} from '../stories/email_example.js'
 import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'

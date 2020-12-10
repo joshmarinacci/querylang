@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
-import {HBox, Panel, Spacer, Toolbar, TopToolbar, VBox, Window} from '../ui/ui.js'
-import {DBContext, project, propAsBoolean, propAsIcon, propAsString, sort, useDBChanged} from '../db.js'
+import {HBox, Panel, Spacer, TopToolbar, VBox} from '../ui/ui.js'
+import {DBContext, project, propAsString, sort, useDBChanged} from '../db.js'
 import {CATEGORIES, SORTS} from '../schema.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_TRUE, IS_TYPE} from '../query2.js'
 import Icon from '@material-ui/core/Icon'

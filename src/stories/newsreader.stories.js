@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react'
-import {THEME_SCHEMA, ThemeTester} from "../ui/themetester.js"
-import {DBContext, decode_props_with_types, makeDB, useDBChanged} from '../db.js'
+import React, {useState} from 'react'
+import {DBContext, makeDB} from '../db.js'
 import "../ui/themetester.css"
 import {PopupContainer, PopupManager, PopupManagerContext} from '../ui/PopupManager.js'
 import {CATEGORIES} from '../schema.js'

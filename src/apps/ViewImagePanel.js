@@ -1,7 +1,7 @@
-import {HBox, VBox} from '../ui/ui.js'
+import {VBox} from '../ui/ui.js'
 import {useContext} from 'react'
 import {DBContext, propAsString} from '../db.js'
-import {AND, IS_CATEGORY, IS_ID, IS_PROP_SUBSTRING, IS_TYPE, OR} from '../query2.js'
+import {AND, IS_CATEGORY, IS_ID, IS_TYPE} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
 
 export function ViewImagePanel({args}) {

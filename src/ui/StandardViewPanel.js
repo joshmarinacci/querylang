@@ -46,7 +46,7 @@ export function StandardViewPanel({object, hide = [], order = [], custom = {}}) 
                 elems.push(<b>{str}</b>)
                 ord.names.forEach(name => props.delete(name))
             }
-            return
+
         }
     })
 

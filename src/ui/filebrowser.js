@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {ActionButton, HBox, Panel, TagsetEditor, ToggleButton, ToggleGroup, Toolbar, VBox} from './ui.js'
+import React, {useContext, useState} from 'react'
+import {ActionButton, TagsetEditor, ToggleButton, ToggleGroup, Toolbar} from './ui.js'
 import {flatten} from '../util.js'
 
 import "./filebrowser.css"
@@ -12,7 +12,6 @@ import {CATEGORIES} from '../schema.js'
 import {Grid2Layout} from './grid3layout.js'
 import {SourceList, StandardSourceItem} from './sourcelist.js'
 import {FilePreview} from './filepreview.js'
-import {PopupManager, PopupManagerContext} from './PopupManager.js'
 import {DialogManagerContext} from './DialogManager.js'
 
 function Dialog({title,children,...rest}) {

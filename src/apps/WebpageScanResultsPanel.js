@@ -1,4 +1,4 @@
-import {HBox, VBox} from '../ui/ui.js'
+import {VBox} from '../ui/ui.js'
 import {CATEGORIES} from '../schema.js'
 import {useContext} from 'react'
 import {DBContext} from '../db.js'

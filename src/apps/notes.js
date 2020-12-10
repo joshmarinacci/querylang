@@ -7,12 +7,11 @@ import {
 } from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {
-    HBox, TagsetEditor,
+    TagsetEditor,
     TextareaPropEditor,
     TextPropEditor,
-    Toolbar, TopToolbar,
-    VBox,
-    Window
+    TopToolbar,
+    VBox
 } from '../ui/ui.js'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'

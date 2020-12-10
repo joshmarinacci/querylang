@@ -20,7 +20,6 @@ import "react-colorful/dist/index.css"
 import {PopupManagerContext} from './PopupManager.js'
 import {SourceList, StandardSourceItem} from './sourcelist.js'
 import {genid} from '../data.js'
-import Icon from '@material-ui/core/Icon'
 
 const COLOR = 'COLOR'
 const PADDING = 'PADDING'

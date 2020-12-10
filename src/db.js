@@ -1,4 +1,4 @@
-import {MdAccessAlarm, MdArchive, MdDelete, MdList, MdNote} from 'react-icons/md'
+import {MdAccessAlarm} from 'react-icons/md'
 import React, {useEffect, useState} from 'react'
 import {DATA} from './data.js'
 import {query2} from './query2.js'

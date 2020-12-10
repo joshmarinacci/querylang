@@ -1,7 +1,7 @@
 import React from 'react'
 import {flatten} from '../util.js'
 import "./datatable.css"
-import {hasProp, propAsString, sort} from '../db.js'
+import {hasProp, propAsString} from '../db.js'
 import {SORTS} from '../schema.js'
 import Icon from '@material-ui/core/Icon'
 

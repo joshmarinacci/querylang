@@ -1,4 +1,4 @@
-import React, {Component, useContext} from 'react'
+import React, {useContext} from 'react'
 import {DictionaryPanel} from './DictionaryPanel'
 import {ViewImagePanel} from './ViewImagePanel.js'
 import {WebpageScanResultsPanel} from "./WebpageScanResultsPanel.js"
