@@ -185,7 +185,7 @@ export function MenuBarButton({caption,children}) {
         <div className={'item'}>
             <button className={'menu-button'}>{caption}</button>
         </div>
-        <ul>{children}</ul>
+        {children}
     </li>
 }
 
@@ -213,8 +213,6 @@ export function MenuItemTriggerSub({caption, children}) {
             <Spacer/>
             <Icon>arrow_right</Icon>
         </div>
-
-
-        <ul>{children}</ul>
+        {children}
     </li>
 }
