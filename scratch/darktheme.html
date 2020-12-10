@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <title>Dark Theme Test</title>
     <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
         body {
             /*background-color: magenta;*/
-            font-family: sans-serif;
+            font-family: "Source Sans Pro", sans-serif;
+
             color: magenta;
             --button-radius: 0.25em;
             --checkbox-radius: 0.125em;
@@ -197,6 +200,56 @@
             border-bottom-right-radius: var(--button-radius);
         }
 
+        /* ============ menus =========== */
+        .menu-bar {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            overflow: visible;
+        }
+        .menu-bar li {
+            position: relative;
+            z-index: 1;
+            overflow: visible;
+            padding: 0;
+        }
+        /* down menu */
+        .menu-bar ul {
+            z-index: 1;
+            left: -99999em;
+            top: 100%;
+            position: absolute;
+            overflow: visible;
+        }
+        .menu-bar li:hover > ul {
+            left: 0;
+        }
+        /* left menu */
+        .menu-bar ul ul {
+            top: 0%;
+            left: -99999em;
+        }
+        .menu-bar ul li:hover > ul {
+            left: 100%;
+        }
+        /* popdown menu containers */
+        .menu-container li.divider {
+            padding:0;
+            height: 1px;
+        }
+
+        /* actual items */
+        .menu-bar .item, .menu-container .item {
+            display: flex;
+            flex-direction: row;
+            padding:0;
+            margin:0;
+        }
+        .menu-bar .menu-button {
+            padding: var(--std-inline-padding);
+            margin:0;
+        }
+
 
 
         /* ========= colors ========== */
@@ -243,6 +296,35 @@
             background-color: var(--ac-5);
             border-color: var(--ac-9);
         }
+        .menu-bar {
+            border: 1px solid var(--std-border);
+            border-width: 0 0 1px 0;
+            background-color: var(--bg-3);
+        }
+        .menu-container {
+            border: 1px solid var(--std-border);
+            background-color: var(--bg-3);
+        }
+        li.divider {
+            background-color: var(--std-border);
+            border-width: 0;
+        }
+        .menu-bar button, .menu-container button {
+            border-width: 0;
+            white-space: nowrap;
+            background-color: transparent;
+        }
+        .menu-bar button:hover, .menu-container button:hover {
+            color: inherit;
+            background-color: transparent;
+        }
+        .menu-bar .item:hover, .menu-container .item:hover {
+            background-color: var(--bg-2);
+        }
+        ul.menu-bar > li {
+            background-color: var(--std-bg-color);
+        }
+
 
         /* =========== disabled  ========= */
         button:disabled {
@@ -416,14 +498,53 @@ https://blog.elementary.io/images/dark-style-progress-november-2020/switchboard-
 
 
 <div class="titlebar">
-    <button class="borderless">X</button>
+    <button class="material-icons borderless">close</button>
     <button>All Settings</button>
     <span class="spacer"></span>
     <label>Desktop</label>
     <span class="spacer"></span>
     <input type="search" placeholder="Search Settings">
-    <button class="borderless">/</button>
+    <button class="material-icons borderless">open_in_full</button>
 </div>
+
+    <ul class="menu-bar">
+        <li>
+            <div class="item">
+                <button class="menu-button">File</button>
+            </div>
+            <ul class="menu-container">
+                <li>
+                    <div class="item"><button class="menu-button">New</button></div>
+                </li>
+                <li>
+                    <div class="item"><button class="menu-button">Open</button></div>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <div class="item"><button class="menu-button">Close</button></div>
+                </li>
+                <li>
+                    <div class="item"><button class="menu-button">Quit</button></div>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <div class="item">
+                <button class="menu-button">Edit</button>
+            </div>
+            <ul class="menu-container">
+                <li>
+                    <div class="item"><button class="menu-button">Cut</button></div>
+                </li>
+                <li>
+                    <div class="item"><button class="menu-button">Copy</button></div>
+                </li>
+                <li>
+                    <div class="item"><button class="menu-button">Paste</button></div>
+                </li>
+            </ul>
+        </li>
+    </ul>
 
 <div class="hbox">
     <ul>
