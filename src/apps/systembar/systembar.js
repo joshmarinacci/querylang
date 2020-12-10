@@ -1,11 +1,10 @@
 import "./systembar.css"
 
 import React, {useContext, useEffect, useState} from 'react'
-import {MenuBar, MenuBarButton, MenuItem, MenuItemTriggerSub, Spacer, Toolbar} from '../../ui/ui.js'
+import {MenuBar, MenuBarButton, Spacer} from '../../ui/ui.js'
 import {DBContext} from '../../db.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../../query2.js'
 import {CATEGORIES} from '../../schema.js'
-import {Icon} from '@material-ui/core'
 
 import {format} from 'date-fns'
 import {AppLauncherContext} from '../../services/AppLauncherService.js'
@@ -37,20 +36,16 @@ export function SystemBar({app}) {
         }
     })
     return <MenuBar grow center>
-        <div className={'grp'}>
-            <label className={'clock'}>{format(time,"eee MMM  dd, hh:mm aa")}</label>
-        </div>
-        <MenuBarButton caption={"Network"}>
+        <label className={'clock'}>{format(time,"eee MMM  dd, hh:mm aa")}</label>
+        <MenuBarButton icon={'wifi'}>
             <NetworkMenu/>
         </MenuBarButton>
-        <MenuBarButton caption={"Sound"}>
+        <MenuBarButton icon={'volume_down'}>
             <SoundMenu/>
         </MenuBarButton>
         <Spacer/>
-        <div className={'grp'}>
-            <Icon onClick={()=>launch("CommandBar3")}>code</Icon>
-            <Icon onClick={()=>launch("SettingsApp")}>settings</Icon>
-            <Icon onClick={()=>launch("DebugPanel")}>bug_report</Icon>
-        </div>
+        <MenuBarButton icon={'code'} onClick={()=>launch("CommandBar3")}/>
+        <MenuBarButton icon={'settings'} onClick={()=>launch("SettingsApp")}/>
+        <MenuBarButton icon={'bug_report'} onClick={()=>launch("DebugPanel")}/>
     </MenuBar>
 }

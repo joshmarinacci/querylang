@@ -49,6 +49,7 @@ export const SimpleMenuBar = () => {
         </MenuBarButton>
         <MenuBarButton caption={'View'}></MenuBarButton>
         <MenuBarButton caption={'Help'}></MenuBarButton>
+        <MenuBarButton icon={'arrow_right'}></MenuBarButton>
     </MenuBar>
 }
 

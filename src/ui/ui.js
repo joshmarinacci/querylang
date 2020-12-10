@@ -180,10 +180,11 @@ export function PopupTriggerButton({makePopup, title}) {
 export function MenuBar({children}) {
     return <ul className={'menu-bar'}>{children}</ul>
 }
-export function MenuBarButton({caption,children}) {
+export function MenuBarButton({caption,children, icon, ...rest}) {
     return <li>
-        <div className={'item'}>
-            <button className={'menu-button'}>{caption}</button>
+        <div className={'item'} {...rest}>
+            {caption?<button className={'menu-button'}>{caption}</button>:""}
+            {icon?<Icon>{icon}</Icon>:""}
         </div>
         {children}
     </li>
