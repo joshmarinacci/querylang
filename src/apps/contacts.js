@@ -1,23 +1,14 @@
 import React, {useContext, useState} from 'react'
-import {DBContext, deepClone, propAsBoolean, propAsString, setProp, sort, useDBChanged} from '../db.js'
+import {DBContext, deepClone, propAsString, setProp, sort, useDBChanged} from '../db.js'
 import {CATEGORIES, SORTS} from '../schema.js'
-import {
-    AddButton,
-    DataList,
-    EnumPropEditor,
-    HBox,
-    Panel,
-    RemoveButton,
-    StandardListItem,
-    TextPropEditor,
-    Toolbar,
-    VBox
-} from '../ui/ui.js'
+import {Panel, Toolbar, VBox} from '../ui/ui.js'
 import "./contacts.css"
 import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {StandardViewPanel} from '../ui/StandardViewPanel.js'
 import {Grid2Layout} from '../ui/grid3layout.js'
+import {StandardEditPanel} from '../ui/StandardEditPanel.js'
+import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 
 let CONTACTS_VIEW_CUSTOMIZATIONS = {
     'favorite':'star',
@@ -109,50 +100,7 @@ export function ContactEditPanel({db, onDone, selected}) {
             <button onClick={saveEditing}>save</button>
             <button onClick={cancelEditing}>cancel</button>
         </Toolbar>
-
-        <VBox className={'edit-emails'} scroll>
-            <h3>name</h3>
-            <TextPropEditor buffer={buffer} prop={'first'} db={db}/>
-            <TextPropEditor buffer={buffer} prop={'last'} db={db}/>
-            <h3>email</h3>
-            {buffer.props.emails.map((o,i) => {
-                return <HBox key={'email_'+i}>
-                    <RemoveButton onClick={()=>removeEmail(o)}/>
-                    <EnumPropEditor buffer={o} prop={'type'} db={db}/>
-                    <TextPropEditor buffer={o} prop={'value'} db={db}/>
-                </HBox>
-            })}
-            <AddButton onClick={addEmail}/>
-
-            <h3>phone</h3>
-            {buffer.props.phones.map((o,i) => {
-                return <HBox key={'phone_'+i}>
-                    <RemoveButton onClick={()=>removePhone(o)}/>
-                    <EnumPropEditor buffer={o} prop={'type'} db={db}/>
-                    <TextPropEditor buffer={o} prop={'value'} db={db}/>
-                </HBox>
-            })}
-            <AddButton onClick={addPhone}/>
-
-            <h3>address</h3>
-            {buffer.props.addresses.map((o,i) => {
-                return <HBox key={'address_'+i}>
-                    <RemoveButton onClick={()=>removeAddress(o)}/>
-                    <EnumPropEditor buffer={o} prop={'type'} db={db}/>
-                    <VBox>
-                        <TextPropEditor buffer={o} prop={'street1'} db={db}/>
-                        <TextPropEditor buffer={o} prop={'street2'} db={db}/>
-                        <HBox>
-                            <TextPropEditor buffer={o} prop={'city'} db={db}/>
-                            <TextPropEditor buffer={o} prop={'state'} db={db}/>
-                            <TextPropEditor buffer={o} prop={'zipcode'} db={db}/>
-                        </HBox>
-                    </VBox>
-                </HBox>
-            })}
-            <AddButton onClick={addAddress}/>
-        </VBox>
-
+        <StandardEditPanel object={buffer} className={'scroll'} hide={['timezone']} />
     </VBox>)
 }
 
@@ -181,6 +129,10 @@ export function ContactList({app}) {
         setEditing(true)
     }
 
+    const editSelectedContact = () => {
+        setEditing(true)
+    }
+
     let panel = <Panel grow>nothing selected</Panel>
     if (selected) {
         panel = <StandardViewPanel object={selected} custom={CONTACTS_VIEW_CUSTOMIZATIONS}
@@ -198,10 +150,18 @@ export function ContactList({app}) {
             <Toolbar className={'col1 span3'}>
                 <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
                 <Icon onClick={addNewContact}>add_circle</Icon>
+                <button onClick={editSelectedContact}>edit</button>
             </Toolbar>
-            <DataList data={items} selected={selected} setSelected={setSelected}
+            <SourceList data={items} selected={selected} setSelected={setSelected}
                       className={'col1 row2'}
-                      stringify={(o,i) => <StandardListItem icon={'person'} title={`${propAsString(o,'first')} ${propAsString(o,'last')}`}/>}/>
+                        renderItem={({item,...rest})=>{
+                            return <StandardSourceItem
+                                title={propAsString(item,'first') + " " +
+                                propAsString(item,'last')}
+                                icon={'person'}
+                                {...rest}
+                                />
+                        }}/>
               <Panel className={'col2 row2'}>
                   {panel}
               </Panel>
