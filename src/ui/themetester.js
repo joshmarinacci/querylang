@@ -1,5 +1,15 @@
 import React, {useContext, useState} from 'react'
-import {ActionButton, HBox, PopupTriggerButton, ToggleButton, ToggleGroup, Toolbar, VBox} from './ui.js'
+import {
+    ActionButton,
+    HBox,
+    MenuBar,
+    MenuBarButton, MenuDivider, MenuItem, MenuItemTriggerSub,
+    PopupTriggerButton,
+    ToggleButton,
+    ToggleGroup,
+    Toolbar,
+    VBox
+} from './ui.js'
 import {DBContext, encode_props_with_types, propAsString} from '../db.js'
 
 import "./themetester.css"
@@ -350,8 +360,37 @@ export function ThemeTester({theme, setTheme, doLoad}) {
             <button onClick={doSave}>save</button>
         </VBox>
         <VBox style={style} className={'preview'} grow>
-
-            <div className="grid">
+            <MenuBar>
+                <MenuBarButton caption={'File'}>
+                    <MenuItem caption={'Before'}/>
+                    <MenuItemTriggerSub caption={'new'}>
+                        <MenuItem caption={'New File'}/>
+                        <MenuItem caption={'New Project'}/>
+                        <MenuItem caption={'New Directory'}/>
+                    </MenuItemTriggerSub>
+                    <MenuItem caption={'Open'}/>
+                    <MenuItem caption={'Close'}/>
+                    <MenuDivider/>
+                    <MenuItemTriggerSub caption={'import'}>
+                        <MenuItem caption={'... from File'}/>
+                        <MenuItemTriggerSub caption={'new'}>
+                            <MenuItem caption={'New File'}/>
+                            <MenuItem caption={'New Project'}/>
+                            <MenuItem caption={'New Directory'}/>
+                        </MenuItemTriggerSub>
+                        <MenuItem caption={'... from Github'}/>
+                        <MenuItem caption={'... from External'}/>
+                    </MenuItemTriggerSub>
+                </MenuBarButton>
+                <MenuBarButton caption={'Edit'}>
+                    <MenuItem caption={'Cut'}/>
+                    <MenuItem caption={'Copy'}/>
+                    <MenuItem caption={'Paste'}/>
+                </MenuBarButton>
+                <MenuBarButton caption={'View'}></MenuBarButton>
+                <MenuBarButton caption={'Help'}></MenuBarButton>
+            </MenuBar>
+                <div className="grid">
                 <div className="info">
                     Controls Demo
                 </div>
