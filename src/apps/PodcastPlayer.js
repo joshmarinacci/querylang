@@ -11,9 +11,9 @@ import {Panel, Toolbar} from '../ui/ui.js'
 import {flatten} from '../util.js'
 import "./NewsReader.css"
 import {DialogManagerContext} from '../ui/DialogManager.js'
+import {RSS_SERVER_URL} from '../globals.js'
 
 
-const RSS_SERVER_URL = "http://localhost:30011/rss"
 
 function refresh (db) {
     let subs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.RSS.ID), IS_TYPE(CATEGORIES.RSS.SCHEMAS.SUBSCRIPTION.TYPE)))

@@ -13,6 +13,7 @@ import {Grid2Layout} from './grid3layout.js'
 import {DataList, StandardSourceItem} from './dataList.js'
 import {FilePreview} from './filepreview.js'
 import {DialogManagerContext} from './DialogManager.js'
+import {FILE_SERVER_URL} from '../globals.js'
 
 function Dialog({title,children,...rest}) {
     return <div className={'dialog'} {...rest}>
@@ -165,7 +166,6 @@ function ToggleBar({value, values, setValue}) {
 
 
 
-const FILE_SERVER_URL = "http://localhost:30011/files"
 let q = AND(IS_CATEGORY(CATEGORIES.FILES.ID),IS_TYPE(CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE))
 function list_remote_files(db) {
     return fetch(FILE_SERVER_URL).then(r => r.json()).then(real_files => {
