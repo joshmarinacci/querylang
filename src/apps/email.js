@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react'
 import {HBox, Panel, Spacer, Toolbar, TopToolbar} from '../ui/ui.js'
 import {CATEGORIES, SORTS} from '../schema.js'
 import {DBContext, propAsBoolean, propAsString, sort, useDBChanged} from '../db.js'
-import {AND, IS_CATEGORY, IS_PROP_CONTAINS, IS_TYPE} from '../query2.js'
+import {AND, IS_CATEGORY, IS_PROP_CONTAINS, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
 import {format, formatDistanceToNow} from "date-fns"
 
 import {calculateFoldersFromTags} from '../util.js'
@@ -17,6 +17,7 @@ export function Email({app }) {
 
     const [selectedFolder, setSelectedFolder] = useState(null)
     const [selectedMessage, setSelectedMessage] = useState(null)
+    const [searchTerms, setSearchTerms] = useState("")
 
     let messages = db.QUERY(AND(
         IS_CATEGORY(CATEGORIES.EMAIL.ID),
@@ -48,6 +49,12 @@ export function Email({app }) {
                 IS_PROP_CONTAINS("tags",tag)))
         }
     }
+
+    if(searchTerms.length >= 2) folder_results = QUERY(folder_results,
+        OR(IS_PROP_SUBSTRING('subject',searchTerms),
+            IS_PROP_SUBSTRING('sender',searchTerms)
+        ))
+
 
     folder_results = sort(folder_results,["timestamp"], SORTS.DESCENDING)
 
@@ -85,7 +92,7 @@ export function Email({app }) {
         />
 
         <TopToolbar column={3}>
-            <input type="search" placeholder={'search'}/>
+            <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
         </TopToolbar>
         {panel}
     </Grid3Layout>

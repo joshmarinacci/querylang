@@ -2,7 +2,16 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import {HBox, Panel, Spacer, TopToolbar, VBox} from '../ui/ui.js'
 import {DBContext, project, propAsString, sort, useDBChanged} from '../db.js'
 import {CATEGORIES, SORTS} from '../schema.js'
-import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_TRUE, IS_TYPE} from '../query2.js'
+import {
+    AND,
+    IS_CATEGORY,
+    IS_PROP_EQUAL,
+    IS_PROP_SUBSTRING,
+    IS_PROP_TRUE,
+    IS_TYPE,
+    OR,
+    query2 as QUERY
+} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {DataTable} from '../ui/datatable.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
@@ -201,6 +210,16 @@ export function Music({app}) {
             albums = uniqueBy(albums,'album')
             panel = <AlbumsPanel albums={albums} playSong={setSelectedSong} db={db}/>
         }
+    }
+    if(searchTerms.length >= 2) {
+        let songs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.MUSIC.ID), IS_TYPE(CATEGORIES.MUSIC.TYPES.SONG),
+            OR(
+                IS_PROP_SUBSTRING('title',searchTerms),
+                IS_PROP_SUBSTRING('artist',searchTerms),
+                IS_PROP_SUBSTRING('album',searchTerms),
+            )
+        ))
+        panel = <SongsPanel songs={songs} playSong={setSelectedSong} db={db} className={'col2 row2 span3'}/>
     }
 
     return <Grid3Layout>

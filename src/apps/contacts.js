@@ -110,7 +110,7 @@ export function ContactList({app}) {
 
     const [selected, setSelected] = useState(null)
     const [editing, setEditing] = useState(false)
-    let [searchTerms, setSearchTerms] = useState("")
+    const [searchTerms, setSearchTerms] = useState("")
 
     let items = db.QUERY(AND(
         IS_CATEGORY(CATEGORIES.CONTACT.ID),

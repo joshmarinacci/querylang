@@ -26,6 +26,7 @@ function processEqual(equal, o) {
 }
 
 function processSubstring(substring, o) {
+    if(!substring || !substring.value) throw new Error("missing substring to search")
     if(!o) return false
     if(!o.props) return false
     if(!o.props.hasOwnProperty(substring.prop)) return false
