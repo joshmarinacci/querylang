@@ -4,7 +4,7 @@ import {CATEGORIES} from '../schema.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import "./DataBrowser.css"
 import {Grid3Layout} from '../ui/grid3layout.js'
-import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
+import {DataList, StandardSourceItem} from '../ui/dataList.js'
 
 import {format} from "date-fns"
 import {Panel, Spacer, Toolbar} from '../ui/ui.js'
@@ -193,11 +193,11 @@ export function NewsReader({}) {
             <button onClick={()=>refresh(db)}>refresh</button>
             <button onClick={()=>add_feed()}>add feed</button>
         </Toolbar>
-        <SourceList column={1} row={2} data={subs} selected={sub} setSelected={set_sub}
-                    renderItem={({item,...rest})=> <StandardSourceItem
+        <DataList column={1} row={2} data={subs} selected={sub} setSelected={set_sub}
+                  renderItem={({item,...rest})=> <StandardSourceItem
                         title={propAsString(item,'title')} {...rest}/>}/>
-        <SourceList column={2} row={2} data={posts}  selected={post} setSelected={set_post}
-                    renderItem={({item,...rest})=> <StandardSourceItem
+        <DataList column={2} row={2} data={posts} selected={post} setSelected={set_post}
+                  renderItem={({item,...rest})=> <StandardSourceItem
                         className={(propAsBoolean(item,'read')?"read":"unread")}
                         title={propAsString(item,'title')} {...rest}/>}/>
         <Toolbar>

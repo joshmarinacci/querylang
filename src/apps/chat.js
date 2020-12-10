@@ -10,7 +10,7 @@ import {format,
 
 import "./chat.css"
 import {Grid2Layout} from '../ui/grid3layout.js'
-import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
+import {DataList, StandardSourceItem} from '../ui/dataList.js'
 
 export function Chat({app}) {
     const [selected, setSelected] = useState(null)
@@ -48,14 +48,14 @@ export function Chat({app}) {
     }
 
     return <Grid2Layout toolbar={false} statusbar={false}>
-            <SourceList data={conversations} selected={selected} setSelected={setSelected} row={1} column={1}
-                        renderItem={({item,...rest})=>{
+            <DataList data={conversations} selected={selected} setSelected={setSelected} row={1} column={1}
+                      renderItem={({item,...rest})=>{
                             return <StandardSourceItem title={propAsString(item,'title')} icon={'chat'} {...rest}/>
                         }}
             />
             <VBox grow className={'panel col2 row1'}>
                 <VBox grow scroll>
-                    <SourceList data={messages} renderItem={({item,...rest})=>{
+                    <DataList data={messages} renderItem={({item,...rest})=>{
                         return <VBox className={(item.props.sender.id===1?"self":"")} {...rest}>
                             <HBox>
                                 <img src={propAsString(item.props.sender,'icon')} alt={'user-icon'}/>

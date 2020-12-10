@@ -18,7 +18,7 @@ import {ENUM, INTEGER, STRING} from '../schema.js'
 import {HexColorPicker} from "react-colorful"
 import "react-colorful/dist/index.css"
 import {PopupManagerContext} from './PopupManager.js'
-import {SourceList, StandardSourceItem} from './sourcelist.js'
+import {DataList, StandardSourceItem} from './dataList.js'
 import {genid} from '../data.js'
 
 const COLOR = 'COLOR'
@@ -410,7 +410,7 @@ export function ThemeTester({theme, setTheme, doLoad}) {
                     </ToggleGroup>
                 </Toolbar>
 
-                <SourceList
+                <DataList
                     column={1}
                     row={2}
                     selected={selectedSource}
@@ -428,7 +428,7 @@ export function ThemeTester({theme, setTheme, doLoad}) {
                 />
 
 
-                <SourceList
+                <DataList
                     column={2}
                     row={2}
                     data={content_data}

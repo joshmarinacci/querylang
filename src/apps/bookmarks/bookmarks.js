@@ -19,7 +19,7 @@ import {propAsArray, propAsString} from '../../db.js'
 import {PopupManagerContext} from '../../ui/PopupManager.js'
 import {calculateFoldersFromTags} from '../../util.js'
 import {Grid3Layout} from '../../ui/grid3layout.js'
-import {SourceList, StandardSourceItem} from '../../ui/sourcelist.js'
+import {DataList, StandardSourceItem} from '../../ui/dataList.js'
 import {TitleBar} from '../../stories/email_example.js'
 import {StandardViewPanel} from '../../ui/StandardViewPanel.js'
 
@@ -113,8 +113,8 @@ export function BookmarksManager({app}) {
     return  <Grid3Layout>
         <TitleBar title={"Bookmarks"}/>
 
-        <SourceList column={1} row={2} data={queries} selected={selectedQuery} setSelected={setSelectedQuery}
-                    renderItem={({item,...args})=> <StandardSourceItem
+        <DataList column={1} row={2} data={queries} selected={selectedQuery} setSelected={setSelectedQuery}
+                  renderItem={({item,...args})=> <StandardSourceItem
                                                        icon={propAsString(item,'icon')}
                                                        title={propAsString(item,'title')}
                                                        {...args}
@@ -125,7 +125,7 @@ export function BookmarksManager({app}) {
             <PopupTriggerButton onClick={showSortPopup} makePopup={showSortPopup} title={"Sort"}/>
         </TopToolbar>
 
-        <SourceList column={2} row={2} data={bookmarks} selected={selected} setSelected={setSelected}
+        <DataList column={2} row={2} data={bookmarks} selected={selected} setSelected={setSelected}
                   renderItem={({item, ...args})=> {
                       let la = "never"
                       if(hasProp(item,'lastAccessed'))

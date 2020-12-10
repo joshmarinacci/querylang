@@ -5,7 +5,7 @@ import {DBContext, propAsString, useDBChanged} from '../db.js'
 
 import "../notifications.css"
 import {VBox} from '../ui/ui.js'
-import {StandardSourceItem} from '../ui/sourcelist.js'
+import {StandardSourceItem} from '../ui/dataList.js'
 
 export function NotificationPanel({app}) {
     let db = useContext(DBContext)

@@ -10,7 +10,7 @@ import {format} from "date-fns"
 import {AND, IS_CATEGORY, IS_TYPE} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
 import {Grid2Layout} from './grid3layout.js'
-import {SourceList, StandardSourceItem} from './sourcelist.js'
+import {DataList, StandardSourceItem} from './dataList.js'
 import {FilePreview} from './filepreview.js'
 import {DialogManagerContext} from './DialogManager.js'
 
@@ -99,8 +99,8 @@ function calculateGridIcon(file) {
 }
 
 function FileList({files, selected, setSelected}){
-    return <SourceList data={files} column={1} row={2} selected={selected} setSelected={setSelected}
-                       renderItem={({item,...args})=>{
+    return <DataList data={files} column={1} row={2} selected={selected} setSelected={setSelected}
+                     renderItem={({item,...args})=>{
                            return <StandardSourceItem
                                icon={calculateIcon(item)}
                                title={propAsString(item,'filename')}

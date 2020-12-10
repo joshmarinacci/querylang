@@ -6,7 +6,7 @@ import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_TRUE, IS_TYPE} from '../query2.
 import Icon from '@material-ui/core/Icon'
 import {DataTable} from '../ui/datatable.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
-import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
+import {DataList, StandardSourceItem} from '../ui/dataList.js'
 import {TitleBar} from '../stories/email_example.js'
 
 const uniqueBy = (list,propname) => {
@@ -71,8 +71,8 @@ export function ArtistsPanel({artists, db, playSong}) {
     }
 
     return [
-        <SourceList data={artists} column={2} row={2} selected={selectedArtist} setSelected={choose}
-                    renderItem={({item, ...args}) => <StandardSourceItem title={propAsString(item,'artist')} {...args} />}
+        <DataList data={artists} column={2} row={2} selected={selectedArtist} setSelected={choose}
+                  renderItem={({item, ...args}) => <StandardSourceItem title={propAsString(item,'artist')} {...args} />}
         />,
         <SongsPanel songs={songs} playSong={playSong} db={db} className={"col3 span3"}/>
     ]
@@ -90,8 +90,8 @@ export function AlbumsPanel({albums, db, playSong}) {
         )))
     }
     return [
-        <SourceList data={albums} column={2} row={2} selected={selectedAlbum} setSelected={choose}
-                    renderItem={({item, ...args}) => <StandardSourceItem title={propAsString(item,'album')} {...args} />}
+        <DataList data={albums} column={2} row={2} selected={selectedAlbum} setSelected={choose}
+                  renderItem={({item, ...args}) => <StandardSourceItem title={propAsString(item,'album')} {...args} />}
         />,
         <SongsPanel songs={songs} playSong={playSong} db={db} className={'col3 span3'}/>
     ]
@@ -210,10 +210,10 @@ export function Music({app}) {
             <Spacer/>
             <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
         </TopToolbar>
-        <SourceList column={1} row={2} data={groups}
-                    selected={selectedGroup} setSelected={setSelectedGroup}
-                    secondary
-                    renderItem={({item, ...args}) => <StandardSourceItem
+        <DataList column={1} row={2} data={groups}
+                  selected={selectedGroup} setSelected={setSelectedGroup}
+                  secondary
+                  renderItem={({item, ...args}) => <StandardSourceItem
                         icon={propAsString(item,'icon')}
                         title={propAsString(item,'title')}
                         {...args}

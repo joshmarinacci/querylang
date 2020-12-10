@@ -8,7 +8,7 @@ import Icon from '@material-ui/core/Icon'
 import {StandardViewPanel} from '../ui/StandardViewPanel.js'
 import {Grid2Layout} from '../ui/grid3layout.js'
 import {StandardEditPanel} from '../ui/StandardEditPanel.js'
-import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
+import {DataList, StandardSourceItem} from '../ui/dataList.js'
 
 let CONTACTS_VIEW_CUSTOMIZATIONS = {
     'favorite':'star',
@@ -137,8 +137,8 @@ export function ContactList({app}) {
                 <Icon onClick={addNewContact}>add_circle</Icon>
                 <button onClick={editSelectedContact}>edit</button>
             </Toolbar>
-            <SourceList data={items} selected={selected} setSelected={setSelected} className={'col1 row2'}
-                        renderItem={({item,...rest})=> <StandardSourceItem
+            <DataList data={items} selected={selected} setSelected={setSelected} className={'col1 row2'}
+                      renderItem={({item,...rest})=> <StandardSourceItem
                                 title={`${propAsString(item,'first')} ${propAsString(item,'last')}`}
                                 icon={'person'} {...rest}/>
                         }/>

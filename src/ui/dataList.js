@@ -3,7 +3,7 @@ import Icon from '@material-ui/core/Icon'
 import {HBox, Spacer, VBox} from './ui.js'
 import {flatten} from './grid3layout.js'
 
-export function SourceList({data, column=1, row=1, secondary, selected, renderItem, setSelected, className=""}) {
+export function DataList({data, column=1, row=1, secondary, selected, renderItem, setSelected, className=""}) {
     if(!data) {
         data = []
         for (let i = 0; i < 20; i++) {

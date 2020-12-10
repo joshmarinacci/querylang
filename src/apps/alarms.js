@@ -7,7 +7,7 @@ import {Icon} from '@material-ui/core'
 
 import {format} from 'date-fns'
 import './alarms.css'
-import {SourceList} from '../ui/sourcelist.js'
+import {DataList} from '../ui/dataList.js'
 
 export function Alarms({app}) {
     let db = useContext(DBContext)
@@ -20,7 +20,7 @@ export function Alarms({app}) {
             <button onClick={addAlarm}><Icon>alarm_add</Icon></button>
             <Spacer/>
         </Toolbar>
-        <SourceList data={alarms} renderItem={({item,...rest})=>{
+        <DataList data={alarms} renderItem={({item,...rest})=>{
             return <AlarmItem key={item.id} alarm={item} db={db} {...rest}/>
         }}/>
     </VBox>

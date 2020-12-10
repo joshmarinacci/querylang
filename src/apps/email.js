@@ -8,7 +8,7 @@ import {format, formatDistanceToNow} from "date-fns"
 import {calculateFoldersFromTags} from '../util.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {TitleBar} from '../stories/email_example.js'
-import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
+import {DataList, StandardSourceItem} from '../ui/dataList.js'
 import Icon from '@material-ui/core/Icon'
 
 export function Email({app }) {
@@ -53,7 +53,7 @@ export function Email({app }) {
 
     return <Grid3Layout>
         <TitleBar title={'Email'}/>
-        <SourceList
+        <DataList
             column={1} row={2}
             secondary
             data={folders}
@@ -72,10 +72,10 @@ export function Email({app }) {
             <Icon>archive</Icon>
         </Toolbar>
 
-        <SourceList column={2} row={2}
-                    data={folder_results}
-                    selected={selectedMessage} setSelected={setSelectedMessage}
-                    renderItem={({item,...rest}) => {
+        <DataList column={2} row={2}
+                  data={folder_results}
+                  selected={selectedMessage} setSelected={setSelectedMessage}
+                  renderItem={({item,...rest}) => {
                         return <StandardSourceItem {...rest}
                                                    title={propAsString(item,'sender')}
                                                    subtitle={propAsString(item,'subject')}

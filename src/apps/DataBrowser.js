@@ -16,7 +16,7 @@ import Icon from '@material-ui/core/Icon'
 import {format, parseISO} from 'date-fns'
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {TitleBar} from '../stories/email_example.js'
-import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
+import {DataList, StandardSourceItem} from '../ui/dataList.js'
 import {DialogManagerContext} from '../ui/DialogManager.js'
 import {DataTable} from '../ui/datatable.js'
 
@@ -52,8 +52,8 @@ export function DataBrowser({app}) {
             <input type={'search'}/>
             <ToggleViewsGroup values={modes} setValue={set_mode} selectedValue={mode}/>
         </Toolbar>
-        <SourceList col={1} row={2} data={queries} selected={q} setSelected={set_q}
-                    renderItem={({item,...rest})=><StandardSourceItem
+        <DataList col={1} row={2} data={queries} selected={q} setSelected={set_q}
+                  renderItem={({item,...rest})=><StandardSourceItem
             title={propAsString(item,'title')}
             icon={propAsString(item,'icon')}
             {...rest}/>}/>
@@ -90,7 +90,7 @@ function DataViewPanel({data, mode}) {
     }
     if(mode === 'list') {
         return <VBox scroll className={'col2 span3'}>
-            <SourceList data={data}  selected={sel} setSelected={set_sel} renderItem={({item,...rest}) => {
+            <DataList data={data} selected={sel} setSelected={set_sel} renderItem={({item,...rest}) => {
                 let sch = lookup_schema('local',item.category, item.type)
                 let str = ""
                 Object.keys(sch.props).forEach(key =>{

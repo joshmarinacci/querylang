@@ -5,7 +5,7 @@ import {Panel, Spacer, TopToolbar} from '../ui/ui.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_SUBSTRING, IS_PROP_TRUE, IS_TYPE, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {Grid3Layout} from '../ui/grid3layout.js'
-import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
+import {DataList, StandardSourceItem} from '../ui/dataList.js'
 import {TitleBar} from '../stories/email_example.js'
 import {StandardEditPanel} from '../ui/StandardEditPanel.js'
 
@@ -62,9 +62,9 @@ export function TaskLists({app}) {
     return <Grid3Layout statusbar={false}>
         <TitleBar title={'Tasks'}/>
 
-        <SourceList column={1} row={2} data={projects}
-                    selected={selectedProject} setSelected={setSelectedProject}
-                    renderItem={({item, ...args})=><StandardSourceItem
+        <DataList column={1} row={2} data={projects}
+                  selected={selectedProject} setSelected={setSelectedProject}
+                  renderItem={({item, ...args})=><StandardSourceItem
                             icon={propAsString(item,'icon')}
                             title={propAsString(item,'title')}
                             {...args}/>}/>
@@ -79,9 +79,9 @@ export function TaskLists({app}) {
             <Icon onClick={trashTask}>delete</Icon>
         </TopToolbar>
 
-        <SourceList column={2} row={2} data={tasks}
-                    selected={selectedTask} setSelected={setSelectedTask}
-                    renderItem={({item, ...args})=><StandardSourceItem
+        <DataList column={2} row={2} data={tasks}
+                  selected={selectedTask} setSelected={setSelectedTask}
+                  renderItem={({item, ...args})=><StandardSourceItem
                             icon={(propAsBoolean(item,'completed')?"check_box":"check_box_outline_blank")}
                             title={propAsString(item,'title')}
                             {...args}/>}/>

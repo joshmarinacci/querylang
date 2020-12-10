@@ -18,7 +18,7 @@ import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from 
 import Icon from '@material-ui/core/Icon'
 import {calculateFoldersFromTags} from '../util.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
-import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
+import {DataList, StandardSourceItem} from '../ui/dataList.js'
 import {TitleBar} from '../stories/email_example.js'
 import {StandardEditPanel} from '../ui/StandardEditPanel.js'
 
@@ -63,9 +63,9 @@ export function Notes({app}) {
 
     return <Grid3Layout>
         <TitleBar title={'notes'}/>
-        <SourceList data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
-                    column={1} row={2} secondary
-                    renderItem={({item, ...args})=> <StandardSourceItem
+        <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
+                  column={1} row={2} secondary
+                  renderItem={({item, ...args})=> <StandardSourceItem
                         icon={propAsString(item,'icon')}
                         title={propAsString(item,'title')}
                         {...args} />}/>
@@ -75,9 +75,9 @@ export function Notes({app}) {
             <Icon onClick={addNewNote}>add_circle</Icon>
         </TopToolbar>
 
-        <SourceList column={2} row={2} data={notes}
-                    selected={selectedNote} setSelected={setSelectedNote}
-                    renderItem={({item, ...args})=> <StandardSourceItem
+        <DataList column={2} row={2} data={notes}
+                  selected={selectedNote} setSelected={setSelectedNote}
+                  renderItem={({item, ...args})=> <StandardSourceItem
                         icon={'note'}
                         title={propAsString(item,'title')}
                         subtitle={formatDistanceToNow(item.props.lastedited)}
