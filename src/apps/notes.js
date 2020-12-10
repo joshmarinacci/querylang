@@ -20,6 +20,7 @@ import {calculateFoldersFromTags} from '../util.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 import {TitleBar} from '../stories/email_example.js'
+import {StandardEditPanel} from '../ui/StandardEditPanel.js'
 
 
 const isNotesCategory = () => IS_CATEGORY(CATEGORIES.NOTES.ID)
@@ -84,10 +85,11 @@ export function Notes({app}) {
 
         <TopToolbar column={3}>
         </TopToolbar>
-        <VBox grow className={'panel col3 row2'}>
-            <TextPropEditor buffer={selectedNote} prop={'title'} db={db}/>
-            <TagsetEditor buffer={selectedNote} prop={'tags'} db={db}/>
-            <TextareaPropEditor buffer={selectedNote} prop={'contents'} db={db} grow/>
-        </VBox>
+        <StandardEditPanel className={'panel col3 row2'} object={selectedNote}/>
+        {/*<VBox grow className={'panel col3 row2'}>*/}
+        {/*    <TextPropEditor buffer={selectedNote} prop={'title'} db={db}/>*/}
+        {/*    <TagsetEditor buffer={selectedNote} prop={'tags'} db={db}/>*/}
+        {/*    <TextareaPropEditor buffer={selectedNote} prop={'contents'} db={db} grow/>*/}
+        {/*</VBox>*/}
     </Grid3Layout>
 }
