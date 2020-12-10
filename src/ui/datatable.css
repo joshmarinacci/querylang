@@ -1,6 +1,7 @@
 table {
     border-collapse: collapse;
     width: 100%;
+    position: relative;
 }
 table tr td, table tr th {
     padding: 0.25rem 0.5rem;
@@ -21,21 +22,22 @@ td:last-child, th:last-child {
 }
 
 
-
 table th {
-    background-color: var(--gray3);
+    background-color: var(--std-bg-color);
+    color: var(--std-text-color);
     font-weight: normal;
     user-select: none;
     vertical-align: baseline;
+    position: sticky;
+    top: 0;
 }
 
 table th.sort-column {
-    background-color: var(--gray6);
-    color: var(--gray0);
+    background-color: var(--std-border-color);
     font-weight: bold;
 }
 
-table tr td .MuiIcon-root {
+table td .MuiIcon-root {
     font-size: 100%;
     padding:0;
     border-width: 0;
