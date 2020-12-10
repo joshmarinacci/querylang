@@ -2,11 +2,9 @@ import "./bookmarks.css"
 
 import React, {useContext, useRef, useState} from 'react'
 import {
-    DataList,
     HBox,
     Panel, PopupTriggerButton,
-    Spacer, StandardListItem,
-    TagsetEditor, TextareaPropEditor,
+    Spacer, TagsetEditor, TextareaPropEditor,
     TextPropEditor,
     Toolbar, TopToolbar,
     VBox,

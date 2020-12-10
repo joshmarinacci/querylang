@@ -11,7 +11,7 @@ import {
     IS_PROP_SUBSTRING,
     IS_TYPE
 } from '../query2.js'
-import {DataList, HBox, Panel, StandardListItem, ToggleButton, ToggleGroup, Toolbar, VBox} from '../ui/ui.js'
+import {HBox, Panel, ToggleButton, ToggleGroup, Toolbar, VBox} from '../ui/ui.js'
 import "./DataBrowser.css"
 import Icon from '@material-ui/core/Icon'
 import {format, parse, parseISO} from 'date-fns'

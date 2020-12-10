@@ -44,44 +44,6 @@ export function Panel({children, grow, className, style}) {
     return <div className={flatten(cls)}>{children}</div>
 }
 
-export function DataList({data, selected, setSelected, className, style, stringify}) {
-    if(!stringify) stringify = (s)=>"no stringify"
-    if(!setSelected) setSelected = ()=>{}
-    className = className || ""
-    style = style || {}
-    return <ul className={'list ' + className} style={style}>{data.map(o=> {
-        return <li key={o.id}
-                 onClick={()=>setSelected(o)}
-                 className={selected&&o&&(selected.id===o.id)?"selected":""}
-      >
-            {stringify(o)}
-      </li>
-    })}</ul>
-
-}
-
-export function StandardListItem({
-                                     icon, onClickIcon,
-                                     title,
-                                     trailing_title,
-                                     subtitle,
-                                     trailingIcon,
-                                    onClickTrailingIcon,
-    onDoubleClick,
-                                 }) {
-    return <HBox className={"list-item"} onDoubleClick={onDoubleClick}>
-        {icon?<Icon onClick={onClickIcon}>{icon}</Icon>:""}
-        <VBox>
-            {title?<b className={"title"}>{title}</b>:""}
-            {subtitle?<i className="subtitle">{subtitle}</i>:""}
-        </VBox>
-        <Spacer/>
-        {trailing_title?<b>{trailing_title}</b>:""}
-        {trailingIcon?<Icon onClick={onClickTrailingIcon}>{trailingIcon}</Icon>:""}
-
-    </HBox>
-}
-
 export function TextPropEditor({buffer, prop, onChange, ...rest}) {
     let db = useContext(DBContext)
     return <HBox className={'textprop-editor'} {...rest}>
@@ -135,19 +97,6 @@ export function EnumPropEditor({buffer, prop, onChange, db}) {
         </select>
     </HBox>
 }
-
-
-export function AddButton({onClick}) {
-    return <button onClick={onClick} className={'no-border'}>
-        <HiPlusCircle className={'add-icon'}/>
-    </button>
-}
-export function RemoveButton  ({onClick}) {
-    return <button onClick={onClick} className={'no-border'}>
-        <HiMinusCircle className={'remove-icon'}/>
-    </button>
-}
-
 function TagView({tag, deleteTag}) {
     return <div className={'tag-view'}>
         <label>{tag}</label>

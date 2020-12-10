@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import {attach, DBContext, propAsString, setProp, sort} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {DataList, HBox, StandardListItem, Toolbar, VBox, Window} from '../ui/ui.js'
+import {HBox, Toolbar, VBox, Window} from '../ui/ui.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, isAfter,
     subDays, addDays,

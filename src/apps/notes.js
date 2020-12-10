@@ -7,9 +7,7 @@ import {
 } from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {
-    DataList,
-    HBox, StandardListItem,
-    TagsetEditor,
+    HBox, TagsetEditor,
     TextareaPropEditor,
     TextPropEditor,
     Toolbar, TopToolbar,
