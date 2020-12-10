@@ -43,7 +43,7 @@ export class ActionManager {
         if(action.service === 'MUSIC_RUNNER') {
             console.log("playing music",action)
         }
-        if(action.service === 'DICTONARY_LOOKUP') {
+        if(action.service === 'DICTIONARY_LOOKUP') {
             console.log("looking up definition of",action.word)
             let url = `https://owlbot.info/api/v4/dictionary/${action.word}`
             fetch(url,{
@@ -76,6 +76,22 @@ export class ActionManager {
         }
         if(action.service === 'WEATHER_FINDER') {
             console.log("getting the weather",action)
+            let api_key = 'fe5dd0b0a21045f0bdd235656201411'
+            let url = `http://api.weatherapi.com/v1/current.json?key=${api_key}&q=${'Eugene OR'}`
+            fetch(url)
+                .then(res => res.json())
+                .catch(e => {
+                    console.log("error",e)
+                    return []
+                })
+                .then(d => {
+                    app_launcher.launchByIdWithArgs(db,'PanelViewerApp',{
+                        title:'weather',
+                        panel_func: 'WeatherPanel',
+                        info:d,
+                    })
+                })
+
         }
     }
 }
@@ -229,7 +245,7 @@ const DICTIONARY_LOOKUP = {
             title:`lookup definition of ${args[1]}`,
             word: args[1],
             action:true,
-            service:'DICTONARY_LOOKUP',
+            service:'DICTIONARY_LOOKUP',
         }]
     }
 }
@@ -285,7 +301,9 @@ const WEATHER_FINDER = {
         return [
             {
                 text:'weather',
-                title:'get the weather'
+                title:'get the weather',
+                action:true,
+                service:'WEATHER_FINDER'
             }
         ]
     }
