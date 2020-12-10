@@ -1,14 +1,13 @@
 import React, {useContext} from 'react'
 import "./datatable.css"
-import {DBContext, hasProp, propAsBoolean, propAsString, useDBChanged} from '../db.js'
-import {ARRAY, BOOLEAN, CATEGORIES, ENUM, getEnumPropValues, INTEGER, STRING} from '../schema.js'
+import {DBContext, propAsBoolean, propAsString} from '../db.js'
+import {ARRAY, BOOLEAN, ENUM, getEnumPropValues, INTEGER, STRING} from '../schema.js'
 import "./StandardEditPanel.css"
-import Icon from '@material-ui/core/Icon'
 import {find_array_contents_schema, find_object_schema} from './StandardViewPanel.js'
-import {AddButton, CheckboxPropEditor, EnumPropEditor, HBox, RemoveButton, TextPropEditor, VBox} from './ui.js'
+import {flatten} from '../util.js'
 
 
-export function StandardEditPanel({object, hide=[], order=[], custom=[], customSchema}) {
+export function StandardEditPanel({object, hide=[], order=[], custom=[], customSchema, className}) {
     let schema = find_object_schema(object, customSchema)
     let props = new Set()
     Object.keys(schema.props).forEach(id => props.add(id))
@@ -24,9 +23,11 @@ export function StandardEditPanel({object, hide=[], order=[], custom=[], customS
     const dumpObject = () => {
         console.log("object is now",object)
     }
+    const cls = { 'standard-edit-panel':true, grow:true }
+    if(className) cls[className] = true
 
     // elems.push(<button onClick={dumpObject}>check</button>)
-    return <div className={'standard-edit-panel'}>{elems}</div>
+    return <div className={flatten(cls)}>{elems}</div>
 }
 
 function PropLabel({prop}) {
@@ -35,6 +36,10 @@ function PropLabel({prop}) {
 
 function PropEditor({object,prop, propSchema, objectSchema, customSchema}) {
     if(propSchema.type === STRING) {
+        console.log("using the prop schema",propSchema)
+        if(propSchema.hint && propSchema.hint.long) {
+            return <PropStringTextAreaEditor key={'editor_'+prop} prop={prop} object={object} propSchema={propSchema} objectSchema={objectSchema} />
+        }
         return <PropStringEditor key={'editor_'+prop} prop={prop} object={object} propSchema={propSchema} objectSchema={objectSchema}/>
     }
     if(propSchema.type === INTEGER) {
@@ -58,6 +63,13 @@ function PropEditor({object,prop, propSchema, objectSchema, customSchema}) {
 function PropStringEditor({object, prop}) {
     let db = useContext(DBContext)
     return <input type='text' value={propAsString(object,prop)} onChange={(ev)=>{
+        db.setProp(object,prop,ev.target.value)
+    }}/>
+}
+
+function PropStringTextAreaEditor({object, prop}) {
+    let db = useContext(DBContext)
+    return <textarea value={propAsString(object,prop)} onChange={(ev)=>{
         db.setProp(object,prop,ev.target.value)
     }}/>
 }

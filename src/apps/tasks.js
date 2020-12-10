@@ -1,22 +1,13 @@
 import React, {useContext, useState} from 'react'
 import {DBContext, hasProp, propAsBoolean, propAsString, setProp, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {
-    CheckboxPropEditor,
-    DataList,
-    HBox,
-    Panel, Spacer, StandardListItem,
-    TextareaPropEditor,
-    TextPropEditor,
-    Toolbar, TopToolbar,
-    VBox,
-    Window
-} from '../ui/ui.js'
+import {Panel, Spacer, TopToolbar} from '../ui/ui.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_SUBSTRING, IS_PROP_TRUE, IS_TYPE, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 import {TitleBar} from '../stories/email_example.js'
+import {StandardEditPanel} from '../ui/StandardEditPanel.js'
 
 const isProject = () => IS_TYPE(CATEGORIES.TASKS.TYPES.PROJECT)
 const isTask = () => IS_TYPE(CATEGORIES.TASKS.TYPES.TASK)
@@ -56,11 +47,7 @@ export function TaskLists({app}) {
 
     let panel = <Panel grow={true} className={"content-panel col3 row2"}>nothing selected</Panel>
     if (selectedTask) {
-        panel = <Panel grow={true} className={"content-panel col3 row2"}>
-            <TextPropEditor buffer={selectedTask} prop={'title'} db={db}/>
-            <CheckboxPropEditor buffer={selectedTask} prop={'completed'} db={db}/>
-            <TextareaPropEditor buffer={selectedTask} prop={'notes'} db={db}/>
-        </Panel>
+        panel = <StandardEditPanel className={'col3 row2'} object={selectedTask} hide={['project','archived','deleted']} />
     }
 
     const addNewTask = () => {

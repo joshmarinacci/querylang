@@ -3,7 +3,7 @@
 
 
 .standard-edit-panel {
-    width: 20em;
+    min-width: 20em;
 }
 html {
     font-size: 50pt;
