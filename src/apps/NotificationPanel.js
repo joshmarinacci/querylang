@@ -1,11 +1,11 @@
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
-import {Window} from '../ui/window.js'
 import React, {useContext} from 'react'
 import {DBContext, propAsString, useDBChanged} from '../db.js'
 
 import "../notifications.css"
-import {StandardListItem, VBox} from '../ui/ui.js'
+import {VBox} from '../ui/ui.js'
+import {StandardSourceItem} from '../ui/dataList.js'
 
 export function NotificationPanel({app}) {
     let db = useContext(DBContext)
@@ -22,7 +22,7 @@ export function NotificationPanel({app}) {
 function NotificationView({alert}) {
     let db = useContext(DBContext)
     const closeAlert = () => db.setProp(alert,'read',true)
-    return <StandardListItem
+    return <StandardSourceItem
         title={propAsString(alert,'title')}
         icon={propAsString(alert,'icon')}
         trailingIcon={"close"}

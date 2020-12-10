@@ -1,7 +1,6 @@
-import React, {useContext, useEffect, useRef, useState} from 'react'
+import React, {useContext} from 'react'
 import {DBContext, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {Window} from '../ui/window.js'
 import {MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import "./maps.css"
 

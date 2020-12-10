@@ -5,7 +5,7 @@ import {flatten} from '../util.js'
 import {Spacer, TopToolbar} from '../ui/ui.js'
 import Icon from '@material-ui/core/Icon'
 import {EmailFolder, EmailItem, gen_emails, gen_folders, TitleBar} from './email_example.js'
-import {SourceList} from '../ui/sourcelist.js'
+import {DataList} from '../ui/dataList.js'
 import "../ui/themetester.css"
 
 export default {
@@ -49,9 +49,9 @@ export const Grid3LayoutEmailExample = () => {
     let emails = gen_emails()
     return <Grid3Layout>
         <TitleBar title={'Cool App'}/>
-        <SourceList column={1} secondary data={folders}
-                    selected={folders[1]}
-                    renderItem={obj => <EmailFolder item={obj}/>}
+        <DataList column={1} secondary data={folders}
+                  selected={folders[1]}
+                  renderItem={obj => <EmailFolder item={obj}/>}
         />
 
         <TopToolbar column={2}>
@@ -59,8 +59,8 @@ export const Grid3LayoutEmailExample = () => {
             <Spacer/>
             <Icon>filter_list</Icon>
         </TopToolbar>
-        <SourceList column={2} data={emails} selected={emails[1]}
-                    renderItem={(obj)=> <EmailItem item={obj}/>}/>
+        <DataList column={2} data={emails} selected={emails[1]}
+                  renderItem={(obj)=> <EmailItem item={obj}/>}/>
 
         <TopToolbar column={3}>
             <Icon>email</Icon>

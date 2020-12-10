@@ -1,9 +1,7 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import {DBContext, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {Window} from '../ui/window.js'
 import {Toolbar, VBox} from '../ui/ui.js'
-import {colors} from '@material-ui/core'
 
 export function SettingsApp({app}) {
     let db = useContext(DBContext)

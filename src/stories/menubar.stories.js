@@ -1,7 +1,6 @@
 import React from 'react'
 import "../ui/themetester.css"
 import {MenuBar, MenuBarButton, MenuDivider, MenuItem, MenuItemTriggerSub} from '../ui/ui.js'
-import {PopupContainer, PopupManager, PopupManagerContext} from '../ui/PopupManager.js'
 
 export default {
     title: 'QueryOS/Controls',

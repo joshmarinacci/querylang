@@ -1,4 +1,3 @@
-import {Window} from '../ui/window.js'
 import React, {useContext, useState} from 'react'
 import {DBContext, setProp} from '../db.js'
 import {Spacer, VBox} from '../ui/ui.js'

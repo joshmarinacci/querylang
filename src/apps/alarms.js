@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {DataList, EnumPropEditor, HBox, Spacer, TextPropEditor, Toolbar, VBox, Window} from '../ui/ui.js'
+import {EnumPropEditor, HBox, Spacer, TextPropEditor, Toolbar, VBox} from '../ui/ui.js'
 import {DBContext, propAsBoolean, useDBChanged} from '../db.js'
 import {AND, IS_CATEGORY, IS_TYPE} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
@@ -7,6 +7,7 @@ import {Icon} from '@material-ui/core'
 
 import {format} from 'date-fns'
 import './alarms.css'
+import {DataList} from '../ui/dataList.js'
 
 export function Alarms({app}) {
     let db = useContext(DBContext)
@@ -19,7 +20,9 @@ export function Alarms({app}) {
             <button onClick={addAlarm}><Icon>alarm_add</Icon></button>
             <Spacer/>
         </Toolbar>
-        <DataList data={alarms} stringify={(o)=> <AlarmItem key={o.id} alarm={o} db={db}/>}/>
+        <DataList data={alarms} renderItem={({item,...rest})=>{
+            return <AlarmItem key={item.id} alarm={item} db={db} {...rest}/>
+        }}/>
     </VBox>
 }
 

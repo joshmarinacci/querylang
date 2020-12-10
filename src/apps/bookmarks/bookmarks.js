@@ -1,18 +1,15 @@
 import "./bookmarks.css"
 
-import React, {useContext, useRef, useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {
-    DataList,
     HBox,
     Panel, PopupTriggerButton,
-    Spacer, StandardListItem,
-    TagsetEditor, TextareaPropEditor,
+    Spacer, TagsetEditor, TextareaPropEditor,
     TextPropEditor,
     Toolbar, TopToolbar,
-    VBox,
-    Window
+    VBox
 } from '../../ui/ui.js'
-import {format, formatDistanceToNow} from "date-fns"
+import {formatDistanceToNow} from "date-fns"
 import {DBContext, filterPropArrayContains, hasProp, propAsBoolean, sort, useDBChanged} from '../../db.js'
 import {AND, IS_CATEGORY, IS_TYPE} from '../../query2.js'
 import {CATEGORIES, SORTS} from '../../schema.js'
@@ -22,7 +19,7 @@ import {propAsArray, propAsString} from '../../db.js'
 import {PopupManagerContext} from '../../ui/PopupManager.js'
 import {calculateFoldersFromTags} from '../../util.js'
 import {Grid3Layout} from '../../ui/grid3layout.js'
-import {SourceList, StandardSourceItem} from '../../ui/sourcelist.js'
+import {DataList, StandardSourceItem} from '../../ui/dataList.js'
 import {TitleBar} from '../../stories/email_example.js'
 import {StandardViewPanel} from '../../ui/StandardViewPanel.js'
 
@@ -116,8 +113,8 @@ export function BookmarksManager({app}) {
     return  <Grid3Layout>
         <TitleBar title={"Bookmarks"}/>
 
-        <SourceList column={1} row={2} data={queries} selected={selectedQuery} setSelected={setSelectedQuery}
-                    renderItem={({item,...args})=> <StandardSourceItem
+        <DataList column={1} row={2} data={queries} selected={selectedQuery} setSelected={setSelectedQuery}
+                  renderItem={({item,...args})=> <StandardSourceItem
                                                        icon={propAsString(item,'icon')}
                                                        title={propAsString(item,'title')}
                                                        {...args}
@@ -128,7 +125,7 @@ export function BookmarksManager({app}) {
             <PopupTriggerButton onClick={showSortPopup} makePopup={showSortPopup} title={"Sort"}/>
         </TopToolbar>
 
-        <SourceList column={2} row={2} data={bookmarks} selected={selected} setSelected={setSelected}
+        <DataList column={2} row={2} data={bookmarks} selected={selected} setSelected={setSelected}
                   renderItem={({item, ...args})=> {
                       let la = "never"
                       if(hasProp(item,'lastAccessed'))

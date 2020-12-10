@@ -1,6 +1,7 @@
 import {propAsString} from '../db.js'
 import React, {useEffect, useState} from 'react'
 import {CATEGORIES} from '../schema.js'
+import {PROXY_SERVER_URL} from '../globals.js'
 let MIMETYPE = CATEGORIES.FILES.SCHEMAS.FILE_INFO.props.mimetype.key
 
 let DATA_CACHE = {}
@@ -17,7 +18,7 @@ function generate_image_thumb(file, cb) {
     if(DATA_CACHE[file.props.url]) return cb(DATA_CACHE[file.props.url])
 
     console.log("loading image thumb",file.props.url)
-    fetch(`http://localhost:30011/proxy?url=${file.props.url}`,{
+    fetch(`${PROXY_SERVER_URL}?url=${file.props.url}`,{
         mode:'cors'
     }).then(r => r.blob())
         .then(blob => {
@@ -63,7 +64,7 @@ function TextPreview({file}) {
 function generate_text_thumb(file, cb) {
     if(DATA_CACHE[file.props.url]) return cb(DATA_CACHE[file.props.url])
     console.log("loading the text", file.props.url)
-    fetch(`http://localhost:30011/proxy?url=${file.props.url}`,{
+    fetch(`${PROXY_SERVER_URL}?url=${file.props.url}`,{
         mode:"cors"
     }).then(r => r.text()).then((r)=>{
         console.log("result",r)

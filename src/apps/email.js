@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {HBox, Panel, Spacer, Toolbar, TopToolbar, VBox} from '../ui/ui.js'
+import {HBox, Panel, Spacer, Toolbar, TopToolbar} from '../ui/ui.js'
 import {CATEGORIES, SORTS} from '../schema.js'
 import {DBContext, propAsBoolean, propAsString, sort, useDBChanged} from '../db.js'
 import {AND, IS_CATEGORY, IS_PROP_CONTAINS, IS_TYPE} from '../query2.js'
@@ -8,7 +8,7 @@ import {format, formatDistanceToNow} from "date-fns"
 import {calculateFoldersFromTags} from '../util.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {TitleBar} from '../stories/email_example.js'
-import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
+import {DataList, StandardSourceItem} from '../ui/dataList.js'
 import Icon from '@material-ui/core/Icon'
 
 export function Email({app }) {
@@ -53,7 +53,7 @@ export function Email({app }) {
 
     return <Grid3Layout>
         <TitleBar title={'Email'}/>
-        <SourceList
+        <DataList
             column={1} row={2}
             secondary
             data={folders}
@@ -72,10 +72,10 @@ export function Email({app }) {
             <Icon>archive</Icon>
         </Toolbar>
 
-        <SourceList column={2} row={2}
-                    data={folder_results}
-                    selected={selectedMessage} setSelected={setSelectedMessage}
-                    renderItem={({item,...rest}) => {
+        <DataList column={2} row={2}
+                  data={folder_results}
+                  selected={selectedMessage} setSelected={setSelectedMessage}
+                  renderItem={({item,...rest}) => {
                         return <StandardSourceItem {...rest}
                                                    title={propAsString(item,'sender')}
                                                    subtitle={propAsString(item,'subject')}
@@ -91,44 +91,3 @@ export function Email({app }) {
     </Grid3Layout>
 }
 
-function EmailFolder({item}){
-    if(propAsBoolean(item,'header')) {
-        return <HBox className="folder header">
-            {propAsString(item,'title')}
-        </HBox>
-    }
-
-    let badge = ""
-    if(item && item.props && item.props.count) {
-        badge = <span className={'badge'}>{item.props.count}</span>
-    }
-
-    let icon = 'folder'
-    if(propAsString(item,'title') === 'inbox') icon = 'inbox'
-    return <HBox className="folder" center>
-        <Icon className={'icon'}>{icon}</Icon>
-        <span className={'title'}>{propAsString(item,'title')}</span>
-        <Spacer/>
-        {badge}
-    </HBox>
-}
-
-function EmailMessage({message}) {
-    let item = message
-    return <VBox className={'email-item'}>
-        <HBox>
-            {/*<Icon className="small">{propAsBoolean(item,'read')?"brightness_1":""}</Icon>*/}
-            <b className={'from'}>{propAsString(item,'sender')}</b>
-            <Spacer/>
-            <label className={'time'}>{formatDistanceToNow(item.props.timestamp)}</label>
-        </HBox>
-        <HBox>
-            <i className={'subject'}>{propAsString(item,'subject')}</i>
-            <Spacer/>
-            {/*<Icon className="small">attachment</Icon>*/}
-        </HBox>
-        <HBox>
-            <p className={'excerpt'}>{propAsString(item,'excerpt')}</p>
-        </HBox>
-    </VBox>
-}

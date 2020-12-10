@@ -4,16 +4,16 @@ import {CATEGORIES} from '../schema.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
 import "./DataBrowser.css"
 import {Grid3Layout} from '../ui/grid3layout.js'
-import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
+import {DataList, StandardSourceItem} from '../ui/dataList.js'
 
 import {format} from "date-fns"
 import {Panel, Toolbar} from '../ui/ui.js'
 import {flatten} from '../util.js'
 import "./NewsReader.css"
 import {DialogManagerContext} from '../ui/DialogManager.js'
-import dompurify from 'dompurify';
+import {RSS_SERVER_URL} from '../globals.js'
 
-const RSS_SERVER_URL = "http://localhost:30011/rss"
+
 
 function refresh (db) {
     let subs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.RSS.ID), IS_TYPE(CATEGORIES.RSS.SCHEMAS.SUBSCRIPTION.TYPE)))
@@ -122,14 +122,14 @@ export function PodcastPlayer({}) {
             <button onClick={()=>refresh(db)}>refresh</button>
             <button onClick={()=>add_feed()}>add feed</button>
         </Toolbar>
-        <SourceList column={1} row={2} data={subs} selected={sub} setSelected={set_sub}
-                    renderItem={({item,...rest})=>{
+        <DataList column={1} row={2} data={subs} selected={sub} setSelected={set_sub}
+                  renderItem={({item,...rest})=>{
                         return <StandardSourceItem title={propAsString(item,'title')}
                                                    {...rest}
                         />
                     }}/>
-        <SourceList column={2} row={2} data={posts}  selected={post} setSelected={set_post}
-                    renderItem={({item,...rest})=>{
+        <DataList column={2} row={2} data={posts} selected={post} setSelected={set_post}
+                  renderItem={({item,...rest})=>{
                         return <StandardSourceItem className={(propAsBoolean(item,'read')?"read":"unread")} title={propAsString(item,'title')} {...rest}/>
                     }}/>
         <Toolbar>

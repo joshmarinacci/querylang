@@ -1,23 +1,14 @@
 import React, {useContext, useState} from 'react'
-import {DBContext, deepClone, propAsBoolean, propAsString, setProp, sort, useDBChanged} from '../db.js'
+import {DBContext, deepClone, propAsString, setProp, sort, useDBChanged} from '../db.js'
 import {CATEGORIES, SORTS} from '../schema.js'
-import {
-    AddButton,
-    DataList,
-    EnumPropEditor,
-    HBox,
-    Panel,
-    RemoveButton,
-    StandardListItem,
-    TextPropEditor,
-    Toolbar,
-    VBox
-} from '../ui/ui.js'
+import {Panel, Toolbar, VBox} from '../ui/ui.js'
 import "./contacts.css"
 import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {StandardViewPanel} from '../ui/StandardViewPanel.js'
 import {Grid2Layout} from '../ui/grid3layout.js'
+import {StandardEditPanel} from '../ui/StandardEditPanel.js'
+import {DataList, StandardSourceItem} from '../ui/dataList.js'
 
 let CONTACTS_VIEW_CUSTOMIZATIONS = {
     'favorite':'star',
@@ -65,72 +56,6 @@ let CONTACTS_VIEW_CUSTOMIZATIONS = {
     }
 }
 
-export function ContactViewPanel ({selected, onEdit}) {
-    let favorite = <Icon>star_outline</Icon>
-    if(propAsBoolean(selected,'favorite')) {
-        favorite = <Icon>star</Icon>
-    }
-    return <VBox grow>
-        <Toolbar>
-            <button
-                disabled={!selected}
-                onClick={onEdit}>edit
-            </button>
-            <button>more</button>
-        </Toolbar>
-        <Panel>
-        <img src={selected.props.icon}/>
-        <p>
-            {propAsString(selected, 'first')}
-            &nbsp;
-            {propAsString(selected, 'last')}
-        </p>
-        {favorite}
-        <ul className={'display-emails'}>
-            {
-                selected.props.emails.map((email,i)=>{
-                    return [<i key={'type'+i}>{propAsString(email,'type')}</i>,
-                        <b key={'value'+i}>
-                            <a href={`mailto:${propAsString(email,'value')}`}>
-                                {propAsString(email,'value')}
-                            </a></b>]
-                })
-            }
-        </ul>
-        <ul className={'display-phones'}>
-            {
-                selected.props.phones.map((phone,i)=>{
-                    return [<i key={'type'+i}>{propAsString(phone,'type')}</i>,
-                        <b key={'value'+i}><a href={`tel:${propAsString}`}>{propAsString(phone,'value')}</a></b>]
-                })
-            }
-        </ul>
-        <ul className={'display-addresses'}>
-            {
-                selected.props.addresses.map((addr,i)=>{
-                    let map = propAsString(addr,'street1')
-                        +", "+propAsString(addr,'city')
-                        +", "+propAsString(addr,'state')
-                        +", "+propAsString(addr,'zipcode')
-                    map = map.replaceAll(' ','+')
-                    return [
-                        <i key={'type'+i}>{propAsString(addr,'type')}</i>,
-                        <p key={'address'+i}>
-                            <a href={`http://maps.apple.com/?address=${map}`}>
-                                {propAsString(addr,'street1')}<br/>
-                                {propAsString(addr,'city')} &nbsp;
-                                {propAsString(addr,'state')}, &nbsp;
-                                {propAsString(addr,'zipcode')}
-                            </a>
-                        </p>,
-                    ]
-                })
-            }
-        </ul>
-        </Panel>
-    </VBox>
-}
-
 export function ContactEditPanel({db, onDone, selected}) {
     const [buffer, setBuffer] = useState(()=>{
         return deepClone(selected)
@@ -175,50 +100,7 @@ export function ContactEditPanel({db, onDone, selected}) {
             <button onClick={saveEditing}>save</button>
             <button onClick={cancelEditing}>cancel</button>
         </Toolbar>
-
-        <VBox className={'edit-emails'} scroll>
-            <h3>name</h3>
-            <TextPropEditor buffer={buffer} prop={'first'} db={db}/>
-            <TextPropEditor buffer={buffer} prop={'last'} db={db}/>
-            <h3>email</h3>
-            {buffer.props.emails.map((o,i) => {
-                return <HBox key={'email_'+i}>
-                    <RemoveButton onClick={()=>removeEmail(o)}/>
-                    <EnumPropEditor buffer={o} prop={'type'} db={db}/>
-                    <TextPropEditor buffer={o} prop={'value'} db={db}/>
-                </HBox>
-            })}
-            <AddButton onClick={addEmail}/>
-
-            <h3>phone</h3>
-            {buffer.props.phones.map((o,i) => {
-                return <HBox key={'phone_'+i}>
-                    <RemoveButton onClick={()=>removePhone(o)}/>
-                    <EnumPropEditor buffer={o} prop={'type'} db={db}/>
-                    <TextPropEditor buffer={o} prop={'value'} db={db}/>
-                </HBox>
-            })}
-            <AddButton onClick={addPhone}/>
-
-            <h3>address</h3>
-            {buffer.props.addresses.map((o,i) => {
-                return <HBox key={'address_'+i}>
-                    <RemoveButton onClick={()=>removeAddress(o)}/>
-                    <EnumPropEditor buffer={o} prop={'type'} db={db}/>
-                    <VBox>
-                        <TextPropEditor buffer={o} prop={'street1'} db={db}/>
-                        <TextPropEditor buffer={o} prop={'street2'} db={db}/>
-                        <HBox>
-                            <TextPropEditor buffer={o} prop={'city'} db={db}/>
-                            <TextPropEditor buffer={o} prop={'state'} db={db}/>
-                            <TextPropEditor buffer={o} prop={'zipcode'} db={db}/>
-                        </HBox>
-                    </VBox>
-                </HBox>
-            })}
-            <AddButton onClick={addAddress}/>
-        </VBox>
-
+        <StandardEditPanel object={buffer} className={'scroll'} hide={['timezone']} />
     </VBox>)
 }
 
@@ -247,31 +129,25 @@ export function ContactList({app}) {
         setEditing(true)
     }
 
-    let panel = <Panel grow>nothing selected</Panel>
-    if (selected) {
-        panel = <StandardViewPanel object={selected} custom={CONTACTS_VIEW_CUSTOMIZATIONS}
-                                   order={[
-                                       {group:true, names:['first','last']}
-                                   ]}
-        />
-        // panel = <ContactViewPanel selected={selected} onEdit={()=>setEditing(true)}/>
-    }
-    if(editing) {
-        panel = <ContactEditPanel selected={selected} onDone={()=>setEditing(false)} db={db}/>
-    }
-
+    const editSelectedContact = () => setEditing(true)
 
     return <Grid2Layout statusbar={false}>
             <Toolbar className={'col1 span3'}>
                 <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
                 <Icon onClick={addNewContact}>add_circle</Icon>
+                <button onClick={editSelectedContact}>edit</button>
             </Toolbar>
-            <DataList data={items} selected={selected} setSelected={setSelected}
-                      className={'col1 row2'}
-                      stringify={(o,i) => <StandardListItem icon={'person'} title={`${propAsString(o,'first')} ${propAsString(o,'last')}`}/>}/>
-              <Panel className={'col2 row2'}>
-                  {panel}
-              </Panel>
+            <DataList data={items} selected={selected} setSelected={setSelected} className={'col1 row2'}
+                      renderItem={({item,...rest})=> <StandardSourceItem
+                                title={`${propAsString(item,'first')} ${propAsString(item,'last')}`}
+                                icon={'person'} {...rest}/>
+                        }/>
+              <Panel className={'col2 row2 scroll'}>{editing?
+                  <ContactEditPanel selected={selected} onDone={()=>setEditing(false)} db={db}/>
+                  :<StandardViewPanel object={selected} custom={CONTACTS_VIEW_CUSTOMIZATIONS}
+                                       order={[ {group:true, names:['first','last']} ]}/>
+
+              }</Panel>
         </Grid2Layout>
 
 }

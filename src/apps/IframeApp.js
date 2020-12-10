@@ -1,6 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react'
-import {DBContext, useDBChanged} from '../db.js'
-import {CATEGORIES} from '../schema.js'
+import React from 'react'
 
 export function IFrameApp({app}) {
     let url ="https://vr.josh.earth/webxr-simgame/2dgame.html"

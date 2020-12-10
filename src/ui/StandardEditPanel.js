@@ -9,7 +9,7 @@ import {TagsetEditor} from './ui.js'
 
 
 export function StandardEditPanel({object, hide=[], order=[], custom=[], customSchema, className}) {
-    if(!object) return <div>nothing selected</div>
+    if(!object) return <div className={'standard-edit-panel panel grow'}></div>
     let schema = find_object_schema(object, customSchema)
     let props = new Set()
     Object.keys(schema.props).forEach(id => props.add(id))

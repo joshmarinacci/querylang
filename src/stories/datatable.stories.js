@@ -1,7 +1,5 @@
 import React, {useState} from 'react'
 
-import {Grid3Layout} from '../ui/grid3layout.js'
-import {SourceList} from '../ui/sourcelist.js'
 import {range} from '../util.js'
 import faker from 'faker'
 import {DataTable} from '../ui/datatable.js'

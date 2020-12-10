@@ -30,7 +30,7 @@
 .standard-edit-panel .array-editor {
     display: grid;
     grid-template-columns: [editor] 1fr [button] 0.3fr;
-    border: 1px solid green;
+    border: 0px solid green;
     list-style: none;
     margin:0;
     align-items: start;

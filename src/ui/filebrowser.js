@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {ActionButton, HBox, Panel, TagsetEditor, ToggleButton, ToggleGroup, Toolbar, VBox} from './ui.js'
+import React, {useContext, useState} from 'react'
+import {ActionButton, TagsetEditor, ToggleButton, ToggleGroup, Toolbar} from './ui.js'
 import {flatten} from '../util.js'
 
 import "./filebrowser.css"
@@ -10,10 +10,10 @@ import {format} from "date-fns"
 import {AND, IS_CATEGORY, IS_TYPE} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
 import {Grid2Layout} from './grid3layout.js'
-import {SourceList, StandardSourceItem} from './sourcelist.js'
+import {DataList, StandardSourceItem} from './dataList.js'
 import {FilePreview} from './filepreview.js'
-import {PopupManager, PopupManagerContext} from './PopupManager.js'
 import {DialogManagerContext} from './DialogManager.js'
+import {FILE_SERVER_URL} from '../globals.js'
 
 function Dialog({title,children,...rest}) {
     return <div className={'dialog'} {...rest}>
@@ -100,8 +100,8 @@ function calculateGridIcon(file) {
 }
 
 function FileList({files, selected, setSelected}){
-    return <SourceList data={files} column={1} row={2} selected={selected} setSelected={setSelected}
-                       renderItem={({item,...args})=>{
+    return <DataList data={files} column={1} row={2} selected={selected} setSelected={setSelected}
+                     renderItem={({item,...args})=>{
                            return <StandardSourceItem
                                icon={calculateIcon(item)}
                                title={propAsString(item,'filename')}
@@ -166,7 +166,6 @@ function ToggleBar({value, values, setValue}) {
 
 
 
-const FILE_SERVER_URL = "http://localhost:30011/files"
 let q = AND(IS_CATEGORY(CATEGORIES.FILES.ID),IS_TYPE(CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE))
 function list_remote_files(db) {
     return fetch(FILE_SERVER_URL).then(r => r.json()).then(real_files => {

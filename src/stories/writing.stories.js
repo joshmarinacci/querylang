@@ -2,23 +2,23 @@ import {DBContext, makeDB} from '../db.js'
 import {PopupContainer, PopupManager, PopupManagerContext} from '../ui/PopupManager.js'
 import React from 'react'
 import "../ui/themetester.css"
-import {PeopleBar} from '../apps/peoplebar.js'
-let db = makeDB()
-let pm = new PopupManager()
+import {WriterApp} from '../apps/writing.js'
+
 
 export default {
     title: 'QueryOS/Apps',
-    component: PeopleBar,
+    component: WriterApp,
     argTypes: {
     },
 };
 
+let db = makeDB()
+let pm = new PopupManager()
 
-
-export const PeopleBarSimple = () => {
+export const WriterAppSimple = () => {
     return <DBContext.Provider value={db}>
         <PopupManagerContext.Provider value={pm}>
-            <PeopleBar/>
+            <WriterApp/>
             <PopupContainer/>
         </PopupManagerContext.Provider>
     </DBContext.Provider>

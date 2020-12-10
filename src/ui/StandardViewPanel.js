@@ -26,6 +26,8 @@ export function find_array_contents_schema(object, name) {
 }
 
 export function StandardViewPanel({object, hide = [], order = [], custom = {}}) {
+    if(!object) return <div className={'standard-view-panel panel'}></div>
+
     let schema = find_object_schema(object)
     let elems = []
     let props = new Set()
@@ -46,7 +48,7 @@ export function StandardViewPanel({object, hide = [], order = [], custom = {}}) 
                 elems.push(<b>{str}</b>)
                 ord.names.forEach(name => props.delete(name))
             }
-            return
+
         }
     })
 

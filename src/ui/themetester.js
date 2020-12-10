@@ -1,5 +1,15 @@
 import React, {useContext, useState} from 'react'
-import {ActionButton, HBox, PopupTriggerButton, ToggleButton, ToggleGroup, Toolbar, VBox} from './ui.js'
+import {
+    ActionButton,
+    HBox,
+    MenuBar,
+    MenuBarButton, MenuDivider, MenuItem, MenuItemTriggerSub,
+    PopupTriggerButton,
+    ToggleButton,
+    ToggleGroup,
+    Toolbar,
+    VBox
+} from './ui.js'
 import {DBContext, encode_props_with_types, propAsString} from '../db.js'
 
 import "./themetester.css"
@@ -8,9 +18,8 @@ import {ENUM, INTEGER, STRING} from '../schema.js'
 import {HexColorPicker} from "react-colorful"
 import "react-colorful/dist/index.css"
 import {PopupManagerContext} from './PopupManager.js'
-import {SourceList, StandardSourceItem} from './sourcelist.js'
+import {DataList, StandardSourceItem} from './dataList.js'
 import {genid} from '../data.js'
-import Icon from '@material-ui/core/Icon'
 
 const COLOR = 'COLOR'
 const PADDING = 'PADDING'
@@ -350,8 +359,37 @@ export function ThemeTester({theme, setTheme, doLoad}) {
             <button onClick={doSave}>save</button>
         </VBox>
         <VBox style={style} className={'preview'} grow>
-
-            <div className="grid">
+            <MenuBar>
+                <MenuBarButton caption={'File'}>
+                    <MenuItem caption={'Before'}/>
+                    <MenuItemTriggerSub caption={'new'}>
+                        <MenuItem caption={'New File'}/>
+                        <MenuItem caption={'New Project'}/>
+                        <MenuItem caption={'New Directory'}/>
+                    </MenuItemTriggerSub>
+                    <MenuItem caption={'Open'}/>
+                    <MenuItem caption={'Close'}/>
+                    <MenuDivider/>
+                    <MenuItemTriggerSub caption={'import'}>
+                        <MenuItem caption={'... from File'}/>
+                        <MenuItemTriggerSub caption={'new'}>
+                            <MenuItem caption={'New File'}/>
+                            <MenuItem caption={'New Project'}/>
+                            <MenuItem caption={'New Directory'}/>
+                        </MenuItemTriggerSub>
+                        <MenuItem caption={'... from Github'}/>
+                        <MenuItem caption={'... from External'}/>
+                    </MenuItemTriggerSub>
+                </MenuBarButton>
+                <MenuBarButton caption={'Edit'}>
+                    <MenuItem caption={'Cut'}/>
+                    <MenuItem caption={'Copy'}/>
+                    <MenuItem caption={'Paste'}/>
+                </MenuBarButton>
+                <MenuBarButton caption={'View'}></MenuBarButton>
+                <MenuBarButton caption={'Help'}></MenuBarButton>
+            </MenuBar>
+                <div className="grid">
                 <div className="info">
                     Controls Demo
                 </div>
@@ -372,7 +410,7 @@ export function ThemeTester({theme, setTheme, doLoad}) {
                     </ToggleGroup>
                 </Toolbar>
 
-                <SourceList
+                <DataList
                     column={1}
                     row={2}
                     selected={selectedSource}
@@ -390,7 +428,7 @@ export function ThemeTester({theme, setTheme, doLoad}) {
                 />
 
 
-                <SourceList
+                <DataList
                     column={2}
                     row={2}
                     data={content_data}

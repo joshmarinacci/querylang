@@ -1,5 +1,4 @@
-import {CATEGORIES} from '../schema.js'
-import {HBox, VBox, Window} from '../ui/ui.js'
+import {HBox, VBox} from '../ui/ui.js'
 import React, {useContext, useState} from 'react'
 import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, isAfter,
     subDays, addDays,
@@ -7,7 +6,6 @@ import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, is
     startOfWeek, endOfWeek,
     getDay,
 } from 'date-fns'
-import {AND, IS_CATEGORY, IS_TYPE} from '../query2.js'
 
 import "./calendar.css"
 import {DBContext} from '../db.js'
@@ -73,7 +71,7 @@ export function Calendar({app}) {
     if(view === 'day') panel = <DayView events={events}/>
     if(view === 'week') panel = <WeekView events={events}/>
 
-    return <VBox grow>
+    return <VBox grow style={{backgroundColor:'var(--std-bg-color)'}}>
         <h1>{format(today,'E MMM d')}</h1>
         <HBox>
             <Icon onClick={nav_prev_day}>arrow_left</Icon>

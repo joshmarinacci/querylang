@@ -52,9 +52,9 @@ export function Notes({app}) {
 
     return <Grid3Layout>
         <TitleBar title={'notes'}/>
-        <SourceList data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
-                    column={1} row={2} secondary
-                    renderItem={({item, ...args})=> <StandardSourceItem
+        <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
+                  column={1} row={2} secondary
+                  renderItem={({item, ...args})=> <StandardSourceItem
                         icon={propAsString(item,'icon')}
                         title={propAsString(item,'title')}
                         {...args} />}/>
@@ -64,9 +64,9 @@ export function Notes({app}) {
             <Icon onClick={addNewNote}>add_circle</Icon>
         </TopToolbar>
 
-        <SourceList column={2} row={2} data={notes}
-                    selected={selectedNote} setSelected={setSelectedNote}
-                    renderItem={({item, ...args})=> <StandardSourceItem
+        <DataList column={2} row={2} data={notes}
+                  selected={selectedNote} setSelected={setSelectedNote}
+                  renderItem={({item, ...args})=> <StandardSourceItem
                         icon={'note'}
                         title={propAsString(item,'title')}
                         subtitle={formatDistanceToNow(item.props.lastedited)}
