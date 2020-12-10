@@ -10,6 +10,7 @@ import {format, isWithinInterval, setHours, getHours, setMinutes, getMinutes, is
 
 import "./chat.css"
 import {Grid2Layout} from '../ui/grid3layout.js'
+import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 
 export function Chat({app}) {
     const [selected, setSelected] = useState(null)
@@ -47,26 +48,23 @@ export function Chat({app}) {
     }
 
     return <Grid2Layout toolbar={false} statusbar={false}>
-            <DataList
-                className={'col1 row1'}
-                data={conversations}
-                selected={selected}
-                setSelected={setSelected}
-                stringify={(o) => <StandardListItem title={propAsString(o, 'title')} icon={'chat'}/>}
+            <SourceList data={conversations} selected={selected} setSelected={setSelected} row={1} column={1}
+                        renderItem={({item,...rest})=>{
+                            return <StandardSourceItem title={propAsString(item,'title')} icon={'chat'} {...rest}/>
+                        }}
             />
             <VBox grow className={'panel col2 row1'}>
                 <VBox grow scroll>
-                <DataList style={{flex:1}} data={messages} className={'thread'} stringify={(o) => {
-                    return <VBox className={(o.props.sender.id===1?"self":"")}>
-                        <HBox>
-                            <img src={propAsString(o.props.sender,'icon')} alt={'user-icon'}/>
-                            <i>{propAsString(o.props.sender, 'first')}</i>
-                            <b>{format(o.props.timestamp,'hh:mm:ss')}</b>
-                        </HBox>
-                        <em>{propAsString(o, 'contents')}</em>
-                    </VBox>
-                }}/>
-
+                    <SourceList data={messages} renderItem={({item,...rest})=>{
+                        return <VBox className={(item.props.sender.id===1?"self":"")} {...rest}>
+                            <HBox>
+                                <img src={propAsString(item.props.sender,'icon')} alt={'user-icon'}/>
+                                <i>{propAsString(item.props.sender, 'first')}</i>
+                                <b>{format(item.props.timestamp,'hh:mm:ss')}</b>
+                            </HBox>
+                            <em>{propAsString(item, 'contents')}</em>
+                        </VBox>
+                    }}/>
                 </VBox>
                 <Toolbar className={'bottom'}>
                     <input style={{
