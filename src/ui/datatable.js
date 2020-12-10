@@ -33,7 +33,19 @@ export function DataTable({data, selected, setSelected, className, style, string
         <thead>
         <tr>{ headers.map(h => <DataTableHeader key={h} onSortChange={onSortChange} prop={h} sortField={sortField} sortDirection={sortDirection}/>) }</tr>
         </thead>
-        <tbody>
+        <tbody
+            onKeyDown={e=>{
+                let i = data.findIndex(d => d.id === selected.id)
+                if(e.key === 'ArrowDown' && i < data.length-1) {
+                    setSelected(data[i+1])
+                    e.preventDefault()
+                }
+                if(e.key === 'ArrowUp' && i > 0) {
+                    setSelected(data[i-1])
+                    e.preventDefault()
+                }
+            }}
+        >
         {data.map(o=> {
             cls.selected = selected&&o&&(selected.id===o.id)
             let values = []
@@ -42,12 +54,13 @@ export function DataTable({data, selected, setSelected, className, style, string
             cols = cols.concat(append)
             cols.forEach(k => {
                 let val = stringifyDataColumn(o,k)
-                if(val) values.push(<td key={k}>{val}</td>)
+                if(val) values.push(<td key={k} >{val}</td>)
             })
             return <tr
                 key={o.id}
                 onClick={()=>setSelected(o)}
                 onDoubleClick={()=>onDoubleClick?onDoubleClick(o):""}
+                tabIndex={0}
                 className={flatten(cls)}>
                 {values}
             </tr>
