@@ -3,7 +3,7 @@
 
 
 .standard-edit-panel {
-    width: 20em;
+    min-width: 20em;
 }
 html {
     font-size: 50pt;
@@ -81,7 +81,7 @@ button {
 
 .grid {
     display: grid;
-    grid-template-columns: 1fr 2.0fr 3fr;
+    grid-template-columns: 15em 2.0fr 3fr;
     grid-template-rows: 3em 1fr 2em;
     grid-gap: 1px;
     overflow: hidden;
@@ -115,7 +115,7 @@ button {
     flex-direction: row;
     grid-row: 1;
     align-items: center;
-    overflow: auto;
+    overflow: hidden;
 }
 ul {
     overflow: auto;

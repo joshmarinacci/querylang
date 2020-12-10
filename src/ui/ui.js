@@ -1,14 +1,16 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import {DBContext, propAsArray, propAsBoolean, propAsString, setProp} from '../db.js'
 import {getEnumPropValues} from '../schema.js'
 import {HiMinusCircle, HiPlusCircle} from 'react-icons/hi'
 
 // import "./window.css"
 import "./ui.css"
+import "../menus.css"
 import Icon from '@material-ui/core/Icon'
 import {flatten} from '../util.js'
 
 import {Window} from "./window.js"
+import {PopupManagerContext} from './PopupManager.js'
 
 export {Window}
 
@@ -208,4 +210,57 @@ export function ToggleButton({caption, selected, icon, ...rest}) {
 }
 export function ToggleGroup({children}) {
     return <div className={'toggle-group'}>{children}</div>
+}
+
+export function PopupTriggerButton({makePopup, title}) {
+    const popupButton = useRef()
+    let pm = useContext(PopupManagerContext)
+
+    const showSortPopup = () => {
+        if(makePopup) return pm.show(makePopup(), popupButton.current)
+        console.warn("makePopup is null in PopupTriggerButton")
+    }
+    return <button onClick={showSortPopup} ref={popupButton}
+                   className={'popup-trigger-button'}
+    >
+        {title}
+        <Icon>arrow_drop_down</Icon>
+    </button>
+}
+
+
+export function MenuBar({children}) {
+    return <ul className={'menu-bar'}>{children}</ul>
+}
+export function MenuBarButton({caption,children}) {
+    return <li>
+        <div className={'item'}>
+            <button className={'menu-button'}>{caption}</button>
+        </div>
+        <ul>{children}</ul>
+    </li>
+}
+// export function MenuList({children}) {
+//     return <ul className={'menu-list'}>{children}</ul>
+// }
+export function MenuItem({caption}) {
+    return <li><div className={'item'}>
+        <button>{caption}</button>
+    </div>
+    </li>
+}
+export function MenuDivider({}) {
+    return <li className={'divider'}/>
+}
+export function MenuItemTriggerSub({caption, children}) {
+    return <li>
+        <div className={'item'}>
+            <button className={'menu-button'}>{caption}</button>
+            <Spacer/>
+            <span>&gt;</span>
+        </div>
+
+
+        <ul>{children}</ul>
+    </li>
 }

@@ -12,7 +12,7 @@ import "./DataList.stories.css"
 import {EmailFolder, EmailItem, gen_emails, gen_folders} from './email_example.js'
 
 export default {
-    title: 'QueryOS/SourceList',
+    title: 'QueryOS/Controls',
     component: SourceList,
     argTypes: {
     },

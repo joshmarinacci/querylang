@@ -12,7 +12,7 @@ import {SORTS} from '../schema.js'
 import "../ui/datatable.css"
 
 export default {
-    title: 'QueryOS/DataTable',
+    title: 'QueryOS/Controls',
     component: DataTable,
     argTypes: {
     },
@@ -34,18 +34,18 @@ const gen_data =() => {
     return data
 }
 
-export const PlainTable = () => {
+export const PlainDataTable = () => {
     let [data] = useState(() => gen_data())
     return <DataTable data={data}/>
 }
 
-export const SelectionTable = () => {
+export const DataTableWithSelection = () => {
     const [s, ss] = useState(null)
     let [data] = useState(() => gen_data())
     return <DataTable data={data} selected={s} setSelected={ss}/>
 }
 
-export const SortableTable = () => {
+export const SortableDataTable = () => {
     const [s, ss] = useState(null)
     let [data, setData] = useState(() => gen_data())
     let [sortField, setSortField] = useState(null)

@@ -6,7 +6,7 @@ import {makeDB, setProp} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 
 export default {
-    title: 'QueryOS/StandardViewPanel',
+    title: 'QueryOS/SchemaPanels',
     component: StandardViewPanel,
     argTypes: {
     },

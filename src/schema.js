@@ -195,6 +195,9 @@ export const CATEGORIES = {
                         key:'notes',
                         type:STRING,
                         default:'',
+                        hint:{
+                            long:true,
+                        }
                     },
                     archived:{
                         key:'archived',

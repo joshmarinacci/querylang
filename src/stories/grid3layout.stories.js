@@ -9,7 +9,7 @@ import {SourceList} from '../ui/sourcelist.js'
 import "../ui/themetester.css"
 
 export default {
-    title: 'QueryOS/Grid3Layout',
+    title: 'QueryOS/Controls',
     component: Grid3Layout,
     argTypes: {
     },
@@ -30,7 +30,7 @@ function Panel({column=1, row=1, caption='caption'}) {
     </div>
 }
 
-export const Basic = () => {
+export const BasicGrid3Layout = () => {
     return <Grid3Layout>
         <Panel column={1} row={1} caption={'title'}/>
         <Panel column={1} row={2} caption={'source 1'}/>
@@ -44,7 +44,7 @@ export const Basic = () => {
 }
 
 
-export const EmailExample = () => {
+export const Grid3LayoutEmailExample = () => {
     let folders = gen_folders()
     let emails = gen_emails()
     return <Grid3Layout>

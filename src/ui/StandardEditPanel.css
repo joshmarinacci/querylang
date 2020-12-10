@@ -5,6 +5,8 @@
     padding: 1.0rem;
     align-items: start;
     justify-items: start;
+    align-self: start;
+    background-color: var(--std-bg-color);
 }
 .standard-edit-panel > * {
     margin: 0.25rem;
@@ -17,6 +19,10 @@
     text-transform: capitalize;
     font-weight: lighter;
     font-size: 80%;
+}
+
+.standard-edit-panel textarea {
+    justify-self: stretch;
 }
 
 

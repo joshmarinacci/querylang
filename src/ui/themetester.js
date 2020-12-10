@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {ActionButton, HBox, ToggleButton, ToggleGroup, Toolbar, VBox} from './ui.js'
+import {ActionButton, HBox, PopupTriggerButton, ToggleButton, ToggleGroup, Toolbar, VBox} from './ui.js'
 import {DBContext, encode_props_with_types, propAsString} from '../db.js'
 
 import "./themetester.css"
@@ -356,7 +356,8 @@ export function ThemeTester({theme, setTheme, doLoad}) {
                     Controls Demo
                 </div>
                 <div className="toolbar">
-                    <Icon>filter_list</Icon>
+                    {/*<Icon>filter_list</Icon>*/}
+                    <PopupTriggerButton title={'filter'} />
                     <input type="search" placeholder="search here" className={'grow'}/>
                 </div>
 
