@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {DictionaryPanel} from './DictionaryPanel'
+import {DictionaryPanel} from './DictionaryPanel.js'
 import {ViewImagePanel} from './ViewImagePanel.js'
 import {WebpageScanResultsPanel} from "./WebpageScanResultsPanel.js"
 import {AppLauncherContext} from '../services/AppLauncherService.js'

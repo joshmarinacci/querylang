@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import "./menus.css"
-import {MenuContainer, MenuDivider, MenuHeader, MenuItem} from './ui/ui.js'
+import "../../ui/menus.css"
+import {MenuContainer, MenuDivider, MenuHeader, MenuItem} from '../../ui/ui.js'
 
 let FAKE_AUDIO_OUTPUTS = [
     {

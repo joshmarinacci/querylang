@@ -8,8 +8,8 @@ import {CATEGORIES} from '../../schema.js'
 
 import {format} from 'date-fns'
 import {AppLauncherContext} from '../../services/AppLauncherService.js'
-import {NetworkMenu} from '../../NetworkMenu.js'
-import {SoundMenu} from '../../SoundMenu.js'
+import {NetworkMenu} from './NetworkMenu.js'
+import {SoundMenu} from './SoundMenu.js'
 
 
 export function SystemBar({app}) {

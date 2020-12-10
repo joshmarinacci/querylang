@@ -4,7 +4,7 @@ import {getEnumPropValues} from '../schema.js'
 
 // import "./window.css"
 import "./ui.css"
-import "../menus.css"
+import "./menus.css"
 import Icon from '@material-ui/core/Icon'
 import {flatten} from '../util.js'
 

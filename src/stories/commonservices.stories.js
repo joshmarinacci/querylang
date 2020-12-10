@@ -1,7 +1,7 @@
 import React from 'react';
 import "../ui/themetester.css"
-import {NetworkMenu} from '../NetworkMenu.js'
-import {SoundMenu} from '../SoundMenu.js'
+import {NetworkMenu} from '../apps/systembar/NetworkMenu.js'
+import {SoundMenu} from '../apps/systembar/SoundMenu.js'
 
 export default {
     title: 'QueryOS/Services',

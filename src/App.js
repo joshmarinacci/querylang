@@ -1,6 +1,4 @@
 import React, {useContext, useEffect, useState} from 'react'
-import './App.css'
-import "./ui/themetester.css"
 import {ContactList} from './apps/contacts.js'
 import {PeopleBar} from './apps/peoplebar.js'
 import {TaskLists} from './apps/tasks.js'
@@ -14,7 +12,7 @@ import {Email} from './apps/email.js'
 import {Music} from './apps/music.js'
 import {CATEGORIES} from './schema.js'
 import {AppLauncherService, AppLauncherContext} from './services/AppLauncherService.js'
-import {NotificationPanel} from './apps/NotificationPanel.js'
+import {NotificationPanel} from './minis/NotificationPanel.js'
 import {AND} from './query2.js'
 import {AlarmContext, AlarmService} from './services/AlarmService.js'
 import {DebugPanel} from './apps/debug.js'
@@ -23,7 +21,7 @@ import {MapViewer} from './apps/maps.js'
 import {SettingsApp} from './apps/settings.js'
 import {WriterApp} from './apps/writing.js'
 
-// import "./theme.css"
+
 import {DataBrowser} from './apps/DataBrowser.js'
 import {BookmarksManager} from './apps/bookmarks/bookmarks.js'
 import {SystemBar} from './apps/systembar/systembar.js'
@@ -35,7 +33,7 @@ import {DialogContainer, DialogManager, DialogManagerContext} from './ui/DialogM
 import {PodcastPlayer} from './apps/PodcastPlayer.js'
 import {CommandBar3} from './apps/CommandBar3.js'
 import {ActionManager, ActionManagerContext, load_commandbar_plugins} from './services/ActionManager.js'
-import {PanelViewerApp} from './apps/PanelViewerApp.js'
+import {PanelViewerApp} from './minis/PanelViewerApp.js'
 import {check_services, get_json_with_auth} from './util.js'
 import {PERSIST_SERVER_URL} from './globals.js'
 

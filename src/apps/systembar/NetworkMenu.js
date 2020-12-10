@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import "./menus.css"
-import {MenuContainer, MenuDivider, MenuHeader, MenuItem, Spacer} from './ui/ui.js'
+import "../../ui/menus.css"
+import {MenuContainer, MenuDivider, MenuHeader, MenuItem, Spacer} from '../../ui/ui.js'
 
 let FAKE_WIRELESS_NETWORKS = [
     {
