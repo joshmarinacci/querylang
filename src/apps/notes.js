@@ -7,9 +7,9 @@ import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from 
 import Icon from '@material-ui/core/Icon'
 import {calculateFoldersFromTags} from '../util.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
-import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 import {TitleBar} from '../stories/email_example.js'
 import {StandardEditPanel} from '../ui/StandardEditPanel.js'
+import {DataList, StandardSourceItem} from '../ui/dataList.js'
 
 
 const isNotesCategory = () => IS_CATEGORY(CATEGORIES.NOTES.ID)
