@@ -1,21 +1,7 @@
 import React, {useContext, useState} from 'react'
-import {
-    DBContext,
-    filterPropArrayContains, hasProp,
-    propAsBoolean,
-    propAsString, useDBChanged
-} from '../db.js'
+import {DBContext, filterPropArrayContains, hasProp, propAsBoolean, propAsString, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {
-    DataList,
-    HBox, StandardListItem,
-    TagsetEditor,
-    TextareaPropEditor,
-    TextPropEditor,
-    Toolbar, TopToolbar,
-    VBox,
-    Window
-} from '../ui/ui.js'
+import {TopToolbar} from '../ui/ui.js'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
@@ -23,6 +9,7 @@ import {calculateFoldersFromTags} from '../util.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {SourceList, StandardSourceItem} from '../ui/sourcelist.js'
 import {TitleBar} from '../stories/email_example.js'
+import {StandardEditPanel} from '../ui/StandardEditPanel.js'
 
 
 const isNotesCategory = () => IS_CATEGORY(CATEGORIES.NOTES.ID)
@@ -87,24 +74,6 @@ export function Notes({app}) {
 
         <TopToolbar column={3}>
         </TopToolbar>
-        <VBox grow className={'panel col3 row2'}>
-            <TextPropEditor buffer={selectedNote} prop={'title'} db={db}/>
-            <TagsetEditor buffer={selectedNote} prop={'tags'} db={db}/>
-            <TextareaPropEditor buffer={selectedNote} prop={'contents'} db={db} grow/>
-        </VBox>
+        <StandardEditPanel object={selectedNote} className={'col3 row2'} hide={['archived','deleted','lastedited']}/>
     </Grid3Layout>
-}
-
-
-const renderProject = (o) => {
-    return <StandardSourceItem
-        title={propAsString(o,'title')}
-        icon={propAsString(o,'icon')}/>
-}
-
-const renderNoteSummary = (o) => {
-    return <StandardSourceItem
-        icon={'note'}
-        title={propAsString(o,'title')}
-        subtitle={formatDistanceToNow(o.props.lastedited)}/>
 }

@@ -17,7 +17,9 @@ export function find_array_contents_schema(object, name) {
     let sch = cat.SCHEMAS[object.type]
     let prop = sch.props[name]
     let content = prop.content
+    if(content.type === 'STRING') return content.type
     let subsc = cat.SCHEMAS[content.type]
+    if(!subsc) throw new Error("missing schema component")
     subsc.category = object.category
     subsc.type = content.type
     return subsc

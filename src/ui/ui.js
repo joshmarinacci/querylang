@@ -175,7 +175,7 @@ export function TagsetEditor({buffer, prop, onChange}) {
 
     let [partial, setPartial] = useState("")
     return <div className={'tagset-editor'}>
-        <label>{prop}</label>
+        {/*<label>{prop}</label>*/}
         {tags.map((t)=><TagView key={t} tag={t} deleteTag={removeTag}/>)}
         <input type="text"
                value={partial}

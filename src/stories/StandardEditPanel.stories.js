@@ -19,6 +19,11 @@ const make_task =() => {
     setProp(task,'notes',"this is some very long notes to read. Like super duper long. So you're goint o have to spend some time reading this.")
     return task
 }
+const make_note = () => {
+    let note = db.make(CATEGORIES.NOTES.ID, CATEGORIES.NOTES.TYPES.NOTE)
+    setProp(note,'title','rad note')
+    return note
+}
 
 function make_contact() {
     let person = db.make(CATEGORIES.CONTACT.ID, CATEGORIES.CONTACT.TYPES.PERSON)
@@ -89,5 +94,13 @@ export const Contact = () => {
     useDBChanged(db,obj.category)
     return <DBContext.Provider value={db}>
         <StandardEditPanel object={obj}/>
+    </DBContext.Provider>
+}
+
+export const NoteWithTags = () => {
+    let [obj] = useState(() => make_note())
+    useDBChanged(db,obj.category)
+    return <DBContext.Provider value={db}>
+        <StandardEditPanel object={obj} hide={['project']}/>
     </DBContext.Provider>
 }

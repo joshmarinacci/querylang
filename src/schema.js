@@ -351,6 +351,9 @@ export const CATEGORIES = {
                         key:'contents',
                         type:STRING,
                         default:'',
+                        hint:{
+                            long:true,
+                        }
                     },
                     lastedited:{
                         key:'lastedited',

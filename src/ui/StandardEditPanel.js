@@ -5,9 +5,11 @@ import {ARRAY, BOOLEAN, ENUM, getEnumPropValues, INTEGER, STRING} from '../schem
 import "./StandardEditPanel.css"
 import {find_array_contents_schema, find_object_schema} from './StandardViewPanel.js'
 import {flatten} from '../util.js'
+import {TagsetEditor} from './ui.js'
 
 
 export function StandardEditPanel({object, hide=[], order=[], custom=[], customSchema, className}) {
+    if(!object) return <div>nothing selected</div>
     let schema = find_object_schema(object, customSchema)
     let props = new Set()
     Object.keys(schema.props).forEach(id => props.add(id))
@@ -109,6 +111,7 @@ function PropArrayEditor({prop, object}) {
 
     let values = object.props[prop]
     let sc = find_array_contents_schema(object,prop)
+    if(sc === STRING) return <TagsetEditor buffer={object} prop={prop}/>
     const addObject = () => {
         let obj = db.make(sc.category, sc.type)
         object.props[prop].push(obj)
