@@ -834,7 +834,7 @@ loadApp({ title:'Peoplebar', appid:'PeopleBar', launchbar:false, preload:true, l
 loadApp({ title: 'Notifications', appid: 'NotificationPanel', preload: true, launchbar: false, layer:LAYERS.SYSTEM, single_instance:true,
     window: { default_width: 200, default_height: 326, anchor: 'bottom-right', hide_titlebar: true, resize:false }})
 loadApp( {title:"SystemBar", appid:'SystemBar',preload:true,launchbar:false, layer:LAYERS.SYSTEM, single_instance:true,
-    window:{ default_width:500,  default_height:'auto',  anchor:'top', hide_titlebar:true, resize:false }})
+    window:{ default_width:500,  default_height:'auto',  anchor:'top', hide_titlebar:true, resize:false, overflow:'visible' }})
 
 
 loadApp({title:'Bookmarks', appid:"BookmarksManager",icon:'bookmarks'})

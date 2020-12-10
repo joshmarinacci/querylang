@@ -23,6 +23,7 @@ export function Window({children, resize=true, hide_titlebar=false, instance, an
     hide_titlebar = get_val(instance,'hide_titlebar',false)
     resize = get_val(instance,'resize',true)
     let back_draggable = get_val(instance,'back_draggable',false)
+    let overflow = get_val(instance, 'overflow','auto')
     let className = ""
     if(instance.app) className = propAsString(instance.app,'appid')
 
@@ -57,6 +58,7 @@ export function Window({children, resize=true, hide_titlebar=false, instance, an
         left:`${left-offx}px`,
         top:(top-offy)+'px',
         zIndex: z,
+        overflow: overflow,
     }
     if(anchor === "top-left"){
         style.left = '0px'
@@ -95,6 +97,7 @@ export function Window({children, resize=true, hide_titlebar=false, instance, an
         style.top = null
     }
     if(!className) className = ""
+
 
     const mouseMove = (e) => {
         setLeft(e.screenX)
