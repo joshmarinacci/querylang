@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import "./menus.css"
+import {MenuContainer, MenuDivider, MenuHeader, MenuItem} from './ui/ui.js'
 
 let FAKE_AUDIO_OUTPUTS = [
     {
@@ -25,7 +26,7 @@ let FAKE_AUDIO_INPUTS = [
     }
 ]
 
-export function SoundMenu() {
+export function SoundMenu({style={}}) {
     const [vol,set_vol] = useState(50)
     const [audio_inputs] = useState(()=>{
         return FAKE_AUDIO_INPUTS
@@ -34,21 +35,21 @@ export function SoundMenu() {
         return FAKE_AUDIO_OUTPUTS
     })
 
-    return <ul className={'menu'}>
-        <li className={'header'}>Sound</li>
+    return <MenuContainer style={style}>
+        <MenuHeader caption={'Sound'}/>
         <li>
             <input type="range"
                    min={0}
                    max={100}
                    value={vol} onChange={e => set_vol(e.target.value)}/>
         </li>
-        <li className={'divider'}></li>
-        <li className={'header'}>Output</li>
-        {audio_outputs.map((o,i) => <li key={i} className={'action'}>{o.title}</li>)}
-        <li className={'divider'}></li>
-        <li className={'header'}>Input</li>
-        {audio_inputs.map((o,i) => <li key={i} className={'action'}>{o.title}</li>)}
-        <li className={'divider'}></li>
-        <li className={'action'}>Sound Settings</li>
-    </ul>
+        <MenuDivider/>
+        <MenuHeader caption={'Output'}/>
+        {audio_outputs.map((o,i) => <MenuItem key={i} className={'action'} caption={o.title}/>)}
+        <MenuDivider/>
+        <MenuHeader caption={'Input'}/>
+        {audio_inputs.map((o,i) => <MenuItem key={i} className={'action'} caption={o.title}/>)}
+        <MenuDivider/>
+        <MenuItem key={'sound_settings'} caption={'Sound Settings'}/>
+    </MenuContainer>
 }

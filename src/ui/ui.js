@@ -189,6 +189,10 @@ export function MenuBarButton({caption,children}) {
     </li>
 }
 
+export function MenuContainer({children, style={}}) {
+    return <ul className={'menu-container'} style={style}>{children}</ul>
+}
+
 export function MenuItem({caption}) {
     return <li>
         <div className={'item'}>
@@ -198,6 +202,9 @@ export function MenuItem({caption}) {
 }
 export function MenuDivider({}) {
     return <li className={'divider'}/>
+}
+export function MenuHeader({caption}) {
+    return <li className={'header'}>{caption}</li>
 }
 export function MenuItemTriggerSub({caption, children}) {
     return <li>

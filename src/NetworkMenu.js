@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import "./menus.css"
-import {Spacer} from './ui/ui.js'
+import {MenuContainer, MenuDivider, MenuHeader, MenuItem, Spacer} from './ui/ui.js'
 
 let FAKE_WIRELESS_NETWORKS = [
     {
@@ -20,7 +20,7 @@ let FAKE_OTHER_NETWORKS = [
     },
 ]
 
-export function NetworkMenu() {
+export function NetworkMenu({style={}}) {
     const [wireless] = useState(()=>{
         return FAKE_WIRELESS_NETWORKS
     })
@@ -31,21 +31,23 @@ export function NetworkMenu() {
     const [selected_wifi, set_selected_wifi] = useState(FAKE_WIRELESS_NETWORKS[0])
 
     let items = []
-    items.push(<li className={'header'}>Network</li>)
+    items.push(<MenuHeader caption={'Network'}/>)
     items.push(<li className={'header'}>
         <label>Wireless</label>
         <Spacer/>
         <button>Disable</button></li>)
     wireless.map((o,i) => {
-        items.push(<li key={i} className={"action "+ ((selected_wifi.title===o.title)?"selected":"")}>{o.title}</li>)
+        let sel = ((selected_wifi.title===o.title)?"selected":"")
+        items.push(<MenuItem key={i} className={"action "+sel } caption={o.title}/>)
     })
 
 
-    return <ul className={'menu'}>{items}
-        <li className={'divider'}></li>
-        <li className={'header'}>Wired</li>
-        {wired.map((o,i) => <li key={i} className={'action'}>{o.title}</li>)}
-        <li className={'divider'}></li>
-        <li className={'action'}>Network Settings</li>
-    </ul>
+    return <MenuContainer style={style}>
+        {items}
+        <MenuDivider/>
+        <MenuHeader caption={'Wired'}/>
+        {wired.map((o,i) => <MenuItem key={i} className={'action'} caption={o.title}/>)}
+        <MenuDivider/>
+        <MenuItem key={'network_settings'} caption={'Network Settings'}/>
+    </MenuContainer>
 }

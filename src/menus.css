@@ -32,23 +32,38 @@ ul.menu-bar ul li:hover > ul {
     left: 100%;
 }
 
+/* popdown menu containers */
+ul.menu-container {
+    /*border: 5px solid red;*/
+}
+ul.menu-container li.divider {
+    background-color: var(--std-border-color);
+    border-width: 0;
+    padding:0;
+    height: 1px;
+}
+ul.menu-container li.header {
+    color: hsl(0,0%,50%);
+}
+
+
 /* actual items */
-ul.menu-bar div.item {
+ul.menu-bar div.item, ul.menu-container div.item {
     display: flex;
     flex-direction: row;
     width: 100%;
     padding: 0.5em 1.0em;
 }
-ul.menu-bar button {
+ul.menu-bar button, ul.menu-container button {
     border-width: 0;
     white-space: nowrap;
     background-color: transparent;
 }
-ul.menu-bar button:hover {
+ul.menu-bar button:hover, ul.menu-container button:hover {
     color: inherit;
     background-color: transparent;
 }
-ul.menu-bar .item:hover {
+ul.menu-bar .item:hover, ul.menu-container .item:hover {
     background-color: var(--accent-background-color);
 }
 

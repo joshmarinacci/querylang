@@ -12,9 +12,9 @@ export default {
 
 
 export const NetworkMenuSimple = () => {
-    return <NetworkMenu/>
+    return <NetworkMenu style={{maxWidth:'15em'}}/>
 }
 export const SoundMenuSimple = () => {
-    return <SoundMenu/>
+    return <SoundMenu style={{maxWidth:'15em'}}/>
 }
 
