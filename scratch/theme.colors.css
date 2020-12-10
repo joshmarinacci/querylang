@@ -1,0 +1,109 @@
+/* ========= colors ========== */
+
+.window {
+    color: var(--bg-9);
+    background-color: var(--bg-2);
+    border: 1px solid var(--std-border);
+    border-radius: var(--window-radius);
+    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.5);
+}
+.titlebar {
+    /*color: var(--bg-9);*/
+    background-color: var(--bg-3);
+    border-color: var(--std-border);
+}
+ul {
+    border-color: var(--std-border);
+}
+li {
+    /*color: var(--bg-9);*/
+}
+label {
+    /*color: var(--bg-9);*/
+}
+li.selected {
+    background-color: var(--std-ac-bg);
+}
+button, input, select {
+    /*color: var(--bg-9);*/
+    color: inherit;
+    background-color: var(--bg-1);
+    border-color: var(--std-border);
+}
+button.primary {
+    color: var(--bg-9);
+    background-color: var(--std-ac-bg);
+}
+button.selected {
+    background-color: var(--bg-3);
+}
+input[type=checkbox]:checked, input[type=radio]:checked {
+    color: var(--bg-1);
+    background-color: var(--ac-5);
+    border-color: var(--ac-9);
+}
+.menu-bar {
+    border: 1px solid var(--std-border);
+    border-width: 0 0 1px 0;
+    background-color: var(--bg-3);
+}
+.menu-container {
+    border: 1px solid var(--std-border);
+    background-color: var(--bg-3);
+}
+li.divider {
+    background-color: var(--std-border);
+    border-width: 0;
+}
+.menu-bar button, .menu-container button {
+    border-width: 0;
+    white-space: nowrap;
+    background-color: transparent;
+}
+.menu-bar button:hover, .menu-container button:hover {
+    color: inherit;
+    background-color: transparent;
+}
+.menu-bar .item:hover, .menu-container .item:hover {
+    background-color: var(--bg-2);
+}
+ul.menu-bar > li {
+    background-color: var(--std-bg-color);
+}
+
+
+/* =========== disabled  ========= */
+button:disabled {
+    background-color: var(--bg-3);
+    color: var(--bg-5);
+}
+input:disabled {
+    background-color: var(--bg-4);
+    color: var(--bg-5);
+}
+input:disabled+label {
+    color: var(--bg-5);
+}
+
+
+/* ========== hovers ========= */
+button:hover {
+    background-color: var(--bg-2);
+}
+button.selected:hover {
+    background-color: var(--bg-2);
+}
+button.primary:hover {
+    background-color: var(--ac-4);
+}
+
+
+/* ======== animations ======= */
+button {
+    transition: background-color var(--transition-speed);
+    /*text-shadow: 0 -1px 0 #000;*/
+}
+input {
+    transition: background-color var(--transition-speed);
+    transition: color var(--transition-speed);
+}

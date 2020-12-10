@@ -1,0 +1,107 @@
+/* ======== grid ============= */
+.form-grid {
+    display: grid;
+    grid-template-columns: [labels] 1fr [inputs] 3fr;
+    border-radius: var(--window-radius);
+}
+.form-grid > * {
+    justify-self: start;
+}
+.form-grid > label {
+    text-align: right;
+    align-self: center;
+    justify-self: end;
+}
+.form-grid .c2 {
+    grid-column: inputs;
+    justify-self: start;
+}
+.form-grid label {
+    grid-column: labels;
+}
+.form-grid label.c2 {
+    text-align: left;
+}
+
+
+/* =========== groups ========== */
+.toggle-group, .group {
+    border-width: 0;
+    display: flex;
+    flex-direction: row;
+    padding:0;
+    margin: 0.5em 0em;
+    align-items: center;
+}
+.toggle-group {
+    border-radius: var(--button-radius);
+    box-shadow: 0px 1px 5px rgba(0,0,0,0.2);
+}
+.toggle-group button {
+    border-style: solid;
+    border-width: 1px 1px 1px 0;
+    border-radius: 0;
+    margin:0;
+    min-width: 8em;
+    flex-grow: 1.0;
+}
+.toggle-group button:first-child {
+    border-left-width: 1px;
+    border-top-left-radius: var(--button-radius);
+    border-bottom-left-radius: var(--button-radius);
+}
+.toggle-group button:last-child {
+    border-top-right-radius: var(--button-radius);
+    border-bottom-right-radius: var(--button-radius);
+}
+
+
+/* ============ menus =========== */
+.menu-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: visible;
+}
+.menu-bar li {
+    position: relative;
+    z-index: 1;
+    overflow: visible;
+    padding: 0;
+}
+/* down menu */
+.menu-bar ul {
+    z-index: 1;
+    left: -99999em;
+    top: 100%;
+    position: absolute;
+    overflow: visible;
+}
+.menu-bar li:hover > ul {
+    left: 0;
+}
+/* left menu */
+.menu-bar ul ul {
+    top: 0%;
+    left: -99999em;
+}
+.menu-bar ul li:hover > ul {
+    left: 100%;
+}
+/* popdown menu containers */
+.menu-container li.divider {
+    padding:0;
+    height: 1px;
+}
+
+/* actual items */
+.menu-bar .item, .menu-container .item {
+    display: flex;
+    flex-direction: row;
+    padding:0;
+    margin:0;
+}
+.menu-bar .menu-button {
+    padding: var(--std-inline-padding);
+    margin:0;
+}
