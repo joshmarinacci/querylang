@@ -10,12 +10,11 @@ import {
     IS_PROP_SUBSTRING,
     IS_TYPE
 } from '../query2.js'
-import {HBox, Panel, ToggleButton, ToggleGroup, Toolbar, VBox} from '../ui/ui.js'
+import {HBox, InfoBar, Panel, ToggleButton, ToggleGroup, Toolbar, VBox} from '../ui/ui.js'
 import "./DataBrowser.css"
 import Icon from '@material-ui/core/Icon'
 import {format, parseISO} from 'date-fns'
 import {Grid3Layout} from '../ui/grid3layout.js'
-import {TitleBar} from '../stories/email_example.js'
 import {DataList, StandardSourceItem} from '../ui/dataList.js'
 import {DialogManagerContext} from '../ui/DialogManager.js'
 import {DataTable} from '../ui/datatable.js'
@@ -46,7 +45,7 @@ export function DataBrowser({app}) {
     const [mode, set_mode] = useState('raw')
 
     return <Grid3Layout statusbar={false}>
-        <TitleBar title={'Data Browser'}/>
+        <InfoBar title={'Data Browser'}/>
         <Toolbar className={'col2 span3'}>
             <button onClick={makeQuery}>make query</button>
             <input type={'search'}/>

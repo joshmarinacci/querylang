@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
-import {HBox, Panel, Spacer, TopToolbar, VBox} from '../ui/ui.js'
+import {HBox, InfoBar, Panel, Spacer, TopToolbar, VBox} from '../ui/ui.js'
 import {DBContext, project, propAsString, sort, useDBChanged} from '../db.js'
 import {CATEGORIES, SORTS} from '../schema.js'
 import {
@@ -16,7 +16,6 @@ import Icon from '@material-ui/core/Icon'
 import {DataTable} from '../ui/datatable.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {DataList, StandardSourceItem} from '../ui/dataList.js'
-import {TitleBar} from '../stories/email_example.js'
 
 const uniqueBy = (list,propname) => {
     let map = new Map()
@@ -223,7 +222,7 @@ export function Music({app}) {
     }
 
     return <Grid3Layout statusbar={false}>
-        <TitleBar title={'music'}/>
+        <InfoBar title={'music'}/>
         <TopToolbar column={2} span={3}>
             <PlayPanel selectedSong={selectedSong}/>
             <Spacer/>

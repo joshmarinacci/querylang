@@ -2,9 +2,9 @@ import React from 'react';
 
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {flatten} from '../util.js'
-import {Spacer, TopToolbar} from '../ui/ui.js'
+import {InfoBar, Spacer, TopToolbar} from '../ui/ui.js'
 import Icon from '@material-ui/core/Icon'
-import {EmailFolder, EmailItem, gen_emails, gen_folders, TitleBar} from './email_example.js'
+import {EmailFolder, EmailItem, gen_emails, gen_folders} from './email_example.js'
 import {DataList} from '../ui/dataList.js'
 import "../ui/themetester.css"
 
@@ -48,7 +48,7 @@ export const Grid3LayoutEmailExample = () => {
     let folders = gen_folders()
     let emails = gen_emails()
     return <Grid3Layout>
-        <TitleBar title={'Cool App'}/>
+        <InfoBar title={'Cool App'}/>
         <DataList column={1} secondary data={folders}
                   selected={folders[1]}
                   renderItem={obj => <EmailFolder item={obj}/>}

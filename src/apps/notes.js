@@ -1,13 +1,12 @@
 import React, {useContext, useState} from 'react'
 import {DBContext, filterPropArrayContains, hasProp, propAsBoolean, propAsString, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {TopToolbar} from '../ui/ui.js'
+import {InfoBar, TopToolbar} from '../ui/ui.js'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {calculateFoldersFromTags} from '../util.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
-import {TitleBar} from '../stories/email_example.js'
 import {StandardEditPanel} from '../ui/StandardEditPanel.js'
 import {DataList, StandardSourceItem} from '../ui/dataList.js'
 
@@ -51,7 +50,7 @@ export function Notes({app}) {
     notes = calcFilter()
 
     return <Grid3Layout statusbar={false}>
-        <TitleBar title={'notes'}/>
+        <InfoBar title={'notes'}/>
         <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
                   column={1} row={2} secondary
                   renderItem={({item, ...args})=> <StandardSourceItem

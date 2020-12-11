@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {HBox, Panel, Spacer, Toolbar, TopToolbar} from '../ui/ui.js'
+import {HBox, InfoBar, Panel, Spacer, Toolbar, TopToolbar} from '../ui/ui.js'
 import {CATEGORIES, SORTS} from '../schema.js'
 import {DBContext, propAsBoolean, propAsString, sort, useDBChanged} from '../db.js'
 import {AND, IS_CATEGORY, IS_PROP_CONTAINS, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
@@ -7,7 +7,6 @@ import {format, formatDistanceToNow} from "date-fns"
 
 import {calculateFoldersFromTags} from '../util.js'
 import {Grid3Layout} from '../ui/grid3layout.js'
-import {TitleBar} from '../stories/email_example.js'
 import {DataList, StandardSourceItem} from '../ui/dataList.js'
 import Icon from '@material-ui/core/Icon'
 
@@ -59,7 +58,7 @@ export function Email({app }) {
     folder_results = sort(folder_results,["timestamp"], SORTS.DESCENDING)
 
     return <Grid3Layout statusbar={false}>
-        <TitleBar title={'Email'}/>
+        <InfoBar title={'Email'}/>
         <DataList
             column={1} row={2}
             secondary

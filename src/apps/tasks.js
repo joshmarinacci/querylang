@@ -6,7 +6,6 @@ import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_SUBSTRING, IS_PROP_TRUE, IS_TYP
 import Icon from '@material-ui/core/Icon'
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {DataList, StandardSourceItem} from '../ui/dataList.js'
-import {TitleBar} from '../stories/email_example.js'
 import {StandardEditPanel} from '../ui/StandardEditPanel.js'
 
 const isProject = () => IS_TYPE(CATEGORIES.TASKS.TYPES.PROJECT)
