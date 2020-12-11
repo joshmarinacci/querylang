@@ -70,7 +70,7 @@ export function Window({children, resize=true, hide_titlebar=false, instance, an
         style.left = "0px"
         style.right = '0px'
         style.bottom = null
-        style.top = '1px'
+        style.top = '0px'
     }
     if(anchor === 'center') {
         style.left = '20vw';

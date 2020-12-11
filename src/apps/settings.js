@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import {DBContext, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {Toolbar, VBox} from '../ui/ui.js'
+import {ToggleButton, ToggleGroup, Toolbar, VBox} from '../ui/ui.js'
 import {ThemeExamplePanel} from './ThemeExamplePanel.js'
 
 export function SettingsApp({app}) {
@@ -9,11 +9,12 @@ export function SettingsApp({app}) {
     useDBChanged(db, CATEGORIES.TASKS.ID)
     let [panel,setPanel] = useState("background")
 
-
     return <VBox scroll grow>
         <Toolbar>
-            <button onClick={()=>setPanel("background")}>background</button>
-            <button onClick={()=>setPanel("theme")}>theme</button>
+            <ToggleGroup>
+                <ToggleButton caption={'Backgrounds'} selected={panel==='background'} onClick={()=>setPanel("background")}/>
+                <ToggleButton caption={'Theme'} selected={panel==='theme'} onClick={()=>setPanel("theme")}/>
+            </ToggleGroup>
         </Toolbar>
         {renderPanel(panel)}
     </VBox>
