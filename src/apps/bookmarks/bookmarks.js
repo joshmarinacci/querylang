@@ -6,8 +6,7 @@ import {
     Panel, PopupTriggerButton,
     Spacer, TagsetEditor, TextareaPropEditor,
     TextPropEditor,
-    Toolbar, TopToolbar,
-    VBox
+    Toolbar, VBox
 } from '../../ui/ui.js'
 import {formatDistanceToNow} from "date-fns"
 import {DBContext, filterPropArrayContains, hasProp, propAsBoolean, sort, useDBChanged} from '../../db.js'
@@ -121,11 +120,11 @@ export function BookmarksManager({app}) {
                                                        title={propAsString(item,'title')}
                                                        {...args}
                     />}/>
-        <TopToolbar column={2}>
+        <Toolbar>
             <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
             <Spacer/>
             <PopupTriggerButton onClick={showSortPopup} makePopup={showSortPopup} title={"Sort"}/>
-        </TopToolbar>
+        </Toolbar>
 
         <DataList column={2} row={2} data={bookmarks} selected={selected} setSelected={setSelected}
                   renderItem={({item, ...args})=> {
@@ -141,12 +140,12 @@ export function BookmarksManager({app}) {
                   }}/>
 
 
-        <TopToolbar column={3}>
+        <Toolbar>
             <Icon onClick={show_add_dialog}>add</Icon>
             <Icon>edit</Icon>
             <Spacer/>
             <Icon>delete</Icon>
-        </TopToolbar>
+        </Toolbar>
 
         <BookmarkDetailsView bookmark={selected} onOpen={open_tab} className={"col3 row2"}/>
 

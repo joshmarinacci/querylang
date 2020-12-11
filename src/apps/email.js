@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {HBox, InfoBar, Panel, Spacer, Toolbar, TopToolbar} from '../ui/ui.js'
+import {HBox, InfoBar, Panel, Spacer, Toolbar} from '../ui/ui.js'
 import {CATEGORIES, SORTS} from '../schema.js'
 import {DBContext, propAsBoolean, propAsString, sort, useDBChanged} from '../db.js'
 import {AND, IS_CATEGORY, IS_PROP_CONTAINS, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
@@ -72,11 +72,11 @@ export function Email({app }) {
             }}
         />
 
-        <TopToolbar column={3}>
+        <Toolbar>
             <Icon>create</Icon>
             <Icon>delete</Icon>
             <Icon>archive</Icon>
-        </TopToolbar>
+        </Toolbar>
 
         <DataList column={2} row={2}
                   data={folder_results}
@@ -90,9 +90,9 @@ export function Email({app }) {
                     }}
         />
 
-        <TopToolbar column={3}>
+        <Toolbar>
             <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
-        </TopToolbar>
+        </Toolbar>
         {panel}
     </Grid3Layout>
 }

@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import {DBContext, filterPropArrayContains, hasProp, propAsBoolean, propAsString, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {InfoBar, TopToolbar} from '../ui/ui.js'
+import {InfoBar, Toolbar} from '../ui/ui.js'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
@@ -58,10 +58,10 @@ export function Notes({app}) {
                         title={propAsString(item,'title')}
                         {...args} />}/>
 
-        <TopToolbar column={2}>
+        <Toolbar column={2}>
             <input type={'search'} value={searchTerms} onChange={e=>setSearchTerms(e.target.value)}/>
             <Icon onClick={addNewNote}>add_circle</Icon>
-        </TopToolbar>
+        </Toolbar>
 
         <DataList column={2} row={2} data={notes}
                   selected={selectedNote} setSelected={setSelectedNote}
@@ -71,8 +71,8 @@ export function Notes({app}) {
                         subtitle={formatDistanceToNow(item.props.lastedited)}
                         {...args} />}/>
 
-        <TopToolbar column={3}>
-        </TopToolbar>
+        <Toolbar column={3}>
+        </Toolbar>
         <StandardEditPanel object={selectedNote} className={'col3 row2'} hide={['archived','deleted','lastedited']}/>
     </Grid3Layout>
 }

@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import {DBContext, hasProp, propAsBoolean, propAsString, setProp, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {InfoBar, Panel, Spacer, TopToolbar} from '../ui/ui.js'
+import {InfoBar, Panel, Spacer, Toolbar} from '../ui/ui.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_SUBSTRING, IS_PROP_TRUE, IS_TYPE, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {Grid3Layout} from '../ui/grid3layout.js'
@@ -68,15 +68,15 @@ export function TaskLists({app}) {
                             title={propAsString(item,'title')}
                             {...args}/>}/>
 
-        <TopToolbar column={2}>
+        <Toolbar column={2}>
             <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
             <Icon disabled={selectedProject===null} onClick={addNewTask} className={'no-border'}>add_circle</Icon>
-        </TopToolbar>
-        <TopToolbar column={3}>
+        </Toolbar>
+        <Toolbar column={3}>
             <Spacer/>
             <Icon onClick={archiveTask}>archive</Icon>
             <Icon onClick={trashTask}>delete</Icon>
-        </TopToolbar>
+        </Toolbar>
 
         <DataList column={2} row={2} data={tasks}
                   selected={selectedTask} setSelected={setSelectedTask}

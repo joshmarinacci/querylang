@@ -1,23 +1,23 @@
 import React from 'react';
-import {Spacer, TopToolbar} from '../ui/ui.js'
+import {Spacer, Toolbar} from '../ui/ui.js'
 import Icon from '@material-ui/core/Icon'
 
 export default {
     title: 'QueryOS/Controls',
-    component: TopToolbar,
+    component: Toolbar,
     argTypes: {
     },
 };
 
-export const TopToolbarBasic = () => {
-    return <TopToolbar column={2}>
+export const ToolbarBasic = () => {
+    return <Toolbar>
             <label>Inbox</label>
             <Spacer/>
             <Icon>filter_list</Icon>
-        </TopToolbar>
+        </Toolbar>
 }
-export const TopToolbarWithButtons = () => {
-    return <TopToolbar column={3}>
+export const ToolbarWithButtons = () => {
+    return <Toolbar column={3}>
         <Icon>email</Icon>
         <Icon>create</Icon>
         <Spacer/>
@@ -25,5 +25,5 @@ export const TopToolbarWithButtons = () => {
         <Icon>delete</Icon>
         <Spacer/>
         <Icon>search</Icon>
-    </TopToolbar>
+    </Toolbar>
 }

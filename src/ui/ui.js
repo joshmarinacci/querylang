@@ -45,10 +45,6 @@ export function Toolbar ({children, grow, className, style}) {
     style = style || {}
     return <div style={style} className={flatten(cls)}>{children}</div>
 }
-export function TopToolbar({column=1, children, span=1, ...rest}) {
-    let cls = `toolbar col${column} span${span}`
-    return <div className={cls} {...rest}>{children}</div>
-}
 
 export function Panel({children, grow, className, style}) {
     const cls = { panel:true, grow }

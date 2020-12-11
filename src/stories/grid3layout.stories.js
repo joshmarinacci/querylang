@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {flatten} from '../util.js'
-import {InfoBar, Spacer, TopToolbar} from '../ui/ui.js'
+import {InfoBar, Spacer, Toolbar} from '../ui/ui.js'
 import Icon from '@material-ui/core/Icon'
 import {EmailFolder, EmailItem, gen_emails, gen_folders} from './email_example.js'
 import {DataList} from '../ui/dataList.js'
@@ -54,15 +54,15 @@ export const Grid3LayoutEmailExample = () => {
                   renderItem={obj => <EmailFolder item={obj}/>}
         />
 
-        <TopToolbar column={2}>
+        <Toolbar>
             <label>Inbox</label>
             <Spacer/>
             <Icon>filter_list</Icon>
-        </TopToolbar>
+        </Toolbar>
         <DataList column={2} data={emails} selected={emails[1]}
                   renderItem={(obj)=> <EmailItem item={obj}/>}/>
 
-        <TopToolbar column={3}>
+        <Toolbar>
             <Icon>email</Icon>
             <Icon>create</Icon>
             <Spacer/>
@@ -70,7 +70,7 @@ export const Grid3LayoutEmailExample = () => {
             <Icon>delete</Icon>
             <Spacer/>
             <Icon>search</Icon>
-        </TopToolbar>
+        </Toolbar>
 
         <Panel column={3} row={2} caption={'content area'}/>
 

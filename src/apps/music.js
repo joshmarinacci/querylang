@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
-import {HBox, InfoBar, Panel, Spacer, TopToolbar, VBox} from '../ui/ui.js'
+import {HBox, InfoBar, Panel, Spacer, Toolbar, VBox} from '../ui/ui.js'
 import {DBContext, project, propAsString, sort, useDBChanged} from '../db.js'
 import {CATEGORIES, SORTS} from '../schema.js'
 import {
@@ -223,11 +223,11 @@ export function Music({app}) {
 
     return <Grid3Layout statusbar={false}>
         <InfoBar title={'music'}/>
-        <TopToolbar column={2} span={3}>
+        <Toolbar className={'col2 span3'}>
             <PlayPanel selectedSong={selectedSong}/>
             <Spacer/>
             <input type={'search'} value={searchTerms} onChange={e => setSearchTerms(e.target.value)}/>
-        </TopToolbar>
+        </Toolbar>
         <DataList column={1} row={2} data={groups}
                   selected={selectedGroup} setSelected={setSelectedGroup}
                   secondary
