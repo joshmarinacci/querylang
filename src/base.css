@@ -278,7 +278,7 @@ table td {
     padding:0;
     margin:0;
 }
-.menu-bar .menu-button {
+.menu-bar .menu-button, .menu-bar .menu-icon {
     padding: var(--std-inline-padding);
     margin:0;
 }

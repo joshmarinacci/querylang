@@ -161,7 +161,7 @@ export function MenuBarButton({caption,children, icon, ...rest}) {
     return <li>
         <div className={'item'} {...rest}>
             {caption?<button className={'menu-button'}>{caption}</button>:""}
-            {icon?<Icon>{icon}</Icon>:""}
+            {icon?<Icon className={'menu-icon'}>{icon}</Icon>:""}
         </div>
         {children}
     </li>
