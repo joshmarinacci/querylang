@@ -417,7 +417,7 @@ li.header {
 .menu-container li.divider {
     background-color: var(--std-border);
 }
-.toolbar, .infobar {
+.toolbar, .infobar, .statusbar {
     background-color: var(--bg-3);
 }
 

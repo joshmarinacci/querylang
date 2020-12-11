@@ -7,7 +7,7 @@ import {Grid3Layout} from '../ui/grid3layout.js'
 import {DataList, StandardSourceItem} from '../ui/dataList.js'
 
 import {format} from "date-fns"
-import {InfoBar, Panel, Spacer, Toolbar} from '../ui/ui.js'
+import {InfoBar, Panel, Spacer, StatusBar, Toolbar} from '../ui/ui.js'
 import {get_json_with_auth, flatten} from '../util.js'
 import "./NewsReader.css"
 import {DialogManagerContext} from '../ui/DialogManager.js'
@@ -187,16 +187,16 @@ export function NewsReader({}) {
         if(n>=0) set_post(posts[n])
     }
 
-    return <Grid3Layout statusbar={false}>
+    return <Grid3Layout statusbar={true}>
         <InfoBar title={'News'}/>
         <Toolbar>
             <button onClick={()=>refresh(db)}>refresh</button>
             <button onClick={()=>add_feed()}>add feed</button>
         </Toolbar>
-        <DataList column={1} row={2} data={subs} selected={sub} setSelected={set_sub}
+        <DataList column={1} row={2} data={subs} selected={sub} setSelected={set_sub} className={'scroll'}
                   renderItem={({item,...rest})=> <StandardSourceItem
                         title={propAsString(item,'title')} {...rest}/>}/>
-        <DataList column={2} row={2} data={posts} selected={post} setSelected={set_post}
+        <DataList column={2} row={2} data={posts} selected={post} setSelected={set_post} className={'scroll'}
                   renderItem={({item,...rest})=> <StandardSourceItem
                         className={(propAsBoolean(item,'read')?"read":"unread")}
                         title={propAsString(item,'title')} {...rest}/>}/>
@@ -206,6 +206,7 @@ export function NewsReader({}) {
             <button onClick={()=>add_to_movies(post,db)}>add to movies list</button>
         </Toolbar>
         <PostPanel className={'col3 row2'} post={post} navNext={navNext} navPrev={navPrev} markRead={mark_as_read} />
+        <StatusBar className={"col1 row3 span3"}>cool status here</StatusBar>
     </Grid3Layout>
 }
 

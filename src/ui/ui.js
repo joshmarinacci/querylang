@@ -19,6 +19,9 @@ export function HBox ({children, grow, className, style, scroll, center, ...rest
     style = style || {}
     return <div style={style} className={flatten(cls)} {...rest}>{children}</div>
 }
+export function StatusBar({className,...rest}) {
+    return <div className={"statusbar " + className} {...rest}/>
+}
 export function Group({className, ...rest}) {
     return <HBox className={'group ' + className} {...rest}/>
 }
