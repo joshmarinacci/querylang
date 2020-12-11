@@ -12,15 +12,10 @@ ul.menu-bar li {
 /* down menu */
 ul.menu-bar ul {
     z-index: 1;
-    /*white-space: nowrap;*/
     left: -99999em;
     top: 100%;
     position: absolute;
     overflow: visible;
-    border: 1px solid black;
-}
-ul.menu-bar li:hover > ul {
-    left: 0;
 }
 
 /* left menu */
@@ -31,46 +26,13 @@ ul.menu-bar ul ul {
 ul.menu-bar ul li:hover > ul {
     left: 100%;
 }
-
-/* popdown menu containers */
-ul.menu-container {
-    /*border: 5px solid red;*/
-}
-ul.menu-container li.divider {
-    background-color: var(--std-border-color);
-    border-width: 0;
-    padding:0;
-    height: 1px;
-}
+/*ul.menu-container li.divider {*/
+/*    background-color: var(--std-border-color);*/
+/*    !*border-width: 0;*!*/
+/*    !*padding:0;*!*/
+/*    !*height: 1px;*!*/
+/*}*/
 ul.menu-container li.header {
-    color: hsl(0,0%,50%);
+    /*color: hsl(0,0%,50%);*/
 }
 
-
-/* actual items */
-ul.menu-bar div.item, ul.menu-container div.item {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    padding: 0.5em 1.0em;
-}
-ul.menu-bar button, ul.menu-container button {
-    border-width: 0;
-    white-space: nowrap;
-    background-color: transparent;
-}
-ul.menu-bar button:hover, ul.menu-container button:hover {
-    color: inherit;
-    background-color: transparent;
-}
-ul.menu-bar .item:hover, ul.menu-container .item:hover {
-    background-color: var(--accent-background-color);
-}
-
-
-ul.menu-bar > li {
-    border: 0px solid green;
-    padding:0;
-    margin:0;
-    background-color: transparent;
-}

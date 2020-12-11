@@ -1,4 +1,6 @@
 import React from 'react'
+import {HBox, MenuBar, MenuBarButton, MenuContainer, MenuDivider, MenuItem} from '../ui/ui.js'
+import {Menu} from '@material-ui/core'
 
 export function ThemeExamplePanel() {
     function rescale_lit(start, end, min, max) {
@@ -35,51 +37,29 @@ export function ThemeExamplePanel() {
 
 
     return <div>
-        <div className="hbox">
-            <button id="set-light-theme" onClick={set_light_theme}>light</button>
-            <button id="set-dark-theme" onClick={set_dark_theme}>dark</button>
+        <HBox>
+            <button onClick={set_light_theme}>light</button>
+            <button onClick={set_dark_theme}>dark</button>
 
             <button id="without-tint">no tint</button>
             <button id="with-tint">tint</button>
             <button id="with-heavy-tint">heavy tint</button>
-        </div>
+        </HBox>
 
-        <div className="hbox" id="hues">{hues}</div>
+        <HBox>{hues}</HBox>
 
 
-        <ul className="menu-bar">
-            <li>
-                <div className="item">
-                    <button className="menu-button">File</button>
-                </div>
-                <ul className="menu-container">
-                    <li>
-                        <div className="item">
-                            <button className="menu-button">New</button>
-                        </div>
-                    </li>
-                    <li>
-                        <div className="item">
-                            <button className="menu-button">Open</button>
-                        </div>
-                    </li>
-                    <li className="divider"></li>
-                    <li>
-                        <div className="item">
-                            <button className="menu-button">Close</button>
-                        </div>
-                    </li>
-                    <li>
-                        <div className="item">
-                            <button className="menu-button">Quit</button>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <div className="item">
-                    <button className="menu-button">Edit</button>
-                </div>
+        <MenuBar>
+            <MenuBarButton caption={'File'}>
+                <MenuContainer>
+                    <MenuItem caption={'New'}/>
+                    <MenuItem caption={'Open'}/>
+                    <MenuDivider/>
+                    <MenuItem caption={'Close'}/>
+                    <MenuItem caption={'Quit'}/>
+                </MenuContainer>
+            </MenuBarButton>
+            <MenuBarButton caption={'Edit'}>
                 <ul className="menu-container">
                     <li>
                         <div className="item">
@@ -97,8 +77,8 @@ export function ThemeExamplePanel() {
                         </div>
                     </li>
                 </ul>
-            </li>
-        </ul>
+            </MenuBarButton>
+        </MenuBar>
         <div className="hbox">
             <ul>
                 <li>fun item 1</li>

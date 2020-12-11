@@ -3,6 +3,8 @@
 
 body {
     font-family: "Source Sans Pro", sans-serif;
+    font-size: 9pt;
+    font-weight: 400;
 
     color: magenta;
     --button-radius: 0.25em;
@@ -53,4 +55,5 @@ body {
 
     background-color: var(--bg-2);
     background-color: magenta;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANElEQVQYlWP48OHDf6Np07DiDx8+/GeAMbBJGk2bBlGArgiZzYCuC9004hXgtQKvIwl5EwC0r65h51cPugAAAABJRU5ErkJggg==);
 }

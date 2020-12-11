@@ -63,6 +63,7 @@ body {
 
     background-color: var(--bg-2);
     background-color: magenta;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANElEQVQYlWP48OHDf6Np07DiDx8+/GeAMbBJGk2bBlGArgiZzYCuC9004hXgtQKvIwl5EwC0r65h51cPugAAAABJRU5ErkJggg==);
 }
 
 
@@ -96,10 +97,16 @@ body {
     flex: 1.0;
 }
 
-ul, li {
-    /*min-width: 10em;*/
+ul {
     margin:0;
     padding:0;
+    /*min-width: 10em;*/
+    border-style: solid;
+    border-width: 0 1px 0 0;
+}
+li {
+    margin:0;
+    padding:0.5em;
     border: 0px solid red;
 }
 
@@ -214,6 +221,7 @@ label {
     flex-direction: row;
     align-items: center;
     overflow: visible;
+    list-style: none;
 }
 .menu-bar li {
     position: relative;
@@ -353,8 +361,12 @@ li.divider {
 .menu-bar .item:hover, .menu-container .item:hover {
     background-color: var(--bg-2);
 }
-ul.menu-bar > li {
+
+.menu-bar > li {
     background-color: var(--std-bg-color);
+}
+.menu-container li.divider {
+    background-color: var(--std-border);
 }
 .toolbar {
     background-color: var(--bg-3);
@@ -396,3 +408,6 @@ input {
     transition: background-color var(--transition-speed);
     transition: color var(--transition-speed);
 }
+
+
+
