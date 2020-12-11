@@ -19,11 +19,17 @@ export function HBox ({children, grow, className, style, scroll, center, ...rest
     style = style || {}
     return <div style={style} className={flatten(cls)} {...rest}>{children}</div>
 }
+export function Group({...rest}) {
+    return <HBox className={'group'} {...rest}/>
+}
 export function VBox ({children, grow, className, style, scroll, center}) {
     const cls = { vbox:true, grow, center, scroll }
     if(className) cls[className] = true
     style = style || {}
     return <div style={style} className={flatten(cls)}>{children}</div>
+}
+export function Spacer (){
+    return <span className={'spacer'}/>
 }
 
 export function Toolbar ({children, grow, className, style}) {
@@ -32,8 +38,9 @@ export function Toolbar ({children, grow, className, style}) {
     style = style || {}
     return <div style={style} className={flatten(cls)}>{children}</div>
 }
-export function Spacer (){
-    return <span className={'spacer'}/>
+export function TopToolbar({column=1, children, span=1, ...rest}) {
+    let cls = `toolbar col${column} span${span}`
+    return <div className={cls} {...rest}>{children}</div>
 }
 
 export function Panel({children, grow, className, style}) {
@@ -57,7 +64,6 @@ export function TextPropEditor({buffer, prop, onChange, ...rest}) {
 
     </HBox>
 }
-
 export function CheckboxPropEditor({buffer, prop, onChange}) {
     let db = useContext(DBContext)
     return <HBox>
@@ -71,7 +77,6 @@ export function CheckboxPropEditor({buffer, prop, onChange}) {
         />
     </HBox>
 }
-
 export function TextareaPropEditor({buffer, prop, onChange, db, grow}) {
     return <VBox grow>
         <label>{prop}</label>
@@ -83,7 +88,6 @@ export function TextareaPropEditor({buffer, prop, onChange, db, grow}) {
         }}/>
     </VBox>
 }
-
 export function EnumPropEditor({buffer, prop, onChange, db}) {
     return <HBox>
             <select value={propAsString(buffer,prop)} onChange={(ev)=>{
@@ -102,7 +106,6 @@ function TagView({tag, deleteTag}) {
         <Icon onClick={()=>deleteTag(tag)}>delete</Icon>
     </div>
 }
-
 export function TagsetEditor({buffer, prop, onChange}) {
     let tags = propAsArray(buffer,prop)
     let [refresh, setRefresh] = useState(false)
@@ -140,11 +143,6 @@ export function TagsetEditor({buffer, prop, onChange}) {
     </div>
 }
 
-export function TopToolbar({column=1, children, span=1, ...rest}) {
-    let cls = `toolbar col${column} span${span}`
-    return <div className={cls} {...rest}>{children}</div>
-}
-
 
 
 export function ActionButton({caption, ...rest}) {
@@ -156,8 +154,8 @@ export function ToggleButton({caption, selected, icon, ...rest}) {
     }
     return <button className={flatten(cls)} {...rest}>{icon?<Icon>{icon}</Icon>:""} {caption}</button>
 }
-export function ToggleGroup({children}) {
-    return <div className={'toggle-group'}>{children}</div>
+export function ToggleGroup({children, className, ...rest}) {
+    return <div className={'toggle-group ' + (className?className:"")} {...rest}>{children}</div>
 }
 
 export function PopupTriggerButton({makePopup, title}) {
@@ -176,7 +174,6 @@ export function PopupTriggerButton({makePopup, title}) {
     </button>
 }
 
-
 export function MenuBar({children}) {
     return <ul className={'menu-bar'}>{children}</ul>
 }
@@ -189,11 +186,9 @@ export function MenuBarButton({caption,children, icon, ...rest}) {
         {children}
     </li>
 }
-
 export function MenuContainer({children, style={}}) {
     return <ul className={'menu-container'} style={style}>{children}</ul>
 }
-
 export function MenuItem({caption}) {
     return <li>
         <div className={'item'}>

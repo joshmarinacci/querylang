@@ -171,14 +171,16 @@ label {
     align-self: center;
     justify-self: end;
 }
-.form-grid .c2 {
+.form-grid > .group,
+.form-grid > .toggle-group,
+.form-grid > .col2 {
     grid-column: inputs;
     justify-self: start;
 }
-.form-grid label {
+.form-grid > label {
     grid-column: labels;
 }
-.form-grid label.c2 {
+.form-grid > label.col2 {
     text-align: left;
 }
 
@@ -311,7 +313,7 @@ label {
     border-radius: var(--window-radius);
     box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.5);
 }
-.titlebar {
+.titlebar, title {
     background-color: var(--bg-3);
     border-color: var(--std-border);
 }

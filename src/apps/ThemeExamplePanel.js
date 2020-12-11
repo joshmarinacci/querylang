@@ -1,5 +1,15 @@
 import React, {useState} from 'react'
-import {HBox, MenuBar, MenuBarButton, MenuContainer, MenuDivider, MenuItem} from '../ui/ui.js'
+import {
+    Group,
+    HBox,
+    MenuBar,
+    MenuBarButton,
+    MenuContainer,
+    MenuDivider,
+    MenuItem,
+    ToggleButton,
+    ToggleGroup
+} from '../ui/ui.js'
 import {Menu} from '@material-ui/core'
 import {DataList, StandardSourceItem} from '../ui/dataList.js'
 
@@ -84,46 +94,28 @@ export function ThemeExamplePanel() {
                       }}
             />
             <div className="form-grid grow">
-                <div className="toggle-group c2">
-                    <button className="toggle">Wallpaper</button>
-                    <button className="toggle selected">Appearance</button>
-                    <button className="toggle">Dock</button>
-                    <button className="toggle">Multitasking</button>
-                </div>
-                <label>Style:</label>
-                <div className="group">
-                    <div className="custom-toggle">
-                        <input type="radio" name="style" id="style_light"/>
-                        <label htmlFor="style_light">
-                            <img s1rc="#" width="100" height="75"/>
-                            <span>Light</span>
-                        </label>
-                    </div>
-                    <div className="custom-toggle selected">
-                        <input type="radio" name="style" id="style_dark" checked/>
-                        <label htmlFor="style_dark">
-                            <img src="#" width="100" height="75"/>
-                            <span>Dark</span>
-                        </label>
-                    </div>
-
-                </div>
-                <label className="c2">Visual style for system components like the Dock and Panel indicators.</label>
+                <ToggleGroup>
+                    <ToggleButton caption={'Wallpaper'}/>
+                    <ToggleButton caption={'Appearance'} selected={true}/>
+                    <ToggleButton caption={'Dock'}/>
+                    <ToggleButton caption={'Multitasking'}/>
+                </ToggleGroup>
+                <label className="col2">Visual style for system components like the Dock and Panel indicators.</label>
                 <label>Schedule:</label>
-                <div className="toggle-group c2">
-                    <button className="selected">Disabled</button>
-                    <button className="">Sunset to Sunrise</button>
-                    <button className="">Manual</button>
-                </div>
-                <div className="group c2">
+                <ToggleGroup>
+                    <ToggleButton caption={'Disabled'} selected/>
+                    <ToggleButton caption={'Sunset to Sunrize'}/>
+                    <ToggleButton caption={'Manual'}/>
+                </ToggleGroup>
+                <Group>
                     <label>From:</label>
                     <input type="time" value="3:00 pm"/>
                     <label>To:</label>
                     <input type="time" value="7:00 am"/>
-                </div>
+                </Group>
 
                 <label>Accent</label>
-                <div className="color-group c2">
+                <Group>
                     <button className="toggle color blue"></button>
                     <button className="toggle color teal"></button>
                     <button className="toggle color green"></button>
@@ -134,56 +126,58 @@ export function ThemeExamplePanel() {
                     <button className="toggle color purple"></button>
                     <button className="toggle color brown"></button>
                     <button className="toggle color gray"></button>
-                </div>
-                <label className="c2">Used across the system by default. Apps can always use their own accent color.</label>
+                </Group>
+                <label className="col2">Used across the system by default. Apps can always use their own accent color.</label>
                 <label>Window animations:</label>
-                <div className="group">
+                <Group>
                     <input type="radio" id="anim_fast" name="anim"/>
                     <label htmlFor="anim_fast">fast</label>
                     <input type="radio" id="anim_slow" name="anim" checked/>
                     <label htmlFor="anim_slow">slow</label>
-                </div>
+                </Group>
                 <label>Panel translucency:</label>
-                <input type="checkbox" checked/>
+                <Group>
+                    <input type="checkbox" checked/>
+                </Group>
 
 
                 <label>Text size:</label>
-                <div className="toggle-group">
-                    <button>Small</button>
-                    <button className="selected">Default</button>
-                    <button>Large</button>
-                    <button>Larger</button>
-                </div>
+                <ToggleGroup>
+                    <ToggleButton caption={'Small'}/>
+                    <ToggleButton caption={'Default'} selected/>
+                    <ToggleButton caption={'Large'}/>
+                    <ToggleButton caption={'Larger'}/>
+                </ToggleGroup>
 
                 <label>Dyslexia-friendly text:</label>
                 <input type="checkbox"/>
 
-                <label className="c2">bottom-heavy shapes and increased character spacing can help improve
+                <label className="col2">bottom-heavy shapes and increased character spacing can help improve
                     legibility and reading speed.</label>
 
                 <label>more buttons</label>
-                <div className="group">
+                <Group>
                     <button>button</button>
                     <button disabled>disabled</button>
                     <button className="primary">primary</button>
-                </div>
+                </Group>
                 <label>more checkboxes</label>
-                <div className="group">
+                <Group>
                     <input type="checkbox" id="regular_checkbox"/>
                     <label htmlFor="regular_checkbox">checkbox</label>
                     <input type="checkbox" id="disabled_checkbox" disabled/>
                     <label htmlFor="disabled_checkbox">checkbox</label>
-                </div>
+                </Group>
 
                 <label>number inputs</label>
-                <div className="group">
+                <Group>
                     <input type="number" step="1" value="50" max="100" size="5"/>
                     <select>
                         <option>option 1</option>
                         <option selected>option 2</option>
                         <option>option 3</option>
                     </select>
-                </div>
+                </Group>
 
             </div>
         </HBox>
