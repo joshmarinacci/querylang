@@ -1,14 +1,11 @@
 .window {
-    /*border: 1px solid var(--std-border-color);*/
     display: flex;
     flex-direction: column;
-    /*border-radius: var(--radius);*/
     overflow: auto;
     position: absolute;
 }
 
 .window > title {
-    display: block;
     user-select: none;
     cursor: move;
     display: flex;
@@ -27,25 +24,12 @@
 }
 
 .window title b {
-    padding: 0.25em;
     text-transform: capitalize;
     flex: 1.0;
 }
-/*.window title .appicon {*/
-/*    margin-right: 0.25rem;*/
-/*}*/
-/*.window title .close {*/
-/*    margin: 0;*/
-/*}*/
-/*.window title .close:hover {*/
-/*    color:#fff;*/
-/*    cursor: auto;*/
-/*}*/
-/*.window title .maximize:hover {*/
-/*    background-color: var(--accent-text-color);*/
-/*    color: var(--accent-background-color);*/
-/*    cursor: auto;*/
-/*}*/
+.window title span, .window title button {
+    cursor: default;
+}
 
 .window .resize-handle {
     position: absolute;

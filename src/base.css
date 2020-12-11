@@ -338,6 +338,9 @@ table td {
     background-color: var(--bg-3);
     border-color: var(--std-border);
 }
+title > * {
+    padding: var(--std-inline-padding);
+}
 ul {
     border-color: var(--std-border);
 }
@@ -430,7 +433,7 @@ input:disabled+label {
 
 
 /* ========== hovers ========= */
-button:hover {
+button:hover, .button:hover {
     background-color: var(--bg-2);
 }
 button.selected:hover {

@@ -170,10 +170,10 @@ export function Window({children, resize=true, hide_titlebar=false, instance, an
     let title_ui = ""
     if(!hide_titlebar) {
         title_ui = <title onMouseDown={mouseDown}>
-            <Icon className={'maximize'} onClick={maximize}>maximize</Icon>
-            <Icon className={'appicon'}>{instance.app.props.icon}</Icon>
+            <Icon className={'maximize button'} onClick={maximize}>maximize</Icon>
+            <Icon className={'appicon button'}>{instance.app.props.icon}</Icon>
             <b>{title}</b>
-            <Icon onClick={closeApp} className={'close'}>close</Icon>
+            <Icon onClick={closeApp} className={'close button'}>close</Icon>
         </title>
     }
     return <div className={"window " + className} style={style} onMouseDown={(e)=>{
