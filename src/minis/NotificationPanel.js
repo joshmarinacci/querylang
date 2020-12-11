@@ -4,8 +4,7 @@ import React, {useContext} from 'react'
 import {DBContext, propAsString, useDBChanged} from '../db.js'
 
 import "../notifications.css"
-import {VBox} from '../ui/ui.js'
-import {StandardSourceItem} from '../ui/dataList.js'
+import {DataList, StandardSourceItem} from '../ui/dataList.js'
 
 export function NotificationPanel({app}) {
     let db = useContext(DBContext)
@@ -16,16 +15,14 @@ export function NotificationPanel({app}) {
         IS_PROP_EQUAL('read',false),
     ))
 
-    return <VBox className={'list'}>{items.map((o,i) => <NotificationView key={i} alert={o}/>)}</VBox>
-}
 
-function NotificationView({alert}) {
-    let db = useContext(DBContext)
-    const closeAlert = () => db.setProp(alert,'read',true)
-    return <StandardSourceItem
-        title={propAsString(alert,'title')}
-        icon={propAsString(alert,'icon')}
-        trailingIcon={"close"}
-        onClickTrailingIcon={closeAlert}
+    return <DataList data={items} renderItem={({item,...rest})=>{
+        const closeAlert = (alert) => db.setProp(alert,'read',true)
+        return <StandardSourceItem
+            icon={propAsString(item,'icon')}
+            title={propAsString(item,'title')}
+            trailing_icon={'close'}
+            onClick={()=>closeAlert(item)}
         />
+    }}/>
 }
