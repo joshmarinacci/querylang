@@ -1,20 +1,21 @@
 import "./bookmarks.css"
 
 import React, {useContext, useState} from 'react'
-import {
-    HBox, InfoBar,
-    Panel, PopupTriggerButton,
-    Spacer, TagsetEditor, TextareaPropEditor,
-    TextPropEditor,
-    Toolbar, VBox
-} from '../../ui/ui.js'
+import {InfoBar, Panel, PopupTriggerButton, Spacer, Toolbar, VBox} from '../../ui/ui.js'
 import {formatDistanceToNow} from "date-fns"
-import {DBContext, filterPropArrayContains, hasProp, propAsBoolean, sort, useDBChanged} from '../../db.js'
-import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR, query2 as QUERY} from '../../query2.js'
+import {
+    DBContext,
+    filterPropArrayContains,
+    hasProp,
+    propAsArray,
+    propAsBoolean,
+    propAsString,
+    sort,
+    useDBChanged
+} from '../../db.js'
+import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, query2 as QUERY} from '../../query2.js'
 import {CATEGORIES, SORTS} from '../../schema.js'
 import {Icon} from '@material-ui/core'
-
-import {propAsArray, propAsString} from '../../db.js'
 import {PopupManagerContext} from '../../ui/PopupManager.js'
 import {calculateFoldersFromTags} from '../../util.js'
 import {Grid3Layout} from '../../ui/grid3layout.js'

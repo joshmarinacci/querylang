@@ -67,30 +67,7 @@ export function TextPropEditor({buffer, prop, onChange, ...rest}) {
 
     </HBox>
 }
-export function CheckboxPropEditor({buffer, prop, onChange}) {
-    let db = useContext(DBContext)
-    return <HBox>
-        <label>{prop}</label>
-        <input type="checkbox"
-               checked={propAsBoolean(buffer, prop)}
-               onChange={(ev) => {
-                   db.setProp(buffer, prop, ev.target.checked)
-                   if(onChange) onChange(buffer, prop)
-               }}
-        />
-    </HBox>
-}
-export function TextareaPropEditor({buffer, prop, onChange, db, grow}) {
-    return <VBox grow>
-        <label>{prop}</label>
-        <textarea
-            style={{flex:1.0}}
-            value={propAsString(buffer, prop)} onChange={(ev) => {
-            db.setProp(buffer, prop, ev.target.value)
-            if(onChange) onChange(buffer, prop)
-        }}/>
-    </VBox>
-}
+
 export function EnumPropEditor({buffer, prop, onChange, db}) {
     return <HBox>
             <select value={propAsString(buffer,prop)} onChange={(ev)=>{
