@@ -222,7 +222,7 @@ export function Music({app}) {
         panel = <SongsPanel songs={songs} playSong={setSelectedSong} db={db} className={'col2 row2 span3'}/>
     }
 
-    return <Grid3Layout>
+    return <Grid3Layout statusbar={false}>
         <TitleBar title={'music'}/>
         <TopToolbar column={2} span={3}>
             <PlayPanel selectedSong={selectedSong}/>

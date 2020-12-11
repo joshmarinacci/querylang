@@ -19,8 +19,15 @@ export function HBox ({children, grow, className, style, scroll, center, ...rest
     style = style || {}
     return <div style={style} className={flatten(cls)} {...rest}>{children}</div>
 }
-export function Group({...rest}) {
-    return <HBox className={'group'} {...rest}/>
+export function Group({className, ...rest}) {
+    return <HBox className={'group ' + className} {...rest}/>
+}
+export function InfoBar({className, title, ...rest}) {
+    return <div className={'infobar ' + className} {...rest}>{title}</div>
+}
+
+export function FormGroup({className, ...rest}) {
+    return <div className={"form-grid " + className} {...rest}/>
 }
 export function VBox ({children, grow, className, style, scroll, center}) {
     const cls = { vbox:true, grow, center, scroll }

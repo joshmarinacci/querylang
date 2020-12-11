@@ -77,15 +77,13 @@ body {
     display: flex;
     flex-direction: column;
 }
-.titlebar {
+.infobar {
     display: flex;
     flex-direction: row;
     padding: 0.25em;
     align-items: center;
     border-style: solid;
-    border-top-left-radius: var(--window-radius);
-    border-top-right-radius: var(--window-radius);
-    border-width: 0 0 1px 0;
+    border-width: 0 0 0px 0;
 }
 .window {
     margin: 0;
@@ -162,6 +160,7 @@ label {
     display: grid;
     grid-template-columns: [labels] 1fr [inputs] 3fr;
     border-radius: var(--window-radius);
+    align-content: start;
 }
 .form-grid > * {
     justify-self: start;
@@ -270,7 +269,7 @@ label {
 
 
 /* ======== toolbars ======== */
-.info, .statusbar, .toolbar {
+.info, .statusbar, .toolbar, .infobar {
     padding: var(--std-inline-padding);
     margin: 0;
 }
@@ -312,6 +311,9 @@ label {
     border: 1px solid var(--std-border);
     border-radius: var(--window-radius);
     box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.5);
+}
+.grid {
+    grid-gap: 0;
 }
 .titlebar, title {
     background-color: var(--bg-3);
@@ -374,7 +376,7 @@ li.divider {
 .menu-container li.divider {
     background-color: var(--std-border);
 }
-.toolbar {
+.toolbar, .infobar {
     background-color: var(--bg-3);
 }
 

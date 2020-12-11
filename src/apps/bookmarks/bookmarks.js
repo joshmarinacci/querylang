@@ -2,7 +2,7 @@ import "./bookmarks.css"
 
 import React, {useContext, useState} from 'react'
 import {
-    HBox,
+    HBox, InfoBar,
     Panel, PopupTriggerButton,
     Spacer, TagsetEditor, TextareaPropEditor,
     TextPropEditor,
@@ -20,7 +20,6 @@ import {PopupManagerContext} from '../../ui/PopupManager.js'
 import {calculateFoldersFromTags} from '../../util.js'
 import {Grid3Layout} from '../../ui/grid3layout.js'
 import {DataList, StandardSourceItem} from '../../ui/dataList.js'
-import {TitleBar} from '../../stories/email_example.js'
 import {StandardViewPanel} from '../../ui/StandardViewPanel.js'
 
 function PopupMenu ({children}) {
@@ -113,8 +112,8 @@ export function BookmarksManager({app}) {
     bookmarks = sort(bookmarks, [sortField], sortOrder )
 
 
-    return  <Grid3Layout>
-        <TitleBar title={"Bookmarks"}/>
+    return  <Grid3Layout statusbar={false}>
+        <InfoBar title={"Bookmarks"}/>
 
         <DataList column={1} row={2} data={queries} selected={selectedQuery} setSelected={setSelectedQuery}
                   renderItem={({item,...args})=> <StandardSourceItem

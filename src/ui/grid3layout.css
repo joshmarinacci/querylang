@@ -24,7 +24,7 @@
 .span3 { grid-column-end: 4; }
 
 
-.info {
+.infobar {
     grid-column: 1;
     grid-row: 1;
     text-align: center;

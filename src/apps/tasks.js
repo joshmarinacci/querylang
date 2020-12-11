@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import {DBContext, hasProp, propAsBoolean, propAsString, setProp, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {Panel, Spacer, TopToolbar} from '../ui/ui.js'
+import {InfoBar, Panel, Spacer, TopToolbar} from '../ui/ui.js'
 import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_SUBSTRING, IS_PROP_TRUE, IS_TYPE, query2 as QUERY} from '../query2.js'
 import Icon from '@material-ui/core/Icon'
 import {Grid3Layout} from '../ui/grid3layout.js'
@@ -60,7 +60,7 @@ export function TaskLists({app}) {
     const archiveTask = () => db.setProp(selectedTask, 'archived',true)
 
     return <Grid3Layout statusbar={false}>
-        <TitleBar title={'Tasks'}/>
+        <InfoBar title={'Tasks'}/>
 
         <DataList column={1} row={2} data={projects}
                   selected={selectedProject} setSelected={setSelectedProject}

@@ -10,7 +10,7 @@ export function SettingsApp({app}) {
     let [panel,setPanel] = useState("background")
 
 
-    return <VBox scroll>
+    return <VBox scroll grow>
         <Toolbar>
             <button onClick={()=>setPanel("background")}>background</button>
             <button onClick={()=>setPanel("theme")}>theme</button>

@@ -7,7 +7,7 @@ import {Grid3Layout} from '../ui/grid3layout.js'
 import {DataList, StandardSourceItem} from '../ui/dataList.js'
 
 import {format} from "date-fns"
-import {Panel, Spacer, Toolbar} from '../ui/ui.js'
+import {InfoBar, Panel, Spacer, Toolbar} from '../ui/ui.js'
 import {get_json_with_auth, flatten} from '../util.js'
 import "./NewsReader.css"
 import {DialogManagerContext} from '../ui/DialogManager.js'
@@ -188,7 +188,7 @@ export function NewsReader({}) {
     }
 
     return <Grid3Layout statusbar={false}>
-        <div className={'col1 row1'}>news</div>
+        <InfoBar title={'News'}/>
         <Toolbar>
             <button onClick={()=>refresh(db)}>refresh</button>
             <button onClick={()=>add_feed()}>add feed</button>

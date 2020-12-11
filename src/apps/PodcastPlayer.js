@@ -7,7 +7,7 @@ import {Grid3Layout} from '../ui/grid3layout.js'
 import {DataList, StandardSourceItem} from '../ui/dataList.js'
 
 import {format} from "date-fns"
-import {Panel, Toolbar} from '../ui/ui.js'
+import {InfoBar, Panel, Toolbar} from '../ui/ui.js'
 import {flatten} from '../util.js'
 import "./NewsReader.css"
 import {DialogManagerContext} from '../ui/DialogManager.js'
@@ -116,8 +116,8 @@ export function PodcastPlayer({}) {
             dm.hide()
         }}/> )
     }
-    return <Grid3Layout>
-        <div className={'col1 row1'}>news</div>
+    return <Grid3Layout statusbar={false}>
+        <InfoBar title={'Podcasts'}/>
         <Toolbar>
             <button onClick={()=>refresh(db)}>refresh</button>
             <button onClick={()=>add_feed()}>add feed</button>

@@ -50,7 +50,7 @@ export function Notes({app}) {
 
     notes = calcFilter()
 
-    return <Grid3Layout>
+    return <Grid3Layout statusbar={false}>
         <TitleBar title={'notes'}/>
         <DataList data={groups} selected={selectedGroup} setSelected={setSelectedGroup}
                   column={1} row={2} secondary

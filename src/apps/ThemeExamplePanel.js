@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {
+    FormGroup,
     Group,
     HBox,
     MenuBar,
@@ -8,7 +9,7 @@ import {
     MenuDivider,
     MenuItem,
     ToggleButton,
-    ToggleGroup
+    ToggleGroup, VBox
 } from '../ui/ui.js'
 import {Menu} from '@material-ui/core'
 import {DataList, StandardSourceItem} from '../ui/dataList.js'
@@ -55,7 +56,7 @@ export function ThemeExamplePanel() {
 
 
 
-    return <div>
+    return <VBox grow>
         <HBox>
             <button onClick={set_light_theme}>light</button>
             <button onClick={set_dark_theme}>dark</button>
@@ -87,13 +88,13 @@ export function ThemeExamplePanel() {
             </MenuBarButton>
         </MenuBar>
 
-        <HBox>
+        <HBox grow>
             <DataList data={items} selected={sel} setSelected={set_sel}
                       renderItem={({item,...rest})=>{
                           return <StandardSourceItem title={item.title} {...rest}/>
                       }}
             />
-            <div className="form-grid grow">
+            <FormGroup className="grow">
                 <ToggleGroup>
                     <ToggleButton caption={'Wallpaper'}/>
                     <ToggleButton caption={'Appearance'} selected={true}/>
@@ -179,7 +180,7 @@ export function ThemeExamplePanel() {
                     </select>
                 </Group>
 
-            </div>
+            </FormGroup>
         </HBox>
-    </div>
+    </VBox>
 }

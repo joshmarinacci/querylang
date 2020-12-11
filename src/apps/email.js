@@ -58,7 +58,7 @@ export function Email({app }) {
 
     folder_results = sort(folder_results,["timestamp"], SORTS.DESCENDING)
 
-    return <Grid3Layout>
+    return <Grid3Layout statusbar={false}>
         <TitleBar title={'Email'}/>
         <DataList
             column={1} row={2}
