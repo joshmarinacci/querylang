@@ -14,7 +14,7 @@ export function DataList({data, column=1, row=1, secondary, selected, renderItem
     if(!renderItem) {
         renderItem = (item) => item.toString()
     }
-    let cls = `source-list col${column} row${row} ${className}`
+    let cls = `data-list col${column} row${row} ${className}`
     if(secondary) cls += ' secondary'
     return <ul className={cls}
                onKeyDown={e=>{

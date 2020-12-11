@@ -280,7 +280,11 @@ label {
     overflow: hidden;
 }
 
-
+/* ========= lists ======== */
+.data-list {
+    min-width: 10em;
+    list-style: none;
+}
 
 
 

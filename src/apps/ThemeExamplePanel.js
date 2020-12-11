@@ -1,8 +1,11 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {HBox, MenuBar, MenuBarButton, MenuContainer, MenuDivider, MenuItem} from '../ui/ui.js'
 import {Menu} from '@material-ui/core'
+import {DataList, StandardSourceItem} from '../ui/dataList.js'
 
 export function ThemeExamplePanel() {
+    const [sel, set_sel] = useState("")
+    const items = ["fun item 1","fun item 2", "fun item 3", "fun item 4"].map(s=>({id:s,title:s}))
     function rescale_lit(start, end, min, max) {
         for(let i=start; i<=end; i++) {
             let t = (i-start)/(end-start)
@@ -66,32 +69,20 @@ export function ThemeExamplePanel() {
                 </MenuContainer>
             </MenuBarButton>
             <MenuBarButton caption={'Edit'}>
-                <ul className="menu-container">
-                    <li>
-                        <div className="item">
-                            <button className="menu-button">Cut</button>
-                        </div>
-                    </li>
-                    <li>
-                        <div className="item">
-                            <button className="menu-button">Copy</button>
-                        </div>
-                    </li>
-                    <li>
-                        <div className="item">
-                            <button className="menu-button">Paste</button>
-                        </div>
-                    </li>
-                </ul>
+                <MenuContainer>
+                    <MenuItem caption={'Cut'}/>
+                    <MenuItem caption={'Copy'}/>
+                    <MenuItem caption={'Paste'}/>
+                </MenuContainer>
             </MenuBarButton>
         </MenuBar>
-        <div className="hbox">
-            <ul>
-                <li>fun item 1</li>
-                <li>fun item 1</li>
-                <li className="selected" tabIndex="0">fun item 1</li>
-                <li>fun item 1</li>
-            </ul>
+
+        <HBox>
+            <DataList data={items} selected={sel} setSelected={set_sel}
+                      renderItem={({item,...rest})=>{
+                          return <StandardSourceItem title={item.title} {...rest}/>
+                      }}
+            />
             <div className="form-grid grow">
                 <div className="toggle-group c2">
                     <button className="toggle">Wallpaper</button>
@@ -195,7 +186,6 @@ export function ThemeExamplePanel() {
                 </div>
 
             </div>
-
-        </div>
+        </HBox>
     </div>
 }
