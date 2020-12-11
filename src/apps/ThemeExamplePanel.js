@@ -129,7 +129,7 @@ function RenderTable() {
 function RenderPanel() {
     const [sel, set_sel] = useState("")
     const items = ["fun item 1","fun item 2", "fun item 3", "fun item 4"].map(s=>({id:s,title:s}))
-return     <HBox>
+return     <HBox grow>
         <DataList data={items} selected={sel} setSelected={set_sel}
                   renderItem={({item,...rest})=>{
                       return <StandardSourceItem title={item.title} {...rest}/>

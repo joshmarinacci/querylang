@@ -77,6 +77,9 @@ body {
     display: flex;
     flex-direction: column;
 }
+.vbox > * {
+    flex-shrink: 0;
+}
 .infobar {
     display: flex;
     flex-direction: row;
