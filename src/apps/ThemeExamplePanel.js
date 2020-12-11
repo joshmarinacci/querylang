@@ -105,6 +105,7 @@ function PanelChoice() {
             </ToggleGroup>
         </Toolbar>
         {content}
+        <Toolbar>more stuff</Toolbar>
     </VBox>
 }
 
@@ -120,7 +121,9 @@ function RenderTable() {
         }
     })
     const [sel, set_sel] = useState(null)
-    return <DataTable className={'grow scroll'} data={data} stringifyDataColumn={(o,k)=> o.props[k]+""} selected={sel} setSelected={set_sel}/>
+    return <div className={'grow scroll'}>
+        <DataTable data={data} stringifyDataColumn={(o,k)=> o.props[k]+""} selected={sel} setSelected={set_sel}/>
+    </div>
 }
 
 function RenderPanel() {
