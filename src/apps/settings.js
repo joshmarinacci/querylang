@@ -69,7 +69,7 @@ function BackgroundEditorPanel() {
         }
     },[update])
 
-    return <div>
+    return <div className="scroll grow">
         <CanvasSurface update={update} data={data} onUpdate={refresh}/>
         <canvas width={W} height={H} ref={mini} style={{display:'none'}}/>
     </div>

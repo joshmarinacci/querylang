@@ -94,6 +94,9 @@ body {
 .grow {
     flex: 1.0;
 }
+.scroll {
+    overflow: auto;
+}
 
 ul {
     margin:0;
@@ -322,9 +325,23 @@ label {
 ul {
     border-color: var(--std-border);
 }
+table {
+    border-collapse: separate;
+    background-color: var(--bg-2);
+}
+table th {
+    background-color: var(--bg-5);
+    color: var(--bg-1);
+}
+table td {
+    border-width: 0;
+}
 label {
 }
-li.selected {
+tr:nth-child(2n) {
+    background-color: var(--bg-3);
+}
+tr.selected, li.selected {
     background-color: var(--std-ac-bg);
 }
 button, input, select {

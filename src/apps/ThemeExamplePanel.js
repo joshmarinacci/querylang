@@ -9,14 +9,14 @@ import {
     MenuDivider,
     MenuItem,
     ToggleButton,
-    ToggleGroup, VBox
+    ToggleGroup, Toolbar, VBox
 } from '../ui/ui.js'
 import {Menu} from '@material-ui/core'
 import {DataList, StandardSourceItem} from '../ui/dataList.js'
+import {DataTable} from '../ui/datatable.js'
+import {range} from '../util.js'
 
 export function ThemeExamplePanel() {
-    const [sel, set_sel] = useState("")
-    const items = ["fun item 1","fun item 2", "fun item 3", "fun item 4"].map(s=>({id:s,title:s}))
     function rescale_lit(start, end, min, max) {
         for(let i=start; i<=end; i++) {
             let t = (i-start)/(end-start)
@@ -88,99 +88,138 @@ export function ThemeExamplePanel() {
             </MenuBarButton>
         </MenuBar>
 
-        <HBox grow>
-            <DataList data={items} selected={sel} setSelected={set_sel}
-                      renderItem={({item,...rest})=>{
-                          return <StandardSourceItem title={item.title} {...rest}/>
-                      }}
-            />
-            <FormGroup className="grow">
-                <ToggleGroup>
-                    <ToggleButton caption={'Wallpaper'}/>
-                    <ToggleButton caption={'Appearance'} selected={true}/>
-                    <ToggleButton caption={'Dock'}/>
-                    <ToggleButton caption={'Multitasking'}/>
-                </ToggleGroup>
-                <label className="col2">Visual style for system components like the Dock and Panel indicators.</label>
-                <label>Schedule:</label>
-                <ToggleGroup>
-                    <ToggleButton caption={'Disabled'} selected/>
-                    <ToggleButton caption={'Sunset to Sunrize'}/>
-                    <ToggleButton caption={'Manual'}/>
-                </ToggleGroup>
-                <Group>
-                    <label>From:</label>
-                    <input type="time" value="3:00 pm"/>
-                    <label>To:</label>
-                    <input type="time" value="7:00 am"/>
-                </Group>
-
-                <label>Accent</label>
-                <Group>
-                    <button className="toggle color blue"></button>
-                    <button className="toggle color teal"></button>
-                    <button className="toggle color green"></button>
-                    <button className="toggle color yellow"></button>
-                    <button className="toggle color orange"></button>
-                    <button className="toggle color red"></button>
-                    <button className="toggle color pink"></button>
-                    <button className="toggle color purple"></button>
-                    <button className="toggle color brown"></button>
-                    <button className="toggle color gray"></button>
-                </Group>
-                <label className="col2">Used across the system by default. Apps can always use their own accent color.</label>
-                <label>Window animations:</label>
-                <Group>
-                    <input type="radio" id="anim_fast" name="anim"/>
-                    <label htmlFor="anim_fast">fast</label>
-                    <input type="radio" id="anim_slow" name="anim" checked/>
-                    <label htmlFor="anim_slow">slow</label>
-                </Group>
-                <label>Panel translucency:</label>
-                <Group>
-                    <input type="checkbox" checked/>
-                </Group>
-
-
-                <label>Text size:</label>
-                <ToggleGroup>
-                    <ToggleButton caption={'Small'}/>
-                    <ToggleButton caption={'Default'} selected/>
-                    <ToggleButton caption={'Large'}/>
-                    <ToggleButton caption={'Larger'}/>
-                </ToggleGroup>
-
-                <label>Dyslexia-friendly text:</label>
-                <input type="checkbox"/>
-
-                <label className="col2">bottom-heavy shapes and increased character spacing can help improve
-                    legibility and reading speed.</label>
-
-                <label>more buttons</label>
-                <Group>
-                    <button>button</button>
-                    <button disabled>disabled</button>
-                    <button className="primary">primary</button>
-                </Group>
-                <label>more checkboxes</label>
-                <Group>
-                    <input type="checkbox" id="regular_checkbox"/>
-                    <label htmlFor="regular_checkbox">checkbox</label>
-                    <input type="checkbox" id="disabled_checkbox" disabled/>
-                    <label htmlFor="disabled_checkbox">checkbox</label>
-                </Group>
-
-                <label>number inputs</label>
-                <Group>
-                    <input type="number" step="1" value="50" max="100" size="5"/>
-                    <select>
-                        <option>option 1</option>
-                        <option selected>option 2</option>
-                        <option>option 3</option>
-                    </select>
-                </Group>
-
-            </FormGroup>
-        </HBox>
+        <PanelChoice/>
     </VBox>
+}
+
+function PanelChoice() {
+    const [panel, set_panel] = useState('forms')
+    let content = <div>nothing</div>
+    if(panel === 'forms') content = <RenderPanel/>
+    if(panel === 'tables') content = <RenderTable/>
+    return <VBox>
+        <Toolbar>
+            <ToggleGroup>
+                <ToggleButton caption={'forms'} selected={panel==='forms'} onClick={()=>set_panel('forms')}/>
+                <ToggleButton caption={'tables'} selected={panel==='tables'}  onClick={()=>set_panel('tables')}/>
+            </ToggleGroup>
+        </Toolbar>
+        {content}
+    </VBox>
+}
+
+function RenderTable() {
+    let data = range(0,30).map(i => {
+        return {
+            id:i,
+            props:{
+                title:'blah '+i,
+                number:i,
+                instrument:'recorder'
+            }
+        }
+    })
+    const [sel, set_sel] = useState(null)
+    return <DataTable data={data} stringifyDataColumn={(o,k)=> o.props[k]+""} selected={sel} setSelected={set_sel}/>
+}
+
+function RenderPanel() {
+    const [sel, set_sel] = useState("")
+    const items = ["fun item 1","fun item 2", "fun item 3", "fun item 4"].map(s=>({id:s,title:s}))
+return     <HBox grow>
+        <DataList data={items} selected={sel} setSelected={set_sel}
+                  renderItem={({item,...rest})=>{
+                      return <StandardSourceItem title={item.title} {...rest}/>
+                  }}
+        />
+        <FormGroup className="grow">
+            <ToggleGroup>
+                <ToggleButton caption={'Wallpaper'}/>
+                <ToggleButton caption={'Appearance'} selected={true}/>
+                <ToggleButton caption={'Dock'}/>
+                <ToggleButton caption={'Multitasking'}/>
+            </ToggleGroup>
+            <label className="col2">Visual style for system components like the Dock and Panel indicators.</label>
+            <label>Schedule:</label>
+            <ToggleGroup>
+                <ToggleButton caption={'Disabled'} selected/>
+                <ToggleButton caption={'Sunset to Sunrize'}/>
+                <ToggleButton caption={'Manual'}/>
+            </ToggleGroup>
+            <Group>
+                <label>From:</label>
+                <input type="time" value="3:00 pm"/>
+                <label>To:</label>
+                <input type="time" value="7:00 am"/>
+            </Group>
+
+            <label>Accent</label>
+            <Group>
+                <button className="toggle color blue"></button>
+                <button className="toggle color teal"></button>
+                <button className="toggle color green"></button>
+                <button className="toggle color yellow"></button>
+                <button className="toggle color orange"></button>
+                <button className="toggle color red"></button>
+                <button className="toggle color pink"></button>
+                <button className="toggle color purple"></button>
+                <button className="toggle color brown"></button>
+                <button className="toggle color gray"></button>
+            </Group>
+            <label className="col2">Used across the system by default. Apps can always use their own accent color.</label>
+            <label>Window animations:</label>
+            <Group>
+                <input type="radio" id="anim_fast" name="anim"/>
+                <label htmlFor="anim_fast">fast</label>
+                <input type="radio" id="anim_slow" name="anim" checked/>
+                <label htmlFor="anim_slow">slow</label>
+            </Group>
+            <label>Panel translucency:</label>
+            <Group>
+                <input type="checkbox" checked/>
+            </Group>
+
+
+            <label>Text size:</label>
+            <ToggleGroup>
+                <ToggleButton caption={'Small'}/>
+                <ToggleButton caption={'Default'} selected/>
+                <ToggleButton caption={'Large'}/>
+                <ToggleButton caption={'Larger'}/>
+            </ToggleGroup>
+
+            <label>Dyslexia-friendly text:</label>
+            <input type="checkbox"/>
+
+            <label className="col2">bottom-heavy shapes and increased character spacing can help improve
+                legibility and reading speed.</label>
+
+            <label>more buttons</label>
+            <Group>
+                <button>button</button>
+                <button disabled>disabled</button>
+                <button className="primary">primary</button>
+            </Group>
+            <label>more checkboxes</label>
+            <Group>
+                <input type="checkbox" id="regular_checkbox"/>
+                <label htmlFor="regular_checkbox">checkbox</label>
+                <input type="checkbox" id="disabled_checkbox" disabled/>
+                <label htmlFor="disabled_checkbox">checkbox</label>
+            </Group>
+
+            <label>number inputs</label>
+            <Group>
+                <input type="number" step="1" value="50" max="100" size="5"/>
+                <select>
+                    <option>option 1</option>
+                    <option selected>option 2</option>
+                    <option>option 3</option>
+                </select>
+            </Group>
+
+        </FormGroup>
+    </HBox>
+
+
 }
