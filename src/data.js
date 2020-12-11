@@ -841,8 +841,8 @@ loadApp({title:'Bookmarks', appid:"BookmarksManager",icon:'bookmarks'})
 loadApp({ title:'debug', appid:'DebugPanel', icon:'bug_report', launchbar: false, layer:LAYERS.SYSTEM, single_instance:true,
     window:{default_width: 200, default_height: 200}})
 loadApp({title:"Maps", appid:"MapViewer", icon:'map', launchbar:false})
-loadApp({title:"Settings", appid:"SettingsApp", icon:'settings', launchbar:false, single_instance:true,
-    window:{default_width:400, default_height:400}})
+loadApp({title:"Settings", appid:"SettingsApp", icon:'settings', launchbar:false, single_instance:true, resize:true,
+    window:{default_width:900, default_height:700}})
 loadApp({title:"Writer", appid:"WriterApp", icon:'create', launchbar:false})
 loadApp({title:'Data', appid:"DataBrowser",icon:'create', launchbar:false})
 loadApp({title:'Files', appid:"FileBrowserApp",icon:'image', launchbar:true})

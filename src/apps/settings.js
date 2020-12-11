@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import {DBContext, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {Toolbar, VBox} from '../ui/ui.js'
+import {ThemeExamplePanel} from './ThemeExamplePanel.js'
 
 export function SettingsApp({app}) {
     let db = useContext(DBContext)
@@ -12,6 +13,7 @@ export function SettingsApp({app}) {
     return <VBox scroll>
         <Toolbar>
             <button onClick={()=>setPanel("background")}>background</button>
+            <button onClick={()=>setPanel("theme")}>theme</button>
         </Toolbar>
         {renderPanel(panel)}
     </VBox>
@@ -20,9 +22,8 @@ export function SettingsApp({app}) {
 
 
 function renderPanel(panel) {
-    if(panel === 'background') {
-        return <BackgroundEditorPanel/>
-    }
+    if(panel === 'background') return <BackgroundEditorPanel/>
+    if(panel === 'theme') return <ThemeExamplePanel/>
     return <div>nothing</div>
 }
 
