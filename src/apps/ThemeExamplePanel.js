@@ -56,7 +56,7 @@ export function ThemeExamplePanel() {
 
 
 
-    return <VBox grow>
+    return <VBox scroll grow>
         <HBox>
             <button onClick={set_light_theme}>light</button>
             <button onClick={set_dark_theme}>dark</button>
@@ -93,11 +93,11 @@ export function ThemeExamplePanel() {
 }
 
 function PanelChoice() {
-    const [panel, set_panel] = useState('forms')
+    const [panel, set_panel] = useState('tables')
     let content = <div>nothing</div>
     if(panel === 'forms') content = <RenderPanel/>
     if(panel === 'tables') content = <RenderTable/>
-    return <VBox>
+    return <VBox scroll grow>
         <Toolbar>
             <ToggleGroup>
                 <ToggleButton caption={'forms'} selected={panel==='forms'} onClick={()=>set_panel('forms')}/>
@@ -109,7 +109,7 @@ function PanelChoice() {
 }
 
 function RenderTable() {
-    let data = range(0,30).map(i => {
+    let data = range(0,20).map(i => {
         return {
             id:i,
             props:{
@@ -120,19 +120,19 @@ function RenderTable() {
         }
     })
     const [sel, set_sel] = useState(null)
-    return <DataTable data={data} stringifyDataColumn={(o,k)=> o.props[k]+""} selected={sel} setSelected={set_sel}/>
+    return <DataTable className={'grow scroll'} data={data} stringifyDataColumn={(o,k)=> o.props[k]+""} selected={sel} setSelected={set_sel}/>
 }
 
 function RenderPanel() {
     const [sel, set_sel] = useState("")
     const items = ["fun item 1","fun item 2", "fun item 3", "fun item 4"].map(s=>({id:s,title:s}))
-return     <HBox grow>
+return     <HBox>
         <DataList data={items} selected={sel} setSelected={set_sel}
                   renderItem={({item,...rest})=>{
                       return <StandardSourceItem title={item.title} {...rest}/>
                   }}
         />
-        <FormGroup className="grow">
+        <FormGroup>
             <ToggleGroup>
                 <ToggleButton caption={'Wallpaper'}/>
                 <ToggleButton caption={'Appearance'} selected={true}/>

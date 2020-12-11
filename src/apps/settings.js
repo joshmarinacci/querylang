@@ -7,7 +7,7 @@ import {ThemeExamplePanel} from './ThemeExamplePanel.js'
 export function SettingsApp({app}) {
     let db = useContext(DBContext)
     useDBChanged(db, CATEGORIES.TASKS.ID)
-    let [panel,setPanel] = useState("background")
+    let [panel,setPanel] = useState("theme")
 
     return <VBox scroll grow>
         <Toolbar>
