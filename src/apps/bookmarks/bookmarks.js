@@ -20,6 +20,8 @@ import {calculateFoldersFromTags} from '../../util.js'
 import {Grid3Layout} from '../../ui/grid3layout.js'
 import {DataList, StandardSourceItem} from '../../ui/dataList.js'
 import {StandardViewPanel} from '../../ui/StandardViewPanel.js'
+import {StandardEditPanel} from '../../ui/StandardEditPanel.js'
+import {DialogManagerContext} from '../../ui/DialogManager.js'
 
 function PopupMenu ({children}) {
     let pm = useContext(PopupManagerContext)
@@ -43,9 +45,8 @@ function MenuDivider({}) {
 export function BookmarksManager({app}) {
     let db = useContext(DBContext)
     useDBChanged(db,CATEGORIES.BOOKMARKS.ID)
+    let dm = useContext(DialogManagerContext)
 
-    const [add_visible, set_add_visible] = useState(false)
-    const [draft, setDraft] = useState({})
     const [selected, setSelected] = useState(null)
     const [selectedQuery, setSelectedQuery] = useState(null)
     const [sortField, setSortField] = useState("title")
@@ -55,13 +56,7 @@ export function BookmarksManager({app}) {
 
     const show_add_dialog = () => {
         let obj = db.make(CATEGORIES.BOOKMARKS.ID, CATEGORIES.BOOKMARKS.SCHEMAS.BOOKMARK.TYPE)
-        setDraft(obj)
-        set_add_visible(true)
-    }
-    const add_bookmark = (bk) => {
-        set_add_visible(false)
-        if(bk) db.add(bk)
-        console.log(bk)
+        dm.show(<AddDialog draft={obj}/>)
     }
     const open_tab = (bookmark) => {
         db.setProp(bookmark,'lastAccessed',new Date())
@@ -149,13 +144,12 @@ export function BookmarksManager({app}) {
 
         <BookmarkDetailsView bookmark={selected} onOpen={open_tab} className={"col3 row2"}/>
 
-        <AddDialog visible={add_visible} onAdd={add_bookmark} draft={draft} db={db}/>
     </Grid3Layout>
 }
 
-function AddDialog({visible, onAdd, draft, db}) {
-    const [update, setUpdate] = useState(false)
-    if(!visible) return <div style={{display:'none'}}/>
+function AddDialog({draft}) {
+    let dm = useContext(DialogManagerContext)
+    let db = useContext(DBContext)
     const analyze = () => {
         let url = `http://localhost:30011/?url=${propAsString(draft,'url')}`
         fetch(url)
@@ -166,27 +160,22 @@ function AddDialog({visible, onAdd, draft, db}) {
                     db.setProp(draft,'title',res.summary.title)
                     db.setProp(draft, 'excerpt', res.summary.excerpt)
                 }
-                setUpdate(!update)
         })
     }
-    return <div className={'dialog add'} style={{ display:visible?"flex":'none' }}>
-        <VBox grow>
-            <Panel>
-                <HBox center>
-                    <TextPropEditor buffer={draft} prop={'url'} grow/>
-                    <button onClick={analyze}>analyze</button>
-                </HBox>
-                <TextPropEditor buffer={draft} prop={'title'}/>
-                <TextareaPropEditor buffer={draft} prop={'excerpt'}/>
-                <TagsetEditor buffer={draft} prop={'tags'}/>
-            </Panel>
-        </VBox>
+    return <VBox>
+            <button onClick={analyze}>analyze</button>
+            <StandardEditPanel object={draft}/>
         <Toolbar className={'bottom'}>
             <Spacer/>
-            <button onClick={()=>onAdd(null)}>cancel</button>
-            <button onClick={()=>onAdd(draft)}>save</button>
+            <button onClick={()=>{
+                dm.hide()
+            }}>cancel</button>
+            <button onClick={()=>{
+                dm.hide()
+                db.add(draft)
+            }}>save</button>
         </Toolbar>
-    </div>
+        </VBox>
 }
 
 

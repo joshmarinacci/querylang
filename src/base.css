@@ -380,6 +380,10 @@ li.divider {
     background-color: var(--bg-3);
 }
 
+.standard-edit-panel {
+    background-color: var(--bg-2);
+}
+
 
 /* =========== disabled  ========= */
 button:disabled {
