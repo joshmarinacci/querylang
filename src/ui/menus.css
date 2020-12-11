@@ -26,13 +26,4 @@ ul.menu-bar ul ul {
 ul.menu-bar ul li:hover > ul {
     left: 100%;
 }
-/*ul.menu-container li.divider {*/
-/*    background-color: var(--std-border-color);*/
-/*    !*border-width: 0;*!*/
-/*    !*padding:0;*!*/
-/*    !*height: 1px;*!*/
-/*}*/
-ul.menu-container li.header {
-    /*color: hsl(0,0%,50%);*/
-}
 

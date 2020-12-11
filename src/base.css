@@ -248,6 +248,7 @@ table td {
     z-index: 1;
     overflow: visible;
     padding: 0;
+    list-style: none;
 }
 /* down menu */
 .menu-bar ul {
@@ -272,6 +273,10 @@ table td {
 .menu-container li.divider {
     padding:0;
     height: 1px;
+}
+li.header {
+    padding: var(--std-inline-padding);
+    text-transform: uppercase;
 }
 
 /* actual items */
@@ -389,6 +394,9 @@ input[type=checkbox]:checked, input[type=radio]:checked {
 li.divider {
     background-color: var(--std-border);
     border-width: 0;
+}
+li.header {
+    color: var(--bg-6);
 }
 .menu-bar button, .menu-container button {
     border-width: 0;
