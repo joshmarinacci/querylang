@@ -35,15 +35,21 @@ export function ThemeExamplePanel() {
                        }}>{i}</div>)
     }
 
+    const set_tint = (sat) => {
+        let body = document.querySelector('body')
+        body.style.setProperty("--bg-sat",`${sat}%`)
+    }
+
+
 
     return <div>
         <HBox>
             <button onClick={set_light_theme}>light</button>
             <button onClick={set_dark_theme}>dark</button>
 
-            <button id="without-tint">no tint</button>
-            <button id="with-tint">tint</button>
-            <button id="with-heavy-tint">heavy tint</button>
+            <button onClick={()=>set_tint(0)}>no tint</button>
+            <button onClick={()=>set_tint(10)}>tint</button>
+            <button onClick={()=>set_tint(20)}>heavy tint</button>
         </HBox>
 
         <HBox>{hues}</HBox>
