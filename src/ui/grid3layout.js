@@ -1,5 +1,7 @@
 import React from 'react';
 
+import "./grid3layout.css"
+
 export function Grid3Layout({children, toolbar=true, statusbar=true}) {
     let rows = `${toolbar?'3em':''} 1fr ${statusbar?'2em':''}`
     let style = {

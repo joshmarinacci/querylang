@@ -2,6 +2,7 @@ import React, {useEffect, useRef} from 'react'
 import Icon from '@material-ui/core/Icon'
 import {HBox, Spacer, VBox} from './ui.js'
 import {flatten} from './grid3layout.js'
+import "./datalist.css"
 
 export function DataList({data, column=1, row=1, secondary, selected, renderItem, setSelected, className=""}) {
     if(!data) {

@@ -73,11 +73,11 @@ export function Email({app }) {
             }}
         />
 
-        <Toolbar>
+        <TopToolbar column={3}>
             <Icon>create</Icon>
             <Icon>delete</Icon>
             <Icon>archive</Icon>
-        </Toolbar>
+        </TopToolbar>
 
         <DataList column={2} row={2}
                   data={folder_results}

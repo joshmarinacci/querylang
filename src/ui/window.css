@@ -1,20 +1,19 @@
 .window {
-    border: 1px solid var(--std-border-color);
+    /*border: 1px solid var(--std-border-color);*/
     display: flex;
     flex-direction: column;
-    border-radius: var(--radius);
+    /*border-radius: var(--radius);*/
     overflow: auto;
     position: absolute;
 }
 
 .window > title {
     display: block;
-    background-color: var(--accent-background-color);
-    color: var(--accent-text-color);
     user-select: none;
     cursor: move;
-    border-radius: var(--radius) var(--radius) 0 0;
-    padding: 0.25em 0.5em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 .window.back-draggable {
     user-select: none;
@@ -23,29 +22,30 @@
 
 
 .window.dragging > title {
-    background-color: greenyellow;
-    color: black;
+    /*background-color: greenyellow;*/
+    /*color: black;*/
 }
 
 .window title b {
     padding: 0.25em;
     text-transform: capitalize;
+    flex: 1.0;
 }
-.window title .appicon {
-    margin-right: 0.25rem;
-}
-.window title .close {
-    margin: 0;
-}
-.window title .close:hover {
-    color:#fff;
-    cursor: auto;
-}
-.window title .maximize:hover {
-    background-color: var(--accent-text-color);
-    color: var(--accent-background-color);
-    cursor: auto;
-}
+/*.window title .appicon {*/
+/*    margin-right: 0.25rem;*/
+/*}*/
+/*.window title .close {*/
+/*    margin: 0;*/
+/*}*/
+/*.window title .close:hover {*/
+/*    color:#fff;*/
+/*    cursor: auto;*/
+/*}*/
+/*.window title .maximize:hover {*/
+/*    background-color: var(--accent-text-color);*/
+/*    color: var(--accent-background-color);*/
+/*    cursor: auto;*/
+/*}*/
 
 .window .resize-handle {
     position: absolute;
@@ -62,23 +62,15 @@
     border-top-left-radius: 1rem;
 }
 
-.window .resize-handle:hover {
-    background-color: var(--accent-background-color);
-}
-.window.resizing .resize-handle {
-    background-color: var(--accent-background-color);
-}
+/*.window .resize-handle:hover {*/
+    /*background-color: var(--accent-background-color);*/
+/*}*/
+/*.window.resizing .resize-handle {*/
+/*    background-color: var(--accent-background-color);*/
+/*}*/
 
 
-.window.resizing {
-    border-color: var(--accent-background-color);
-}
+/*.window.resizing {*/
+/*    border-color: var(--accent-background-color);*/
+/*}*/
 
-.window > title {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-.window > title > b {
-    flex: 1.0;
-}

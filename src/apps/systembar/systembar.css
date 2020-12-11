@@ -1,27 +1,28 @@
-.SystemBar .toolbar {
-    border: 0px solid var(--gray3);
-    /*min-height: 1.5rem;*/
-    padding:0;
-    margin:0;
-    background-color: transparent;
-}
-.SystemBar .toolbar .clock {
-    font-weight: bold;
-    padding: 0.25em 1.0em;
-}
 
-.SystemBar .grp {
-    display: flex;
-    flex-direction: row;
-    padding: 0.5em;
-    margin:0;
-    border: 1px solid var(--std-border-color);
-    border-radius: 1em;
-    background-color: var(--std-bg-color);
-    color: var(--std-text-color);
-}
-.SystemBar .grp > * {
-}
+/*.SystemBar .toolbar {*/
+/*    border: 0px solid var(--gray3);*/
+/*    !*min-height: 1.5rem;*!*/
+/*    padding:0;*/
+/*    margin:0;*/
+/*    background-color: transparent;*/
+/*}*/
+/*.SystemBar .toolbar .clock {*/
+/*    font-weight: bold;*/
+/*    padding: 0.25em 1.0em;*/
+/*}*/
+
+/*.SystemBar .grp {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    padding: 0.5em;*/
+/*    margin:0;*/
+/*    border: 1px solid var(--std-border-color);*/
+/*    border-radius: 1em;*/
+/*    background-color: var(--std-bg-color);*/
+/*    color: var(--std-text-color);*/
+/*}*/
+/*.SystemBar .grp > * {*/
+/*}*/
 
 .window.SystemBar {
     border-width: 0px;

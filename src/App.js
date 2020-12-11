@@ -37,6 +37,8 @@ import {PanelViewerApp} from './minis/PanelViewerApp.js'
 import {check_services, get_json_with_auth} from './util.js'
 import {PERSIST_SERVER_URL} from './globals.js'
 
+import "./base.css"
+
 let db_service = makeDB()
 let app_launcher_service = new AppLauncherService()
 let alarm_service = new AlarmService(db_service)

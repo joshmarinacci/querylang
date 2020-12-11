@@ -1,99 +1,132 @@
-@import "https://fonts.googleapis.com/icon?family=Material+Icons";
-
-.grid3layout {
-    flex: 1.0;
+.grid {
     display: grid;
-    grid-template-columns: [one] 10em [gap1] 1px [two]20em [gap2] 1px [three] 1fr [end];
-    grid-template-rows: [toolbar]3em [content]1fr;
-    background-color: black;
-    overflow: auto;
+    grid-template-columns: 15em 2.0fr 3fr;
+    grid-template-rows: 3em 1fr 2em;
+    grid-gap: 1px;
+    overflow: hidden;
+    justify-items: stretch;
+    flex: 1.0;
+}
+.grid2 {
+    display: grid;
+    grid-template-columns: 1fr 2.0fr;
+    grid-template-rows: 3em 1fr 2em;
+    grid-gap: 1px;
+    overflow: hidden;
+    justify-items: stretch;
+    flex: 1.0;
 }
 
-.grid3layout > * {
-    background-color: white;
-}
+.col1 { grid-column: 1; }
+.col2 { grid-column: 2; }
+.row1 { grid-row-start: 1; }
+.row2 { grid-row-start: 2; }
+.span3 { grid-column-end: 4; }
 
-.col1 {
-    grid-column-start: one;
-    grid-column-end: gap1;
-}
-.col2 {
-    grid-column-start: two;
-    grid-column-end: gap2;
-}
-.col3 {
-    grid-column-start: three;
-    grid-column-end: end;
-}
 
-.row2 {
-    grid-row: content;
-}
-
-.row1 {
-    grid-row: toolbar;
-}
-
-.span3 {
-    grid-column-end: end;
-}
-
-.source-list {
-    grid-row: content;
+.info {
+    grid-column: 1;
+    grid-row: 1;
+    text-align: center;
 }
 
 
-.content-area {
-    grid-row: content;
-}
+/*@import "https://fonts.googleapis.com/icon?family=Material+Icons";*/
 
-.toolbar {
-    /*display: flex;*/
-    /*flex-direction: row;*/
-    /*align-items: center;*/
-}
-.titlebar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
+/*.grid3layout {*/
+/*    flex: 1.0;*/
+/*    display: grid;*/
+/*    grid-template-columns: [one] 10em [gap1] 1px [two]20em [gap2] 1px [three] 1fr [end];*/
+/*    grid-template-rows: [toolbar]3em [content]1fr;*/
+/*    background-color: black;*/
+/*    overflow: auto;*/
+/*}*/
 
-/* ============= padding ========== */
+/*.grid3layout > * {*/
+/*    background-color: white;*/
+/*}*/
 
-.titlebar {
-    padding: 0.5em;
-}
-.content-area {
-    padding: 1em;
-}
+/*.col1 {*/
+/*    grid-column-start: one;*/
+/*    grid-column-end: gap1;*/
+/*}*/
+/*.col2 {*/
+/*    grid-column-start: two;*/
+/*    grid-column-end: gap2;*/
+/*}*/
+/*.col3 {*/
+/*    grid-column-start: three;*/
+/*    grid-column-end: end;*/
+/*}*/
 
-/* ========== colors =============== */
+/*.row2 {*/
+/*    grid-row: content;*/
+/*}*/
 
-.grid3layout {
-    color: #555;
-    background-color: #888888;
-    border: 1px solid #888888;
-}
-.titlebar {
-    background-color: white;
-    color: #888888;
-}
-.toolbar {
-    /*background-color: white;*/
-}
-.toolbar button, .toolbar .MuiIcon-root {
-    /*background-color: white;*/
-    /*border-width: 0;*/
-    /*border-radius: 0.5em;*/
-}
-.toolbar button:hover, .toolbar .MuiIcon-root:hover {
-    /*background-color: grey;*/
-    /*color: white;*/
-}
+/*.row1 {*/
+/*    grid-row: toolbar;*/
+/*}*/
 
-.MuiIcon-root.small {
-    font-size: 75%;
-}
+/*.span3 {*/
+/*    grid-column-end: end;*/
+/*}*/
+
+/*.source-list {*/
+/*    grid-row: content;*/
+/*}*/
+
+
+/*.content-area {*/
+/*    grid-row: content;*/
+/*}*/
+
+/*.toolbar {*/
+/*    !*display: flex;*!*/
+/*    !*flex-direction: row;*!*/
+/*    !*align-items: center;*!*/
+/*}*/
+/*.titlebar {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*!* ============= padding ========== *!*/
+
+/*.titlebar {*/
+/*    padding: 0.5em;*/
+/*}*/
+/*.content-area {*/
+/*    padding: 1em;*/
+/*}*/
+
+/*!* ========== colors =============== *!*/
+
+/*.grid3layout {*/
+/*    color: #555;*/
+/*    background-color: #888888;*/
+/*    border: 1px solid #888888;*/
+/*}*/
+/*.titlebar {*/
+/*    background-color: white;*/
+/*    color: #888888;*/
+/*}*/
+/*.toolbar {*/
+/*    !*background-color: white;*!*/
+/*}*/
+/*.toolbar button, .toolbar .MuiIcon-root {*/
+/*    !*background-color: white;*!*/
+/*    !*border-width: 0;*!*/
+/*    !*border-radius: 0.5em;*!*/
+/*}*/
+/*.toolbar button:hover, .toolbar .MuiIcon-root:hover {*/
+/*    !*background-color: grey;*!*/
+/*    !*color: white;*!*/
+/*}*/
+
+/*.MuiIcon-root.small {*/
+/*    font-size: 75%;*/
+/*}*/
 
 
