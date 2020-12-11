@@ -234,6 +234,10 @@ table td {
 }
 
 
+.panel {
+    padding: 1.0em;
+}
+
 
 /* ============ menus =========== */
 .menu-bar {
@@ -449,6 +453,13 @@ button.selected:hover {
 }
 button.primary:hover {
     background-color: var(--ac-4);
+}
+
+
+/* =========== focus =========== */
+.data-list:focus-within, .panel:focus-within {
+    outline: 1px solid var(--std-ac-bg);
+    outline-offset: -2px;
 }
 
 
