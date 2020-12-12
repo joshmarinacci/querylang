@@ -428,6 +428,9 @@ li.header {
 .standard-edit-panel {
     background-color: var(--bg-2);
 }
+a {
+    color: var(--ac-5);
+}
 
 
 /* =========== disabled  ========= */
