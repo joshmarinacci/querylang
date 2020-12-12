@@ -167,6 +167,11 @@ export function NewsReader({}) {
             db.setProp(post,'read',true)
         }
     }
+    const toggle_read = () => {
+        if(post) {
+            db.setProp(post, 'read',!propAsBoolean(post,'read'))
+        }
+    }
     const add_feed= () =>{
         dm.show(<AddFeedDialog onCancel={()=>dm.hide()} onDone={(url)=>{
             let sub = db.make(CATEGORIES.RSS.ID, CATEGORIES.RSS.SCHEMAS.SUBSCRIPTION.TYPE)
@@ -205,12 +210,12 @@ export function NewsReader({}) {
             <button onClick={()=>add_to_read(post,db)}>add to deep reading list</button>
             <button onClick={()=>add_to_movies(post,db)}>add to movies list</button>
         </Toolbar>
-        <PostPanel className={'col3 row2'} post={post} navNext={navNext} navPrev={navPrev} markRead={mark_as_read} />
+        <PostPanel className={'col3 row2'} post={post} navNext={navNext} navPrev={navPrev} markRead={mark_as_read} toggleRead={toggle_read} />
         <StatusBar className={"col1 row3 span3"}>cool status here</StatusBar>
     </Grid3Layout>
 }
 
-function PostPanel({post, className, navNext, navPrev, markRead}) {
+function PostPanel({post, className, navNext, navPrev, markRead, toggleRead}) {
 
 
     //if view this post for 3 sec, then mark as read
@@ -244,7 +249,7 @@ function PostPanel({post, className, navNext, navPrev, markRead}) {
             openArticle()
         }
         if(e.key === 'm') {
-            markRead()
+            toggleRead()
         }
     }
 
