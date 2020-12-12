@@ -306,6 +306,9 @@ class DB {
             }
             return
         }
+        if(!obj.props.hasOwnProperty(key)) {
+            console.warn("trying to set unknown property",key)
+        }
         obj.props[key] = value
         obj.local = true
         obj.modifiedtime = new Date()

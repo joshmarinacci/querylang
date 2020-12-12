@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {DBContext, propAsBoolean, propAsString, setProp, sort, useDBChanged} from '../db.js'
+import {DBContext, propAsBoolean, propAsDate, propAsString, setProp, sort, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
-import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_TYPE} from '../query2.js'
+import {AND, IS_CATEGORY, IS_PROP_EQUAL, IS_PROP_FALSE, IS_PROP_TRUE, IS_TYPE} from '../query2.js'
 import "./DataBrowser.css"
 import {Grid3Layout} from '../ui/grid3layout.js'
 import {DataList, StandardSourceItem} from '../ui/dataList.js'
@@ -159,8 +159,13 @@ export function NewsReader({}) {
     let [sub, set_sub] = useState(null)
 
     let subs = db.QUERY(AND(IS_CATEGORY(CATEGORIES.RSS.ID), IS_TYPE(CATEGORIES.RSS.SCHEMAS.SUBSCRIPTION.TYPE)))
-    let posts = db.QUERY(AND(IS_CATEGORY(CATEGORIES.RSS.ID), IS_TYPE(CATEGORIES.RSS.SCHEMAS.POST.TYPE), IS_PROP_EQUAL('subscription',sub?sub.id:null)))
-    sort(posts,['post_date'])
+    let posts = db.QUERY(AND(
+        IS_CATEGORY(CATEGORIES.RSS.ID),
+        IS_TYPE(CATEGORIES.RSS.SCHEMAS.POST.TYPE),
+        IS_PROP_EQUAL('subscription',sub?sub.id:null),
+        IS_PROP_FALSE('archived'),
+        ))
+    posts = sort(posts,['post_date'])
 
     const mark_as_read = () => {
         if(post) {
@@ -191,6 +196,18 @@ export function NewsReader({}) {
         n--
         if(n>=0) set_post(posts[n])
     }
+    const archive_read = () => {
+        if(!sub) return
+        console.log("archiving all posts that are read")
+        let posts = db.QUERY(AND(
+            IS_CATEGORY(CATEGORIES.RSS.ID),
+            IS_TYPE(CATEGORIES.RSS.SCHEMAS.POST.TYPE),
+            IS_PROP_EQUAL('subscription',sub.id),
+            IS_PROP_TRUE('read')
+            ))
+        posts.forEach(p => db.setProp(post,'archived',true))
+        console.log('after',posts)
+    }
 
     return <Grid3Layout statusbar={true}>
         <InfoBar title={'News'}/>
@@ -203,10 +220,14 @@ export function NewsReader({}) {
                         title={propAsString(item,'title')} {...rest}/>}/>
         <DataList column={2} row={2} data={posts} selected={post} setSelected={set_post} className={'scroll'}
                   renderItem={({item,...rest})=> <StandardSourceItem
-                        className={(propAsBoolean(item,'read')?"read":"unread")}
-                        title={propAsString(item,'title')} {...rest}/>}/>
+                          className={(propAsBoolean(item,'read')?"read":"unread")}
+                          title={propAsString(item,'title')}
+                          subtitle={format(propAsDate(item,'post_date'),"MM/dd/yyyy")}
+                          {...rest}/>
+                  }/>
         <Toolbar>
             <button onClick={mark_as_read}>mark as read</button>
+            <button onClick={archive_read}>archive read</button>
             <button onClick={()=>add_to_read(post,db)}>add to deep reading list</button>
             <button onClick={()=>add_to_movies(post,db)}>add to movies list</button>
         </Toolbar>

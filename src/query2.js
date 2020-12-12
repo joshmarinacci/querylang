@@ -133,4 +133,5 @@ export const IS_PROP_SUBSTRING = (prop, value) => ({substring:{prop,value, negat
 export const IS_PROP_NOTSUBSTRING = (prop, value) => ({substring:{prop,value, negate:true}})
 export const IS_PROP_CONTAINS = (prop, value) => ({contains:{prop,value:value}})
 export const IS_PROP_TRUE = (prop) => ({ equal: {prop, value:true}})
+export const IS_PROP_FALSE = (prop) => ({ equal: {prop, value:false}})
 

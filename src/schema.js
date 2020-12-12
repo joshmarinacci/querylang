@@ -777,6 +777,11 @@ const RSS = {
                     type: BOOLEAN,
                     default:false,
                 },
+                archived: {
+                    key:'archived',
+                    type: BOOLEAN,
+                    default:false,
+                },
                 summary:{
                     key:'summary',
                     type: STRING,
