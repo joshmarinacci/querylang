@@ -5,7 +5,7 @@ import {DBContext} from '../db.js'
 
 export function WebpageScanResultsPanel({args, onClose}) {
     // console.log("results are",args)
-    let r = args.info.results
+    let r = args.info.results.html
     console.log(r)
     let feed = ""
 
