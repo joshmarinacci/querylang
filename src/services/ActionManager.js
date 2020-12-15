@@ -142,17 +142,10 @@ const URL_SCANNER =     {
                     url:val,
                 },
                 {
-                    title:`scan for news feed (RSS)`,
+                    title:`scan URL`,
                     action:true,
                     service:'URL_SCANNER',
-                    command:'scan_news',
-                    url:val,
-                },
-                {
-                    title:`check as image`,
-                    action:true,
-                    service:'URL_SCANNER',
-                    command:'scan_image',
+                    command:'scan',
                     url:val,
                 },
             ]
