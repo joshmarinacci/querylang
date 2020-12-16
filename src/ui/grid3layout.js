@@ -13,7 +13,7 @@ export function Grid3Layout({children, toolbar=true, statusbar=true}) {
 export function Grid2Layout({children, toolbar=true, statusbar=true}) {
     let rows = `${toolbar?'3em':''} 1fr ${statusbar?'2em':''}`
     let style = {
-        gridTemplateColumns: '1fr 2fr',
+        gridTemplateColumns: '15em 2fr',
         gridTemplateRows: rows,
     }
 

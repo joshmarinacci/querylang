@@ -2,13 +2,18 @@ import {VBox} from '../ui/ui.js'
 import {CATEGORIES} from '../schema.js'
 import {useContext} from 'react'
 import {DBContext} from '../db.js'
+import {upload_url} from '../services/files.js'
 
 export function WebpageScanResultsPanel({args, onClose}) {
     console.log("results are",args)
     let db = useContext(DBContext)
 
     const add_as_file = () => {
-        console.log("ingesting",args.info.action.url)
+        console.log("ingesting",args.info.action.url, args.info)
+        return upload_url(args.info.action.url).then(d => {
+            console.log("got the result",d)
+            onClose()
+        })
     }
     const add_as_song = () => {
         console.log("ingesting",args.info.action.url)

@@ -8,8 +8,7 @@ import {AND, IS_CATEGORY, IS_PROP_SUBSTRING, IS_TYPE, OR} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
 import {propAsString} from '../db.js'
 import * as chrono from 'chrono-node'
-import {SCAN_SERVER_URL} from '../globals.js'
-import {get_json_with_auth} from '../util.js'
+import {scan_file} from './files.js'
 
 export class ActionManager {
     constructor() {
@@ -25,8 +24,7 @@ export class ActionManager {
         }
         if(action.service === 'URL_SCANNER') {
             console.log("scanning",action)
-            let furl = `${SCAN_SERVER_URL}?url=${action.url}`;
-            return get_json_with_auth(furl).then(r => r.json()).then(d => {
+            scan_file(action.url).then(d => {
                 app_launcher.launchByIdWithArgs(db, 'PanelViewerApp',{
                     title:'scan results',
                     panel_func: 'WebpageScanResultsPanel',

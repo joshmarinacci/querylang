@@ -2,6 +2,7 @@ import {propAsString} from '../db.js'
 import React, {useEffect, useState} from 'react'
 import {CATEGORIES} from '../schema.js'
 import {PROXY_SERVER_URL} from '../globals.js'
+import {calculate_thumb_url, get_mime_major} from '../services/files.js'
 let MIMETYPE = CATEGORIES.FILES.SCHEMAS.FILE_INFO.props.mimetype.key
 
 let DATA_CACHE = {}
@@ -9,7 +10,17 @@ let DATA_CACHE = {}
 function ImagePreview({file}) {
     let [data,setData] = useState(null)
     useEffect(()=>{
-        generate_image_thumb(file,(url)=> setData(url))
+        if(file.props.meta) {
+            let thumbs = file.props.meta.thumbs
+            if(thumbs && thumbs.length > 0) {
+                let url = calculate_thumb_url(file)
+                console.log('the url is',url)
+                setData(url)
+                return
+            }
+        } else {
+            generate_image_thumb(file, (url) => setData(url))
+        }
     },[file])
     return <img className={'thumbnail'} src={data}/>
 }
@@ -85,7 +96,7 @@ function AudioPreview({file}) {
 
 export function FilePreview({file}) {
     let mimetype = propAsString(file,MIMETYPE)
-    if(mimetype === 'image/jpeg') return <ImagePreview file={file}/>
+    if(get_mime_major(file) === 'image') return <ImagePreview file={file}/>
     if(mimetype === 'text/plain') return <TextPreview file={file}/>
     if(mimetype === 'audio/mpeg') return <AudioPreview file={file}/>
     return <div className={'preview'}>no preview</div>

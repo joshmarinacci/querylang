@@ -60,7 +60,7 @@ export function StandardSourceItem({title, subtitle, icon, trailing_icon, traili
         {(!header&&icon)?<Icon>{icon}</Icon>:""}
         {title?<span className={'title'}>{title}</span>:""}
         <Spacer/>
-        {trailing_text?<span className={'trailing_text'}>{trailing_text}</span>:""}
+        {trailing_text?<span className={'trailing-text'}>{trailing_text}</span>:""}
         {(!header&&trailing_icon)?<Icon>{trailing_icon}</Icon>:""}
     </HBox>
 

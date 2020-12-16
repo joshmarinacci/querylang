@@ -13,7 +13,7 @@ import {Grid2Layout} from './grid3layout.js'
 import {DataList, StandardSourceItem} from './dataList.js'
 import {FilePreview} from './filepreview.js'
 import {DialogManagerContext} from './DialogManager.js'
-import {FILE_SERVER_URL} from '../globals.js'
+import {calculate_data_url, list_files} from '../services/files.js'
 
 function Dialog({title,children,...rest}) {
     return <div className={'dialog'} {...rest}>
@@ -168,19 +168,26 @@ function ToggleBar({value, values, setValue}) {
 
 let q = AND(IS_CATEGORY(CATEGORIES.FILES.ID),IS_TYPE(CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE))
 function list_remote_files(db) {
-    return fetch(FILE_SERVER_URL).then(r => r.json()).then(real_files => {
+    return list_files().then(real_files => {
         let info_files = db.QUERY(q)
         console.log("info files",info_files)
+        console.log("real files",real_files)
         real_files.forEach(f => {
-            let url = `${FILE_SERVER_URL}/${f.name}${f.ext}`;
+            let url = calculate_data_url(f)
             let match = info_files.find(i => {
                 return (i.props.url === url)
             })
             if(!match) {
+                console.log('adding a new file from',f)
                 let info = db.make(CATEGORIES.FILES.ID,CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE)
-                info.props.filename = f.name
-                info.props.url = url
-                info.props.mimetype = f.mimetype
+                info.props.filename = f.info.basename
+                info.props.url = calculate_data_url(f)
+                info.props.mimetype = f.info.mime
+                info.props.fileid = f.fileid
+                if(info.props.mimetype === 'image/jpeg') {
+                    info.props.meta = f.info.image
+                }
+                console.log("adding",info)
                 db.add(info)
             }
         })

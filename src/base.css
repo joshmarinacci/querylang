@@ -314,6 +314,14 @@ li.header {
     min-width: 10em;
     list-style: none;
 }
+.data-list .title {
+    white-space: nowrap;
+    overflow: hidden;
+}
+.data-list .trailing-text {
+    white-space: nowrap;
+    overflow: hidden;
+}
 
 
 
