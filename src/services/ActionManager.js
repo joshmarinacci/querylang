@@ -71,6 +71,17 @@ export class ActionManager {
         }
         if(action.service === 'CALCULATOR_SERVICE') {
             console.log("calculating",action)
+            //calculate the answer
+            //open panel
+            let d = {
+                action:action,
+                result:-9999
+            }
+            app_launcher.launchByIdWithArgs(db,'PanelViewerApp',{
+                title:'Calculator',
+                panel_func:'CalculatorPanel',
+                info:d
+            })
         }
         if(action.service === 'WEATHER_FINDER') {
             console.log("getting the weather",action)
@@ -278,7 +289,9 @@ const CALCULATOR_SERVICE = {
         if (args.length < 2) return []
         return [{
             text: args.join(" "),
-            title:`${args.join(" ")} =`
+            title:`${args.join(" ")} =`,
+            action:true,
+            service:'CALCULATOR_SERVICE'
         }]
     }
 }
