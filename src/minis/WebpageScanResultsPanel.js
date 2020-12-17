@@ -35,6 +35,17 @@ export function WebpageScanResultsPanel({args, onClose}) {
             <button onClick={onClose}>close</button>
         </VBox>
     }
+    if(args.info.results.pdf) {
+        return <VBox>
+            <div>it's a pdf</div>
+            <div>author: {args.info.results.pdf.author}</div>
+            <div>title: {args.info.results.pdf.title}</div>
+            <div>{args.info.results.pdf.pageCount} pages</div>
+            <div>{(args.info.results.size/1000/1000).toFixed(2)} MB</div>
+            <button onClick={add_as_file}>add as file</button>
+            <button onClick={onClose}>close</button>
+        </VBox>
+    }
 
     let r = args.info.results.html
     let feed = ""
@@ -47,11 +58,11 @@ export function WebpageScanResultsPanel({args, onClose}) {
         db.add(sub)
         onClose()
     }
-    if(r.feed) {
+    if(r && r.feed) {
         feed = <button onClick={add_as_news}>add as News source</button>
     }
     let image = ""
-    if(r.image) {
+    if(r && r.image) {
         image = <img src={r.image} draggable={false} onDragStart={no_drag}/>
     }
     return <VBox style={{
