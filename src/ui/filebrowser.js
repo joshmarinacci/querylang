@@ -77,14 +77,17 @@ const get_mimetype_major = (str) => str.substring(0,str.indexOf("/"))
 const is_image_mimetype = (str) => (get_mimetype_major(str)==='image')
 const is_plaintext_mimetype = (str) => (str==='text/plain')
 const is_audio_mimetype = (str) => (get_mimetype_major(str)==='audio')
+const is_pdf_mimetype = (str) => (str === 'application/pdf')
 const is_unknown_mimetype = (str) => (str==='application/octet-stream')
 
 function calculateIcon(file) {
     let mt = propAsString(file,'mimetype')
+    console.log("chekcing mt",mt);
     if(is_image_mimetype(mt)) return 'image'
     if(is_plaintext_mimetype(mt)) return 'text_snippet'
     if(is_audio_mimetype(mt)) return 'audiotrack'
     if(is_unknown_mimetype(mt)) return "?"
+    if(is_pdf_mimetype(mt)) return "picture_as_pdf"
     return 'file'
 }
 
@@ -125,26 +128,26 @@ function FileGrid({files, selected, setSelected}){
 function calculateActions(file) {
     let actions = []
     if(propAsString(file,'mimetype') === 'audio/mp3') {
-        actions.push(<ActionButton caption={'play'}/>)
-        actions.push(<ActionButton caption={'convert to WAV'}/>)
-        actions.push(<ActionButton caption={'add to Music Library'}/>)
+        // actions.push(<ActionButton caption={'play'}/>)
+        // actions.push(<ActionButton caption={'convert to WAV'}/>)
+        // actions.push(<ActionButton caption={'add to Music Library'}/>)
     }
     if(propAsString(file,'mimetype')=== 'image/jpeg') {
-        actions.push(<ActionButton caption={"convert to PNG"}/>)
-        actions.push(<ActionButton caption={"mark as headshot"}/>)
-        actions.push(<ActionButton caption={"mark as desktop wallpaper"}/>)
-        actions.push(<ActionButton caption={"edit"}/>)
+        // actions.push(<ActionButton caption={"convert to PNG"}/>)
+        // actions.push(<ActionButton caption={"mark as headshot"}/>)
+        // actions.push(<ActionButton caption={"mark as desktop wallpaper"}/>)
+        // actions.push(<ActionButton caption={"edit"}/>)
     }
     if(propAsString(file,'mimetype')=== 'image/png') {
-        actions.push(<ActionButton caption={"convert to JPEG"}/>)
+        // actions.push(<ActionButton caption={"convert to JPEG"}/>)
     }
     if(propAsString(file,'mimetype')=== 'plain/text') {
-        actions.push(<ActionButton caption={"open in Writer"}/>)
+        // actions.push(<ActionButton caption={"open in Writer"}/>)
     }
-    actions.push(<ActionButton caption={"send to phone"}/>)
-    actions.push(<ActionButton caption={"send to chat"}/>)
-    actions.push(<ActionButton caption={"share on web"}/>)
-    actions.push(<ActionButton caption={"email"}/>)
+    // actions.push(<ActionButton caption={"send to phone"}/>)
+    // actions.push(<ActionButton caption={"send to chat"}/>)
+    // actions.push(<ActionButton caption={"share on web"}/>)
+    // actions.push(<ActionButton caption={"email"}/>)
     return actions
 }
 
@@ -152,8 +155,9 @@ function FileDetailsView({file}) {
     if(!file) return <div className={'panel file-details col2 row2'}>nothing selected</div>
     return <div className={'file-details-view panel col2 row2'}>
         <span className={'filename'}>{propAsString(file,'filename')}</span>
+        <label>size</label><b>{propAsString(file,'filesize')} bytes</b>
         <FilePreview file={file}/>
-        <TagsetEditor buffer={file} prop={'tags'}/>
+        <label>tags</label><TagsetEditor buffer={file} prop={'tags'}/>
         <div className={'actions'}>{calculateActions(file)}</div>
     </div>
 }
@@ -184,6 +188,7 @@ function list_remote_files(db) {
                 info.props.url = calculate_data_url(f)
                 info.props.mimetype = f.info.mime
                 info.props.fileid = f.fileid
+                info.props.filesize = f.info.size
                 if(info.props.mimetype === 'image/jpeg') {
                     info.props.meta = f.info.image
                 }
