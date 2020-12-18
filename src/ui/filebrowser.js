@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {ActionButton, TagsetEditor, TextPropEditor, ToggleButton, ToggleGroup, Toolbar} from './ui.js'
+import {ActionButton, StatusBar, TagsetEditor, TextPropEditor, ToggleButton, ToggleGroup, Toolbar} from './ui.js'
 import {flatten} from '../util.js'
 
 import "./filebrowser.css"
@@ -58,7 +58,12 @@ export function FileBrowser({}) {
         elem.style.backgroundRepeat = "no-repeat"
         elem.style.backgroundPosition = 'center'
     }
-    return <Grid2Layout>
+    let style = {
+        gridTemplateColumns: '1fr 20em',
+        gridTemplateRows: '3em 1fr 2em',
+    }
+
+    return <div className={"grid"} style={style}>
         <Toolbar className={'col1 span3'}>
             <button onClick={()=>list_remote_files(db)}>refresh</button>
             <ToggleBar value={view} values={['list','grid']} icons={['list','view_module']} setValue={setView}/>
@@ -68,10 +73,11 @@ export function FileBrowser({}) {
         </Toolbar>
         {panel}
         <FileDetailsView file={file}/>
-        <div className={'statusbar'}>
+        <StatusBar className={'row3 col1 span3'}>
             selected = {file?propAsString(file,'filename'):""}
-        </div>
-    </Grid2Layout>
+
+        </StatusBar>
+    </div>
 }
 
 const get_mimetype_major = (str) => str.substring(0,str.indexOf("/"))
