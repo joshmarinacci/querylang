@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {ActionButton, TagsetEditor, ToggleButton, ToggleGroup, Toolbar} from './ui.js'
+import {ActionButton, TagsetEditor, TextPropEditor, ToggleButton, ToggleGroup, Toolbar} from './ui.js'
 import {flatten} from '../util.js'
 
 import "./filebrowser.css"
@@ -14,6 +14,7 @@ import {DataList, StandardSourceItem} from './dataList.js'
 import {FilePreview} from './filepreview.js'
 import {DialogManagerContext} from './DialogManager.js'
 import {calculate_data_url, list_files} from '../services/files.js'
+import {StandardViewPanel} from './StandardViewPanel.js'
 
 function Dialog({title,children,...rest}) {
     return <div className={'dialog'} {...rest}>
@@ -154,7 +155,7 @@ function calculateActions(file) {
 function FileDetailsView({file}) {
     if(!file) return <div className={'panel file-details col2 row2'}>nothing selected</div>
     return <div className={'file-details-view panel col2 row2'}>
-        <span className={'filename'}>{propAsString(file,'filename')}</span>
+        <TextPropEditor buffer={file} prop={'filename'}/>
         <label>size</label><b>{propAsString(file,'filesize')} bytes</b>
         <FilePreview file={file}/>
         <label>tags</label><TagsetEditor buffer={file} prop={'tags'}/>
