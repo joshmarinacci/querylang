@@ -95,6 +95,7 @@ function AudioPreview({file}) {
 }
 
 export function FilePreview({file}) {
+    if(!file) return <div className={'preview'}>no file selected</div>
     let mimetype = propAsString(file,MIMETYPE)
     if(get_mime_major(file) === 'image') return <ImagePreview file={file}/>
     if(mimetype === 'text/plain') return <TextPreview file={file}/>
