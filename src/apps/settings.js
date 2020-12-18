@@ -3,6 +3,7 @@ import {DBContext, useDBChanged} from '../db.js'
 import {CATEGORIES} from '../schema.js'
 import {ToggleButton, ToggleGroup, Toolbar, VBox} from '../ui/ui.js'
 import {ThemeExamplePanel} from './ThemeExamplePanel.js'
+import {WallpaperChooser} from './wallpaper_chooser_panel.js'
 
 export function SettingsApp({app}) {
     let db = useContext(DBContext)
@@ -14,6 +15,7 @@ export function SettingsApp({app}) {
             <ToggleGroup>
                 <ToggleButton caption={'Backgrounds'} selected={panel==='background'} onClick={()=>setPanel("background")}/>
                 <ToggleButton caption={'Theme'} selected={panel==='theme'} onClick={()=>setPanel("theme")}/>
+                <ToggleButton caption={'Wallpaper'} selected={panel==='wallpaper'} onClick={()=>setPanel("wallpaper")}/>
             </ToggleGroup>
         </Toolbar>
         {renderPanel(panel)}
@@ -23,6 +25,7 @@ export function SettingsApp({app}) {
 
 
 function renderPanel(panel) {
+    if(panel === 'wallpaper') return <WallpaperChooser/>
     if(panel === 'background') return <BackgroundEditorPanel/>
     if(panel === 'theme') return <ThemeExamplePanel/>
     return <div>nothing</div>
@@ -158,3 +161,4 @@ function CanvasSurface({update, data, onUpdate, ...args}) {
                    onMouseDown={mouseDown} onMouseMove={mouseMove} onMouseUp={mouseUp}
                    {...args}/>
 }
+
