@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react'
 import {DBContext, propAsString, useDBChanged} from '../db.js'
 import {HBox, VBox} from '../ui/ui.js'
 import {DataList, StandardSourceItem} from '../ui/dataList.js'
-import {AND, IS_CATEGORY, IS_TYPE} from '../query2.js'
+import {AND, IS_CATEGORY, IS_PROP_CONTAINS, IS_TYPE} from '../query2.js'
 import {CATEGORIES} from '../schema.js'
 import {FilePreview} from '../ui/filepreview.js'
 
@@ -22,6 +22,7 @@ export function WallpaperChooser() {
     let items = db.QUERY(AND(
         IS_TYPE(CATEGORIES.FILES.SCHEMAS.FILE_INFO.TYPE),
         IS_CATEGORY(CATEGORIES.FILES.ID),
+        IS_PROP_CONTAINS(CATEGORIES.FILES.SCHEMAS.FILE_INFO.props.tags.key,"wallpaper")
     ))
     const [sel, set_sel] = useState()
 
