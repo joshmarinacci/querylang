@@ -704,6 +704,11 @@ export const CATEGORIES = {
                         key:'url',
                         type:STRING,
                     },
+
+                    title: {
+                        key:'title',
+                        type:STRING,
+                    }
                 }
             }
         }

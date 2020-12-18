@@ -3,7 +3,7 @@ import {ActionButton, TagsetEditor, TextPropEditor, ToggleButton, ToggleGroup, T
 import {flatten} from '../util.js'
 
 import "./filebrowser.css"
-import {DBContext, propAsDate, propAsString, useDBChanged} from '../db.js'
+import {DBContext, hasProp, propAsDate, propAsString, useDBChanged} from '../db.js'
 import Icon from '@material-ui/core/Icon'
 
 import {format} from "date-fns"
@@ -154,8 +154,10 @@ function calculateActions(file) {
 
 function FileDetailsView({file}) {
     if(!file) return <div className={'panel file-details col2 row2'}>nothing selected</div>
+    // console.log("file is",file)
     return <div className={'file-details-view panel col2 row2'}>
         <TextPropEditor buffer={file} prop={'filename'}/>
+        {hasProp(file,'title')?("title:" + propAsString(file,"title")):""}
         <label>size</label><b>{propAsString(file,'filesize')} bytes</b>
         <FilePreview file={file}/>
         <label>tags</label><TagsetEditor buffer={file} prop={'tags'}/>
@@ -190,6 +192,9 @@ function list_remote_files(db) {
                 info.props.mimetype = f.info.mime
                 info.props.fileid = f.fileid
                 info.props.filesize = f.info.size
+                if(f.info.pdf && f.info.pdf.title) {
+                    info.props.title = f.info.pdf.title
+                }
                 if(info.props.mimetype === 'image/jpeg') {
                     info.props.meta = f.info.image
                 }
