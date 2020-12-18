@@ -20,7 +20,7 @@ export async function list_files() {
 }
 
 export function calculate_data_url(real_file) {
-    return `${FILE_SERVER_URL} ${real_file.info.path}`
+    return `${FILE_SERVER_URL}/file/${real_file.fileid}/data`
 }
 export function calculate_thumb_url(db_file) {
     let thumbid = db_file.props.meta.thumbs[0].thumbid
