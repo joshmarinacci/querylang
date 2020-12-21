@@ -1,0 +1,24 @@
+.hbox {
+    /*border: 5px solid red;*/
+    display: flex;
+    flex-direction: row;
+}
+.vbox {
+    display: flex;
+    flex-direction: column;
+}
+#input {
+    flex: 1.0;
+    width: 100%;
+    border: 5px solid green;
+    font-size: 14pt;
+    font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif;
+}
+
+#output {
+    border: 5px solid blue;
+}
+#console {
+    border: 5px solid red;
+    min-height: 10em;
+}
