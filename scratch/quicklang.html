@@ -6,16 +6,43 @@
     <link rel="stylesheet" href="quicklang.css">
 </head>
 <body>
+<script id="loop_square" type="application/turtle">
+let t = new Turtle()
+
+for(let i=0; i<4; i++) {
+   t.forward(50)
+   t.rotate(90)
+}
+t.done()</script>
+<script id="circle" type="application/turtle">
+
+let t = new Turtle()
+
+for(let i=0; i<36; i++) {
+   t.forward(10)
+   t.rotate(10)
+}
+
+t.done()
+
+</script>
 <div class="vbox">
     <div class="hbox">
-        <ul>
+        <ul id="examples">
+            <li><a href="#loop_square">loop square</a></li>
             <li><a href="#circle">circle</a></li>
         </ul>
-        <textarea id="input" rows="10" cols="10">let t = new Turtle()
-t.forward(50)
-t.rotate(90)
-t.forward(50)
-t.done()</textarea>
+        <div class="vbox" style="flex:1.0;">
+            <div class="hbox">
+                <button id="manual-run">run</button>
+                <button id="clear-screen">clear</button>
+                <label for="auto-run">run on edit</label> <input type="checkbox" name="auto-run" id="auto-run">
+            </div>
+            <textarea id="input" rows="10" cols="10">let t = new Turtle()
+t.forward(100)
+t.done()
+            </textarea>
+        </div>
         <canvas id="output" width="500" height="500"> canvas</canvas>
     </div>
     <textarea id="console"></textarea>

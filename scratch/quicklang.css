@@ -1,3 +1,7 @@
+body {
+    font-family: sans-serif;
+    background-color: hsl(0,0%,95%);
+}
 .hbox {
     /*border: 5px solid red;*/
     display: flex;
@@ -10,15 +14,24 @@
 #input {
     flex: 1.0;
     width: 100%;
-    border: 5px solid green;
+    border: 1px solid hsl(0,0%,80%);
     font-size: 14pt;
     font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif;
 }
 
 #output {
-    border: 5px solid blue;
+    border: 1px solid hsl(0,0%,80%);
 }
 #console {
-    border: 5px solid red;
+    border: 1px solid hsl(0,0%,80%);
     min-height: 10em;
+}
+
+ul#examples {
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+#examples li {
+    padding: 0.5em;
 }
