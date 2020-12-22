@@ -11,6 +11,9 @@
             font-size: 12pt;
             padding:0;
             margin:0;
+            --green:#94ee09;
+            --red: #f31717;
+            --black: #1a1919;
         }
         canvas {
             border: 0px solid red;
@@ -60,12 +63,46 @@
             font: bold 5em sans-serif;
             padding: 1em;
         }
+        .title span {
+
+            color: var(--green);
+            position: relative;
+            animation: scatter 0.9s infinite;
+            animation-delay: 0s;
+            animation-timing-function: ease-in-out; /* or: ease, ease-in, ease-in-out, linear, cubic-bezier(x1, y1, x2, y2) */
+            text-shadow: 3px 3px var(--black),
+                         6px 6px var(--red);
+        }
+        .title span:nth-child(2n) {
+            color: var(--red);
+            text-shadow: 3px 3px var(--black),
+                         6px 6px var(--green);
+        }
+        .title span:nth-child(8n+1) {  animation-delay: 0.1s;     }
+        .title span:nth-child(8n+2) {  animation-delay: 0.2s;     }
+        .title span:nth-child(8n+3) {  animation-delay: 0.3s;     }
+        .title span:nth-child(8n+4) {  animation-delay: 0.4s;     }
+        .title span:nth-child(8n+5) {  animation-delay: 0.5s;     }
+        .title span:nth-child(8n+6) {  animation-delay: 0.6s;     }
+        .title span:nth-child(8n+7) {  animation-delay: 0.7s;     }
+
+        @keyframes scatter {
+            0% {
+                top: 0;
+            }
+            50% {
+                top: -30px;
+            }
+            100% {
+                top: 0;
+            }
+        }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
-    <div class="title">Jesse Christmas Picross</div>
+    <div class="title" id="title"></div>
     <canvas id="canvas" width="800" height="600"></canvas>
     <div class="message-scrim hide">
         <div class="message-text">the<br/> message</div>

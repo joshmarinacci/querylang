@@ -95,9 +95,9 @@ class Grid {
 
 const COLORS = {
     BGCOLOR:'white',
-    GRIDCOLOR:'black',
-    FILLEDCOLOR:'red',
-    EMPTYCOLOR:'green',
+    GRIDCOLOR:'#1a1919',
+    FILLEDCOLOR:'#f31717',
+    EMPTYCOLOR:'#94ee09',
     UNKNOWNCOLOR:'hsl(0,0%,80%)'
 }
 
@@ -259,8 +259,8 @@ class View {
 
     resize() {
         let canvas = $("#canvas")
-        canvas.width = canvas.clientWidth
-        canvas.height = canvas.clientHeight
+        canvas.width = canvas.clientWidth-1
+        canvas.height = canvas.clientHeight-1
     }
     calcScale() {
         let w = this.vmax + this.grid.getWidth()
@@ -306,3 +306,7 @@ on($(".message-text"),'click',()=>{
 on(window,'resize',()=>{
     view.redraw()
 })
+
+let title = Array.from('Jesse Christmas Picross')
+title = title.map(l => '<span>'+l+'</span>').join("")
+$("#title").innerHTML = title
