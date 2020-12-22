@@ -100,7 +100,7 @@ const COLORS = {
     GRIDCOLOR:'black',
     FILLEDCOLOR:'red',
     EMPTYCOLOR:'green',
-    UNKNOWNCOLOR:'white'
+    UNKNOWNCOLOR:'hsl(0,0%,80%)'
 }
 
 const MARKS = {
@@ -124,16 +124,15 @@ class View {
         ctx.lineWidth = 1
         ctx.strokeStyle = COLORS.GRIDCOLOR
         ctx.beginPath()
-        // let vclues = 4
         let gw = insetX+grid.getWidth()
-        for(let i=0; i<gw; i++) {
-            ctx.moveTo(i*sc,0)
-            ctx.lineTo(i*sc,this.canvas.height)
-        }
         let gh = insetY+grid.getHeight()
-        for(let i=0; i<gh; i++) {
+        for(let i=0; i<gw+1; i++) {
+            ctx.moveTo(i*sc,0)
+            ctx.lineTo(i*sc,gh*sc)
+        }
+        for(let i=0; i<gh+1; i++) {
             ctx.moveTo(0,i*sc)
-            ctx.lineTo(this.canvas.width,i*sc)
+            ctx.lineTo(gw*sc,i*sc)
         }
         ctx.stroke()
     }
