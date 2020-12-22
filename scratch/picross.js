@@ -8,10 +8,8 @@ class Grid {
         let lines = str.trim().split('\n')
         this.height = lines.length
         this.width = lines[0].length
-        // console.log('set to size',this.width,'x',this.height)
         this.rows = []
         lines.map(line => {
-            // console.log('converting line',line)
             let row = []
             for(let i=0; i<line.length; i++) {
                 let ch = line[i]
@@ -43,9 +41,7 @@ class Grid {
         return this.height
     }
     isFilled(x,y) {
-        // console.log(this.rows,x,y)
         let cell = this.rows[y][x]
-        // console.log('cell',cell)
         return cell.value === MARKS.FILLED
     }
 
@@ -58,7 +54,6 @@ class Grid {
     }
     reveal() {
         this.forEach((cell,x,y)=>{
-            // console.log(cell)
             cell.mark = cell.value
         })
     }
@@ -83,11 +78,9 @@ class Grid {
             //if every filled is marked filled
             //don't care about the others
             if(cell.mark === MARKS.FILLED && cell.value !== MARKS.FILLED) {
-                // console.log("failure 1")
                 solved = false
             }
             if(cell.value === MARKS.FILLED && cell.mark !== MARKS.FILLED) {
-                // console.log("failure 2")
                 solved = false
             }
         })
@@ -205,7 +198,6 @@ class View {
         let vclues = this.calcVClues()
         let vmax = vclues.reduce(max_len,0)
         let hmax = hclues.reduce(max_len,0)
-        console.log("vmax",hmax,vmax)
         this.drawGridlines(ctx,vmax,hmax) //done
         this.drawGameboard(ctx,vmax,hmax) // done
         this.drawClues(ctx,hclues, vclues,vmax,hmax)
@@ -215,15 +207,12 @@ class View {
         let pt = this.canvasToGrid(e)
         if(pt.x < 0 || pt.y < 0) return
         let mk = grid.getMark(pt.x,pt.y)
-        // console.log("mark",mk)
         if(mk === MARKS.FILLED) grid.setMark(pt.x,pt.y,MARKS.UNKNOWN)
         if(mk === MARKS.UNKNOWN) grid.setMark(pt.x,pt.y,MARKS.EMPTY)
         if(mk === MARKS.EMPTY) grid.setMark(pt.x,pt.y,MARKS.FILLED)
         if(grid.isSolved()) {
-            console.log("you won!")
             $(".message-scrim").classList.remove('hide')
             $(".message-text").innerHTML = 'You did it!<br/> Merry Christmas Jesse!'
-            // grid.reset()
         }
         this.redraw()
     }
