@@ -108,12 +108,11 @@ const MARKS = {
 }
 
 class View {
-    constructor(canvas) {
+    constructor(canvas, grid) {
         this.canvas = canvas
         this.canvas.addEventListener('click',(e)=>this.handle_click(e))
-    }
-    calcScale() {
-        return 40
+        this.grid = grid
+        this.reinit()
     }
     drawGridlines(ctx,insetX, insetY) {
         let sc = this.calcScale()
@@ -194,6 +193,7 @@ class View {
         return cls
     }
     redraw() {
+        this.resize()
         let ctx = $("#canvas").getContext('2d')
         let hclues = this.calcHClues()
         let vclues = this.calcVClues()
@@ -256,6 +256,26 @@ class View {
         })
         ctx.restore()
     }
+
+    resize() {
+        let canvas = $("#canvas")
+        canvas.width = canvas.clientWidth
+        canvas.height = canvas.clientHeight
+    }
+    calcScale() {
+        let w = this.vmax + this.grid.getWidth()
+        let wsc = this.canvas.width/w
+        let h = this.hmax + this.grid.getHeight()
+        let hsc = this.canvas.height/h
+        return Math.min(wsc,hsc)
+    }
+
+    reinit() {
+        this.hclues = this.calcHClues()
+        this.vclues = this.calcVClues()
+        this.vmax = this.vclues.reduce(max_len,0)
+        this.hmax = this.hclues.reduce(max_len,0)
+    }
 }
 
 
@@ -274,11 +294,15 @@ const $ = (sel) => document.querySelector(sel)
 const on = (el,type,cb) => el.addEventListener(type,cb)
 
 let canvas = $("#canvas")
-let view = new View(canvas)
+let view = new View(canvas,grid)
 view.redraw()
 
 on($(".message-text"),'click',()=>{
      grid.reset()
     view.redraw()
     $(".message-scrim").classList.add('hide')
+})
+
+on(window,'resize',()=>{
+    view.redraw()
 })
