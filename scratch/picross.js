@@ -163,6 +163,8 @@ class View {
                     run=0
                 }
             }
+            clues.push(run)
+            clues = clues.filter(num => num > 0)
             cls.push(clues)
         }
         return cls
@@ -187,20 +189,26 @@ class View {
                     run=0
                 }
             }
+            clues.push(run)
+            clues = clues.filter(num => num > 0)
             cls.push(clues)
         }
         return cls
     }
     redraw() {
+        const max_len = (acc,cur)=>{
+            if(cur.length > acc) return cur.length
+            return acc
+        }
         let ctx = $("#canvas").getContext('2d')
         let hclues = this.calcHClues()
         let vclues = this.calcVClues()
-        console.log('hclues',hclues)
-        this.drawGridlines(ctx,4,4) //done
-        // this.drawHClues(ctx,hclues)
-        // this.drawVClues(ctx,vclues)
-        this.drawGameboard(ctx,4,4) // done
-        this.drawClues(ctx,hclues, vclues,4,4)
+        let vmax = vclues.reduce(max_len,0)
+        let hmax = hclues.reduce(max_len,0)
+        console.log("vmax",hmax,vmax)
+        this.drawGridlines(ctx,vmax,hmax) //done
+        this.drawGameboard(ctx,vmax,hmax) // done
+        this.drawClues(ctx,hclues, vclues,vmax,hmax)
     }
 
     handle_click(e) {
@@ -213,7 +221,9 @@ class View {
         if(mk === MARKS.EMPTY) grid.setMark(pt.x,pt.y,MARKS.FILLED)
         if(grid.isSolved()) {
             console.log("you won!")
-            grid.reset()
+            $(".message-scrim").classList.remove('hide')
+            $(".message-text").innerHTML = 'You did it!<br/> Merry Christmas Jesse!'
+            // grid.reset()
         }
         this.redraw()
     }
@@ -259,6 +269,7 @@ let grid = new Grid()
 grid.load(`
 .x.x.
 xxxxx
+xxxxx
 .xxx.
 ..x..
 `)
@@ -266,6 +277,13 @@ xxxxx
 // grid.reveal()
 
 const $ = (sel) => document.querySelector(sel)
+const on = (el,type,cb) => el.addEventListener(type,cb)
+
 let canvas = $("#canvas")
 let view = new View(canvas)
 view.redraw()
+
+on($(".message-text"),'click',()=>{
+     grid.reset()
+    $(".message-scrim").classList.add('hide')
+})

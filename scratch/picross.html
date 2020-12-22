@@ -5,20 +5,60 @@
     <title>Title</title>
     <style type="text/css">
         html, body {
-            background-color: white;
+            background-color: black;
             color: black;
             font-family: sans-serif;
             font-size: 12pt;
         }
         canvas {
-            border: 0px solid red;
+            border: 2px solid blue;
             margin: 0px;
+            /*flex: 1.0;*/
+        }
+        .wrapper {
+            border: 0px solid red;
+            display: flex;
+            position: relative;
+        }
+        .message-scrim {
+            background-color: hsla(0,0%,90%,0.5);
+            border: 0px solid green;
+            position: absolute;
+            padding: 1em;
+            left:0;
+            right:0;
+            top:0;
+            bottom:0;
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+        }
+        .message-text {
+            border: 0.5em solid green;
+            position: absolute;
+            font-size: 4em;
+            background-color: white;
+            padding: 2em;
+            text-align: center;
+            line-height: 200%;
+            border-radius: 1em;
+        }
+        .hide {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-<canvas id="canvas" width="800" height="600"></canvas>
+<div class="wrapper">
+    <div class="message-scrim hide">
+        <div class="message-text">the<br/> message</div>
+    </div>
+    <canvas id="canvas" width="800" height="600"></canvas>
+</div>
+
 <script src="picross.js" type="module"></script>
 </body>
 
