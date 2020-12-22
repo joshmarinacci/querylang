@@ -195,11 +195,12 @@ class View {
         let ctx = $("#canvas").getContext('2d')
         let hclues = this.calcHClues()
         let vclues = this.calcVClues()
-        console.log('vclues',vclues)
+        console.log('hclues',hclues)
         this.drawGridlines(ctx,4,4) //done
         // this.drawHClues(ctx,hclues)
         // this.drawVClues(ctx,vclues)
         this.drawGameboard(ctx,4,4) // done
+        this.drawClues(ctx,hclues, vclues,4,4)
     }
 
     handle_click(e) {
@@ -226,6 +227,30 @@ class View {
         pt.x -= 4
         pt.y -= 4
         return pt
+    }
+
+    drawClues(ctx, hclues, vclues, insetX, insetY) {
+        let sc = this.calcScale()
+        ctx.fillStyle = 'black'
+        ctx.font = '15pt sans-serif'
+
+        ctx.save()
+        ctx.translate(insetX*sc,0)
+        hclues.forEach((col,i)=>{
+            col.forEach((clue,j )=>{
+                ctx.fillText(""+clue,i*sc+sc*0.3,j*sc+sc*0.6)
+            })
+        })
+        ctx.restore()
+
+        ctx.save()
+        ctx.translate(0,insetY*sc)
+        vclues.forEach((row,j)=>{
+            row.forEach((clue,i )=>{
+                ctx.fillText(""+clue,i*sc+sc*0.3,j*sc+sc*0.6)
+            })
+        })
+        ctx.restore()
     }
 }
 
