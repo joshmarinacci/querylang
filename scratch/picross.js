@@ -114,15 +114,15 @@ class View {
         this.grid = grid
         this.reinit()
     }
-    drawGridlines(ctx,insetX, insetY) {
+    drawGridlines(ctx) {
         let sc = this.calcScale()
         ctx.fillStyle = COLORS.BGCOLOR
         ctx.fillRect(0,0,this.canvas.width,this.canvas.height)
-        ctx.lineWidth = 1
+        ctx.lineWidth = 1.5
         ctx.strokeStyle = COLORS.GRIDCOLOR
         ctx.beginPath()
-        let gw = insetX+grid.getWidth()
-        let gh = insetY+grid.getHeight()
+        let gw = this.vmax+grid.getWidth()
+        let gh = this.hmax+grid.getHeight()
         for(let i=0; i<gw+1; i++) {
             ctx.moveTo(i*sc,0)
             ctx.lineTo(i*sc,gh*sc)
@@ -133,7 +133,7 @@ class View {
         }
         ctx.stroke()
     }
-    drawGameboard(ctx,insetX,insetY) {
+    drawGameboard(ctx) {
         let sc = this.calcScale()
         for(let i=0; i<grid.getWidth();i++) {
             for(let j=0; j<grid.getHeight(); j++) {
@@ -141,8 +141,8 @@ class View {
                 if(mk === MARKS.FILLED) ctx.fillStyle = COLORS.FILLEDCOLOR
                 if(mk === MARKS.UNKNOWN) ctx.fillStyle = COLORS.UNKNOWNCOLOR
                 if(mk === MARKS.EMPTY) ctx.fillStyle = COLORS.EMPTYCOLOR
-                let x = ((i+insetX)*sc)+1
-                let y = ((j+insetY)*sc)+1
+                let x = ((i+this.vmax)*sc)+1
+                let y = ((j+this.hmax)*sc)+1
                 ctx.fillRect(x,y,sc-2,sc-2)
             }
         }
@@ -195,13 +195,9 @@ class View {
     redraw() {
         this.resize()
         let ctx = $("#canvas").getContext('2d')
-        let hclues = this.calcHClues()
-        let vclues = this.calcVClues()
-        let vmax = vclues.reduce(max_len,0)
-        let hmax = hclues.reduce(max_len,0)
-        this.drawGridlines(ctx,vmax,hmax) //done
-        this.drawGameboard(ctx,vmax,hmax) // done
-        this.drawClues(ctx,hclues, vclues,vmax,hmax)
+        this.drawGridlines(ctx) //done
+        this.drawGameboard(ctx) // done
+        this.drawClues(ctx)
     }
 
     handle_click(e) {
@@ -233,25 +229,25 @@ class View {
         return pt
     }
 
-    drawClues(ctx, hclues, vclues, insetX, insetY) {
+    drawClues(ctx) {
         let sc = this.calcScale()
-        ctx.fillStyle = 'black'
-        ctx.font = '15pt sans-serif'
+        ctx.fillStyle = COLORS.GRIDCOLOR
+        ctx.font = `${sc/2}px sans-serif`
 
         ctx.save()
-        ctx.translate(insetX*sc,0)
-        hclues.forEach((col,i)=>{
+        ctx.translate(this.vmax*sc,0)
+        this.hclues.forEach((col,i)=>{
             col.forEach((clue,j )=>{
-                ctx.fillText(""+clue,i*sc+sc*0.3,j*sc+sc*0.6)
+                ctx.fillText(""+clue,i*sc+sc*0.35,j*sc+sc*0.7)
             })
         })
         ctx.restore()
 
         ctx.save()
-        ctx.translate(0,insetY*sc)
-        vclues.forEach((row,j)=>{
+        ctx.translate(0,this.hmax*sc)
+        this.vclues.forEach((row,j)=>{
             row.forEach((clue,i )=>{
-                ctx.fillText(""+clue,i*sc+sc*0.3,j*sc+sc*0.6)
+                ctx.fillText(""+clue,i*sc+sc*0.35,j*sc+sc*0.7)
             })
         })
         ctx.restore()
