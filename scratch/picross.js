@@ -1,3 +1,8 @@
+const max_len = (acc,cur)=>{
+    if(cur.length > acc) return cur.length
+    return acc
+}
+
 class Grid {
     constructor() {
         this.rows = []
@@ -189,10 +194,6 @@ class View {
         return cls
     }
     redraw() {
-        const max_len = (acc,cur)=>{
-            if(cur.length > acc) return cur.length
-            return acc
-        }
         let ctx = $("#canvas").getContext('2d')
         let hclues = this.calcHClues()
         let vclues = this.calcVClues()
@@ -207,9 +208,9 @@ class View {
         let pt = this.canvasToGrid(e)
         if(pt.x < 0 || pt.y < 0) return
         let mk = grid.getMark(pt.x,pt.y)
-        if(mk === MARKS.FILLED) grid.setMark(pt.x,pt.y,MARKS.UNKNOWN)
-        if(mk === MARKS.UNKNOWN) grid.setMark(pt.x,pt.y,MARKS.EMPTY)
-        if(mk === MARKS.EMPTY) grid.setMark(pt.x,pt.y,MARKS.FILLED)
+        if(mk === MARKS.FILLED) grid.setMark(pt.x,pt.y,MARKS.EMPTY)
+        if(mk === MARKS.UNKNOWN) grid.setMark(pt.x,pt.y,MARKS.FILLED)
+        if(mk === MARKS.EMPTY) grid.setMark(pt.x,pt.y,MARKS.UNKNOWN)
         if(grid.isSolved()) {
             $(".message-scrim").classList.remove('hide')
             $(".message-text").innerHTML = 'You did it!<br/> Merry Christmas Jesse!'
@@ -223,8 +224,12 @@ class View {
             x:Math.floor((e.clientX-rect.x)/this.calcScale()),
             y:Math.floor((e.clientY-rect.y)/this.calcScale()),
         }
-        pt.x -= 4
-        pt.y -= 4
+        let hclues = this.calcHClues()
+        let vclues = this.calcVClues()
+        let vmax = vclues.reduce(max_len,0)
+        let hmax = hclues.reduce(max_len,0)
+        pt.x -= vmax
+        pt.y -= hmax
         return pt
     }
 
@@ -274,5 +279,6 @@ view.redraw()
 
 on($(".message-text"),'click',()=>{
      grid.reset()
+    view.redraw()
     $(".message-scrim").classList.add('hide')
 })
