@@ -24,14 +24,102 @@ for(let i=0; i<36; i++) {
 }
 
 t.done()
+</script>
+<script id="star" type="application/turtle">
+let star = new Turtle()
 
+for(let i=0; i<5; i++) {
+    star.forward(109)
+    star.right(144)
+}
+
+star.done()
+</script>
+<script id="spiral_star" type="application/turtle">
+let star = new Turtle()
+
+for(let i=0; i<20; i++) {
+    star.forward(i*10)
+    star.right(144)
+}
+
+star.done()
+</script>
+<script id="square_spiral" type="application/turtle">
+let t = new Turtle()
+
+for(let i=0; i<300; i++) {
+  t.forward(i)
+  t.left(91)
+}
+
+t.done()
+</script>
+<script id="fractal-tree" type="application/turtle">
+let t = new Turtle()
+let angle = 30
+function branch(sz,level) {
+  if(level<=0) return
+  t.forward(sz)
+
+  t.right(angle)
+  branch(sz*0.8,level-1)
+  t.left(angle)
+
+  t.left(angle)
+  branch(sz*0.8,level-1)
+  t.right(angle)
+
+  t.forward(-sz)
+}
+branch(60,7)
+
+t.done()
+</script>
+<script id="hilbert-curve" type="application/turtle">
+
+let t = new Turtle()
+
+//    A → +BF−AFA−FB+
+
+function A (d,s) {
+  if(d<=0) return
+  t.left(90)       //+
+  B(d-1,s)           //B
+  t.forward(s)     //F
+  t.right(90)      //-
+  A(d-1,s)       //A
+  t.forward(s)     //F
+  A(d-1,s)       //A
+  t.right(90)      //-
+  t.forward(s)     //F
+  B(d-1,s)           //B
+  t.left(90)
+}
+//    B → −AF+BFB+FA−
+function B(d,s) {
+  if(d<=0) return
+  t.right(90)      //-
+  A(d-1,s)       //A
+  t.forward(s)     //F
+  t.left(90)       //+
+  B(d-1,s)       //B
+  t.forward(s)     //F
+  B(d-1,s)       //B
+  t.left(90)       //+
+  t.forward(s)     //F
+  A(d-1,s)       //A
+  t.right(90)      //-
+}
+
+A(5,5)
+
+
+t.done()
 </script>
 <div class="vbox">
     <div class="hbox">
-        <ul id="examples">
-            <li><a href="#loop_square">loop square</a></li>
-            <li><a href="#circle">circle</a></li>
-        </ul>
+        <ul id="examples"></ul>
         <div class="vbox" style="flex:1.0;">
             <div class="hbox">
                 <button id="manual-run">run</button>

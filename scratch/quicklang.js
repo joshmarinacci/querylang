@@ -50,7 +50,7 @@ class Turtle {
             let t = {x: 0, y: 0}
 
             const drawCommands = () => {
-                this.ctx.lineWidth = 5
+                this.ctx.lineWidth = 1
                 this.ctx.strokeStyle = 'red'
                 this.ctx.beginPath()
                 this.ctx.moveTo(t.x, t.y)
@@ -89,17 +89,11 @@ class Turtle {
         }
         this.ctx.restore()
     }
-    forward(len) {
-        this.commands.push({cmd:"forward",arg:len})
-        // this.redraw()
-    }
-    rotate(ang) {
-        this.commands.push({cmd:'rotate', arg:-ang})
-        // this.redraw()
-    }
-    done() {
-        this.redraw()
-    }
+    forward(len) { this.commands.push({cmd:"forward",arg:len}) }
+    rotate(ang) {  this.commands.push({cmd:'rotate', arg:-ang}) }
+    left(ang) {  this.commands.push({cmd:'rotate', arg:-ang}) }
+    right(ang) {  this.commands.push({cmd:'rotate', arg:+ang}) }
+    done() { this.redraw() }
     clear() {
         this.redraw()
         this.bearing = 0
@@ -117,7 +111,11 @@ function run(code) {
         log("error",e)
     }
 }
-
+$$("script[type='application/turtle']").forEach(sc => {
+    console.log(sc)
+    console.log(sc.id)
+    $("#examples").innerHTML += `<li><a href='#${sc.id}'>${sc.id}</a></li>`
+})
 $$("#examples li a").forEach((a => {
     on(a,'click',(e)=>{
         e.preventDefault()
@@ -134,3 +132,4 @@ on($("#manual-run"),'click',()=>{
 on($("#clear-screen"),'click',() => {
     new Turtle().clear()
 })
+
